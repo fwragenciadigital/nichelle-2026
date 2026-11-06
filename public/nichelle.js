@@ -296,7 +296,7 @@
           "#fwr-nichelle-vitrine-slot *{box-sizing:border-box}" +
           "#fwr-nichelle-vitrine-slot .fwr-nichelle-vitrine{padding:24px clamp(14px,3.3vw,65px)}" +
           "#fwr-nichelle-vitrine-slot .fwr-nichelle-vitrine__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.85vw,36px)}" +
-          "#fwr-nichelle-vitrine-slot .fwr-nichelle-vitrine__card{display:block;position:relative;width:100%;aspect-ratio:44/100;border-radius:clamp(12px,1.2vw,22px);overflow:hidden;background:#f0eeeb;text-decoration:none;isolation:isolate}" +
+          "#fwr-nichelle-vitrine-slot .fwr-nichelle-vitrine__card{display:block;position:relative;width:100%;aspect-ratio:3/5;border-radius:clamp(12px,1.2vw,22px);overflow:hidden;background:#f0eeeb;text-decoration:none;isolation:isolate}" +
           "#fwr-nichelle-vitrine-slot .fwr-nichelle-vitrine__card img{display:block;width:100%;height:100%;object-fit:cover}" +
           "#fwr-nichelle-vitrine-slot .fwr-nichelle-vitrine__card picture{display:block;width:100%;height:100%}" +
           "#fwr-nichelle-vitrine-slot .fwr-nichelle-vitrine__card:focus-visible{outline:3px solid #252525;outline-offset:4px}" +
@@ -335,8 +335,8 @@
         image.width = 600;
         image.height = 1360;
         image.removeAttribute("style");
-        (picture || card).appendChild(picture ? document.createTextNode("") : image);
         if (picture) card.appendChild(picture);
+        else card.appendChild(image);
         grid.appendChild(card);
       });
       if (grid.children.length !== 4) return;
