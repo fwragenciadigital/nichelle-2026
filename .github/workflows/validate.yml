@@ -17,4 +17,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: node --test tests/config.test.mjs
+      - run: node --test tests/*.test.mjs
+      - name: Validar PHP do painel
+        run: |
+          php -l server/bootstrap.php
+          php -l admin/index.php
+          php -l admin/preview.php
+          php -l admin/draft.php
