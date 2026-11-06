@@ -43,14 +43,18 @@ test("HTML da LI concentra as quatro URLs editaveis e pre-reserva condicional",(
  assert.equal((html.match(/\/\* Vídeo [1-4] \*\//g)||[]).length,4);
  assert.match(html,/data-fwr-active="0"/);
  assert.match(html,/cfg\.ativo === true && preenchidos/);
- assert.match(html,/aspect-ratio:9\/16/);
+ assert.doesNotMatch(html,/<style[\\s>]/i);
+ assert.match(html,/slot\\.style\\.minHeight/);
+ assert.match(js,/aspect-ratio:9\\/16/);
+ assert.match(js,/installStyles\\(\\)/);
+ assert.match(js,/fwr-nichelle-styles/);
  const scripts=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];
  assert.equal(scripts.length,1);
  assert.doesNotThrow(()=>new Script(scripts[0][1]));
 });
 test("config do tema e loader mantidos separados, sem contatos externos ou token",()=>{
- assert.match(loader,/URL_PUBLICA_NICHELLE_JS/);
- assert.doesNotMatch(loader,/raw\.githubusercontent\.com|cdn\.jsdelivr\.net/);
+ assert.match(loader,/cdn\\.jsdelivr\\.net\\/gh\\/fwragenciadigital\\/nichelle-2026@develop\\/public\\/nichelle\\.js/);
+ assert.doesNotMatch(loader,/raw\.githubusercontent\.com/);
  assert.match(config,/var telefone1 = ""/);
  assert.match(config,/var whatsapp1 = ""/);
  assert.match(config,/var mail1 = ""/);
