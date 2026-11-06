@@ -53,7 +53,7 @@ test("HTML da LI concentra as quatro URLs editaveis e pre-reserva condicional",(
  assert.doesNotThrow(()=>new Script(scripts[0][1]));
 });
 test("config do tema e loader mantidos separados, sem contatos externos ou token",()=>{
- assert.match(loader,/cdn\.jsdelivr\.net\/gh\/fwragenciadigital\/nichelle-2026@develop\/public\/nichelle\.js/);
+ assert.match(loader,/nichelle-2026\.vercel\.app\/nichelle\.js/);
  assert.doesNotMatch(loader,/raw\.githubusercontent\.com/);
  assert.match(config,/var telefone1 = ""/);
  assert.match(config,/var whatsapp1 = ""/);
