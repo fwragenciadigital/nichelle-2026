@@ -1,0 +1,31 @@
+name: Validar configurações Nichelle
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [develop]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/*.test.mjs
+      - name: Compilar pacote JS para Vercel
+        run: |
+          node vercel/build.mjs
+          node --check vercel/dist/nichelle.js
+          cmp public/nichelle.js vercel/dist/nichelle.js
+      - name: Validar PHP do painel
+        run: |
+          php -l server/bootstrap.php
+          php -l admin/index.php
+          php -l admin/preview.php
+          php -l admin/draft.php

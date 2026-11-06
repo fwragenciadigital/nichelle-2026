@@ -1,0 +1,2 @@
+# Servidor Apache: todo o diretório server/ é PRIVADO.
+Require all denied

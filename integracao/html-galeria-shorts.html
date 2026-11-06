@@ -1,0 +1,43 @@
+<!-- Nichelle | HTML editável da galeria: links e ativação. CSS padrão fica em public/nichelle.js.
+     A reserva de altura abaixo é crítica para evitar CLS antes do carregamento do JS.
+     O carregador externo deve ser inserido UMA vez, normalmente em HTML/Rodapé. -->
+
+<div id="fwr-nichelle-video-slot" data-fwr-active="0"></div>
+
+<script>
+/* EDITAR SOMENTE AQUI. Cole os links dos Shorts nas aspas.
+   Formatos aceitos: youtube.com/shorts/ID, youtube.com/watch?v=ID, youtu.be/ID.
+   Ativo = true para exibir; false para ocultar (sem espaço vazio). */
+window.FWRNichelle = window.FWRNichelle || {};
+window.FWRNichelle.galeriaVideos = {
+  ativo: false,
+  shorts: [
+    "",  /* Vídeo 1 */
+    "",  /* Vídeo 2 */
+    "",  /* Vídeo 3 */
+    ""   /* Vídeo 4 */
+  ]
+};
+
+/* Reserva visual criada durante o parsing do HTML, antes do JS do Git.
+   Com módulo inativo o espaço não é reservado. */
+(function () {
+  var cfg = window.FWRNichelle.galeriaVideos;
+  var slot = document.getElementById("fwr-nichelle-video-slot");
+  if (!slot) return;
+  var preenchidos = Array.isArray(cfg.shorts) && cfg.shorts.some(function (v) {
+    return typeof v === "string" ? v.trim() !== "" : v && typeof v.url === "string" && v.url.trim() !== "";
+  });
+  var ligado = cfg.ativo === true && preenchidos;
+  slot.setAttribute("data-fwr-active", ligado ? "1" : "0");
+  // Reserva crítica durante o parse do HTML. Todo o restante do CSS vem do Git.
+  function reservar() {
+    slot.style.minHeight = ligado ?
+      (window.matchMedia("(min-width: 768px)").matches ?
+        "clamp(420px, calc(42vw + 72px), 700px)" :
+        "clamp(440px, calc(135.12vw + 84px), 650px)") : "0";
+  }
+  reservar();
+  window.addEventListener("resize", reservar, {passive: true});
+})();
+</script>
