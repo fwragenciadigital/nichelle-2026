@@ -43,7 +43,7 @@ V1 não aceita HTML, CSS, JS, iframes, seletores, provedores adicionais ou links
 - **Desktop:** quatro cards em uma linha, conforme a arte final.
 - **Mobile/tablet:** a arte rasterizada mantém 1250 px de largura e corta conteúdo nos viewports menores; ela não informa o comportamento responsivo de produção. A implementação candidata usa scroll-snap abaixo de 768px, sujeito à aprovação visual na LI.
 - **Slot:** runtime usa o alvo fixo `#fwr-nichelle-video-slot`; o tema precisa fornecer esse slot e a classe `.fwr-nichelle-video-slot` no ponto visual certo. O mecanismo de inserção no tema LI ainda não foi inspecionado; nunca localizar por texto/copy frágil nem aceitar seletor editável pelo cliente.
-- **Integração remota:** código e mídia servidos por infraestrutura pública aprovada da FWR; `published.json` em HTTPS, CORS explícito, MIME JSON, versão/cache/ETag documentados. O browser da loja só lê configuração pública sanitizada.
+- **Integração remota:** código e mídia servidos por infraestrutura pública aprovada da FWR; `public/galeria-publicada.json` em HTTPS, CORS explícito, MIME JSON, versão/cache/ETag documentados. O browser da loja só lê configuração pública sanitizada.
 - **Hosts de mídia:** HTTPS não basta. O backend aplica allowlist de host para capas personalizadas (`NICHELLE_POSTER_HOSTS`), remove query tracking da URL do vídeo ao canonicalizar e recusa parâmetros com credenciais/assinaturas na capa.
 
 ## Estados estáveis e risco de CLS
@@ -60,7 +60,8 @@ Se o tema não fornecer o slot/reserva no HTML inicial, não instalar esta integ
 
 ## Aceite antes de liberar
 
-- Quatro URLs reais de posters e vídeos, direitos/uso aprovados, HTTPS e allowlist validados sem modificar as URLs.
+- Quatro URLs reais de vídeo, direitos/uso aprovados, HTTPS e allowlist validados; não inventar nem substituir os links fornecidos.
+- Para cada vídeo real, confirmar que a thumbnail automática carrega ou que o fallback visual aparece. Capa personalizada é opcional e só será exigida se o cliente decidir substituir a thumbnail automática.
 - Slot e comportamento mobile aprovados; preview coerente com a arte de referência.
 - Reprodução/accessibilidade testadas em desktop e iOS/Android; poster e configuração falhos cobertos.
 - Evidência de laboratório de estabilidade geométrica/CLS para config vazia, normal, lenta e indisponível; comparar com baseline real antes de qualquer publicação.

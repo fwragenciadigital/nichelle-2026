@@ -5,7 +5,7 @@
 2. Implementar PRIMEIRO a seção editorial de 4 vídeos (screenshot Medicube); instalar em modo de TESTE para avaliar no site atual, sem modificar funcionalidades nativas.
 
 ## Escopo da seção — CUSTOM-FWR
-Quatro vídeos verticais 9:16, cards com cantos arredondados, posters personalizados e botão de play. Desktop: 4 colunas; mobile: trilho horizontal com scroll-snap e cartão parcial. Com URLs reais, clique abre MP4 ou Vimeo em modal acessível (ESC, botão fechar, pausa, foco restaurado). Nenhuma biblioteca externa, classes CSS escopadas `fwr-nichelle-videos`, e sem mover elementos nativos da LI.
+Quatro vídeos verticais 9:16, cards com cantos arredondados, thumbnail automática do YouTube (ou capa personalizada opcional) e botão de play. Desktop: 4 colunas; mobile: trilho horizontal com scroll-snap e cartão parcial, pendente de aprovação no tema LI. Com URLs reais de YouTube Shorts, `watch` ou `youtu.be`, clique abre o player incorporado em modal acessível (ESC, botão fechar, pausa e foco restaurado). Nenhuma biblioteca externa; CSS escopado `fwr-nichelle-*`; o módulo não move componentes nativos da LI.
 
 **Imagens:** os 4 recortes da captura do cliente são apenas demonstrativos de layout, NÃO a versão final das mídias. URLs de vídeos e posters oficiais continuam pendentes e não devem ser inventadas. No teste visual, cards de prévia não simulam playback.
 
@@ -13,7 +13,7 @@ Quatro vídeos verticais 9:16, cards com cantos arredondados, posters personaliz
 - Login protegido com senha HASHED (password_hash/password_verify), sessão HttpOnly/Secure/SameSite, CSRF e limitação de tentativas.
 - **Nenhuma senha, chave de GitHub ou token no HTML/JS ou no repositório.** Configurar hash e segredo de sessão no servidor por variáveis de ambiente.
 - Interface com rascunho, prévia autenticada, publicar JSON público sanitizado e rollback.
-- Admin edita SOMENTE esta seção: ativar/desativar, título, capa (HTTPS), vídeo (HTTPS), provedor MP4/Vimeo, descrição, ordem e visibilidade.
+- Admin edita SOMENTE esta seção: ativar/desativar galeria e cartões, cadastrar URL do YouTube, capa personalizada opcional, texto alternativo e ordem. A galeria não tem campo de título editável no layout aprovado.
 - Não alterar preços, estoque, catálogo, vitrines nativas, categorias, logo, banner principal, carrinho e checkout.
 - Hosting previsto: domínio FWR com PHP 8+ e HTTPS, dados de administração em diretório privado; confirmar suporte no host antes de ativar.
 - Repositório `nichelle-2026` é PRIVADO: não tratar GitHub Pages/raw/jsDelivr como CDN público.
