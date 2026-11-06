@@ -1,6 +1,6 @@
 # Nichelle Imports · Projeto 2026
 
-**Repositório privado e independente do projeto Malheiro.**
+**Repositório privado com catálogo e conteúdo próprios; a implementação usará a base JavaScript da Malheiro, adaptada para Nichelle.** O arquivo e a revisão exatos dessa base ainda precisam ser identificados antes da implementação.
 
 - Loja atual: https://www.nichelleimports.com.br/
 - Protótipo 2026 (**URL exata**): https://projetos.fwragenciadigital.com.br/nichelle/2026/index1.html

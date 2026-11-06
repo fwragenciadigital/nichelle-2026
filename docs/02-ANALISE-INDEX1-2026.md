@@ -54,5 +54,6 @@
 - A implementação deve ter ponto de montagem de altura/razão estável antes da inserção dos cards, ou carregar a marcação/CSS da seção no fluxo inicial. Se não houver slot estável verificável, a galeria não pode entrar nessa fase de instalação.
 - A arte fixa não comprova o layout da loja em tablet/mobile, o seletor de tema, o suporte a HTML/Cabeçalho/HTML/Rodapé, CORS, cache ou disponibilidade de endpoint.
 - A loja atual carrega recursos do tema via CDN da Loja Integrada. Não adicionar uma segunda inicialização de jQuery, Owl ou plugins; dependências e seletores devem ser inspecionados em ambiente aprovado antes de qualquer código.
+- A fundação de runtime prevista é a base JavaScript da Malheiro, por decisão do usuário. O arquivo/revisão exatos ainda não foram fixados neste checkout; a auditoria e adaptação dessa base ficam para a implementação aprovada.
 
 **Conclusão visual:** o alvo visual está mapeado de ponta a ponta. A primeira implementação permanece limitada à galeria FWR; a aprovação do mapa deve decidir o comportamento móvel e confirmar o slot/gestão dos blocos `INDEFINIDO` antes de ampliar escopo.

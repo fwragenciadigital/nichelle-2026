@@ -2,6 +2,10 @@
 
 **Status:** proposta de arquitetura para aprovação. Nenhum dashboard ou endpoint foi implementado nesta fase.
 
+## Base técnica do runtime
+
+Por decisão do usuário, o runtime de Nichelle usará a base JavaScript da Malheiro. Antes de iniciar a implementação, identificar e fixar o caminho/revisão exatos da fonte, revisar dependências, seletores e inicializações, e documentar o delta de adaptação para a Loja Integrada de Nichelle. Reutilizar a fundação técnica não transfere catálogo, imagens, vídeos, URLs, configuração comercial nem comportamento de compra específico da Malheiro. Preservar a inicialização nativa da LI e evitar duplicar plugins.
+
 ## Fronteira do sistema
 
 O painel **NÃO** edita logo, banners nativos, categorias nativas, vitrines nativas, produtos/preço/estoque, checkout, carrinho ou frete. Esses recursos continuam no painel da Loja Integrada.

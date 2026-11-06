@@ -36,7 +36,7 @@ Não confundir com a rota sem `index1.html` e não inferir o design quando a URL
    - `INDEFINIDO`: exigir validação visual antes de assumir.
 3. Para cada `CUSTOM-FWR`, levantar layout desktop/mobile, position DOM, recursos, IDs/classes, imagens/formatos, interações, acessibilidade, responsável por editar, necessidade de Settings, dependências, risco de CLS e ordem de implementação.
 4. Comparar com a loja atual para confirmar slots de inserção seguros por seletor, sem mover estruturas nativas do topo depois do first paint; avaliar compatibilidade do tema ativo com HTML/Cabeçalho e HTML/Rodapé, marcando como não verificado quando não tiver acesso ao painel.
-5. Aplicar as lições da Malheiro APENAS como princípios: sem segunda inicialização de plugins, sem CSS global de compensação, sem duplicar jQuery/Owl, CLS antes de publicar e Settings claros. Não importar código ou imagens comerciais da Malheiro.
+5. Usar a base JavaScript da Malheiro como fundação técnica, conforme decisão do usuário. Antes de implementar, localizar e registrar o arquivo/revisão exatos e auditar dependências, seletores e inicializações existentes. Adaptar para Nichelle sem duplicar jQuery/Owl/plugins, sem CSS global de compensação e sem copiar catálogo, conteúdo, imagens, vídeos, URLs ou configurações comerciais da Malheiro. Preservar integralmente as funções nativas da Loja Integrada.
 
 ## 2. Módulo exclusivo #1 — Video Gallery / UGC (anexo visual)
 
@@ -99,7 +99,7 @@ Gerar um schema preliminar coerente e defaults com galeria desativada e nenhum U
 - CLS de campo (p75) alvo <= 0,10; laboratório de preferência <= 0,05, LCP <= 2,5s, INP <= 200ms, mas reportar somente resultados efetivamente medidos.
 - Analisar home, catálogo, PDP, menu, busca, minicart e checkout com **testes não destrutivos**; não fazer pedidos, alterar estoque ou dados da loja.
 - Os componentes devem ser inseridos em slots seguros, sem reconstruir/reordenar estruturas nativas da Loja Integrada tardiamente.
-- Nenhuma imagem de Malheiro ou conteúdo externo deve ser copiado. Somente URLs que forem fornecidas/confirmadas.
+- Nenhuma imagem, vídeo, URL ou conteúdo comercial de Malheiro deve ser copiado. A base JavaScript da Malheiro é a exceção autorizada; mídias e URLs da galeria só entram quando fornecidas/confirmadas.
 - Não modificar loja pública, não alterar `main`, não fazer merge sem autorização.
 
 ## Entregáveis da PRIMEIRA execução (mapeamento)

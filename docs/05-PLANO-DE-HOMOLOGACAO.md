@@ -12,6 +12,7 @@
 **GO restrito à implementação da galeria** quando o cliente aprovar este mapa, confirmar que o módulo será administrado pela FWR, aprovar o comportamento mobile e existir um slot estável confirmado no tema de homologação. Até lá, a fase de código fica em espera. Esta aprovação não autoriza instalar ou publicar na loja.
 
 ## Fase 2 — módulo de vídeo
+- Identificar e fixar a revisão/arquivo da base JavaScript Malheiro; auditar dependências e adaptar o runtime para Nichelle sem conteúdo comercial/mídia da outra loja.
 - Receber URLs finais dos 4 posters/vídeos hospedados à parte.
 - Implementar HTML/CSS/JS próprios, arquivos separados e CSS prefixado.
 - Manter `enabled=false` na configuração até testar.
