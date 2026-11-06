@@ -1,0 +1,47 @@
+name: Nichelle - Publicar JS unico na FWR
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'public/nichelle.js'
+      - '.github/workflows/publicar-nichelle-js.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publicar-js:
+    if: ${{ vars.FWR_NICHELLE_DEPLOY_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    environment: nichelle-publicacao
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Verificar sintaxe do runtime
+        run: node --check public/nichelle.js
+
+      - name: Publicar asset estatico em host FWR
+        env:
+          SSH_HOST: ${{ secrets.FWR_SSH_HOST }}
+          SSH_USER: ${{ secrets.FWR_SSH_USER }}
+          SSH_PRIVATE_KEY: ${{ secrets.FWR_SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.FWR_SSH_KNOWN_HOSTS }}
+          SSH_PORT: ${{ secrets.FWR_SSH_PORT || '22' }}
+          DESTINATION: ${{ vars.FWR_NICHELLE_REMOTE_PATH }}
+        run: |
+          set -euo pipefail
+          test -n "$SSH_HOST" && test -n "$SSH_USER" && test -n "$SSH_PRIVATE_KEY" && test -n "$SSH_KNOWN_HOSTS" && test -n "$DESTINATION"
+          test "${DESTINATION:0:1}" = "/"
+          mkdir -p "$HOME/.ssh"
+          chmod 700 "$HOME/.ssh"
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$HOME/.ssh/id_nichelle"
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/id_nichelle" "$HOME/.ssh/known_hosts"
+          rsync -az --checksum -e "ssh -i $HOME/.ssh/id_nichelle -p $SSH_PORT -o StrictHostKeyChecking=yes" public/nichelle.js "$SSH_USER@$SSH_HOST:$DESTINATION/nichelle.js"
+          echo "Asset enviado. Validacao de HTTP/MIME e cache deve ser feita na URL publica aprovada."
