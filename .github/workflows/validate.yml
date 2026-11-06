@@ -18,6 +18,11 @@ jobs:
         with:
           node-version: '22'
       - run: node --test tests/*.test.mjs
+      - name: Compilar pacote JS para Vercel
+        run: |
+          node vercel/build.mjs
+          node --check vercel/dist/nichelle.js
+          cmp public/nichelle.js vercel/dist/nichelle.js
       - name: Validar PHP do painel
         run: |
           php -l server/bootstrap.php
