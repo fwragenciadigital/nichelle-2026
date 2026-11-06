@@ -20,3 +20,7 @@ Branch `develop` → PR Draft contra `main`. Nenhuma publicação na LI, nenhum 
 Sem controle de elementos nativos. Backend autenticado versiona configurações validadas e publica JSON público sanitizado em infraestrutura FWR. Frontend da LI consome apenas leitura, sem chaves e com fallback de layout estável.
 
 **Status:** documentação e schema inicial para auditoria. Nenhum módulo ativo por padrão; imagens e vídeos serão fornecidos separadamente.
+
+## Vídeos YouTube Shorts
+
+A galeria FWR aceita Shorts ou links YouTube normais. Imagem de capa automática derivada do próprio vídeo, com substituição opcional. Ver `docs/03-VIDEO-GALLERY-SPEC.md` e testes `tests/youtube-shorts.test.mjs`. Sem alterações em módulos nativos da Loja Integrada.
