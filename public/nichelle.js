@@ -232,8 +232,162 @@
     section.append(track); slot.replaceChildren(section);
   }
 
+  /*
+   * VITRINE EM QUATRO CARDS — totalmente opt-in.
+   * Origem: banners VITRINE publicados pelo próprio painel Loja Integrada.
+   * O nome cadastrado no painel precisa corresponder exatamente a cfg.nomes,
+   * pois a LI o expõe como ALT da imagem. Nunca acessa API privada.
+   */
+  function initBannerVitrine() {
+    const cfg = window.FWRNichelle && window.FWRNichelle.bannerVitrine;
+    if (!cfg || cfg.ativo !== true) return;
+    const slot = document.getElementById("fwr-nichelle-vitrine-slot");
+    if (!slot || slot.dataset.fwrInitialized === "1") return;
+    // Não renderizar nem alterar os banners nativos sem todos os quatro nomes.
+    const names = Array.isArray(cfg.nomes) ? cfg.nomes.slice(0, 4) : [];
+    if (names.length !== 4 || names.some(function (n) { return typeof n !== "string" || !n.trim(); })) return;
+
+    function key(s) {
+      return String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/\s+/g, " ").trim().toLowerCase();
+    }
+    const required = names.map(key);
+    if (new Set(required).size !== 4) return;
+
+    function safeURL(value) {
+      if (!value || typeof value !== "string") return "";
+      try {
+        const u = new URL(value.trim(), window.location.href);
+        return (u.protocol === "https:" || (u.protocol === "http:" && u.origin === window.location.origin)) ? u.href : "";
+      } catch (_) { return ""; }
+    }
+
+    function findNative() {
+      const selected = [];
+      const images = Array.from(document.querySelectorAll("img[alt],img[title]"));
+      for (const name of required) {
+        const img = images.find(function (candidate) {
+          if (candidate.closest("#fwr-nichelle-vitrine-slot")) return false;
+          if (key(candidate.getAttribute("alt") || candidate.getAttribute("title")) !== name) return false;
+          // Apenas Banner Vitrine ou imagem oriunda do diretório nativo de banners.
+          const src = candidate.currentSrc || candidate.getAttribute("data-src") ||
+            candidate.getAttribute("data-original") || candidate.getAttribute("src") || "";
+          return !!candidate.closest(".banner.vitrine, .banner-vitrine, [class*='banner-vitrine'], .secao-banners") ||
+            /\/banner\//i.test(src);
+        });
+        if (!img) return [];
+        const src = safeURL(img.getAttribute("data-src") || img.getAttribute("data-original") ||
+          img.currentSrc || img.getAttribute("src"));
+        if (!src) return [];
+        const link = img.closest("a[href]");
+        const destination = link && safeURL(link.getAttribute("href"));
+        selected.push({ img: img, src: src, link: link, destination: destination });
+      }
+      return selected;
+    }
+
+    function mount(banners) {
+      if (slot.dataset.fwrInitialized === "1" || banners.length !== 4) return;
+      const styleId = "fwr-nichelle-vitrine-styles";
+      if (!document.getElementById(styleId)) {
+        const style = document.createElement("style");
+        style.id = styleId;
+        style.textContent = "#fwr-nichelle-vitrine-slot{box-sizing:border-box;max-width:1920px;width:100%;margin-inline:auto}" +
+          "#fwr-nichelle-vitrine-slot *{box-sizing:border-box}" +
+          "#fwr-nichelle-vitrine-slot .fwr-nichelle-vitrine{padding:24px clamp(14px,3.3vw,65px)}" +
+          "#fwr-nichelle-vitrine-slot .fwr-nichelle-vitrine__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.85vw,36px)}" +
+          "#fwr-nichelle-vitrine-slot .fwr-nichelle-vitrine__card{display:block;position:relative;width:100%;aspect-ratio:44/100;border-radius:clamp(12px,1.2vw,22px);overflow:hidden;background:#f0eeeb;text-decoration:none;isolation:isolate}" +
+          "#fwr-nichelle-vitrine-slot .fwr-nichelle-vitrine__card img{display:block;width:100%;height:100%;object-fit:cover}" +
+          "#fwr-nichelle-vitrine-slot .fwr-nichelle-vitrine__card picture{display:block;width:100%;height:100%}" +
+          "#fwr-nichelle-vitrine-slot .fwr-nichelle-vitrine__card:focus-visible{outline:3px solid #252525;outline-offset:4px}" +
+          ".fwr-nichelle-vitrine-native-hidden{display:none!important}" +
+          "@media(max-width:767px){" +
+          "#fwr-nichelle-vitrine-slot .fwr-nichelle-vitrine{padding:18px 0 24px}" +
+          "#fwr-nichelle-vitrine-slot .fwr-nichelle-vitrine__grid{grid-auto-flow:column;grid-auto-columns:minmax(0,72vw);grid-template-columns:none;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-inline:contain;scroll-padding-inline:16px;padding:3px 16px 12px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}" +
+          "#fwr-nichelle-vitrine-slot .fwr-nichelle-vitrine__card{scroll-snap-align:start;border-radius:16px}" +
+          "}";
+        (document.head || document.documentElement).appendChild(style);
+      }
+      const section = document.createElement("section");
+      section.className = "fwr-nichelle-vitrine";
+      section.setAttribute("aria-label", "Encontre o cuidado ideal para sua pele");
+      const grid = document.createElement("div");
+      grid.className = "fwr-nichelle-vitrine__grid";
+      banners.forEach(function (banner, index) {
+        const card = document.createElement(banner.destination ? "a" : "div");
+        card.className = "fwr-nichelle-vitrine__card";
+        if (banner.destination) {
+          card.href = banner.destination;
+          if (banner.link && banner.link.target === "_blank") {
+            card.target = "_blank";
+            card.rel = "noopener noreferrer";
+          }
+        }
+        const picture = banner.img.parentElement && banner.img.parentElement.tagName === "PICTURE" ?
+          banner.img.parentElement.cloneNode(true) : null;
+        const image = picture ? picture.querySelector("img") : banner.img.cloneNode(true);
+        if (!image) return;
+        // Src/links continuam vindo do painel nativo; poster não é cadastrado no JS.
+        image.src = banner.src;
+        image.alt = banner.img.getAttribute("alt") || names[index];
+        image.loading = "lazy";
+        image.decoding = "async";
+        image.width = 600;
+        image.height = 1360;
+        image.removeAttribute("style");
+        (picture || card).appendChild(picture ? document.createTextNode("") : image);
+        if (picture) card.appendChild(picture);
+        grid.appendChild(card);
+      });
+      if (grid.children.length !== 4) return;
+      section.appendChild(grid);
+      slot.replaceChildren(section);
+      slot.dataset.fwrInitialized = "1";
+      slot.dataset.fwrActive = "1";
+      slot.style.minHeight = "";
+      // Ocultar apenas os quatro banners individuais reaproveitados. Os demais
+      // banners, vitrines, carrinho e módulos nativos da LI ficam intactos.
+      banners.forEach(function (banner) {
+        const source = banner.link && banner.link.querySelectorAll("img").length === 1 ?
+          banner.link : banner.img;
+        source.classList.add("fwr-nichelle-vitrine-native-hidden");
+      });
+    }
+
+    let observer = null, timer = null, pending = false;
+    function attempt() {
+      if (slot.dataset.fwrInitialized === "1") return true;
+      const found = findNative();
+      if (found.length !== 4) return false;
+      mount(found);
+      if (observer) observer.disconnect();
+      if (timer) clearTimeout(timer);
+      return true;
+    }
+    if (attempt()) return;
+    // Os banners da LI podem ser injetados depois de DOMContentLoaded.
+    // O observador só existe com ativo:true e é encerrado após no máximo 6s.
+    observer = new MutationObserver(function () {
+      if (pending) return;
+      pending = true;
+      window.requestAnimationFrame(function () {
+        pending = false;
+        attempt();
+      });
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+    timer = window.setTimeout(function () {
+      observer.disconnect();
+      if (slot.dataset.fwrInitialized !== "1") {
+        slot.dataset.fwrActive = "0";
+        slot.style.minHeight = "";
+      }
+    }, 6000);
+  }
+
   function start() {
     initVideoGallery();
+    initBannerVitrine();
     /* Adicionar futuras funções exclusivas aqui, sem recriar recursos nativos da LI. */
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start, {once:true});
