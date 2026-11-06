@@ -1,3 +1,5 @@
+> **ORDEM ATUAL DO CODEX (06/11/2026):** leia [docs/07-ARQUITETURA-SIMPLIFICADA-GIT-HTML.md](docs/07-ARQUITETURA-SIMPLIFICADA-GIT-HTML.md) **antes** do antigo `PROMPT_INICIAL_CODEX.md`. A fase 1 usa `public/nichelle.js` e `integracao/html-galeria-shorts.html`, sem dashboard. O código Malheiro está em `src/referencias/` como REFERÊNCIA, NÃO executar na loja Nichelle. O resto abaixo deve ser interpretado como contexto anterior.
+
 # Codex — Nichelle Imports 2026
 
 **EXECUTE PRIMEIRO:** [PROMPT_INICIAL_CODEX.md](./PROMPT_INICIAL_CODEX.md).
