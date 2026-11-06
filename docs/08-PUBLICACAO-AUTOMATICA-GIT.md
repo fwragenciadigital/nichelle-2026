@@ -33,3 +33,11 @@ Se Pages não estiver habilitado, optar por servidor FWR ou repositório públic
 - Conteúdo novo da URL fixa pode não chegar instantaneamente devido a browser/CDN/cache; validar via Network e cabeçalhos.
 - GitHub commit anterior pode ser restaurado e republicado; manter changelog e teste de sintaxe antes do deploy.
 - Não injetar o JS original da Malheiro e o novo runtime juntos.
+
+## Workflow de GitHub Pages já preparado (opção ainda DESATIVADA)
+
+O arquivo `.github/workflows/publicar-nichelle-pages.yml` publica somente `public/nichelle.js` como `nichelle.js`, sem expor `admin/`, `server/` ou configurações.
+
+Para ativá-lo após homologação: confirmar no plano GitHub Pages disponível para repositório privado; configurar `Settings > Pages > Build and deployment = GitHub Actions`; adicionar variável `FWR_NICHELLE_PAGES_ENABLED=true`; executar depois de merge aprovado para `main`. O endereço padrão de projeto terá formato `https://fwragenciadigital.github.io/nichelle-2026/nichelle.js`, **mas não é URL funcional verificada enquanto Pages não for implantado**. Checar se resposta é HTTP 200 e se o MIME permite execução de JS antes de colar na loja. Se Pages não estiver disponível, usar a publicação FWR via SSH descrita acima.
+
+**Use somente um destino de produção:** Pages ou hospedagem FWR. Não ativar os dois pipelines simultaneamente sem motivo.
