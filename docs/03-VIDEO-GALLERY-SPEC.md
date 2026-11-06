@@ -24,9 +24,9 @@ Nomes de campo alinhados ao `config/schema.json` atual. O dashboard futuro edita
 | `items[].id` | string | Identificador em slug; validar unicidade também na publicação |
 | `items[].enabled` | boolean | Controle de exibição do card |
 | `items[].order` | inteiro | Define ordem; ordenar de forma determinística |
-| `items[].provider` | enum | `mp4` ou `vimeo`; validar a URL conforme o provedor no backend |
-| `items[].posterUrl` | URL | HTTPS; URL fornecida sem reescrita; validar host, tipo e dimensões |
-| `items[].videoUrl` | URL | HTTPS; URL fornecida sem reescrita; validar host e compatibilidade com `provider` |
+| `items[].provider` | enum | `youtube`, `mp4` ou `vimeo`; YouTube Shorts exige ID válido de 11 caracteres e host oficial |
+| `items[].posterUrl` | URL | Opcional para YouTube Shorts (thumbnail do próprio vídeo gerada automaticamente); personalizável. Obrigatória nos outros provedores |
+| `items[].videoUrl` | URL | HTTPS; aceita link YouTube Shorts, watch e youtu.be; MP4/Vimeo continuam aceitos, com validação de provedor |
 | `items[].alt` | string | Descrição acessível do poster; 5–180 caracteres no schema |
 | `items[].label` | string | Opcional, até 120 caracteres |
 | `items[].productUrl` | URL | Opcional, HTTPS; direciona para produto existente, não edita preço |
@@ -72,3 +72,12 @@ Se não existir espaço reservado ou hook estável antes do first paint, não in
 - Reprodução/accessibilidade testadas em desktop e iOS/Android; poster e configuração falhos cobertos.
 - Evidência de laboratório de estabilidade geométrica/CLS para config vazia, normal, lenta e indisponível; comparar com baseline real antes de qualquer publicação.
 - Nenhuma regressão em header, navegação, vitrine, produto, preço, carrinho, frete ou checkout.
+
+## Atualização — YouTube Shorts e capa automática
+
+- O cliente poderá colar diretamente uma URL de YouTube Shorts, `youtube.com/watch?v=...` ou `youtu.be/...`; **não é preciso carregar arquivo MP4 nem imagem da capa separada**.
+- O código valida domínio oficial e extrai o ID de 11 caracteres. No clique, o player é `youtube-nocookie.com/embed/VIDEO_ID`, com iframe criado somente na interação; não carregar player pesado antes do clique. <https://support.google.com/youtube/answer/171780>
+- Para a imagem de preview, o runtime tenta o thumbnail vertical `https://i.ytimg.com/vi/ID/oar2.jpg`, depois `oardefault.jpg` e `hqdefault.jpg` como fallback. O CDN pode não disponibilizar a versão vertical para todos os vídeos. **A capa personalizada continua opcional** e será preferida quando informada.
+- As imagens de capa permanecem no frame `aspect-ratio:9/16` com `object-fit:cover`; sem mudanças geométricas ao carregar, evitando CLS do componente.
+- **Atenção à privacidade:** thumbnail externo `i.ytimg.com` pode ser solicitado antes do clique, respeitando lazy-loading; o player só se conecta ao YouTube quando solicitado. Confirmar adequação do banner de consentimento e política da loja.
+- Os links definitivos de Shorts ainda serão fornecidos; não inventar URLs, vídeos ou títulos. Testar se o proprietário permite incorporação e se há restrição de idade/território.
