@@ -39,3 +39,12 @@ Foi gerado um pacote `nichelle-video-gallery-mvp.zip` contendo: `public/galeria-
 - O protótipo `index1.html` ainda não foi inspecionado integralmente por navegador do projeto.
 
 **Estado:** MVP local/testado; site público inalterado.
+
+## Atualização — YouTube Shorts e capa automática
+
+- O cliente poderá colar diretamente uma URL de YouTube Shorts, `youtube.com/watch?v=...` ou `youtu.be/...`; **não é preciso carregar arquivo MP4 nem imagem da capa separada**.
+- O código valida domínio oficial e extrai o ID de 11 caracteres. No clique, o player é `youtube-nocookie.com/embed/VIDEO_ID`, com iframe criado somente na interação; não carregar player pesado antes do clique. <https://support.google.com/youtube/answer/171780>
+- Para a imagem de preview, o runtime tenta o thumbnail vertical `https://i.ytimg.com/vi/ID/oar2.jpg`, depois `oardefault.jpg` e `hqdefault.jpg` como fallback. O CDN pode não disponibilizar a versão vertical para todos os vídeos. **A capa personalizada continua opcional** e será preferida quando informada.
+- As imagens de capa permanecem no frame `aspect-ratio:9/16` com `object-fit:cover`; sem mudanças geométricas ao carregar, evitando CLS do componente.
+- **Atenção à privacidade:** thumbnail externo `i.ytimg.com` pode ser solicitado antes do clique, respeitando lazy-loading; o player só se conecta ao YouTube quando solicitado. Confirmar adequação do banner de consentimento e política da loja.
+- Os links definitivos de Shorts ainda serão fornecidos; não inventar URLs, vídeos ou títulos. Testar se o proprietário permite incorporação e se há restrição de idade/território.
