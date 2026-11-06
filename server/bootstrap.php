@@ -42,6 +42,7 @@ function nichelle_private_data_dir_ready(): bool {
  $root=realpath((string)($_SERVER['DOCUMENT_ROOT']??''));
  $real=realpath($path);
  if($real===false||$real===DIRECTORY_SEPARATOR||!is_dir($real)||!is_writable($real))return false;
+ if(PHP_SAPI!=='cli'&&$root===false)return false;
  if($root!==false){
   $root=rtrim(strtolower($root),"/\\");$real=strtolower($real);
   if($real===$root||str_starts_with($real,$root.DIRECTORY_SEPARATOR))return false;
