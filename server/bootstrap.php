@@ -58,6 +58,26 @@ function nichelle_https(string $url): string {
   throw new InvalidArgumentException('As URLs precisam ser HTTPS, válidas e sem credenciais.');
  return $url;
 }
+/**
+ * Valida o ID de Shorts/watch/links curtos do YouTube sem consultar APIs externas.
+ * Retorna vazio para hosts não oficiais ou IDs malformados.
+ */
+function nichelle_youtube_id(string $raw): string {
+ $url=parse_url(trim($raw));
+ if(!is_array($url)||strtolower((string)($url['scheme']??''))!=='https')return '';
+ $host=strtolower((string)($url['host']??''));
+ $path=(string)($url['path']??'');
+ $id='';
+ if(in_array($host,['youtu.be','www.youtu.be'],true)){
+  if(preg_match('~^/([A-Za-z0-9_-]{11})(?:/|$)~',$path,$m))$id=$m[1];
+ }elseif(in_array($host,['youtube.com','www.youtube.com','m.youtube.com','youtube-nocookie.com','www.youtube-nocookie.com'],true)){
+  if($path==='/watch'){
+   parse_str((string)($url['query']??''),$q);
+   if(is_string($q['v']??null))$id=$q['v'];
+  }elseif(preg_match('~^/(?:shorts|embed|live)/([A-Za-z0-9_-]{11})(?:/|$)~',$path,$m))$id=$m[1];
+ }
+ return preg_match('/^[A-Za-z0-9_-]{11}$/D',$id)===1?$id:'';
+}
 function nichelle_rate_file(): string {
  $secret=(string)getenv('NICHELLE_SESSION_SECRET');
  $ip=(string)($_SERVER['REMOTE_ADDR']??'unknown');
