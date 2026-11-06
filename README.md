@@ -35,3 +35,7 @@ node --test tests/config.test.mjs
 ```
 
 **Status:** layout de referência acessado e mapeado em Chromium; o documento servido é uma composição rasterizada com largura fixa, sem estrutura semântica por seção. A galeria é o primeiro módulo FWR previsto, com posição visual mapeada e slot/comportamento móvel pendentes de aprovação. Esta PR ainda não implementa runtime, dashboard ou integração instalada; não foram fornecidas URLs finais de mídias. Nenhuma publicação na Loja Integrada foi feita.
+
+## MVP galeria — suporte a YouTube Shorts
+
+O runtime `public/galeria-videos.js` aceita URLs de Shorts do YouTube e busca automaticamente a thumbnail correspondente, com fallback e capa personalizada opcional. O painel `admin/index.php` aceita URLs oficiais e usa senha verificada no servidor. Tudo permanece em `develop`; nenhuma publicação na Loja Integrada foi realizada.
