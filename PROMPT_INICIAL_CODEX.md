@@ -1,3 +1,5 @@
+> **AVISO DE ATUALIZAÇÃO:** este briefing foi substituído na arquitetura por [docs/07-ARQUITETURA-SIMPLIFICADA-GIT-HTML.md](docs/07-ARQUITETURA-SIMPLIFICADA-GIT-HTML.md). **Não implementar dashboard ou backend PHP/JSON** nesta fase. Usar JS único + HTML editável, sem interferir na LI nativa. Este arquivo fica para histórico.
+
 # CODEX — Nichelle Imports 2026 · Fase 1: auditoria do layout e módulos exclusivos
 
 ## Início
