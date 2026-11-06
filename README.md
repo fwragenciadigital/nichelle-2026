@@ -1,3 +1,5 @@
+> **ARQUITETURA ATUAL (06/11/2026):** código único `public/nichelle.js` + Shorts editáveis no HTML da Loja Integrada. **Não usamos dashboard PHP/JSON na fase 1**. Consulte [docs/07-ARQUITETURA-SIMPLIFICADA-GIT-HTML.md](docs/07-ARQUITETURA-SIMPLIFICADA-GIT-HTML.md) e [docs/08-PUBLICACAO-AUTOMATICA-GIT.md](docs/08-PUBLICACAO-AUTOMATICA-GIT.md). Documentação de painel abaixo é histórica e não deve ser implantada.
+
 # Nichelle Imports · Projeto 2026
 
 **Repositório privado com catálogo e conteúdo próprios; a galeria isolada usa como referência técnica a base JavaScript da Malheiro auditada e registrada em [docs/04](docs/04-DASHBOARD-SETTINGS-ARQUITETURA.md).**
