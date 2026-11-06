@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Nichelle Imports — configurações públicas de módulos exclusivos FWR",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "project",
+    "modules"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "project": {
+      "type": "string",
+      "const": "nichelle-2026"
+    },
+    "modules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "videoGallery"
+      ],
+      "properties": {
+        "videoGallery": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "enabled",
+            "title",
+            "placement",
+            "mobileMode",
+            "openMode",
+            "items"
+          ],
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": false
+            },
+            "title": {
+              "type": "string",
+              "maxLength": 90
+            },
+            "placement": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "after-native-banner",
+                "after-native-showcase",
+                "before-footer"
+              ]
+            },
+            "mobileMode": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "scroll-snap",
+                "grid"
+              ]
+            },
+            "openMode": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "modal",
+                "inline"
+              ]
+            },
+            "items": {
+              "type": "array",
+              "maxItems": 12,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "id",
+                  "enabled",
+                  "order",
+                  "provider",
+                  "posterUrl",
+                  "videoUrl",
+                  "alt"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9_-]{0,40}$"
+                  },
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "order": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100
+                  },
+                  "provider": {
+                    "type": "string",
+                    "enum": [
+                      "mp4",
+                      "vimeo"
+                    ]
+                  },
+                  "posterUrl": {
+                    "type": "string",
+                    "format": "uri",
+                    "pattern": "^https://"
+                  },
+                  "videoUrl": {
+                    "type": "string",
+                    "format": "uri",
+                    "pattern": "^https://"
+                  },
+                  "alt": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 180
+                  },
+                  "label": {
+                    "type": "string",
+                    "maxLength": 120
+                  },
+                  "productUrl": {
+                    "type": "string",
+                    "format": "uri",
+                    "pattern": "^https://"
+                  },
+                  "autoplay": {
+                    "type": "boolean",
+                    "const": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
