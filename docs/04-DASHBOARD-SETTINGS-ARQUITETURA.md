@@ -1,5 +1,7 @@
 # FWR Control — dashboard exclusivamente para módulos customizados
 
+**Status:** proposta de arquitetura para aprovação. Nenhum dashboard ou endpoint foi implementado nesta fase.
+
 ## Fronteira do sistema
 
 O painel **NÃO** edita logo, banners nativos, categorias nativas, vitrines nativas, produtos/preço/estoque, checkout, carrinho ou frete. Esses recursos continuam no painel da Loja Integrada.
@@ -29,9 +31,9 @@ seção FWR é montada em slot estável e predeterminado
 - Editor somente dos campos declarados no schema; não permitir HTML/JS arbitrário.
 - Rascunho, prévia segura, publicar, reverter, log de autor/data/diff.
 - `published.json` público de apenas leitura, sem segredo/token.
-- Validação de URLs, limites de arquivos, domínio confiável para mídias e sanitização do conteúdo.
+- Validação de URLs, limites de arquivos, allowlist de hosts de mídia e sanitização do conteúdo. HTTPS isoladamente não é allowlist: MP4 e Vimeo exigem validação de host/URL conforme `provider`.
 - CDN TTL curto conhecido; publicação não é instantânea em todos os navegadores. Medir tempo de propagação.
-- Runtime usa último conteúdo válido ou fallback estável se fetch falhar. Evitar CLS com renderização tardia.
+- Runtime aceita somente schema/versão válidos. Com módulo desligado ou sem itens ativos, não cria seção; com resposta lenta, inválida ou indisponível, mantém o slot no estado inicial estável e não injeta bloco depois do first paint. O último conteúdo publicado só pode ser usado se já estiver disponível sem deslocamento; o fallback não reordena vitrines nativas.
 - Pipeline separado dev/staging/prod e revisão antes de produção.
 - **Preço, estoque, desconto e disponibilidade** continuam sendo dados nativos da Loja Integrada, nunca JSON do painel.
 
@@ -39,3 +41,12 @@ seção FWR é montada em slot estável e predeterminado
 GitHub privado como fonte versionada e um pequeno backend autenticado no domínio FWR para gravar/publicar JSON. Não criar banco complexo na v1 se não houver necessidade; considerar DB apenas com muitos usuários, agendamentos e auditoria avançada.
 
 **Trade-off:** dashboard com atualização remota implica uma dependência externa de JSON. Se código e configuração forem 100% publicados dentro da Loja Integrada, as edições externas deixam de propagar automaticamente.
+
+## Contrato mínimo da integração pública
+
+- Um endpoint HTTPS de leitura fornece somente `published.json` sanitizado; o endpoint de rascunho/preview permanece autenticado.
+- Resposta pública não inclui token, IDs administrativos, dados privados do tenant ou payload cru de fornecedor. A loja não recebe credencial de escrita.
+- Configuração do CDN registra `Access-Control-Allow-Origin` para a origem da loja (ou política pública explicitamente aprovada), `Content-Type: application/json`, `ETag`/versão e TTL/cache.
+- Publicação e rollback criam uma versão identificável; rollback troca o ponteiro/artefato publicado sem reescrever configuração nativa da Loja Integrada.
+- Ausência de endpoint, rejeição de CORS, erro HTTP ou JSON inválido deixa os componentes nativos intactos e mantém a geometria inicial do slot.
+- A operação dependerá de infraestrutura hospedada pela FWR; sem endpoint público, edição no dashboard não chega à loja automaticamente.

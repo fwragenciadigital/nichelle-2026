@@ -3,11 +3,7 @@
   "title": "Nichelle Imports — configurações públicas de módulos exclusivos FWR",
   "type": "object",
   "additionalProperties": false,
-  "required": [
-    "schemaVersion",
-    "project",
-    "modules"
-  ],
+  "required": ["schemaVersion", "project", "modules"],
   "properties": {
     "schemaVersion": {
       "type": "integer",
@@ -20,9 +16,7 @@
     "modules": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "videoGallery"
-      ],
+      "required": ["videoGallery"],
       "properties": {
         "videoGallery": {
           "type": "object",
@@ -46,32 +40,19 @@
             },
             "placement": {
               "type": "string",
-              "enum": [
-                "pending",
-                "after-native-banner",
-                "after-native-showcase",
-                "before-footer"
-              ]
+              "enum": ["pending", "after-brand-strip"]
             },
             "mobileMode": {
               "type": "string",
-              "enum": [
-                "pending",
-                "scroll-snap",
-                "grid"
-              ]
+              "enum": ["pending", "scroll-snap", "grid"]
             },
             "openMode": {
               "type": "string",
-              "enum": [
-                "pending",
-                "modal",
-                "inline"
-              ]
+              "enum": ["pending", "modal", "inline"]
             },
             "items": {
               "type": "array",
-              "maxItems": 12,
+              "maxItems": 4,
               "items": {
                 "type": "object",
                 "additionalProperties": false,
@@ -99,10 +80,7 @@
                   },
                   "provider": {
                     "type": "string",
-                    "enum": [
-                      "mp4",
-                      "vimeo"
-                    ]
+                    "enum": ["mp4", "vimeo"]
                   },
                   "posterUrl": {
                     "type": "string",
@@ -135,7 +113,35 @@
                 }
               }
             }
-          }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "enabled": {
+                    "const": true
+                  }
+                },
+                "required": ["enabled"]
+              },
+              "then": {
+                "properties": {
+                  "items": {
+                    "contains": {
+                      "properties": {
+                        "enabled": {
+                          "const": true
+                        }
+                      },
+                      "required": ["enabled"]
+                    },
+                    "minContains": 4,
+                    "maxContains": 4
+                  }
+                }
+              }
+            }
+          ]
         }
       }
     }

@@ -21,7 +21,7 @@ Futuro admin privado de módulos customizados: rascunho, preview, publicar e rol
 ## Documentação
 
 - [Classificação de componentes nativos e exclusivos](docs/01-INVENTARIO-NATIVO-VS-CUSTOM.md)
-- [Análise do index1 e bloqueio de acesso nesta sessão](docs/02-ANALISE-INDEX1-2026.md)
+- [Mapeamento visual do index1, viewports e slots pendentes](docs/02-ANALISE-INDEX1-2026.md)
 - [Especificação da galeria de vídeos](docs/03-VIDEO-GALLERY-SPEC.md)
 - [Arquitetura do dashboard](docs/04-DASHBOARD-SETTINGS-ARQUITETURA.md)
 - [Plano de homologação](docs/05-PLANO-DE-HOMOLOGACAO.md)
@@ -34,4 +34,4 @@ Futuro admin privado de módulos customizados: rascunho, preview, publicar e rol
 node --test tests/config.test.mjs
 ```
 
-**Status:** scaffold e instruções versionados. O protótipo `index1.html` não pôde ser acessado por nossas ferramentas nesta sessão; o Codex deverá tentar via Chromium. Ainda não existe código de produção instalado nem links externos válidos de módulos.
+**Status:** layout de referência acessado e mapeado em Chromium; o documento servido é uma composição rasterizada com largura fixa, sem estrutura semântica por seção. A galeria é o primeiro módulo FWR previsto, com posição visual mapeada e slot/comportamento móvel pendentes de aprovação. Esta PR ainda não implementa runtime, dashboard ou integração instalada; não foram fornecidas URLs finais de mídias. Nenhuma publicação na Loja Integrada foi feita.
