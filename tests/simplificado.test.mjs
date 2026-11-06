@@ -60,3 +60,28 @@ test("config do tema e loader mantidos separados, sem contatos externos ou token
  assert.match(config,/var mail1 = ""/);
  assert.doesNotMatch(config,/1909205813|contatoterra7|cientificaweb/);
 });
+
+
+test("modal de Shorts possui navegação cíclica com um único player",()=>{
+ assert.match(js,/function showVideo\(index\)/);
+ assert.match(js,/activeIndex = \(index \+ cards\.length\) % cards\.length/);
+ assert.equal((js.match(/document\.createElement\("iframe"\)/g)||[]).length,1);
+ assert.match(js,/frame\.removeAttribute\("src"\)/);
+ assert.match(js,/showVideo\(index\)/);
+ assert.match(js,/showVideo\(activeIndex \+ 1\)/);
+ assert.match(js,/showVideo\(activeIndex - 1\)/);
+});
+test("controles acessíveis por seta, teclado, contador e gesto no mobile",()=>{
+ assert.match(js,/Vídeo anterior/);
+ assert.match(js,/Próximo vídeo/);
+ assert.match(js,/event\.key === "ArrowRight"/);
+ assert.match(js,/event\.key === "ArrowLeft"/);
+ assert.match(js,/event\.key === "Escape"/);
+ assert.match(js,/aria-live/);
+ assert.match(js,/touchstart/);
+ assert.match(js,/touchend/);
+ assert.match(js,/Deslize aqui para trocar/);
+ assert.match(js,/fwr-nichelle-video-modal__controls/);
+ assert.match(js,/fwr-nichelle-video-modal__nav/);
+ assert.match(js,/event\.target\.closest\("button"\)/);
+});
