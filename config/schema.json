@@ -3,7 +3,11 @@
   "title": "Nichelle Imports — configurações públicas de módulos exclusivos FWR",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "project", "modules"],
+  "required": [
+    "schemaVersion",
+    "project",
+    "modules"
+  ],
   "properties": {
     "schemaVersion": {
       "type": "integer",
@@ -16,7 +20,9 @@
     "modules": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["videoGallery"],
+      "required": [
+        "videoGallery"
+      ],
       "properties": {
         "videoGallery": {
           "type": "object",
@@ -40,15 +46,26 @@
             },
             "placement": {
               "type": "string",
-              "enum": ["pending", "after-brand-strip"]
+              "enum": [
+                "pending",
+                "after-brand-strip"
+              ]
             },
             "mobileMode": {
               "type": "string",
-              "enum": ["pending", "scroll-snap", "grid"]
+              "enum": [
+                "pending",
+                "scroll-snap",
+                "grid"
+              ]
             },
             "openMode": {
               "type": "string",
-              "enum": ["pending", "modal", "inline"]
+              "enum": [
+                "pending",
+                "modal",
+                "inline"
+              ]
             },
             "items": {
               "type": "array",
@@ -61,7 +78,6 @@
                   "enabled",
                   "order",
                   "provider",
-                  "posterUrl",
                   "videoUrl",
                   "alt"
                 ],
@@ -80,17 +96,23 @@
                   },
                   "provider": {
                     "type": "string",
-                    "enum": ["mp4", "vimeo"]
+                    "enum": [
+                      "youtube",
+                      "mp4",
+                      "vimeo"
+                    ]
                   },
                   "posterUrl": {
                     "type": "string",
                     "format": "uri",
-                    "pattern": "^https://"
+                    "pattern": "^(https://|$)",
+                    "description": "Opcional para YouTube Shorts: thumbnail automática do próprio vídeo. Obrigatório para MP4/Vimeo."
                   },
                   "videoUrl": {
                     "type": "string",
                     "format": "uri",
-                    "pattern": "^https://"
+                    "pattern": "^https://",
+                    "description": "YouTube Shorts, watch, youtu.be, MP4 ou Vimeo com HTTPS."
                   },
                   "alt": {
                     "type": "string",
@@ -110,7 +132,34 @@
                     "type": "boolean",
                     "const": false
                   }
-                }
+                },
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "provider": {
+                          "enum": [
+                            "mp4",
+                            "vimeo"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "provider"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "posterUrl"
+                      ],
+                      "properties": {
+                        "posterUrl": {
+                          "pattern": "^https://"
+                        }
+                      }
+                    }
+                  }
+                ]
               }
             }
           },
@@ -122,7 +171,9 @@
                     "const": true
                   }
                 },
-                "required": ["enabled"]
+                "required": [
+                  "enabled"
+                ]
               },
               "then": {
                 "properties": {
@@ -133,7 +184,9 @@
                           "const": true
                         }
                       },
-                      "required": ["enabled"]
+                      "required": [
+                        "enabled"
+                      ]
                     },
                     "minContains": 4,
                     "maxContains": 4
