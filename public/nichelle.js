@@ -5,6 +5,17 @@
   if (window.__FWR_NICHELLE_RUNTIME__) return;
   window.__FWR_NICHELLE_RUNTIME__ = true;
 
+  // CSS padrão versionado no JS oficial. O editor LI pode sobrescrever regras após o carregamento.
+  function installStyles() {
+    if (document.getElementById("fwr-nichelle-styles")) return;
+    const css = "#fwr-nichelle-video-slot{box-sizing:border-box;width:100%;max-width:1440px;margin-inline:auto}\n#fwr-nichelle-video-slot[data-fwr-active=\"1\"]{min-height:clamp(440px,calc(135.12vw + 84px),650px)}\n#fwr-nichelle-video-slot .fwr-nichelle-videos{padding:20px 18px 38px}\n#fwr-nichelle-video-slot .fwr-nichelle-videos *{box-sizing:border-box}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__track{display:grid;grid-auto-flow:column;grid-auto-columns:min(76vw,310px);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 0 12px}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__card{appearance:none;position:relative;display:block;width:100%;aspect-ratio:9/16;border:0;border-radius:20px;overflow:hidden;background:#ded8dc;cursor:pointer;scroll-snap-align:start;padding:0}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__poster{display:block;width:100%;height:100%;object-fit:cover}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__card::after{content:\"\";position:absolute;inset:0;background:rgba(0,0,0,.20);pointer-events:none}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__play{position:absolute;z-index:2;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none;filter:drop-shadow(0 2px 4px #3335)}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__play svg{display:block;width:46px;height:46px;fill:#fff}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__fallback{position:absolute;z-index:1;bottom:10px;left:12px;right:12px;padding:8px;background:#161616c9;color:white;text-align:center;font:500 12px/1.4 Arial,sans-serif;border-radius:8px}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__fallback[hidden]{display:none}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__card:focus-visible{outline:3px solid #fff;outline-offset:-5px}\n@media (min-width:768px){\n  #fwr-nichelle-video-slot[data-fwr-active=\"1\"]{min-height:clamp(420px,calc(42vw + 72px),700px)}\n  #fwr-nichelle-video-slot .fwr-nichelle-videos{padding:28px 24px 42px}\n  #fwr-nichelle-video-slot .fwr-nichelle-videos__track{grid-auto-flow:row;grid-auto-columns:auto;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.8vw,30px);overflow:visible;scroll-snap-type:none}\n}\n.fwr-nichelle-video-modal{position:fixed;inset:0;z-index:2147482000;background:#000d;display:grid;place-items:center;padding:20px}\n.fwr-nichelle-video-modal__dialog{position:relative;width:min(450px,92vw);height:min(80vh,800px);aspect-ratio:9/16;border-radius:16px;background:#111}\n.fwr-nichelle-video-modal__media{display:block;width:100%;height:100%;border:0;border-radius:16px}\n.fwr-nichelle-video-modal__close{position:absolute;z-index:2;right:-12px;top:-12px;width:40px;height:40px;border:0;border-radius:50%;background:white;color:#111;font-size:25px;cursor:pointer}";
+    const el = document.createElement("style");
+    el.id = "fwr-nichelle-styles";
+    el.textContent = css;
+    (document.head || document.documentElement).appendChild(el);
+  }
+  installStyles();
+
   function youtubeId(value) {
     if (typeof value !== "string") return "";
     try {
