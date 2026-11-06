@@ -46,14 +46,14 @@
 - **Posição visual de destino:** depois da faixa de marcas e antes da vitrine “Produtos Promocionais”. A posição é confiável como parte da composição da imagem final, mas o slot DOM equivalente e o mecanismo para inserção ainda não foram vistos.
 - **Aparência:** quatro cards verticais lado a lado, aproximadamente 9:16, imagens de produtos Medicube, cantos arredondados, camada escurecida leve e ícone triangular de play branco central; sem título visível sobre os cards.
 - **Não observável:** duração e formato do vídeo, destino do play, modal/inline, fechar/teclado, carregamento, links dos cards, versão mobile real e se os posters representam URLs finais.
-- **Ponto de decisão:** respeitar visualmente quatro cards no desktop. Para mobile, manter `mobileMode=pending` até haver uma arte móvel ou comportamento aprovado; não promover scroll-snap/grid por suposição.
+- **Implementação candidata:** quatro cards em uma linha no desktop; faixa horizontal com scroll-snap abaixo de 768px, mantendo 9:16 e sem autoplay. A referência `index1.html` é o visual final pretendido, mas sua arte fixa não prova reflow mobile; este comportamento mobile ainda precisa de homologação visual.
 
 ## Integração e riscos levantados
 
 - A estrutura da referência não contém slots HTML acessíveis. Se a galeria for inserida tardiamente depois da carga do JSON, todo o conteúdo seguinte poderá deslocar; isso cria risco de CLS mesmo abaixo da dobra.
-- A implementação deve ter ponto de montagem de altura/razão estável antes da inserção dos cards, ou carregar a marcação/CSS da seção no fluxo inicial. Se não houver slot estável verificável, a galeria não pode entrar nessa fase de instalação.
+- O runtime agora exige o alvo fixo `#fwr-nichelle-video-slot`; o CSS `.fwr-nichelle-video-slot` reserva altura aproximada para o tamanho da galeria antes do fetch. O tema de homologação precisa fornecer esse marcador no HTML inicial, depois de “Compre as Melhores Marcas” e antes da vitrine promocional. A ausência desse marcador falha sem inserir a seção no fim de `#corpo`.
 - A arte fixa não comprova o layout da loja em tablet/mobile, o seletor de tema, o suporte a HTML/Cabeçalho/HTML/Rodapé, CORS, cache ou disponibilidade de endpoint.
 - A loja atual carrega recursos do tema via CDN da Loja Integrada. Não adicionar uma segunda inicialização de jQuery, Owl ou plugins; dependências e seletores devem ser inspecionados em ambiente aprovado antes de qualquer código.
-- A fundação de runtime prevista é a base JavaScript da Malheiro, por decisão do usuário. O arquivo/revisão exatos ainda não foram fixados neste checkout; a auditoria e adaptação dessa base ficam para a implementação aprovada.
+- A base auditada está registrada com caminho e SHA-256 em `docs/04-DASHBOARD-SETTINGS-ARQUITETURA.md`. Apenas a fundação de inicialização encapsulada/idempotente foi adotada; seletores, plugins, configurações e dados comerciais da Malheiro não foram copiados.
 
-**Conclusão visual:** o alvo visual está mapeado de ponta a ponta. A primeira implementação permanece limitada à galeria FWR; a aprovação do mapa deve decidir o comportamento móvel e confirmar o slot/gestão dos blocos `INDEFINIDO` antes de ampliar escopo.
+**Conclusão visual:** o alvo visual final está mapeado de ponta a ponta. A implementação continua limitada à galeria FWR. O breakpoint mobile foi implementado como scroll-snap candidato, pendente de aprovação em homologação. O slot deve ser confirmado no tema antes de instalar; nenhum bloco `INDEFINIDO` foi transferido ao dashboard FWR.

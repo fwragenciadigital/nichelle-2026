@@ -2,7 +2,7 @@
 
 **EXECUTE PRIMEIRO:** [PROMPT_INICIAL_CODEX.md](./PROMPT_INICIAL_CODEX.md).
 
-O projeto mantém catálogo, conteúdo e operação comercial próprios, mas **usará a base JavaScript da Malheiro** como fundação técnica, conforme decisão do usuário. Antes de implementar, localizar e registrar o arquivo/revisão exatos e auditar dependências e seletores. Adaptar a base para Nichelle sem copiar produtos, mídia, URLs ou configuração comercial da Malheiro.
+O projeto mantém catálogo, conteúdo e operação comercial próprios, mas **usa como referência técnica a base JavaScript da Malheiro**. O arquivo/SHA-256 auditado e o delta de adaptação constam em `docs/04-DASHBOARD-SETTINGS-ARQUITETURA.md`. Não copiar produtos, mídia, URLs ou configuração comercial da Malheiro.
 
 ## Regra inegociável
 Logo, banner principal, categorias, busca, minicart/carrinho, vitrines nativas, produto, estoque, preço e checkout **continuam na Loja Integrada**. O painel externo FWR controla **somente módulos customizados** desenvolvidos por nossa equipe, começando pela galeria editorial de 4 vídeos verticais prevista no briefing e posicionada visualmente após a faixa de marcas no layout final `index1.html`. A imagem confirma aparência/ordem; o slot funcional e a interação de vídeo ainda precisam de validação.
@@ -19,7 +19,7 @@ Branch `develop` → PR Draft contra `main`. Nenhuma publicação na LI, nenhum 
 ## Dashboard
 Sem controle de elementos nativos. Backend autenticado versiona configurações validadas e publica JSON público sanitizado em infraestrutura FWR. Frontend da LI consome apenas leitura, sem chaves e com fallback de layout estável.
 
-**Status:** documentação e schema inicial para auditoria. Nenhum módulo ativo por padrão; imagens e vídeos serão fornecidos separadamente.
+**Status:** galeria e dashboard implementados em código de homologação na `develop`, com configuração pública desativada/vazia. Faltam host FWR validado, configuração real PHP, marcador no tema de homologação e URLs finais dos vídeos. Nenhuma publicação na loja foi feita.
 
 ## Vídeos YouTube Shorts
 

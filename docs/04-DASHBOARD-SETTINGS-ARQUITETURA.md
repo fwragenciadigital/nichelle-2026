@@ -6,6 +6,14 @@
 
 Por decisão do usuário, o runtime de Nichelle usará a base JavaScript da Malheiro. Antes de iniciar a implementação, identificar e fixar o caminho/revisão exatos da fonte, revisar dependências, seletores e inicializações, e documentar o delta de adaptação para a Loja Integrada de Nichelle. Reutilizar a fundação técnica não transfere catálogo, imagens, vídeos, URLs, configuração comercial nem comportamento de compra específico da Malheiro. Preservar a inicialização nativa da LI e evitar duplicar plugins.
 
+### Fonte auditada para a galeria Nichelle
+
+- Arquivo de referência: `C:\Users\willp\OneDrive\Documentos\Malheiro\entrega-loja-integrada\malheiroshoww-estabilizado.js`.
+- SHA-256 observado: `433535DBEC3FA31FF9FF5FF016A972EDB26AE6A1C2985329B7BB33EFB1967220`.
+- A nota de reteste v2 no mesmo diretório identifica `malheiroshoww-estabilizado.js` como script ativo na Malheiro. A fonte é um script de customização amplo da loja de origem: depende de jQuery, manipula header/menu/carrinho, aplica configurações visuais e integra componentes exclusivos da Malheiro.
+- Delta autorizado/adotado aqui: manter a fronteira da Loja Integrada, usar inicialização encapsulada e idempotente, esperar DOM pronto e não duplicar o ciclo de plugins da loja. O runtime de galeria permanece isolado em `public/galeria-videos.js`; não copiamos o script comercial amplo nem seus seletores, produtos, mídia, URLs ou settings. O CSS e o dashboard pertencem apenas ao módulo Nichelle.
+- A fonte fica fora do repositório; o SHA registra a variante auditada, mas não a distribui nem substitui a validação final de conflitos no tema LI de homologação.
+
 ## Fronteira do sistema
 
 O painel **NÃO** edita logo, banners nativos, categorias nativas, vitrines nativas, produtos/preço/estoque, checkout, carrinho ou frete. Esses recursos continuam no painel da Loja Integrada.
@@ -17,18 +25,18 @@ O painel gerencia apenas conteúdo/flags dos componentes implementados pela FWR,
 ```text
 Admin FWR autenticado (rascunho + preview)
   ↓
-Backend de publicação (auth + validação JSON Schema + sanitização)
+Backend de publicação (auth + validação de contrato/schema + sanitização)
   ↓
-Histórico privado no GitHub (versões + rollback)
+Rascunho/histórico em diretório configurado fora do document root
   ↓
-publicação pública e sem credenciais de published.json em infraestrutura FWR
+publicação pública, somente leitura, de `public/galeria-publicada.json` na infraestrutura FWR
   ↓
 JS FWR inserido na Loja Integrada lê JSON público somente em modo leitura
   ↓
 seção FWR é montada em slot estável e predeterminado
 ```
 
-**Repositório privado:** código de origem e histórico GitHub não são o host público dos arquivos consumidos na loja. **Não usar** `raw.githubusercontent.com` ou jsDelivr de repo privado como endpoint público. Publicação na infraestrutura da FWR deve usar CORS correto, HTTPS, MIME `application/json`, cache controlado/ETag e versão rastreável.
+**Repositório privado:** o repositório guarda código de origem; o backend de homologação implementado armazena rascunho e histórico em `NICHELLE_DATA_DIR` externo ao document root (não em GitHub). **Não usar** `raw.githubusercontent.com` ou jsDelivr de repo privado como endpoint público. A publicação na infraestrutura da FWR ainda exige CORS, HTTPS, MIME `application/json`, cache/ETag conhecidos e versão rastreável; nenhum host público foi configurado ou verificado nesta entrega.
 
 ## MVP mínimo
 - Autenticação (idealmente FWR SSO ou sessão segura), perfis editor/admin.

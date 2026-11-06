@@ -3,53 +3,11 @@
   "project": "nichelle-2026",
   "modules": {
     "videoGallery": {
-      "enabled": true,
-      "title": "",
+      "enabled": false,
       "placement": "pending",
       "mobileMode": "scroll-snap",
       "openMode": "modal",
-      "items": [
-        {
-          "id": "video-01",
-          "enabled": true,
-          "order": 1,
-          "provider": "mp4",
-          "posterUrl": "posters/demo-01.webp",
-          "videoUrl": "",
-          "alt": "Medicube Zero Pore Pad",
-          "demoPoster": true
-        },
-        {
-          "id": "video-02",
-          "enabled": true,
-          "order": 2,
-          "provider": "mp4",
-          "posterUrl": "posters/demo-02.webp",
-          "videoUrl": "",
-          "alt": "Medicube PDRN Pink Peptide Serum",
-          "demoPoster": true
-        },
-        {
-          "id": "video-03",
-          "enabled": true,
-          "order": 3,
-          "provider": "mp4",
-          "posterUrl": "posters/demo-03.webp",
-          "videoUrl": "",
-          "alt": "Medicube Collagen Night Wrapping Mask",
-          "demoPoster": true
-        },
-        {
-          "id": "video-04",
-          "enabled": true,
-          "order": 4,
-          "provider": "mp4",
-          "posterUrl": "posters/demo-04.webp",
-          "videoUrl": "",
-          "alt": "Medicube EGF NAD Firming Serum",
-          "demoPoster": true
-        }
-      ]
+      "items": []
     }
   }
 }

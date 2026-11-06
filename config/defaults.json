@@ -4,7 +4,6 @@
   "modules": {
     "videoGallery": {
       "enabled": false,
-      "title": "",
       "placement": "pending",
       "mobileMode": "pending",
       "openMode": "pending",

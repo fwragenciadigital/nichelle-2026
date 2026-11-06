@@ -29,7 +29,6 @@
           "additionalProperties": false,
           "required": [
             "enabled",
-            "title",
             "placement",
             "mobileMode",
             "openMode",
@@ -39,10 +38,6 @@
             "enabled": {
               "type": "boolean",
               "default": false
-            },
-            "title": {
-              "type": "string",
-              "maxLength": 90
             },
             "placement": {
               "type": "string",
@@ -96,70 +91,26 @@
                   },
                   "provider": {
                     "type": "string",
-                    "enum": [
-                      "youtube",
-                      "mp4",
-                      "vimeo"
-                    ]
+                    "enum": ["youtube"]
                   },
                   "posterUrl": {
                     "type": "string",
                     "format": "uri",
                     "pattern": "^(https://|$)",
-                    "description": "Opcional para YouTube Shorts: thumbnail automática do próprio vídeo. Obrigatório para MP4/Vimeo."
+                  "description": "Opcional para YouTube: thumbnail automática do próprio vídeo ou capa personalizada aprovada."
                   },
                   "videoUrl": {
                     "type": "string",
                     "format": "uri",
                     "pattern": "^https://",
-                    "description": "YouTube Shorts, watch, youtu.be, MP4 ou Vimeo com HTTPS."
+                  "description": "YouTube Shorts, watch ou youtu.be com HTTPS."
                   },
                   "alt": {
                     "type": "string",
                     "minLength": 5,
                     "maxLength": 180
-                  },
-                  "label": {
-                    "type": "string",
-                    "maxLength": 120
-                  },
-                  "productUrl": {
-                    "type": "string",
-                    "format": "uri",
-                    "pattern": "^https://"
-                  },
-                  "autoplay": {
-                    "type": "boolean",
-                    "const": false
                   }
-                },
-                "allOf": [
-                  {
-                    "if": {
-                      "properties": {
-                        "provider": {
-                          "enum": [
-                            "mp4",
-                            "vimeo"
-                          ]
-                        }
-                      },
-                      "required": [
-                        "provider"
-                      ]
-                    },
-                    "then": {
-                      "required": [
-                        "posterUrl"
-                      ],
-                      "properties": {
-                        "posterUrl": {
-                          "pattern": "^https://"
-                        }
-                      }
-                    }
-                  }
-                ]
+                }
               }
             }
           },

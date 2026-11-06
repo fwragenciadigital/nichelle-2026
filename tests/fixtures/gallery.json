@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "project": "nichelle-2026",
+  "modules": {
+    "videoGallery": {
+      "enabled": true,
+      "placement": "after-brand-strip",
+      "mobileMode": "scroll-snap",
+      "openMode": "modal",
+      "items": [
+        {"id":"fixture-01","enabled":true,"order":1,"provider":"youtube","videoUrl":"https://www.youtube.com/shorts/TestID00001","alt":"Thumbnail sintética de teste 1"},
+        {"id":"fixture-02","enabled":true,"order":2,"provider":"youtube","videoUrl":"https://www.youtube.com/shorts/TestID00002","alt":"Thumbnail sintética de teste 2"},
+        {"id":"fixture-03","enabled":true,"order":3,"provider":"youtube","videoUrl":"https://www.youtube.com/shorts/TestID00003","alt":"Thumbnail sintética de teste 3"},
+        {"id":"fixture-04","enabled":true,"order":4,"provider":"youtube","videoUrl":"https://www.youtube.com/shorts/TestID00004","alt":"Thumbnail sintética de teste 4"}
+      ]
+    }
+  }
+}
