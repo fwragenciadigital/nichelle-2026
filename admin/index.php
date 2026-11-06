@@ -20,20 +20,33 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
   if($action==='logout'){$_SESSION=[];session_destroy();header('Location: index.php');exit;}
   if($action==='save'||$action==='publish'){
    $items=[];
-   for($i=0;$i<12;$i++){
+   for($i=0;$i<4;$i++){
     $poster=nichelle_https((string)($_POST['poster'][$i]??''));$video=nichelle_https((string)($_POST['video'][$i]??''));
     $alt=trim((string)($_POST['alt'][$i]??''));
+    $provider=(string)($_POST['provider'][$i]??'youtube');
+    if(!in_array($provider,['youtube','mp4','vimeo'],true))throw new RuntimeException('Provedor de vídeo inválido.');
     if($poster===''&&$video===''&&$alt==='')continue;
+    if($provider==='youtube' && $video!=='' && nichelle_youtube_id($video)==='')
+      throw new RuntimeException('Cole um link válido de Shorts, watch ou youtu.be.');
+    if($alt===''&&$video!=='')$alt='Vídeo de produto Nichelle '.($i+1);
     if(mb_strlen($alt)>180)throw new RuntimeException('Descrição maior que 180 caracteres.');
     $items[]=['id'=>'video-'.str_pad((string)(count($items)+1),2,'0',STR_PAD_LEFT),'enabled'=>isset($_POST['active'][$i]),
-      'order'=>count($items)+1,'provider'=>(($_POST['provider'][$i]??'mp4')==='vimeo'?'vimeo':'mp4'),
+      'order'=>count($items)+1,'provider'=>$provider,
       'posterUrl'=>$poster,'videoUrl'=>$video,'alt'=>$alt];
    }
    $enabled=isset($_POST['galleryEnabled']);$title=trim((string)($_POST['title']??''));
    if(mb_strlen($title)>90)throw new RuntimeException('Título maior que 90 caracteres.');
    if($action==='publish'&&$enabled){
      if(!$items)throw new RuntimeException('É necessário cadastrar vídeos antes da publicação.');
-     foreach($items as $item)if($item['enabled']&&(!$item['posterUrl']||!$item['videoUrl']))throw new RuntimeException('Cada vídeo ativo precisa de capa e vídeo reais HTTPS.');
+     $active=array_values(array_filter($items,static fn($item)=>$item['enabled']));
+     if(count($active)!==4)throw new RuntimeException('Esta seção usa quatro vídeos ativos.');
+     foreach($active as $item){
+      if(!$item['videoUrl'])throw new RuntimeException('Cada card ativo precisa de uma URL de vídeo HTTPS.');
+      if($item['provider']!=='youtube'&&!$item['posterUrl'])
+       throw new RuntimeException('MP4 e Vimeo precisam de uma imagem de capa.');
+      if($item['provider']==='youtube'&&!nichelle_youtube_id($item['videoUrl']))
+       throw new RuntimeException('URL do YouTube inválida.');
+     }
    }
    $cfg=['schemaVersion'=>1,'project'=>'nichelle-2026','modules'=>['videoGallery'=>[
      'enabled'=>$enabled,'title'=>$title,'placement'=>'after-native-showcase','mobileMode'=>'scroll-snap','openMode'=>'modal','items'=>$items
@@ -68,10 +81,10 @@ $gallery=$config['modules']['videoGallery']??[];$items=$gallery['items']??[];
 <form method="post"><input type="hidden" name="csrf" value="<?=nichelle_h(nichelle_csrf())?>">
 <div class="group"><label><input type="checkbox" name="galleryEnabled" <?=!empty($gallery['enabled'])?'checked':''?>>Ativar galeria na loja</label></div>
 <div class="group"><label for="title">Título (opcional)</label><input id="title" name="title" maxlength="90" value="<?=nichelle_h($gallery['title']??'')?>"></div>
-<h2>Vídeos (até 12)</h2><div class="grid"><?php for($i=0;$i<12;$i++):$it=$items[$i]??[];?><section class="card"><strong>Card <?=($i+1)?></strong><div class="group"><label><input type="checkbox" name="active[<?=$i?>]" <?=!empty($it['enabled'])?'checked':''?>>Ativo</label></div>
-<div class="group"><label for="p<?=$i?>">URL da capa HTTPS</label><input id="p<?=$i?>" name="poster[<?=$i?>]" type="url" value="<?=nichelle_h($it['posterUrl']??'')?>"></div>
-<div class="group"><label for="v<?=$i?>">URL do vídeo HTTPS</label><input id="v<?=$i?>" name="video[<?=$i?>]" type="url" value="<?=nichelle_h($it['videoUrl']??'')?>"></div>
-<div class="group"><label for="o<?=$i?>">Formato</label><select id="o<?=$i?>" name="provider[<?=$i?>]"><option value="mp4">MP4</option><option value="vimeo" <?=(($it['provider']??'')==='vimeo'?'selected':'')?>>Vimeo</option></select></div>
+<h2>Vídeos (4 cards)</h2><p class="muted">Cole um link de YouTube Shorts e a capa será extraída automaticamente. Você pode escolher outra capa se desejar.</p><div class="grid"><?php for($i=0;$i<4;$i++):$it=$items[$i]??[];?><section class="card"><strong>Card <?=($i+1)?></strong><div class="group"><label><input type="checkbox" name="active[<?=$i?>]" <?=!empty($it['enabled'])?'checked':''?>>Ativo</label></div>
+<div class="group"><label for="p<?=$i?>">Imagem de capa (opcional no YouTube Shorts)</label><input id="p<?=$i?>" name="poster[<?=$i?>]" type="url" value="<?=nichelle_h($it['posterUrl']??'')?>"></div>
+<div class="group"><label for="v<?=$i?>">URL do vídeo (Shorts, YouTube, MP4 ou Vimeo)</label><input id="v<?=$i?>" name="video[<?=$i?>]" type="url" value="<?=nichelle_h($it['videoUrl']??'')?>"></div>
+<div class="group"><label for="o<?=$i?>">Formato</label><select id="o<?=$i?>" name="provider[<?=$i?>]"><option value="youtube" <?=(($it['provider']??'youtube')==='youtube'?'selected':'')?>>YouTube Shorts</option><option value="mp4" <?=(($it['provider']??'')==='mp4'?'selected':'')?>>MP4</option><option value="vimeo" <?=(($it['provider']??'')==='vimeo'?'selected':'')?>>Vimeo</option></select></div>
 <div class="group"><label for="a<?=$i?>">Descrição</label><input id="a<?=$i?>" name="alt[<?=$i?>]" maxlength="180" value="<?=nichelle_h($it['alt']??'')?>"></div></section><?php endfor;?></div>
 <div class="actions"><button name="action" value="save" class="secondary">Salvar rascunho</button><a class="btn secondary" href="preview.php" target="_blank" rel="noopener">Prévia protegida</a><button name="action" value="publish">Publicar</button></div></form>
 <form method="post" class="actions" onsubmit="return confirm('Restaurar a versão anterior?')"><input type="hidden" name="csrf" value="<?=nichelle_h(nichelle_csrf())?>"><button class="secondary" name="action" value="rollback">Reverter publicação</button></form>
