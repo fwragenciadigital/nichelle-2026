@@ -333,7 +333,7 @@
         image.loading = "lazy";
         image.decoding = "async";
         image.width = 600;
-        image.height = 1360;
+        image.height = 1000;
         image.removeAttribute("style");
         if (picture) card.appendChild(picture);
         else card.appendChild(image);
