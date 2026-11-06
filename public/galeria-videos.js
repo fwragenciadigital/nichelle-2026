@@ -19,6 +19,36 @@ function vimeo(url){
     return "https://player.vimeo.com/video/"+m[1]+"?autoplay=1&title=0&byline=0";
   }catch{return "";}
 }
+// Somente URLs oficiais do YouTube; nunca transformar um endereço externo em iframe arbitrário.
+function youtubeId(raw){
+ if(typeof raw!=="string")return "";
+ try{
+  const u=new URL(raw.trim());
+  if(u.protocol!=="https:")return "";
+  const host=u.hostname.toLowerCase();
+  let id="";
+  if(host==="youtu.be"||host==="www.youtu.be"){
+    id=u.pathname.split("/")[1]||"";
+  }else if(["youtube.com","www.youtube.com","m.youtube.com","youtube-nocookie.com","www.youtube-nocookie.com"].includes(host)){
+    if(u.pathname==="/watch")id=u.searchParams.get("v")||"";
+    else{
+      const m=u.pathname.match(/^\/(?:shorts|embed|live)\/([A-Za-z0-9_-]{11})(?:\/|$)/);
+      id=m?m[1]:"";
+    }
+  }
+  return /^[A-Za-z0-9_-]{11}$/.test(id)?id:"";
+ }catch{return "";}
+}
+function youtubePoster(item,base){
+ const id=item.provider==="youtube"?youtubeId(item.videoUrl):"";
+ const custom=absolute(item.posterUrl,base);
+ if(custom)return {src:custom,id:"",automatic:false};
+ return id?{src:"https://i.ytimg.com/vi/"+id+"/oar2.jpg",id,automatic:true}:{src:"",id:"",automatic:false};
+}
+function resolvePoster(item,base){
+ if(item.provider==="youtube")return youtubePoster(item,base);
+ return {src:absolute(item.posterUrl,base),id:"",automatic:false};
+}
 function close(){
  if(!modal)return;
  const video=modal.querySelector("video");if(video){video.pause();video.removeAttribute("src");video.load();}
@@ -37,16 +67,22 @@ function keys(e){
 function play(item,button,base){
  const src=absolute(item.videoUrl,base);if(!src)return;
  if(item.provider==="vimeo"&&!vimeo(src))return;
+ if(item.provider==="youtube"&&!youtubeId(src))return;
+ if(!["mp4","vimeo","youtube"].includes(item.provider))return;
  lastFocus=button;overflow=document.body.style.overflow;
  modal=document.createElement("div");modal.className="fwr-nichelle-video-modal";
  const dialog=document.createElement("div");dialog.className="fwr-nichelle-video-modal__dialog";
  dialog.setAttribute("role","dialog");dialog.setAttribute("aria-modal","true");dialog.setAttribute("aria-label","Vídeo: "+(item.alt||"produto"));
  const exit=document.createElement("button");exit.type="button";exit.className="fwr-nichelle-video-modal__close";exit.textContent="×";exit.setAttribute("aria-label","Fechar vídeo");exit.addEventListener("click",close);
  dialog.appendChild(exit);
- if(item.provider==="vimeo"){
+ if(item.provider==="vimeo"||item.provider==="youtube"){
    const iframe=document.createElement("iframe");iframe.className="fwr-nichelle-video-modal__media";
-   iframe.title=item.alt||"Vídeo Nichelle";iframe.allow="autoplay;fullscreen;picture-in-picture";iframe.allowFullscreen=true;
-   iframe.referrerPolicy="strict-origin-when-cross-origin";iframe.src=vimeo(src);dialog.appendChild(iframe);
+   iframe.title=item.alt||"Vídeo Nichelle";iframe.allow="autoplay;encrypted-media;fullscreen;picture-in-picture";iframe.allowFullscreen=true;
+   iframe.referrerPolicy="strict-origin-when-cross-origin";
+   iframe.src=item.provider==="youtube"
+     ? "https://www.youtube-nocookie.com/embed/"+youtubeId(src)+"?autoplay=1&playsinline=1&rel=0"
+     : vimeo(src);
+   dialog.appendChild(iframe);
  }else{
    const video=document.createElement("video");video.className="fwr-nichelle-video-modal__media";video.controls=true;
    video.setAttribute("playsinline","");video.preload="metadata";video.src=src;dialog.appendChild(video);
@@ -59,7 +95,7 @@ function mount(cfg,base){
  if(!document.body.classList.contains("pagina-inicial"))return;
  const data=cfg&&cfg.modules&&cfg.modules.videoGallery;
  if(!data||data.enabled!==true||!Array.isArray(data.items))return;
- const items=data.items.filter(i=>i&&i.enabled!==false&&absolute(i.posterUrl,base)).slice(0,12);
+ const items=data.items.filter(i=>i&&i.enabled!==false&&resolvePoster(i,base).src).slice(0,4);
  const anchor=document.querySelector(selector);
  if(!anchor||!items.length||document.querySelector("[data-fwr-nichelle-video-gallery]"))return;
  const section=document.createElement("section");section.className="fwr-nichelle-videos";section.dataset.fwrNichelleVideoGallery="1";
@@ -67,14 +103,26 @@ function mount(cfg,base){
  if(data.title){const h=document.createElement("h2");h.className="fwr-nichelle-videos__heading";h.textContent=data.title;section.appendChild(h);}
  const track=document.createElement("div");track.className="fwr-nichelle-videos__track";
  items.sort((a,b)=>(Number(a.order)||0)-(Number(b.order)||0)).forEach((item,index)=>{
-   const poster=absolute(item.posterUrl,base),src=absolute(item.videoUrl,base);
-   const hasVideo=!!src&&(item.provider!=="vimeo"||!!vimeo(src));
+   const resolved=resolvePoster(item,base),poster=resolved.src,src=absolute(item.videoUrl,base);
+   const hasVideo=!!src&&(item.provider==="youtube"?!!youtubeId(src):item.provider==="vimeo"?!!vimeo(src):item.provider==="mp4");
    const card=document.createElement("button");card.type="button";card.className="fwr-nichelle-videos__card";
    card.disabled=!hasVideo;
    card.setAttribute("aria-label",(hasVideo?"Reproduzir vídeo: ":"Vídeo em preparação: ")+(item.alt||"Produto "+(index+1)));
    if(item.demoPoster===true)card.classList.add("fwr-nichelle-videos__card--demo");
    const img=document.createElement("img");img.className="fwr-nichelle-videos__poster";img.src=poster;img.alt=item.alt||"Produto Nichelle";
-   img.width=450;img.height=800;img.decoding="async";img.loading="lazy";card.appendChild(img);
+   img.width=450;img.height=800;img.decoding="async";img.loading="lazy";
+   // Thumbnail vertical de Shorts; fallback apenas se YouTube não disponibilizar o arquivo.
+   if(resolved.automatic){
+     const backups=["oardefault.jpg","hqdefault.jpg"];
+     let idx=0;
+     const fallback=()=>{
+       if(idx>=backups.length){img.removeEventListener("error",fallback);return;}
+       img.src="https://i.ytimg.com/vi/"+resolved.id+"/"+backups[idx++];
+     };
+     img.addEventListener("error",fallback);
+     img.addEventListener("load",()=>{if(img.naturalWidth>0&&img.naturalWidth<150)fallback();});
+   }
+   card.appendChild(img);
    if(!item.demoPoster){
      const icon=document.createElement("span");icon.className="fwr-nichelle-videos__play";icon.setAttribute("aria-hidden","true");
      icon.innerHTML='<svg viewBox="0 0 48 48"><path d="M11 5 Q11 2 15 4 L42 21 Q46 24 42 27 L15 44 Q11 46 11 42 Z"/></svg>';
