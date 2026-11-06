@@ -20,25 +20,25 @@ Quatro vídeos verticais 9:16, cards com cantos arredondados, thumbnail automát
 - Publicação remota requer serviço externo de config JSON ativo; opção 100% autônoma no editor LI não permite alterações automáticas do dashboard.
 
 ## Ciclo de homologação
-1. Servir CSS, JS, JSON e posters em HTTPS num endereço FWR **real e verificado**.
-2. Inserir CSS de teste no HTML/Cabeçalho e script de teste no HTML/Rodapé da LI, com `data-preview-only=true`.
-3. Conferir na loja: `https://www.nichelleimports.com.br/?fwr_nichelle_preview=1`. Outros visitantes não devem ver a seção durante a homologação.
-4. Iniciar com inserção ao FINAL de `#corpo` na home, abaixo das vitrines nativas, evitando reorganizar topo durante carregamento. Posição visual definitiva será aprovada após conferir DOM/protótipo.
-5. Registrar CLS, LCP, mobile 390px, desktop 1440px, erros de console e interação. Só depois mudar para config publicada e arquivos reais.
-6. Não ativar produção sem autorização explícita.
+1. Configurar host FWR HTTPS, backend PHP, hash/segredo de sessão, diretório privado, CORS, MIME, cache e allowlist antes de conectar o dashboard.
+2. Confirmar no tema homologado um slot HTML inicial após “Compre as Melhores Marcas” e antes de “Produtos Promocionais”, conforme `index1.html`. Não inserir no final de `#corpo` nem selecionar o local por texto/título.
+3. Usar os snippets de teste documentados em `docs/06-MAPEAMENTO-E-TESTES-DA-GALERIA.md`; o smoke test público só lê a configuração vazia. A prévia de rascunho usa `admin/preview.php` autenticado na origem PHP.
+4. Receber e validar quatro URLs reais aprovadas, verificar thumbnails/fallback, playback, teclado, rede e breakpoints; testar configuração vazia e indisponibilidade.
+5. Medir CLS da seção e comparar LCP/INP com baseline na LI homologada. Aprovar visual desktop/mobile e confirmar que logo, banner, menus, vitrines, produtos, carrinho, preços e checkout continuam nativos.
+6. Só após essa homologação e aprovação explícita, preencher os snippets destinados à futura configuração de produção. Esta etapa não autoriza publicar a loja.
 
 ## Entrega técnica já criada nesta conversa
-Foi gerado um pacote `nichelle-video-gallery-mvp.zip` contendo: `public/galeria-videos.css`, `public/galeria-videos.js`, `public/galeria-preview.json`, `public/galeria-publicada.json`, posters de PREVIEW, `admin/` e `server/` PHP, `integracao/`, `demo/` e instruções de instalação. A galeria passou no Chromium controlado (4 cards, posters carregados, zero erros de JS, desktop/mobile). Teste NÃO mede CLS da loja real.
+O código versionado em `develop` contém `public/galeria-videos.css`, `public/galeria-videos.js`, configurações públicas vazias, dashboard e endpoints PHP, snippets de integração e documentação. Não há posters ou vídeos fictícios nas configurações. Testes locais usam IDs sintéticos exclusivamente em fixtures; reprodução de vídeos reais depende dos links do cliente.
 
-**Importante para Codex:** sincronizar o conteúdo desse pacote com os arquivos versionados antes de iniciar a implantação. Não alegar que ele já está hospedado publicamente ou instalado na Loja Integrada.
+Não alegar que os arquivos já estão hospedados publicamente ou instalados na Loja Integrada. O mapeamento de testes registra o que foi verificado na fixture e as validações pendentes no tema/host real.
 
 ## Bloqueios
 - Sem acesso autorizado ao painel da Loja Integrada ou à hospedagem pública FWR para instalar.
 - Senha do cliente ainda não configurada no servidor; não inventar credenciais.
 - URLs definitivas dos posters/vídeos não fornecidas.
-- O protótipo `index1.html` ainda não foi inspecionado integralmente por navegador do projeto.
+- A integração do slot, playback real e CLS/LCP/INP no tema LI precisam de homologação; métricas de fixture não substituem a loja.
 
-**Estado:** MVP local/testado; site público inalterado.
+**Estado:** código do MVP em `develop`; testes automatizados e fixture Chromium executados; integração/CLS reais na LI pendentes; site público inalterado.
 
 ## Atualização — YouTube Shorts e capa automática
 

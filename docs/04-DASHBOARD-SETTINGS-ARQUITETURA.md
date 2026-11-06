@@ -48,10 +48,10 @@ seção FWR é montada em slot estável e predeterminado
 - O runtime aceita somente o schema/versão válidos e só monta no slot fixo. Se o JSON falhar ou a galeria estiver desligada, não injeta conteúdo nem reordena vitrines; o slot inicial pode permanecer vazio/reservado.
 - **Preço, estoque, desconto e disponibilidade** continuam sendo dados nativos da Loja Integrada, nunca JSON do painel.
 
-## Escolha recomendada
-GitHub privado como fonte versionada e um pequeno backend autenticado no domínio FWR para gravar/publicar JSON. Não criar banco complexo na v1 se não houver necessidade; considerar DB apenas com muitos usuários, agendamentos e auditoria avançada.
+## Armazenamento escolhido e alternativas futuras
+Na implementação atual, o backend PHP grava rascunhos, histórico e estado de publicação em arquivos dentro de `NICHELLE_DATA_DIR`, configurado fora do document root. GitHub privado guarda somente o código-fonte versionado; não participa do fluxo operacional de edição/publicação. Banco de dados ou armazenamento versionado remoto permanecem alternativas futuras se houver necessidade de múltiplos editores, agendamentos ou auditoria avançada.
 
-**Trade-off:** dashboard com atualização remota implica uma dependência externa de JSON. Se código e configuração forem 100% publicados dentro da Loja Integrada, as edições externas deixam de propagar automaticamente.
+**Trade-off:** dashboard com atualização remota depende de endpoint JSON público hospedado pela FWR e de cache/propagação configurados. Se código e configuração forem publicados somente dentro da Loja Integrada, as edições externas deixam de propagar automaticamente.
 
 ## Contrato da integração pública
 
