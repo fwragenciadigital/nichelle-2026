@@ -176,7 +176,7 @@
       // O iframe do YouTube intercepta gestos de toque; o deslize funciona
       // na faixa de navegação inferior e nas áreas externas ao player.
       modal.addEventListener("touchstart", function (event) {
-        if (event.touches.length !== 1) return;
+        if (event.touches.length !== 1 || event.target.closest("button")) { touchStart = null; return; }
         touchStart = { x: event.touches[0].clientX, y: event.touches[0].clientY };
       }, { passive: true });
       modal.addEventListener("touchend", function (event) {
