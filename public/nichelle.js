@@ -8,7 +8,7 @@
   // CSS padrão versionado no JS oficial. O editor LI pode sobrescrever regras após o carregamento.
   function installStyles() {
     if (document.getElementById("fwr-nichelle-styles")) return;
-    const css = "#fwr-nichelle-video-slot{box-sizing:border-box;width:100%;max-width:1440px;margin-inline:auto}\n#fwr-nichelle-video-slot[data-fwr-active=\"1\"]{min-height:clamp(440px,calc(135.12vw + 84px),650px)}\n#fwr-nichelle-video-slot .fwr-nichelle-videos{padding:20px 18px 38px}\n#fwr-nichelle-video-slot .fwr-nichelle-videos *{box-sizing:border-box}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__track{display:grid;grid-auto-flow:column;grid-auto-columns:min(76vw,310px);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 0 12px}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__card{appearance:none;position:relative;display:block;width:100%;aspect-ratio:9/16;border:0;border-radius:20px;overflow:hidden;background:#ded8dc;cursor:pointer;scroll-snap-align:start;padding:0}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__poster{display:block;width:100%;height:100%;object-fit:cover}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__card::after{content:\"\";position:absolute;inset:0;background:rgba(0,0,0,.20);pointer-events:none}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__play{position:absolute;z-index:2;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none;filter:drop-shadow(0 2px 4px #3335)}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__play svg{display:block;width:46px;height:46px;fill:#fff}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__fallback{position:absolute;z-index:1;bottom:10px;left:12px;right:12px;padding:8px;background:#161616c9;color:white;text-align:center;font:500 12px/1.4 Arial,sans-serif;border-radius:8px}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__fallback[hidden]{display:none}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__card:focus-visible{outline:3px solid #fff;outline-offset:-5px}\n@media (min-width:768px){\n  #fwr-nichelle-video-slot[data-fwr-active=\"1\"]{min-height:clamp(420px,calc(42vw + 72px),700px)}\n  #fwr-nichelle-video-slot .fwr-nichelle-videos{padding:28px 24px 42px}\n  #fwr-nichelle-video-slot .fwr-nichelle-videos__track{grid-auto-flow:row;grid-auto-columns:auto;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.8vw,30px);overflow:visible;scroll-snap-type:none}\n}\n.fwr-nichelle-video-modal{position:fixed;inset:0;z-index:2147482000;background:#000d;display:grid;place-items:center;padding:20px}\n.fwr-nichelle-video-modal__dialog{position:relative;width:min(450px,92vw);height:min(80vh,800px);aspect-ratio:9/16;border-radius:16px;background:#111}\n.fwr-nichelle-video-modal__media{display:block;width:100%;height:100%;border:0;border-radius:16px}\n.fwr-nichelle-video-modal__close{position:absolute;z-index:2;right:-12px;top:-12px;width:40px;height:40px;border:0;border-radius:50%;background:white;color:#111;font-size:25px;cursor:pointer}";
+    const css = "#fwr-nichelle-video-slot{box-sizing:border-box;width:100%;max-width:1440px;margin-inline:auto}\n#fwr-nichelle-video-slot[data-fwr-active=\"1\"]{min-height:clamp(440px,calc(135.12vw + 84px),650px)}\n#fwr-nichelle-video-slot .fwr-nichelle-videos{padding:20px 18px 38px}\n#fwr-nichelle-video-slot .fwr-nichelle-videos *{box-sizing:border-box}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__track{display:grid;grid-auto-flow:column;grid-auto-columns:min(76vw,310px);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 0 12px}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__card{appearance:none;position:relative;display:block;width:100%;aspect-ratio:9/16;border:0;border-radius:20px;overflow:hidden;background:#ded8dc;cursor:pointer;scroll-snap-align:start;padding:0}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__poster{display:block;width:100%;height:100%;object-fit:cover}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__card::after{content:\"\";position:absolute;inset:0;background:rgba(0,0,0,.20);pointer-events:none}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__play{position:absolute;z-index:2;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none;filter:drop-shadow(0 2px 4px #3335)}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__play svg{display:block;width:46px;height:46px;fill:#fff}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__fallback{position:absolute;z-index:1;bottom:10px;left:12px;right:12px;padding:8px;background:#161616c9;color:white;text-align:center;font:500 12px/1.4 Arial,sans-serif;border-radius:8px}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__fallback[hidden]{display:none}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__card:focus-visible{outline:3px solid #fff;outline-offset:-5px}\n@media (min-width:768px){\n  #fwr-nichelle-video-slot[data-fwr-active=\"1\"]{min-height:clamp(420px,calc(42vw + 72px),700px)}\n  #fwr-nichelle-video-slot .fwr-nichelle-videos{padding:28px 24px 42px}\n  #fwr-nichelle-video-slot .fwr-nichelle-videos__track{grid-auto-flow:row;grid-auto-columns:auto;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.8vw,30px);overflow:visible;scroll-snap-type:none}\n}\n.fwr-nichelle-video-modal{position:fixed;inset:0;z-index:2147482000;background:#000d;display:grid;place-items:center;padding:20px}\n.fwr-nichelle-video-modal__dialog{position:relative;width:min(450px,92vw);height:min(80vh,800px);aspect-ratio:9/16;border-radius:16px;background:#111}\n.fwr-nichelle-video-modal__media{display:block;width:100%;height:100%;border:0;border-radius:16px}\n.fwr-nichelle-video-modal__close{position:absolute;z-index:2;right:-12px;top:-12px;width:40px;height:40px;border:0;border-radius:50%;background:white;color:#111;font-size:25px;cursor:pointer}\n/* Navegação entre Shorts somente quando o modal é aberto. */\n.fwr-nichelle-video-modal{padding:18px 18px 72px}\n.fwr-nichelle-video-modal__dialog{width:min(450px,92vw,42.75vh);height:auto;aspect-ratio:9/16;max-height:76vh}\n.fwr-nichelle-video-modal__controls{position:absolute;z-index:4;top:calc(100% + 12px);left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;gap:15px;min-width:245px;color:#fff;touch-action:pan-y;user-select:none}\n.fwr-nichelle-video-modal__controls[hidden]{display:none!important}\n.fwr-nichelle-video-modal__nav{display:grid;place-items:center;flex:none;width:44px;height:44px;padding:0;border:1px solid #fff7;border-radius:50%;background:#242424;color:#fff;cursor:pointer;font:400 34px/1 Arial,sans-serif}\n.fwr-nichelle-video-modal__nav:focus-visible,.fwr-nichelle-video-modal__close:focus-visible{outline:3px solid #fff;outline-offset:3px}\n.fwr-nichelle-video-modal__position{min-width:92px;text-align:center;font:600 13px/1.3 Arial,sans-serif}\n.fwr-nichelle-video-modal__hint{display:block;margin-top:3px;white-space:nowrap;font:400 10px/1.3 Arial,sans-serif;color:#ffffffb8}\n@media(min-width:768px){.fwr-nichelle-video-modal__hint{display:none}}\n";
     const el = document.createElement("style");
     el.id = "fwr-nichelle-styles";
     el.textContent = css;
@@ -72,11 +72,24 @@
     track.style.setProperty("--fwr-nichelle-cards", String(cards.length));
 
     let modal = null, lastFocus = null, originalOverflow = "", priorInert = [];
+    let activeIndex = 0, frame = null, dialog = null, position = null;
+    let touchStart = null;
+
+    function showVideo(index) {
+      if (!modal || !frame || !cards.length) return;
+      activeIndex = (index + cards.length) % cards.length;
+      const card = cards[activeIndex];
+      // Reutiliza apenas UM iframe. Alterar sua URL interrompe a reprodução anterior.
+      frame.removeAttribute("src");
+      frame.title = card.alt;
+      dialog.setAttribute("aria-label", "Vídeo " + (activeIndex + 1) + " de " + cards.length + ": " + card.alt);
+      position.textContent = (activeIndex + 1) + " / " + cards.length;
+      frame.src = "https://www.youtube-nocookie.com/embed/" + card.id + "?autoplay=1&playsinline=1&rel=0";
+    }
     function close() {
       if (!modal) return;
-      const iframe = modal.querySelector("iframe");
-      if (iframe) iframe.remove();
-      modal.remove(); modal = null;
+      if (frame) { frame.removeAttribute("src"); frame.remove(); }
+      modal.remove(); modal = null; frame = null; dialog = null; position = null;
       document.removeEventListener("keydown", onKey);
       document.removeEventListener("focusin", keepFocus);
       document.body.style.overflow = originalOverflow;
@@ -86,13 +99,17 @@
         else row[0].setAttribute("aria-hidden", row[2]);
       });
       priorInert = [];
+      touchStart = null;
       if (lastFocus && lastFocus.isConnected) lastFocus.focus();
     }
     function onKey(event) {
       if (!modal) return;
       if (event.key === "Escape") { event.preventDefault(); close(); return; }
+      if (cards.length > 1 && event.key === "ArrowRight") { event.preventDefault(); showVideo(activeIndex + 1); return; }
+      if (cards.length > 1 && event.key === "ArrowLeft") { event.preventDefault(); showVideo(activeIndex - 1); return; }
       if (event.key !== "Tab") return;
-      const controls = Array.from(modal.querySelectorAll("button,iframe"));
+      const controls = Array.from(modal.querySelectorAll("button,iframe"))
+        .filter(function (el) { return el.getClientRects().length > 0; });
       if (!controls.length) return;
       if (event.shiftKey && document.activeElement === controls[0]) {
         event.preventDefault(); controls[controls.length - 1].focus();
@@ -103,27 +120,74 @@
     function keepFocus(event) {
       if (modal && !modal.contains(event.target)) modal.querySelector("button")?.focus();
     }
-    function play(card, button) {
-      lastFocus = button; originalOverflow = document.body.style.overflow;
+    function play(index, button) {
+      if (modal) return;
+      lastFocus = button;
+      originalOverflow = document.body.style.overflow;
       modal = document.createElement("div");
       modal.className = "fwr-nichelle-video-modal";
-      const dialog = document.createElement("div");
+      dialog = document.createElement("div");
       dialog.className = "fwr-nichelle-video-modal__dialog";
       dialog.setAttribute("role", "dialog");
       dialog.setAttribute("aria-modal", "true");
-      dialog.setAttribute("aria-label", card.alt);
+
       const closeButton = document.createElement("button");
       closeButton.className = "fwr-nichelle-video-modal__close";
       closeButton.type = "button"; closeButton.textContent = "×";
       closeButton.setAttribute("aria-label", "Fechar vídeo");
       closeButton.addEventListener("click", close);
-      const iframe = document.createElement("iframe");
-      iframe.className = "fwr-nichelle-video-modal__media";
-      iframe.title = card.alt; iframe.allow = "autoplay; encrypted-media; fullscreen; picture-in-picture";
-      iframe.allowFullscreen = true; iframe.referrerPolicy = "strict-origin-when-cross-origin";
-      iframe.src = "https://www.youtube-nocookie.com/embed/" + card.id + "?autoplay=1&playsinline=1&rel=0";
-      dialog.append(closeButton, iframe); modal.append(dialog);
-      modal.addEventListener("click", function (e) { if (e.target === modal) close(); });
+
+      frame = document.createElement("iframe");
+      frame.className = "fwr-nichelle-video-modal__media";
+      frame.allow = "autoplay; encrypted-media; fullscreen; picture-in-picture";
+      frame.allowFullscreen = true;
+      frame.referrerPolicy = "strict-origin-when-cross-origin";
+
+      const controls = document.createElement("div");
+      controls.className = "fwr-nichelle-video-modal__controls";
+      controls.setAttribute("aria-label", "Navegar entre vídeos");
+      if (cards.length < 2) controls.hidden = true;
+      const prev = document.createElement("button");
+      prev.type = "button";
+      prev.className = "fwr-nichelle-video-modal__nav";
+      prev.textContent = "‹";
+      prev.setAttribute("aria-label", "Vídeo anterior");
+      prev.addEventListener("click", function () { showVideo(activeIndex - 1); });
+      const next = document.createElement("button");
+      next.type = "button";
+      next.className = "fwr-nichelle-video-modal__nav";
+      next.textContent = "›";
+      next.setAttribute("aria-label", "Próximo vídeo");
+      next.addEventListener("click", function () { showVideo(activeIndex + 1); });
+      const center = document.createElement("div");
+      center.className = "fwr-nichelle-video-modal__position";
+      position = document.createElement("span");
+      position.setAttribute("aria-live", "polite");
+      position.setAttribute("aria-atomic", "true");
+      const hint = document.createElement("span");
+      hint.className = "fwr-nichelle-video-modal__hint";
+      hint.textContent = "Deslize aqui para trocar";
+      center.append(position, hint);
+      controls.append(prev, center, next);
+      dialog.append(closeButton, frame, controls);
+      modal.append(dialog);
+      modal.addEventListener("click", function (event) { if (event.target === modal) close(); });
+
+      // O iframe do YouTube intercepta gestos de toque; o deslize funciona
+      // na faixa de navegação inferior e nas áreas externas ao player.
+      modal.addEventListener("touchstart", function (event) {
+        if (event.touches.length !== 1) return;
+        touchStart = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+      }, { passive: true });
+      modal.addEventListener("touchend", function (event) {
+        if (!touchStart || cards.length < 2 || !event.changedTouches.length) return;
+        const dx = event.changedTouches[0].clientX - touchStart.x;
+        const dy = event.changedTouches[0].clientY - touchStart.y;
+        touchStart = null;
+        if (Math.abs(dx) < 55 || Math.abs(dx) < Math.abs(dy) * 1.3) return;
+        showVideo(activeIndex + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+
       document.body.append(modal);
       priorInert = Array.from(document.body.children).filter(function (el) { return el !== modal; })
         .map(function (el) { return [el, el.inert, el.getAttribute("aria-hidden")]; });
@@ -131,6 +195,7 @@
       document.body.style.overflow = "hidden";
       document.addEventListener("keydown", onKey);
       document.addEventListener("focusin", keepFocus);
+      showVideo(index);
       closeButton.focus();
     }
     cards.forEach(function (card, index) {
@@ -161,7 +226,7 @@
       icon.setAttribute("aria-hidden", "true");
       icon.innerHTML = '<svg viewBox="0 0 48 48" focusable="false"><path d="M11 5 Q11 2 15 4 L42 21 Q46 24 42 27 L15 44 Q11 46 11 42 Z"/></svg>';
       button.append(img, fallback, icon);
-      button.addEventListener("click", function () { play(card, button); });
+      button.addEventListener("click", function () { play(index, button); });
       track.append(button);
     });
     section.append(track); slot.replaceChildren(section);
