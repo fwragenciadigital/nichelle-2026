@@ -157,7 +157,14 @@ try {
   });
 } finally {
   try { ws?.close(); } catch {}
-  try { chrome?.kill("SIGKILL"); } catch {}
+  if (chrome && chrome.exitCode === null && chrome.signalCode === null) {
+    const stopped = new Promise(resolve => chrome.once("close", resolve));
+    chrome.kill("SIGKILL");
+    await Promise.race([stopped, delay(1500)]);
+  }
   await new Promise(resolve => server.close(resolve));
-  await rm(workdir, { recursive: true, force: true });
+  // Chromium pode terminar a gravação do perfil após fechar a janela.
+  // Aguardar o encerramento e repetir a limpeza evita ENOTEMPTY intermitente.
+  await delay(200);
+  await rm(workdir, { recursive: true, force: true, maxRetries: 10, retryDelay: 200 });
 }
