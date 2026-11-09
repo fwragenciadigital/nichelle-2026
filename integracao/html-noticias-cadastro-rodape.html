@@ -1,0 +1,42 @@
+<!-- FWR | NICHELLE 2026 — CADASTRO DE NOTÍCIAS
+  LOCAL: Visual > Incluir código HTML > HTML/Rodapé > TODAS as páginas (exceto checkout).
+  Este bloco é INVISÍVEL: só contém dados em JavaScript e não adiciona elementos ao rodapé.
+  Crie cada matéria em Visual > Páginas de conteúdo, copie o link publicado e complete abaixo.
+  O JS único da Nichelle é carregado separadamente, uma vez, no rodapé.
+  A seção só será exibida quando ativo: true e existir o slot da HOME. -->
+<script>
+window.FWRNichelle = window.FWRNichelle || {};
+window.FWRNichelle.noticias = {
+  ativo: false, // PADRÃO: false. Altere para true somente após cadastrar as notícias.
+
+  // Evita que links das páginas de notícias apareçam na lista institucional do rodapé.
+  // As páginas permanecem publicadas e acessíveis pelos cards da galeria.
+  ocultarLinksRodape: true,
+
+  itens: [
+    {
+      foto: "",        // URL https da imagem, preferencialmente 1200 x 810 px
+      titulo: "",      // Título da notícia em destaque
+      breveTexto: "",  // Resumo curto: 1 a 2 frases
+      data: "",        // AAAA-MM-DD. Ex.: 2026-11-09
+      link: ""         // URL da página de conteúdo da Loja Integrada
+    },
+    {
+      foto: "",        // URL https da imagem, preferencialmente 700 x 500 px
+      titulo: "",      // Título da notícia lateral 1
+      breveTexto: "",
+      data: "",
+      link: ""
+    },
+    {
+      foto: "",        // URL https da imagem, preferencialmente 700 x 500 px
+      titulo: "",      // Título da notícia lateral 2
+      breveTexto: "",
+      data: "",
+      link: ""
+    }
+  ]
+};
+// Atualiza a seção mesmo quando a Loja Integrada carregar este HTML após o JS.
+document.dispatchEvent(new Event("fwr:nichelle:news-config"));
+</script>
