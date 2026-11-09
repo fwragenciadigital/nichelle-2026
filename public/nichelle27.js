@@ -109,11 +109,37 @@
     labelContent.appendChild(document.createTextNode((cfg.rotulo || "VANTAGENS").slice(0, 30)));
     label.appendChild(labelContent);
     const list = el("div", "n27-benefits__list");
-    const icons = { caixa: "◇", original: "✧", atendimento: "◎", selo: "✺" };
+    // Ícones SVG originais, leves e próximos da referência visual.
+    // Sem fontes de ícones, dependências ou HTML remoto.
+    const paths = {
+      caixa: ["M5 12 20 5 35 12 20 19Z", "M5 12v17l15 7 15-7V12", "M20 19v17"],
+      original: ["M20 4 32 10v11c0 8-5 13-12 17C13 34 8 29 8 21V10Z",
+        "m13 20 5 5 9-11"],
+      atendimento: ["M7 22v-3c0-9 5-15 13-15s13 6 13 15v3",
+        "M6 20c-4 1-4 12 0 13l5 1V19Z", "M34 20c4 1 4 12 0 13l-5 1V19Z",
+        "M29 33c-2 3-5 4-10 4h-3"],
+      selo: ["M20 3 25 7l7 1 1 7 4 5-4 5-1 7-7 1-5 4-5-4-7-1-1-7-4-5 4-5 1-7 7-1Z",
+        "m13 20 5 5 9-10"]
+    };
     items.forEach(function (item) {
       const wrapper = el("div", "n27-benefits__item");
-      const icon = el("span", "n27-benefits__icon", icons[item.icone] || "✦");
-      icon.setAttribute("aria-hidden", "true");
+      const icon = el("span", "n27-benefits__icon");
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("viewBox", "0 0 40 40");
+      svg.setAttribute("width", "38");
+      svg.setAttribute("height", "38");
+      svg.setAttribute("fill", "none");
+      svg.setAttribute("stroke", "currentColor");
+      svg.setAttribute("stroke-width", "2.4");
+      svg.setAttribute("stroke-linejoin", "round");
+      svg.setAttribute("stroke-linecap", "round");
+      svg.setAttribute("aria-hidden", "true");
+      (paths[item.icone] || paths.selo).forEach(function (d) {
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("d", d);
+        svg.appendChild(path);
+      });
+      icon.appendChild(svg);
       wrapper.append(icon, el("span", "n27-benefits__text", item.texto.slice(0, 115)));
       list.appendChild(wrapper);
     });
