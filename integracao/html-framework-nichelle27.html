@@ -1,0 +1,100 @@
+<!-- NICHELLE 27 | FRAMEWORK DE HOMOLOGAÇÃO
+  1. Na home, posicione este HTML no início da área de conteúdo, depois do topo.
+  2. CSS do framework vai no HEAD, antes do conteúdo.
+  3. JavaScript do framework vai no RODAPÉ, uma única vez e ANTES do nichelle.js.
+  4. Configuração padrão totalmente desligada para preservar a loja atual.
+  5. Não use este HTML ao mesmo tempo que outro bloco com id n27-layout-root.
+  6. Os módulos de banners/vídeos/notícias continuam configurados no FWRNichelle.
+-->
+<div id="n27-layout-root" aria-label="Conteúdo Nichelle"></div>
+
+<script>
+window.Nichelle27Settings = {
+  geral: {
+    ativo: false, // HABILITAR SOMENTE DEPOIS DE HOMOLOGAR EM TESTE
+    debug: false,
+    paginas: ["/"] // [] permite qualquer página QUE CONTENHA o slot principal
+  },
+  layout: {
+    ativo: false,
+    seletor: "#n27-layout-root"
+  },
+  topo: {
+    ativo: false,
+    seletor: ".cabecalho", // Confirmar o seletor do cabeçalho real
+    faixaAtiva: false,     // Faixa superior de qualificadores
+    qualificadores: [
+      { titulo: "LOJA 100% SEGURA", texto: "COM PROTEÇÃO DE CERTIFICADO SSL" },
+      { titulo: "ENTREGA GARANTIDA", texto: "PARA TODO O BRASIL" },
+      { titulo: "PARCELE SUAS COMPRAS", texto: "EM ATÉ 10X NO CARTÃO" },
+      { titulo: "TROCA FÁCIL", texto: "EM ATÉ 7 DIAS APÓS O RECEBIMENTO" }
+    ]
+  },
+  qualificadores: {
+    ativo: false,
+    rotulo: "VANTAGENS",
+    itens: [
+      { icone: "caixa", texto: "COSMÉTICOS IMPORTADOS À PRONTA ENTREGA" },
+      { icone: "original", texto: "PRODUTOS 100% ORIGINAIS COM NOTA FISCAL" },
+      { icone: "atendimento", texto: "ATENDIMENTO PERSONALIZADO COM EQUIPE ESPECIALISTA" },
+      { icone: "selo", texto: "LOJA COM SELO DE VERIFICAÇÃO RECLAME AQUI" }
+    ]
+  },
+  // Cada vitrine reutiliza uma lista de produtos ORIGINAL da Loja Integrada,
+  // sem inventar preços, estoque, descontos ou ações de carrinho.
+  maisVendidos: {
+    ativo: false,
+    titulo: "Produtos",
+    destaque: "Mais Vendidos",
+    seletorFonte: "", // Substituir pelo seletor EXATO da listagem nativa
+    seletorItem: ".listagem-item"
+  },
+  lancamentos: {
+    ativo: false,
+    titulo: "Produtos",
+    destaque: "Lançamentos",
+    seletorFonte: "",
+    seletorItem: ".listagem-item"
+  },
+  marcas: {
+    ativo: false,
+    titulo: "Compre as",
+    destaque: "Melhores Marcas",
+    itens: [
+      // { nome: "Marca", imagem: "https://cdn.awsli.com.br/...", link: "/marca" }
+    ]
+  },
+  promocoes: {
+    ativo: false,
+    titulo: "Produtos",
+    destaque: "Promocionais",
+    seletorFonte: "",
+    seletorItem: ".listagem-item"
+  },
+  newsletter: {
+    ativo: false,
+    titulo: "Fique por dentro das novidades",
+    texto: "Receba lançamentos, dicas e ofertas exclusivas.",
+    seletorFormulario: "" // Reaproveita o form nativo da LI; nunca cria um endpoint próprio
+  },
+  instagram: {
+    ativo: false,
+    perfil: "", // https://www.instagram.com/...
+    usuario: "@nichelle_imports",
+    itens: [
+      // { imagem: "https://cdn.awsli.com.br/...", alt: "Post da Nichelle", link: "https://www.instagram.com/p/..." }
+    ]
+  },
+  empresa: {
+    ativo: false,
+    nome: "Nichelle Imports",
+    logo: "",
+    texto: "",
+    imagem: "" // Foto institucional no formato paisagem
+  },
+  rodape: {
+    ativo: false,
+    seletor: ".rodape" // Estiliza o rodapé nativo. NÃO cria um segundo rodapé.
+  }
+};
+</script>
