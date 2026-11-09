@@ -272,31 +272,76 @@
       } catch (_) { return ""; }
     }
 
+    // O campo "Nome do banner" da LI nem sempre é publicado como ALT.
+    // Aceita também nome do arquivo/atributos de banner, mas NÃO qualquer imagem
+    // da página. A busca ocorre apenas quando o bloco está habilitado.
+    let documentoAlternativo = null;
+    function bannerNameMatches(img, name) {
+      const anchor = img.closest("a");
+      const wrapper = img.closest("[data-banner-name], [data-nome], [title]");
+      const values = [
+        img.getAttribute("alt"), img.getAttribute("title"),
+        img.getAttribute("data-banner-name"), img.getAttribute("data-nome"),
+        img.getAttribute("src"), img.getAttribute("data-src"),
+        img.getAttribute("data-lazy"), img.getAttribute("data-original"),
+        anchor && anchor.getAttribute("title"),
+        wrapper && wrapper.getAttribute("data-banner-name"),
+        wrapper && wrapper.getAttribute("data-nome")
+      ].filter(Boolean);
+      return values.some(function (value) {
+        if (key(value) === name) return true;
+        // O CDN às vezes preserva o nome do upload dentro da URL.
+        // Exigir limite de palavra para não confundir pages1 com pages10.
+        let leaf = String(value).split(/[?#]/)[0].split("/").pop() || "";
+        try { leaf = decodeURIComponent(leaf); } catch (_) {}
+        leaf = key(leaf).replace(/\.[a-z0-9]{2,5}$/i, "");
+        return leaf === name || leaf.startsWith(name + "-") || leaf.startsWith(name + "_");
+      });
+    }
     function findNative() {
       const selected = [];
-      const images = Array.from(document.querySelectorAll("img[alt],img[title]"));
-      for (const name of required) {
-        const img = images.find(function (candidate) {
-          if (candidate.closest("#fwr-nichelle-vitrine-slot")) return false;
-          if (key(candidate.getAttribute("alt") || candidate.getAttribute("title")) !== name) return false;
-          // Mini Banner e Full Banner em categorias podem ter classes distintas.
-          // Usar nome ALT exato impede capturar outras artes da loja; ignorar clones
-          // de carrosséis para preservar a ordem e a origem real dos banners.
-          if (origem === "categoria" || origem === "mini" || origem === "lateral") {
-            return !candidate.closest(".slick-cloned, .swiper-slide-duplicate, [aria-hidden='true']");
+      const roots = [document].concat(documentoAlternativo ? [documentoAlternativo] : []);
+      const direct = Array.isArray(cfg.imagens) ? cfg.imagens : [];
+      for (let i = 0; i < required.length; i++) {
+        const name = required[i];
+        let entry = null;
+        for (const root of roots) {
+          const images = Array.from(root.querySelectorAll("img"));
+          const img = images.find(function (candidate) {
+            if (root === document && candidate.closest("#fwr-nichelle-vitrine-slot")) return false;
+            if (candidate.closest(".slick-cloned, .swiper-slide-duplicate")) return false;
+            if (!bannerNameMatches(candidate, name)) return false;
+            if (origem === "vitrine") {
+              const src = candidate.getAttribute("src") || "";
+              return !!candidate.closest(".banner.vitrine, .banner-vitrine, [class*='banner-vitrine'], .secao-banners") ||
+                /\/banner\//i.test(src);
+            }
+            return true;
+          });
+          if (!img) continue;
+          const src = safeURL(img.getAttribute("data-src") || img.getAttribute("data-original") ||
+            img.getAttribute("data-lazy") || img.currentSrc || img.getAttribute("src"));
+          if (!src) continue;
+          const link = img.closest("a[href]");
+          entry = { img: img, src: src, link: link,
+            destination: link && safeURL(link.getAttribute("href")) };
+          break;
+        }
+        // Fallback controlado: imagens/links continuam hospedados e editados na LI.
+        // Útil quando o tema NÃO renderiza Banner Lateral na página de categoria.
+        if (!entry) {
+          const item = direct.find(function (value) { return value && key(value.nome) === name; });
+          const src = item && safeURL(item.imagem);
+          if (src) {
+            const img = document.createElement("img");
+            img.setAttribute("src", src);
+            img.setAttribute("alt", names[i]);
+            entry = { img: img, src: src, link: null,
+              destination: safeURL(item.link) };
           }
-          const src = candidate.currentSrc || candidate.getAttribute("data-src") ||
-            candidate.getAttribute("data-original") || candidate.getAttribute("src") || "";
-          return !!candidate.closest(".banner.vitrine, .banner-vitrine, [class*='banner-vitrine'], .secao-banners") ||
-            /\/banner\//i.test(src);
-        });
-        if (!img) return [];
-        const src = safeURL(img.getAttribute("data-src") || img.getAttribute("data-original") ||
-          img.getAttribute("data-lazy") || img.currentSrc || img.getAttribute("src"));
-        if (!src) return [];
-        const link = img.closest("a[href]");
-        const destination = link && safeURL(link.getAttribute("href"));
-        selected.push({ img: img, src: src, link: link, destination: destination });
+        }
+        if (!entry) return [];
+        selected.push(entry);
       }
       return selected;
     }
@@ -385,6 +430,26 @@
       return true;
     }
     if (attempt()) return;
+    // Busca opcional da fonte original, na MESMA loja e apenas quando habilitado.
+    // Permite testar /cabelos usando banners publicados somente na home.
+    if (typeof cfg.fonteAlternativa === "string" && cfg.fonteAlternativa.trim() &&
+        typeof window.fetch === "function" && typeof window.DOMParser === "function") {
+      try {
+        const url = new URL(cfg.fonteAlternativa, window.location.href);
+        if (url.origin === window.location.origin && url.pathname !== window.location.pathname &&
+            (url.protocol === "https:" || url.protocol === "http:")) {
+          window.fetch(url.href, { credentials: "same-origin", cache: "no-store" })
+            .then(function (response) { if (!response.ok) throw Error("Origem de banners indisponível"); return response.text(); })
+            .then(function (html) {
+              documentoAlternativo = new window.DOMParser().parseFromString(html, "text/html");
+              attempt();
+            })
+            .catch(function () {
+              if (cfg.debug === true) console.warn("[Nichelle] Não foi possível ler banners da fonte alternativa.");
+            });
+        }
+      } catch (_) { /* URL não suportada: manter banners nativos intactos. */ }
+    }
     // Os banners da LI podem ser injetados depois de DOMContentLoaded.
     // O observador só existe com ativo:true e é encerrado após no máximo 6s.
     observer = new MutationObserver(function () {
@@ -574,12 +639,17 @@
       pagina: window.location.pathname,
       ativo: cfg.ativo === true,
       origem: ["lateral", "mini", "categoria"].includes(cfg.origem) ? cfg.origem : "vitrine",
+      fonteAlternativa: cfg.fonteAlternativa || "",
+      imagensDiretasConfiguradas: Array.isArray(cfg.imagens) ? cfg.imagens.filter(function (i) { return i && i.imagem; }).length : 0,
       slotEncontrado: !!slot,
       galeriaMontada: !!(slot && slot.dataset.fwrInitialized === "1"),
       banners: names.map(function (name) {
         const normalized = norm(name);
         return { nome: name, imagemNoDOM: images.some(function (img) {
-          return norm(img.getAttribute("alt") || img.getAttribute("title")) === normalized;
+          const src = img.getAttribute("src") || img.getAttribute("data-src") || "";
+          const file = norm(src.split(/[?#]/)[0].split("/").pop()).replace(/\.[a-z0-9]{2,5}$/i, "");
+          return norm(img.getAttribute("alt") || img.getAttribute("title")) === normalized ||
+            file === normalized || file.startsWith(normalized + "-") || file.startsWith(normalized + "_");
         }) };
       })
     };
