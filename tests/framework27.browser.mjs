@@ -47,9 +47,11 @@ const html=[
 '#cabecalho .menu{background:#8000a9;color:#fff;padding:16px;border-radius:6px}',
 '#footer{padding:35px 6%}</style>',
 '<script>const cfg=',JSON.stringify(config),
-';if(location.search.includes("disabled"))cfg.geral.ativo=false;window.Nichelle27Settings=cfg;</script></head><body>',
+';if(location.search.includes("disabled"))cfg.geral.ativo=false;window.Nichelle27Settings=cfg;'+
+  'if(location.search.includes("modules"))window.FWRNichelle={bannerVitrine:{ativo:true},galeriaVideos:{ativo:true},noticias:{ativo:true}};</script></head><body>',
 '<header id="cabecalho"><strong>Nichelle Imports</strong><nav class="menu">Skincare · Tipos de Pele · Marcas</nav></header>',
-'<main><div id="n27-layout-root"></div></main><div id="native-products">',
+'<main><div id="n27-layout-root"></div></main>'+
+ '<div id="fwr-nichelle-vitrine-slot"></div><div id="fwr-nichelle-video-slot"></div><div id="fwr-nichelle-noticias-slot"></div><div id="native-products">',
  products('best'),products('launch'),products('deals'),
 '</div><div id="native-forms"><form id="newsletter-form" action="/newsletter" method="post">',
 '<input type="email" name="email" placeholder="Insira seu e-mail"><button type="submit">QUERO RECEBER</button></form></div>',
@@ -125,13 +127,16 @@ const expression="(function(){"+
  "headerStyled:!!document.querySelector('#cabecalho[data-n27-topo]'),"+
  "footerStyled:!!document.querySelector('#footer[data-n27-footer]'),"+
  "newsletterRetained:document.querySelector('#newsletter-form').getAttribute('action')==='/newsletter' && !!root.querySelector('#newsletter-form'),"+
+ "modulesMoved:document.querySelector('#fwr-nichelle-vitrine-slot')?.closest('[data-n27-root]')===root && "+
+ "document.querySelector('#fwr-nichelle-video-slot')?.closest('[data-n27-root]')===root && "+
+ "document.querySelector('#fwr-nichelle-noticias-slot')?.closest('[data-n27-root]')===root,"+
  "brandColumns:brands?getComputedStyle(brands).gridTemplateColumns.split(' ').filter(Boolean).length:0,"+
  "qualifierColumns:benefits?getComputedStyle(benefits).gridTemplateColumns.split(' ').filter(Boolean).length:0,"+
  "shelfOverflow:shelf?shelf.scrollWidth>shelf.clientWidth:false,brandsCount:root.querySelectorAll('.n27-brands__item').length};"+
  "})()";
-async function measure(width,height,disabled=false){
+async function measure(width,height,disabled=false,modules=false){
  await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<768});
- await send('Page.navigate',{url:base+(disabled?'/?disabled=1':'/')});
+ await send('Page.navigate',{url:base+(disabled?'/?disabled=1':(modules?'/?modules=1':'/'))});
  for(let i=0;i<70;i++){
   await delay(70);
   const r=await send('Runtime.evaluate',{expression,returnByValue:true});
@@ -159,6 +164,14 @@ try{
  await test('mobile 320px — qualificadores em uma coluna',async()=>{
   const v=await measure(320,700);
   assert.equal(v.documentWidth<=322,true,JSON.stringify(v));assert.equal(v.qualifierColumns,1);
+ });
+ await test('orquestra os três módulos existentes entre as vitrines na ordem pedida',async()=>{
+  const v=await measure(1440,900,false,true);
+  assert.equal(v.modulesMoved,true);
+  assert.deepEqual(v.order,[
+    'qualificadores','maisVendidos','banners','lancamentos','marcas',
+    'videos','promocoes','noticias','newsletter','instagram','empresa'
+  ]);
  });
  await test('geral:false — nenhuma alteração em header, footer ou produtos nativos',async()=>{
   const v=await measure(1440,900,true);
