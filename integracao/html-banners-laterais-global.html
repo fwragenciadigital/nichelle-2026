@@ -1,0 +1,69 @@
+<!-- NICHELLE 2026 | QUATRO CARDS A PARTIR DE "BANNER LATERAL"
+  Cole em HTML/Rodapé. Esta configuração não fica presa a nenhuma categoria.
+  Para testar: paginas: ["/cabelos"]. Na home: paginas: ["/"].
+  Para permitir em qualquer página: paginas: [] (desde que a LI carregue banners lá).
+  A posição é escolhida por seletorAntes: o componente é inserido antes desse elemento.
+  O JS principal já fica instalado uma única vez no rodapé via Vercel.
+  ATENÇÃO: ativo inicia em FALSE; não deixa espaçamento quando desligado.
+-->
+<script>
+(function () {
+  window.FWRNichelle = window.FWRNichelle || {};
+
+  window.FWRNichelle.bannerVitrine = {
+    ativo: false,
+    origem: "lateral",
+    ocultarOriginais: false,
+    paginas: ["/cabelos"],
+    nomes: [
+      "mini-pages1",
+      "mini-pages2",
+      "mini-pages3",
+      "mini-pages4"
+    ]
+  };
+
+  // Ajustável por tipo de página: insere ANTES da primeira lista de produtos.
+  // Se desejar outro posicionamento, altere este seletor do HTML, não o JS.
+  var seletorAntes = ".pagina-categoria .listagem, .pagina-inicial .listagem, .listagem";
+  var cfg = window.FWRNichelle.bannerVitrine;
+
+  function normalize(path) {
+    return (String(path || "/").replace(/\/+$/, "") || "/");
+  }
+
+  function montarPosicao() {
+    if (cfg.ativo !== true) return;
+    if (Array.isArray(cfg.paginas) && cfg.paginas.length &&
+      !cfg.paginas.some(function (path) { return normalize(path) === normalize(location.pathname); })) return;
+
+    var slot = document.getElementById("fwr-nichelle-vitrine-slot");
+    if (!slot) {
+      var antes = document.querySelector(seletorAntes);
+      if (!antes || !antes.parentNode) {
+        console.warn("[Nichelle] Mini-pages: não encontrei o ponto de inserção. Ajuste seletorAntes no HTML.");
+        return;
+      }
+      slot = document.createElement("div");
+      slot.id = "fwr-nichelle-vitrine-slot";
+      slot.setAttribute("data-fwr-active", "0");
+      antes.parentNode.insertBefore(slot, antes);
+    }
+
+    // Reserva visual aproximada quando o módulo está ligado.
+    // Para obter o menor CLS, inserir o slot no template ANTES do carregamento do JS.
+    if (slot.dataset.fwrInitialized !== "1") {
+      var w = Math.min(slot.clientWidth || window.innerWidth, 1920);
+      var mobile = window.innerWidth < 768;
+      var cardWidth = mobile ? window.innerWidth * 0.72 : Math.max(0, (w - 130 - 96) / 4);
+      slot.style.minHeight = Math.ceil(cardWidth * 5 / 3 + (mobile ? 54 : 70)) + "px";
+    }
+    document.dispatchEvent(new Event("fwr:nichelle:banner-config"));
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", montarPosicao, { once: true });
+  } else {
+    montarPosicao();
+  }
+})();
+</script>
