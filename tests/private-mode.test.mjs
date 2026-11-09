@@ -8,7 +8,7 @@ const popup = await readFile(new URL("../tools/homologacao-privada/popup.js", im
 const manifest = JSON.parse(await readFile(new URL("../tools/homologacao-privada/manifest.json", import.meta.url),"utf8"));
 const html = await readFile(new URL("../tools/homologacao-privada/popup.html", import.meta.url),"utf8");
 
-function check(host, marker, flag) {
+function check(host, marker, flag, publicarNaLoja = false) {
   const document = {
     readyState: "loading", addEventListener(){},
     documentElement: { dataset: { n27PrivateMode: marker } },
@@ -16,7 +16,7 @@ function check(host, marker, flag) {
   };
   const window = {
     location: {hostname:host, pathname:"/cabelos"},
-    Nichelle27Settings:{geral:{ativo:true}},
+    Nichelle27Settings:{geral:{ativo:true, publicarNaLoja}},
     __FWR_NICHELLE_PRIVATE_MODE__:flag
   };
   runInNewContext(core,{document,window,console,URL,Set});
@@ -31,6 +31,13 @@ test("modo privado exige hostname oficial, marcador local e ativação explícit
   assert.equal(check("nichelleimports.com.br","",false).previewPermitido,false);
   assert.equal(check("outrodominio.com.br","fwr-local-extension",true).previewPermitido,false);
   assert.equal(check("example.com","fwr-local-extension",true).bloqueado,true);
+});
+test("ativação direta só no domínio Nichelle com flag pública explícita",()=>{
+  assert.equal(check("www.nichelleimports.com.br","",false,true).previewPermitido,true);
+  assert.equal(check("nichelleimports.com.br","",false,true).previewPermitido,true);
+  assert.equal(check("example.com","",false,true).previewPermitido,false);
+  assert.equal(check("www.nichelleimports.com.br","",false,false).previewPermitido,false);
+  assert.equal(check("www.nichelleimports.com.br","",false,true).publicacaoAtiva,true);
 });
 test("manifest Chrome v3 sem execução automática e sem storage",()=>{
   assert.equal(manifest.manifest_version,3);
