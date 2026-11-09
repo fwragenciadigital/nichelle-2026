@@ -55,7 +55,7 @@ function createEnvironment(active, amount = 4, origin = "vitrine", page = "/", p
     },
     querySelector() { return null; },
     querySelectorAll(selector) {
-      return selector === "img[alt],img[title]" ? state.sources : [];
+      return ["img", "img[alt],img[title]"].includes(selector) ? state.sources : [];
     },
     createElement: elem,
     addEventListener() {} // Simula document.addEventListener para outros módulos isolados.
