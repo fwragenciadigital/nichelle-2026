@@ -1,0 +1,56 @@
+<!-- NICHELLE | CATEGORIA CABELOS
+  Modo específico para exibir 4 imagens de Full Banner administradas no painel da LI.
+  Inserir no HTML/Rodapé (todas as páginas). O script só atua em /cabelos.
+  Se o tema suportar inserir o bloco direto na categoria, use somente o slot
+  lá, ANTES da lista de produtos, para reservar espaço sem CLS.
+  NUNCA duplicar o nichelle.js; ele já deve estar instalado globalmente.
+-->
+<script>
+(function () {
+  if (location.pathname.replace(/\/+$/, "") !== "/cabelos") return;
+
+  window.FWRNichelle = window.FWRNichelle || {};
+  window.FWRNichelle.bannerVitrine = {
+    ativo: false,                // Alterar para true após publicar os 4 Full Banners
+    origem: "categoria",         // O tipo Banner Vitrine nativo é destinado à home
+    ocultarOriginais: false,     // Primeiro validar o slider nativo; evita sumir banner
+    nomes: [
+      "Cabelos Card 1",
+      "Cabelos Card 2",
+      "Cabelos Card 3",
+      "Cabelos Card 4"
+    ]
+  };
+
+  function colocarSlot() {
+    var slot = document.getElementById("fwr-nichelle-vitrine-slot");
+    if (!slot) {
+      var anchor = document.querySelector(
+        ".pagina-categoria .listagem, " +
+        ".pagina-categoria .secao-principal .listagem, " +
+        "body.pagina-categoria .listagem, " +
+        ".pagina-categoria .conteudo"
+      );
+      if (!anchor || !anchor.parentNode) {
+        console.warn("[Nichelle] Categoria Cabelos: não encontrei a lista de produtos para inserir a seção. Coloque o slot HTML manualmente no tema.");
+        return;
+      }
+      slot = document.createElement("div");
+      slot.id = "fwr-nichelle-vitrine-slot";
+      slot.setAttribute("data-fwr-active", "0");
+      anchor.parentNode.insertBefore(slot, anchor);
+    }
+    if (window.FWRNichelle.bannerVitrine.ativo === true) {
+      // Reserva inicial estimada. Preferir o slot no HTML do tema antes do conteúdo.
+      slot.style.minHeight = window.innerWidth < 768 ? "min(125vw,610px)" : "min(45vw,700px)";
+    }
+    document.dispatchEvent(new Event("fwr:nichelle:banner-config"));
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", colocarSlot, { once: true });
+  } else {
+    colocarSlot();
+  }
+})();
+</script>
