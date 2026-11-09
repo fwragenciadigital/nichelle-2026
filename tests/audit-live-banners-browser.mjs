@@ -97,12 +97,19 @@ try {
   })()`;
   const check = function (name,report) {
     console.log("DIAGNÓSTICO DOM PÚBLICO "+name+":",JSON.stringify(report,null,2));
-    if(!report || !report.configured || !report.runtimeLoaded ||
-       !report.slotExists || !report.mounted || report.cards<1 ||
+    if(!report || !report.runtimeLoaded) throw Error("Runtime Nichelle não disponível em "+name);
+    // O admin pode deixar o banner desligado. Isso não é falha do JS:
+    // nesses casos marcar como NÃO TESTADO, nunca como sucesso visual.
+    if(report.configured !== true) {
+      console.log("SKIP (sem homologação visual): banner desativado pela Loja Integrada em "+name);
+      return;
+    }
+    if(!report.slotExists || !report.mounted || report.cards<1 ||
        !report.cardCSS || report.cardCSS.width<30 || report.cardCSS.height<30 ||
-       report.cardCSS.display==="none" || !report.imageStatus ||
-       !report.imageStatus.complete || report.imageStatus.naturalWidth<1) {
-      throw Error("Banner não está visível ou imagem não carregou no viewport "+name);
+       report.cardCSS.display==="none" || report.cardCSS.visibility!=="visible" ||
+       !report.imageStatus || !report.imageStatus.complete ||
+       report.imageStatus.naturalWidth<1) {
+      throw Error("Banner ativo não está visível ou imagem não carregou no viewport "+name);
     }
   };
   const out=await command("Runtime.evaluate",{expression,returnByValue:true});
