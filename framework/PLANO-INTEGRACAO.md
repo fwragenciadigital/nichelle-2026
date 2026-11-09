@@ -1,5 +1,18 @@
 # Nichelle 2026 — Plano de integração do framework e dos módulos
 
+## Entrega parcial da Fase 1 — 09/11/2026
+
+A partir dos screenshots e da base Malheiro demonstrativa, foram criados os arquivos **de trabalho**, mantendo os anexos originais em `framework/referencias` sem alteração:
+
+- `public/nichelle27.js` — orquestração dos blocos, classes e Settings opt-in (novo JS 1).
+- `public/nichelle27.css` — estilos desktop/mobile do layout Nichelle.
+- `public/nichelle.js` — JS 2, pré-existente, com Shorts, banners e notícias, **não alterado nesta fase**.
+- `integracao/html-framework-nichelle27.html` — Settings editáveis, todos `ativo: false`.
+- `tests/framework27.test.mjs` e `tests/framework27.browser.mjs` — testes de sintaxe, DOM, viewport e idempotência.
+- `framework/GUIA-NICHELLE27-LAYOUT.md` — guia com a ordem visual dos 13 grupos.
+
+O CSS e o novo framework **não foram enviados ao Vercel nem instalados na LI**. Antes de publicar, falta mapear os seletores do tema real, conferir os estilos com as imagens definitivas e medir CLS.
+
 ## Decisão adotada
 Construir cada grid/componente em `public/nichelle.js` durante o desenvolvimento, sem interromper o funcionamento dos módulos já publicados (Shorts, Banner Vitrine/Mini Banner, notícias). **Somente depois da homologação** adaptar a estrutura visual e o posicionamento das vitrines ao framework-base, formando dois arquivos JS e um CSS final.
 
