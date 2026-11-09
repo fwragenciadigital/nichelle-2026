@@ -256,6 +256,9 @@
     // Não renderizar nem alterar os banners nativos sem todos os quatro nomes.
     const names = Array.isArray(cfg.nomes) ? cfg.nomes.slice(0, 4) : [];
     if (names.length !== 4 || names.some(function (n) { return typeof n !== "string" || !n.trim(); })) return;
+    // Por padrão só monta com 4 imagens. Na página de homologação, minimo:1
+    // mostra os cards já publicados e mantém os demais intactos.
+    const minimo = Number.isInteger(cfg.minimo) && cfg.minimo >= 1 && cfg.minimo <= 4 ? cfg.minimo : 4;
 
     function key(s) {
       return String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "")
@@ -340,14 +343,18 @@
               destination: safeURL(item.link) };
           }
         }
-        if (!entry) return [];
+        if (!entry) {
+          if (minimo < 4) continue;
+          return [];
+        }
+        entry.nome = names[i];
         selected.push(entry);
       }
-      return selected;
+      return selected.length >= minimo ? selected : [];
     }
 
     function mount(banners) {
-      if (slot.dataset.fwrInitialized === "1" || banners.length !== 4) return;
+      if (slot.dataset.fwrInitialized === "1" || banners.length < minimo || banners.length > 4) return;
       const styleId = "fwr-nichelle-vitrine-styles";
       if (!document.getElementById(styleId)) {
         const style = document.createElement("style");
@@ -389,7 +396,7 @@
         if (!image) return;
         // Src/links continuam vindo do painel nativo; poster não é cadastrado no JS.
         image.src = banner.src;
-        image.alt = banner.img.getAttribute("alt") || names[index];
+        image.alt = banner.img.getAttribute("alt") || banner.nome || names[index];
         image.loading = "lazy";
         image.decoding = "async";
         image.width = 600;
@@ -399,7 +406,7 @@
         else card.appendChild(image);
         grid.appendChild(card);
       });
-      if (grid.children.length !== 4) return;
+      if (grid.children.length !== banners.length || grid.children.length < minimo) return;
       section.appendChild(grid);
       slot.replaceChildren(section);
       slot.dataset.fwrInitialized = "1";
@@ -423,7 +430,7 @@
     function attempt() {
       if (slot.dataset.fwrInitialized === "1") return true;
       const found = findNative();
-      if (found.length !== 4) return false;
+      if (found.length < minimo || found.length > 4) return false;
       mount(found);
       if (observer) observer.disconnect();
       if (timer) clearTimeout(timer);
@@ -641,6 +648,7 @@
       origem: ["lateral", "mini", "categoria"].includes(cfg.origem) ? cfg.origem : "vitrine",
       fonteAlternativa: cfg.fonteAlternativa || "",
       imagensDiretasConfiguradas: Array.isArray(cfg.imagens) ? cfg.imagens.filter(function (i) { return i && i.imagem; }).length : 0,
+      minimo: Number.isInteger(cfg.minimo) && cfg.minimo >= 1 && cfg.minimo <= 4 ? cfg.minimo : 4,
       slotEncontrado: !!slot,
       galeriaMontada: !!(slot && slot.dataset.fwrInitialized === "1"),
       possiveisBanners: images.filter(function (img) {
