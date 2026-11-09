@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   pages:
-    if: ${{ vars.FWR_NICHELLE_PAGES_ENABLED == 'true' }}
+    if: ${{ github.ref == 'refs/heads/main' && vars.FWR_NICHELLE_PAGES_ENABLED == 'true' }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages

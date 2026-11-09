@@ -128,9 +128,9 @@ test("Renderização não interfere nos Shorts, na vitrine nativa ou em outras p
   const ctx = simulate({ slot: false });
   assert.equal(ctx.head.children.length, 0);
   assert.equal(ctx.li.attributes["data-fwr-noticia-footer-oculta"], "1");
-  assert.match(js, /function initVideoGallery\(\)/);
+  assert.match(js, /function initVideoGallery\(opts\)/);
   assert.match(js, /function initBannerVitrine\(\)/);
-  assert.match(js, /initVideoGallery\(\);\s*initBannerVitrine\(\);\s*initNoticias\(\)/);
+  assert.match(js, /loadPublishedGallery\(\)\.then\(function \(gallery\) \{ initVideoGallery\(gallery\); \}\);\s*initBannerVitrine\(\);\s*initNoticias\(\)/);
   assert.match(js, /document\.addEventListener\("fwr:nichelle:news-config", initNoticias\)/);
 });
 test("CSS tem layout 2 colunas no desktop e adaptação tablet/mobile", () => {
@@ -140,8 +140,7 @@ test("CSS tem layout 2 colunas no desktop e adaptação tablet/mobile", () => {
   assert.match(js, /@media\(max-width:360px\)/);
   assert.match(js, /fwr-nichelle-news__featured/);
   assert.match(js, /fwr-nichelle-news__sidebar/);
-  // O módulo de banners pode buscar opcionalmente o HTML da HOME na própria loja.
-  // O módulo Notícias continua sem requisições adicionais.
+  // Configuração da galeria e banners são externos ao módulo Notícias.
   const noticias = js.slice(js.indexOf("function initNoticias()"), js.indexOf("function start()"));
   assert.doesNotMatch(noticias, /\bfetch\s*\(|\baxios\b/);
 });

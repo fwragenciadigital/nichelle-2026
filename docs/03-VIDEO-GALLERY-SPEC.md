@@ -1,5 +1,7 @@
 # Componente personalizado 01 — galeria editorial de vídeos
 
+> **Contrato vigente (2026-11-09):** conforme o pedido direto mais recente do usuário, a galeria usa `public/nichelle.js` e o dashboard PHP existente para editar rascunho/publicar/rollback. A integração da LI informa uma única vez a URL HTTPS do JSON público; atualizações de vídeos seguem pelo dashboard sem editar novamente o HTML. O JSON publicado contém somente conteúdo sanitizado.
+
 ## Status e evidência
 
 Esta é a primeira seção `CUSTOM-FWR` prevista no escopo do projeto. O briefing define uma galeria editorial de **quatro vídeos** e a arte final em `index1.html` confirma a aparência e a posição visual; não confirma os controles de reprodução, URLs ou layout móvel real.
@@ -9,7 +11,19 @@ Esta é a primeira seção `CUSTOM-FWR` prevista no escopo do projeto. O briefin
 - **Limitação da fonte:** `index1.html` entrega uma imagem longa, não DOM funcional da galeria. O clique, o vídeo aberto, o modo mobile, as URLs e os estados de erro não foram observados.
 - **Mídia:** URLs finais ainda serão fornecidas. O manifesto `assets/MANIFESTO.md` registra os metadados a coletar; não usar URLs fictícias ou mídia de outra loja.
 
-## Contrato de Settings implementado
+## Contrato ativo na fase simplificada
+
+O conteúdo é administrado no dashboard autenticado. O bloco `integracao/html-galeria-shorts.html` contém apenas `configUrl` (preenchida uma vez após homologar a hospedagem) e mantém uma configuração manual vazia para fixture/local. Sem endpoint, a integração fica desativada; não inserir vídeos fictícios na produção.
+
+| Campo | Regra |
+|---|---|
+| `configUrl` | Endpoint HTTPS do JSON público, sem token, query ou credencial; configurar uma única vez após validar host/CORS/MIME/cache |
+| `ativo` | Campo manual de fixture/local; dashboard publicado é a fonte operacional quando `configUrl` está definido |
+| `shorts` | Lista manual vazia para fixture/local; a operação real lê `modules.videoGallery.items` do JSON publicado |
+
+Não aceitar HTML/JS/CSS arbitrário, preço, produto, estoque ou comportamento de checkout nos Settings. O cliente edita somente o módulo FWR de vídeo.
+
+## Contrato de Settings ativo do dashboard
 
 Nomes de campo alinhados ao `config/schema.json`. O dashboard edita somente este módulo.
 
@@ -43,7 +57,7 @@ V1 não aceita HTML, CSS, JS, iframes, seletores, provedores adicionais ou links
 - **Desktop:** quatro cards em uma linha, conforme a arte final.
 - **Mobile/tablet:** a arte rasterizada mantém 1250 px de largura e corta conteúdo nos viewports menores; ela não informa o comportamento responsivo de produção. A implementação candidata usa scroll-snap abaixo de 768px, sujeito à aprovação visual na LI.
 - **Slot:** runtime usa o alvo fixo `#fwr-nichelle-video-slot`; o tema precisa fornecer esse slot e a classe `.fwr-nichelle-video-slot` no ponto visual certo. O mecanismo de inserção no tema LI ainda não foi inspecionado; nunca localizar por texto/copy frágil nem aceitar seletor editável pelo cliente.
-- **Integração remota:** código e mídia servidos por infraestrutura pública aprovada da FWR; `public/galeria-publicada.json` em HTTPS, CORS explícito, MIME JSON, versão/cache/ETag documentados. O browser da loja só lê configuração pública sanitizada.
+- **Integração remota:** código e mídia servidos por infraestrutura pública aprovada da FWR; `public/galeria-publicada.json` em HTTPS, CORS explícito, MIME JSON, versão/cache/ETag documentados. O browser da loja só lê configuração pública sanitizada via `fetch` com credenciais omitidas, cache `no-store` e redirects recusados.
 - **Hosts de mídia:** HTTPS não basta. O backend aplica allowlist de host para capas personalizadas (`NICHELLE_POSTER_HOSTS`), remove query tracking da URL do vídeo ao canonicalizar e recusa parâmetros com credenciais/assinaturas na capa.
 
 ## Estados estáveis e risco de CLS
@@ -51,8 +65,8 @@ V1 não aceita HTML, CSS, JS, iframes, seletores, provedores adicionais ou links
 | Estado | Comportamento exigido | Risco a controlar |
 |---|---|---|
 | Configuração válida e lista com quatro ativos | Usar slot com geometria reservada e montar cards sem deslocar o conteúdo seguinte | Imagens devem respeitar proporção; vídeo não participar do layout antes do clique |
-| Configuração válida, módulo desligado ou sem itens ativos | Não montar cards; permanece a altura reservada no slot inicial | O slot vazio pode deixar espaço em branco; recolher tarde deslocaria a vitrine |
-| JSON lento, inválido ou indisponível | Não montar cards; runtime registra aviso e mantém o slot reservado sem tocar na estrutura nativa | O espaço reservado vazio continua sendo um trade-off visual do estado offline |
+| Configuração válida com quatro vídeos ativos | Montar os cards na ordem publicada dentro do slot reservado | O slot precisa existir no HTML inicial; conferir a geometria no tema LI |
+| Módulo desligado, JSON inválido ou indisponível | Mostrar estado neutro dentro da geometria reservada, sem player nem alteração de estrutura nativa | Reserva evita CLS, mas uma indisponibilidade pode deixar espaço ocupado por aviso |
 | Poster lento/quebrado | Preservar a caixa 9:16, mostrar fallback de mídia e permitir retry/não reprodução | Não deixar dimensões intrínsecas mudarem a altura do card |
 | Vídeo iniciado | Carregar recurso somente após intenção; manter dimensões do card/modal | Evitar redimensionamento, autoplay e downloads de vários vídeos |
 

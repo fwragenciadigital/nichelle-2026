@@ -1,43 +1,43 @@
 # Plano de homologação — Nichelle Imports
 
-**O que mudará:** somente módulos CUSTOM-FWR. Loja Integrada continuará administrando logo, hero/banner principal, menus, categorias, vitrines nativas, conta, catálogo, preços, estoque, carrinho, pagamento e frete. Runtime e painel estão implementados em `develop`; não foram instalados nem publicados na loja.
+**Escopo vigente (2026-11-09):** runtime único `public/nichelle.js`, galeria editorial de quatro Shorts e dashboard PHP protegido já existente. A integração LI receberá uma única URL HTTPS da configuração publicada após a hospedagem ser aprovada. A prévia visual em `/preview/` é isolada e não equivale à homologação da loja.
 
-## Fase 1 — mapeamento e decisão de fronteira (concluída)
+## Fase 1 — fronteiras e prévia
 
-- Registrar a composição de `index1.html`, viewports e limitações da imagem raster em `docs/02-ANALISE-INDEX1-2026.md`.
-- Classificar recursos nativos da LI, a galeria exclusiva FWR e blocos sem origem comprovada em `docs/01-INVENTARIO-NATIVO-VS-CUSTOM.md`.
-- Manter dashboard restrito à galeria FWR. Nenhuma seção `INDEFINIDO` foi incluída.
+- Inventário nativo/custom/indefinido: `docs/01-INVENTARIO-NATIVO-VS-CUSTOM.md` e `docs/09-MAPEAMENTO-ESTRUTURAS-PREVIA.md`.
+- Referência rasterizada, 11 capturas recebidas e limitações desktop/mobile: `docs/02-ANALISE-INDEX1-2026.md`.
+- A página de prévia usa os assets reais do runtime e SVGs sintéticos locais claramente identificados; não contém produtos, preços, estoque ou funcionalidades reais.
+- `Nichelle27Framework` só pode modificar fixtures marcadas e servidas em localhost/Vercel Preview; não deve atuar na loja pública.
 
-## Fase 2 — galeria YouTube Shorts (código implementado; tema/mídia pendentes)
+## Fase 2 — galeria Shorts
 
-- Base Malheiro identificada e auditada com caminho, SHA-256, dependências e delta em `docs/04-DASHBOARD-SETTINGS-ARQUITETURA.md`.
-- Aceita Shorts, `watch` e `youtu.be`, valida host/ID e armazena URL Shorts canônica sem parâmetros de tracking.
-- Capa automática tenta thumbnail vertical e fallbacks horizontais; capa personalizada exige HTTPS e host permitido por `NICHELLE_POSTER_HOSTS`.
-- Player YouTube privacy-enhanced é criado somente depois do clique. Modal oferece botão, Escape, pausa e retorno do foco.
-- O runtime exige `#fwr-nichelle-video-slot`; o tema precisa fornecer esse marcador junto com a classe `.fwr-nichelle-video-slot` no HTML inicial após a faixa de marcas e antes da vitrine promocional.
-- Breakpoint implementado: quatro colunas a partir de 768px e scroll-snap horizontal abaixo de 768px. O comportamento móvel precisa de homologação porque a imagem de referência é fixa e não exibe reflow.
-- `public/galeria-publicada.json` e `public/galeria-preview.json` iniciam vazios/desligados. Faltam os quatro links reais e a aprovação das respectivas mídias.
+- Quatro URLs finais ainda dependem da Nichelle. Enquanto faltarem, a configuração da integração permanece desligada e vazia.
+- Runtime aceita URL Shorts, `youtube.com/watch` e `youtu.be`; valida o ID e cria iframe `youtube-nocookie` somente após interação.
+- Thumbnail automática/fallback, capa opcional, proporção 9:16, modal, botão/ESC, pausa e retorno de foco são cobertos pela suíte do módulo.
+- O breakpoint candidato é quatro colunas a partir de 768px e scroll-snap abaixo disso; a referência rasterizada não comprova experiência móvel.
+- A base técnica de Malheiro e o delta de adaptação estão documentados em `docs/04-DASHBOARD-SETTINGS-ARQUITETURA.md`. O script comercial da Malheiro não deve ser carregado na Nichelle.
 
-## Fase 3 — dashboard (código implementado; infraestrutura pendente)
+## Dashboard e publicação
 
-- Editor da galeria permite adicionar até quatro slots, editar links/capas/descrições, visualizar thumbnail, remover e reordenar cards, ativar/desativar cards e seção.
-- Salvar rascunho, prévia autenticada, publicar quatro cards ativos e rollback versionado.
-- A senha é verificada no servidor contra `NICHELLE_ADMIN_PASSWORD_HASH`; sessão exige HTTPS, usa `HttpOnly`, `Secure`, `SameSite=Strict`, CSRF e ID regenerado. Rate-limit de tentativas usa lock de arquivo.
-- `NICHELLE_DATA_DIR` precisa ser precriado, gravável e fora do document root. Senha, hash, segredo e conteúdo privado não devem ir para o JavaScript público.
-- A hospedagem PHP real, variáveis de ambiente, bloqueio web `/server/`, CORS, MIME JSON, cache/ETag e propagação de publicação ainda precisam ser configurados e validados.
+- Validar PHP disponível, HTTPS, hash de senha e segredo de sessão apenas no servidor, armazenamento privado fora do document root, CORS/MIME/cache do JSON público.
+- Exercitar login, CSRF, rate-limit, rascunho, prévia, publicar e rollback em ambiente de homologação com credenciais operacionais fornecidas pela FWR.
+- Testar a integração remota do runtime com resposta válida, desativada, vazia, inválida, sem CORS e falha de rede.
+- O workspace local não tem ambiente PHP nem variáveis/host do servidor; os testes reais do dashboard e propagação no host seguem pendentes. A suíte CI deve validar sintaxe PHP quando o runner tiver PHP.
+- O dashboard edita exclusivamente o módulo `videoGallery`; qualquer seção nativa permanece administrada pela Loja Integrada.
 
-## Fase 4 — homologação na Loja Integrada (não iniciada)
+## Fase 3 — homologação na Loja Integrada (não iniciada)
 
-1. Obter um tema/loja de homologação e fazer backup de HTML/Cabeçalho, HTML/Rodapé e CSS atuais.
-2. Confirmar que o tema permite inserir `#fwr-nichelle-video-slot.fwr-nichelle-video-slot` no slot visual definido. Se não houver inserção inicial estável, não instalar o módulo nessa loja.
-3. Configurar URLs públicas HTTPS do host FWR e CORS; substituir `BASE_URL_PUBLICA` nos snippets. Cabeçalho carrega CSS; Rodapé carrega runtime/config.
-4. Usar `integracao/cabecalho-teste.html` e `integracao/rodape-teste.html` na homologação. A fixture local usa IDs sintéticos apenas para testar interface; não usar suas URLs como conteúdo.
-5. Conferir 360/390/820/1440px; clique/player, fechamento por botão/Escape, foco, thumbnail/fallback e erro/offline; inspecionar console e rede.
-6. Comparar CLS/LCP/INP com baseline e conferir header, navegação, vitrines, produtos, preço, estoque, carrinho, checkout e scripts de terceiros sem efetuar compra.
-7. Homologação ainda exige acesso ao tema e aos quatro links reais. Não houve publicação na loja nem mudança em `main`.
+1. Obter tema/loja de homologação e backup dos campos HTML/Cabeçalho, HTML/Rodapé e CSS.
+2. Confirmar se o tema pode fornecer `#fwr-nichelle-video-slot.fwr-nichelle-video-slot` na posição visual entre marcas e promocionais. Sem slot inicial estável, não instalar.
+3. Validar hospedagem pública HTTPS para `public/nichelle.js`, MIME, cache, CSP e URL exata de distribuição. Não usar URL de repositório privado ou placeholder.
+4. Usar `integracao/html-galeria-shorts.html` e `integracao/rodape-loader-unico.html` somente após acesso autorizado ao ambiente de homologação. Não transferir HTML ou conteúdo de `/preview/` para produção.
+5. Testar quatro URLs reais, thumbnails/fallbacks, reprodução, fechamento por botão/ESC, teclado/foco, falhas de rede e comportamento sem vídeos nos viewports 360, 390, 820 e 1440.
+6. Medir CLS/LCP/INP na homologação e verificar topo, menu, busca, banners, vitrines, produtos, preço, estoque, carrinho e checkout sem completar pedidos.
+7. Obter aprovação final do cliente antes de qualquer instalação ou publicação na loja.
 
-## Risco de layout e publicação
+## Riscos e limites de evidência
 
-O CSS reserva proporção 9:16 nos cards e uma altura aproximada no slot, antes de buscar JSON. Isso reduz deslocamento quando o tema fornece o marcador inicial; não prova CLS próximo de zero no tema da Nichelle. Se a reserva permanecer vazia em estado disabled/offline, pode haver espaço em branco; se o marcador não existir, o runtime falha sem injetar no fim da página. Medir ambos os estados em homologação e ajustar a reserva antes de liberação.
-
-Os arquivos HTML/Cabeçalho e HTML/Rodapé estão preparados como snippets de homologação com placeholders. Não há URL pública verificada para CSS, JavaScript ou configuração no momento. Atualizações do dashboard só chegam à loja depois que o JSON público estiver hospedado em infraestrutura FWR com CORS, MIME, versão/cache e rollback acessíveis.
+- Nenhum seletor/slot do editor real foi confirmado nesta rodada.
+- As medidas locais são laboratório e não field data; INP exige interação representativa e não será inferido de ausência de eventos.
+- Claims, selos, links, marcas, datas, imagens e condições comerciais das capturas devem ser validados antes de publicação.
+- Não haverá deploy de produção, alteração na Loja Integrada nem merge em `main` nesta entrega.

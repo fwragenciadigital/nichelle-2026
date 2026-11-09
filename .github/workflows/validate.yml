@@ -26,9 +26,11 @@ jobs:
         run: node tests/noticias.browser.mjs
       - name: Validar framework Nichelle27 no Chromium (desktop e mobile)
         run: node tests/framework27.browser.mjs
+      - name: Validar galeria YouTube no Chromium sem rede externa
+        run: node tests/video-gallery.browser.mjs
       - name: Validar sintaxe do framework independente
         run: node --check public/nichelle27.js
-      - name: Compilar e validar os três assets separados para Vercel
+      - name: Compilar assets públicos e prévia isolada para Vercel
         run: |
           node vercel/build.mjs
           node --check vercel/dist/nichelle.js
@@ -37,6 +39,11 @@ jobs:
           cmp public/nichelle27.js vercel/dist/nichelle27.js
           cmp public/nichelle27.css vercel/dist/nichelle27.css
           test -s vercel/dist/nichelle27.css
+          test -s vercel/dist/preview/index.html
+          test -s vercel/dist/preview/preview-data.js
+          test ! -e vercel/dist/admin
+          test ! -e vercel/dist/server
+          test ! -e vercel/dist/qa
       - name: Validar PHP do painel
         run: |
           php -l server/bootstrap.php

@@ -91,7 +91,7 @@ function nichelle_poster_hosts(): array {
  $configured=array_filter(array_map(static fn($host)=>strtolower(trim($host)),explode(',',(string)getenv('NICHELLE_POSTER_HOSTS'))));
  return array_values(array_unique(array_merge(['i.ytimg.com'],$configured)));
 }
-function nichelle_validate_config(array $cfg): void {
+function nichelle_validate_config(array $cfg,bool $requirePublishable=true): void {
  $g=$cfg['modules']['videoGallery']??null;
  if(array_diff(array_keys($cfg),['schemaVersion','project','modules'])||!is_array($cfg['modules']??null)
   ||array_diff(array_keys($cfg['modules']),['videoGallery'])||($cfg['schemaVersion']??null)!==1||($cfg['project']??null)!=='nichelle-2026'||!is_array($g))
@@ -129,7 +129,7 @@ function nichelle_validate_config(array $cfg): void {
   if($poster!=='')nichelle_safe_public_url($poster,nichelle_poster_hosts());
   if($item['enabled'])$active++;
  }
- if($g['enabled']&&($active!==4||count($g['items'])!==4))
+ if($requirePublishable&&$g['enabled']&&($active!==4||count($g['items'])!==4))
   throw new InvalidArgumentException('A galeria ativa exige quatro vídeos ativos.');
 }
 /**

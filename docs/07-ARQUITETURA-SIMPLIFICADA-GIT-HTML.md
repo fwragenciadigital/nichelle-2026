@@ -1,7 +1,7 @@
-# CODEX — NOVO ESCOPO APROVADO: GitHub central + HTML editável da Loja Integrada
+# CODEX — DECISÃO ANTERIOR: GitHub central + HTML editável da Loja Integrada
 
 **Data:** 2026-11-06
-**Status:** substitui a proposta de dashboard PHP/JSON para a primeira fase.
+**Status:** decisão simplificada anterior, datada de 2026-11-06. Em 2026-11-09 o usuário retomou explicitamente dashboard protegido e JSON público para esta entrega; consultar `docs/04-DASHBOARD-SETTINGS-ARQUITETURA.md` e `docs/05-PLANO-DE-HOMOLOGACAO.md` como contrato atual. A prévia visual isolada documentada abaixo permanece aplicável.
 **Branch:** `develop` — PR #1 DRAFT. **Não publicar na loja sem aprovação.**
 
 ## Decisão técnica
@@ -13,7 +13,7 @@ O cliente administra conteúdo diretamente no editor HTML da Loja Integrada, nã
 - No futuro, Settings de atendimento, telefone, e-mail e ícones do tema, **somente se a base de tema compatível for validada**;
 - Componentes nativos (logo, banner principal, categorias nativas, vitrines nativas, carrinho, preços, estoque, checkout) **continuam no painel da Loja Integrada**.
 
-**Sem dashboard privado, PHP, banco, API de publicação ou fetch de JSON remoto na primeira fase.** Arquivos antigos de `admin/`, `server/`, `public/galeria-videos.js`, `public/galeria-publicada.json` e dashboard anteriores são HISTÓRICO, **não entram no deploy simplificado**. Não misture os snippets antigos com os novos.
+**Esta decisão de não usar dashboard foi substituída pelo pedido direto posterior.** `admin/` e `server/` participam da homologação da galeria sob `docs/04`; nenhum artefato privado entra no build público. O `public/galeria-publicada.json` contém apenas configuração sanitizada.
 
 ## Arquivos novos e fluxo
 
@@ -23,6 +23,10 @@ O cliente administra conteúdo diretamente no editor HTML da Loja Integrada, nã
 4. `src/referencias/base-tema-malheiro-NAO-CARREGAR.js` — cópia fiel da base JS da Malheiro, isolada para futuras adaptações. NÃO incluir 160kB desse script na loja Nichelle sem auditoria de seletores, funções e dependências específicas do tema.
 5. `integracao/variaveis-tema-primeshop-REFERENCIA.html` — modelo de nomes de variáveis (`telefone1`, `whatsapp1`, `mail1`, `atendimentoAvancado`, `iconesMenu`, `menuFlutuante`, etc) inspirados na configuração PrimeShop fornecida. **Não instalar ainda**, pois esses globals só têm efeito quando o script de tema correspondente os consome e a ordem de carga está correta.
 6. `docs/08-PUBLICACAO-AUTOMATICA-GIT.md` — opções seguras de URL pública e automação GitHub -> FWR/CDN.
+
+### Prévia visual isolada
+
+`/preview/` é uma fixture navegável com conteúdo local sintético para comparar visualmente as estruturas enviadas pelo cliente. Ela carrega os assets versionados para exibir composição, mas não é HTML para copiar para a loja, não habilita os Shorts, não tem dados de compra e não altera a LI. O framework Nichelle27 usado na fixture exige host de desenvolvimento/Preview e o marcador `data-nichelle-preview-fixture`; sem ambos, retorna sem modificar o DOM. O script comercial da Malheiro não faz parte do build e não é carregado.
 
 **Um arquivo JS ativo**, porém também precisamos de CSS crítico inline no HTML do componente, para reservar geometria sem CLS. Evitar puxar CSS atrasado via JS.
 

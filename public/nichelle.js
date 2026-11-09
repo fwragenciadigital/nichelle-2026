@@ -1,5 +1,5 @@
 /* Nichelle 2026 — runtime FWR. Uma única URL para funcionalidades customizadas.
-   Configurações ficam no HTML editável da Loja Integrada; não usa JSON remoto. */
+   Configuração operacional da galeria pode vir do JSON público publicado pelo dashboard. */
 (function () {
   "use strict";
   if (window.__FWR_NICHELLE_RUNTIME__) return;
@@ -12,6 +12,7 @@
     const el = document.createElement("style");
     el.id = "fwr-nichelle-styles";
     el.textContent = css;
+    el.textContent += "\n#fwr-nichelle-video-slot .fwr-nichelle-videos__status{display:grid;min-height:inherit;place-items:center;margin:0;padding:20px;color:#6b6370;font:500 14px/1.5 Arial,sans-serif}";
     (document.head || document.documentElement).appendChild(el);
   }
   installStyles();
@@ -55,13 +56,65 @@
     }).filter(Boolean);
   }
 
-  function initVideoGallery() {
+  function publishedGalleryConfig(payload) {
+    const gallery = payload && payload.schemaVersion === 1 && payload.project === "nichelle-2026" &&
+      payload.modules && payload.modules.videoGallery;
+    if (!gallery || typeof gallery.enabled !== "boolean" || !Array.isArray(gallery.items)) return null;
+    const items = gallery.items.filter(function (item) {
+      return item && item.enabled === true && Number.isFinite(item.order);
+    }).sort(function (a, b) { return a.order - b.order; }).slice(0, 4);
+    return {
+      ativo: gallery.enabled,
+      shorts: items.map(function (item) {
+        return { url: item.videoUrl, capa: item.posterUrl || "", descricao: item.alt || "" };
+      })
+    };
+  }
+
+  function loadPublishedGallery() {
+    const settings = window.FWRNichelle && window.FWRNichelle.galeriaVideos;
+    const configUrl = settings && typeof settings.configUrl === "string" ? settings.configUrl.trim() : "";
+    if (!configUrl) return Promise.resolve(settings || null);
+    let url;
+    try {
+      url = new URL(configUrl, window.location.href);
+      const localHttp = url.protocol === "http:" && url.origin === window.location.origin &&
+        ["localhost", "127.0.0.1"].includes(url.hostname);
+      if ((!localHttp && url.protocol !== "https:") || url.username || url.password || url.hash || url.search) {
+        return Promise.resolve(null);
+      }
+    } catch (_) { return Promise.resolve(null); }
+    return fetch(url.href, { mode: "cors", credentials: "omit", cache: "no-store", redirect: "error" })
+      .then(function (response) {
+        if (!response.ok) throw new Error("Configuração pública indisponível");
+        return response.json();
+      })
+      .then(publishedGalleryConfig)
+      .catch(function () { return null; });
+  }
+
+  function showUnavailableGallery(slot) {
+    const message = document.createElement("p");
+    message.className = "fwr-nichelle-videos__status";
+    message.setAttribute("role", "status");
+    message.textContent = "Galeria de vídeos temporariamente indisponível.";
+    slot.replaceChildren(message);
+    slot.dataset.fwrInitialized = "1";
+  }
+
+  function initVideoGallery(opts) {
     const slot = document.querySelector("#fwr-nichelle-video-slot");
     if (!slot || slot.dataset.fwrInitialized === "1") return;
-    const opts = window.FWRNichelle && window.FWRNichelle.galeriaVideos;
-    if (!opts || opts.ativo !== true) return;
+    const remoteManaged = slot.dataset.fwrRemote === "1";
+    if (!opts || opts.ativo !== true) {
+      if (remoteManaged) showUnavailableGallery(slot);
+      return;
+    }
     const cards = normalizedCards(opts);
-    if (!cards.length) return;
+    if (!cards.length) {
+      if (remoteManaged) showUnavailableGallery(slot);
+      return;
+    }
     slot.dataset.fwrInitialized = "1";
 
     const section = document.createElement("section");
@@ -649,7 +702,7 @@
   }
 
   function start() {
-    initVideoGallery();
+    loadPublishedGallery().then(function (gallery) { initVideoGallery(gallery); });
     initBannerVitrine();
     initNoticias();
     /* Adicionar futuras funções exclusivas aqui, sem recriar recursos nativos da LI. */

@@ -1,4 +1,4 @@
-> **ORDEM ATUAL DO CODEX (06/11/2026):** leia [docs/07-ARQUITETURA-SIMPLIFICADA-GIT-HTML.md](docs/07-ARQUITETURA-SIMPLIFICADA-GIT-HTML.md) **antes** do antigo `PROMPT_INICIAL_CODEX.md`. A fase 1 usa `public/nichelle.js` e `integracao/html-galeria-shorts.html`, sem dashboard. O código Malheiro está em `src/referencias/` como REFERÊNCIA, NÃO executar na loja Nichelle. O resto abaixo deve ser interpretado como contexto anterior.
+> **ESCOPO ATUAL (09/11/2026):** o pedido direto mais recente retoma dashboard FWR protegido para administrar somente a galeria customizada e publicar JSON sanitizado. Use `docs/04-DASHBOARD-SETTINGS-ARQUITETURA.md`, `docs/03-VIDEO-GALLERY-SPEC.md` e `docs/05-PLANO-DE-HOMOLOGACAO.md`. `docs/07-ARQUITETURA-SIMPLIFICADA-GIT-HTML.md` registra a decisão anterior sem painel e fica histórica nessa parte. O código Malheiro é referência técnica, NÃO executar na loja Nichelle.
 
 # Codex — Nichelle Imports 2026
 

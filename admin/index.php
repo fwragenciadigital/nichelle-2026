@@ -44,7 +44,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
    $cfg=['schemaVersion'=>1,'project'=>'nichelle-2026','modules'=>['videoGallery'=>[
      'enabled'=>$enabled,'placement'=>'after-brand-strip','mobileMode'=>'scroll-snap','openMode'=>'modal','items'=>$items
    ]]];
-   nichelle_validate_config($cfg);
+   nichelle_validate_config($cfg,$action==='publish');
    nichelle_write(nichelle_draft(),$cfg);
    if($action==='publish'){
      $dest=nichelle_published();$history=nichelle_history();
@@ -68,7 +68,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 }
 $login=!empty($_SESSION['nichelle_auth']);
 $config=nichelle_read(nichelle_draft())?:nichelle_read(nichelle_published());
-try{if($config)nichelle_validate_config($config);}catch(Throwable $invalid){$config=[];$err='A configuração armazenada não é válida. Salve um rascunho corrigido antes de publicar.';}
+try{if($config)nichelle_validate_config($config,false);}catch(Throwable $invalid){$config=[];$err='A configuração armazenada não é válida. Salve um rascunho corrigido antes de publicar.';}
 $posterHostsJson=json_encode(nichelle_poster_hosts(),JSON_HEX_TAG|JSON_HEX_APOS|JSON_HEX_AMP|JSON_HEX_QUOT|JSON_THROW_ON_ERROR);
 $gallery=$config['modules']['videoGallery']??[];$items=$gallery['items']??[];
 ?><!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FWR Control · Nichelle</title>

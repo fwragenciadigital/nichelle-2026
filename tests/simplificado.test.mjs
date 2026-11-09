@@ -13,8 +13,8 @@ test("runtime unico com sintaxe JavaScript valida",()=>{
  assert.match(js,/window\.__FWR_NICHELLE_RUNTIME__/);
  assert.match(js,/window\.FWRNichelle\.galeriaVideos/);
 });
-test("nao usa dashboard, JSON remoto nem bibliotecas novas",()=>{
- // A única busca opcional permitida é de banners na mesma origem da loja.
+test("consome config pública opcional e mantém banners restritos à mesma origem",()=>{
+ assert.match(js,/fetch\(url\.href, \{ mode: "cors", credentials: "omit", cache: "no-store", redirect: "error" \}\)/);
  assert.match(js,/url\.origin === window\.location\.origin/);
  assert.match(js,/credentials: "same-origin"/);
  assert.doesNotMatch(js,/\bjQuery\b|\$\(\s*document/);

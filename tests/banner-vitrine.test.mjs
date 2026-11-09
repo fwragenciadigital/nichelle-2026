@@ -127,13 +127,14 @@ test("não oculta banner algum se faltar um dos quatro", () => {
   assert.match(html, /6000/);
 });
 test("CSS separado do módulo de Shorts, sem bibliotecas ou requisições de API", () => {
-  assert.match(js, /function initVideoGallery\(\)/);
+  assert.match(js, /function initVideoGallery\(opts\)/);
   assert.match(js, /function initBannerVitrine\(\)/);
-  assert.match(js, /initVideoGallery\(\);\s*initBannerVitrine\(\)/);
+  assert.match(js, /loadPublishedGallery\(\)\.then\(function \(gallery\) \{ initVideoGallery\(gallery\); \}\);\s*initBannerVitrine\(\)/);
   assert.match(js, /aspect-ratio:3\/5/);
   assert.match(js, /scroll-snap-type:x mandatory/);
   assert.doesNotMatch(js, /\baxios\b/);
   assert.match(js, /url\.origin === window\.location\.origin/);
+  assert.match(js, /credentials: "omit"/);
 });
 
 test("Categoria Cabelos: configuração só atua nesta categoria e inicia false", () => {

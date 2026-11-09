@@ -17,6 +17,14 @@
   const mounted = new Set();
 
   function settings() { return window.Nichelle27Settings || {}; }
+  function previewFixtureAllowed() {
+    const host = String(window.location.hostname || "").toLowerCase();
+    const localHost = host === "localhost" || host === "127.0.0.1";
+    const vercelPreview = host.startsWith("nichelle-2026-") &&
+      host.endsWith("-fwragenciadigitals-projects.vercel.app");
+    return !!(document.body && document.body.dataset.nichellePreviewFixture === "true" &&
+      (localHost || vercelPreview));
+  }
   function log() {
     if (settings().geral && settings().geral.debug === true) {
       console.info.apply(console, ["[Nichelle27]"].concat(Array.from(arguments)));
@@ -317,6 +325,12 @@
   function mount() {
     const cfg = settings();
     if (!enabled(cfg.geral)) return { ativo: false, montados: Array.from(mounted) };
+    // Este framework ainda é uma fixture visual. Não altere header, footer,
+    // vitrines ou formulários da Loja Integrada até a homologação do tema.
+    if (!previewFixtureAllowed()) {
+      log("Bloqueado fora da prévia isolada; tema nativo preservado.");
+      return { ativo: false, bloqueado: true, montados: Array.from(mounted) };
+    }
 
     mountTopo();
     nativeSkin(cfg.rodape, "data-n27-footer");
@@ -362,6 +376,8 @@
     mount: mount,
     diagnostico: function () {
       return { versao: VERSION, configuracaoAtiva: enabled(settings().geral),
+        previewPermitido: previewFixtureAllowed(),
+        bloqueado: enabled(settings().geral) && !previewFixtureAllowed(),
         layout: !!select(settings().layout && settings().layout.seletor),
         ordem: Array.from(ORDER), montados: Array.from(mounted),
         modules: Object.keys(settings()).filter(function (k) { return settings()[k] && settings()[k].ativo === true; }) };

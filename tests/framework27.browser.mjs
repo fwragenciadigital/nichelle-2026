@@ -12,23 +12,23 @@ function products(prefix) {
  return '<div id="'+prefix+'" class="listagem-produtos">' +
   Array.from({length:7},(_,i)=>'<div class="listagem-item"><div class="produto">' +
   '<div style="height:190px;background:#eee4f0;border-radius:12px;display:grid;place-items:center;font-size:70px;color:#9401ac">✦</div>' +
-  '<p class="nome-produto">Produto demonstrativo '+(i+1)+'</p>' +
-  '<div class="preco-produto"><strong class="preco-promocional">R$ 189,00</strong></div>' +
+  '<p class="nome-produto">Produto de teste '+(i+1)+'</p>' +
+  '<div class="preco-produto"><strong class="preco-promocional">Preço de fixture</strong></div>' +
   '</div></div>').join('') + '</div>';
 }
 const config={
  geral:{ativo:true,debug:false,paginas:['/']},
  layout:{ativo:true,seletor:'#n27-layout-root'},
  topo:{ativo:true,seletor:'#cabecalho',faixaAtiva:true,qualificadores:[
-  {titulo:'LOJA 100% SEGURA',texto:'PROTEÇÃO SSL'},
-  {titulo:'ENTREGA GARANTIDA',texto:'PARA TODO O BRASIL'},
-  {titulo:'PARCELE SUAS COMPRAS',texto:'ATÉ 10X'},
-  {titulo:'TROCA FÁCIL',texto:'ATÉ 7 DIAS'}]},
+  {titulo:'INFORMAÇÕES DA LOJA',texto:'TEXTO DE TESTE'},
+  {titulo:'ENTREGA',texto:'CONDIÇÕES DE TESTE'},
+  {titulo:'PAGAMENTO',texto:'CONDIÇÕES DE TESTE'},
+  {titulo:'TROCAS',texto:'POLÍTICA DE TESTE'}]},
  qualificadores:{ativo:true,rotulo:'VANTAGENS',itens:[
-  {icone:'caixa',texto:'COSMÉTICOS IMPORTADOS À PRONTA ENTREGA'},
-  {icone:'original',texto:'PRODUTOS 100% ORIGINAIS'},
-  {icone:'atendimento',texto:'ATENDIMENTO PERSONALIZADO'},
-  {icone:'selo',texto:'LOJA COM SELO DE VERIFICAÇÃO'}]},
+  {icone:'caixa',texto:'BENEFÍCIO DE TESTE 1'},
+  {icone:'original',texto:'BENEFÍCIO DE TESTE 2'},
+  {icone:'atendimento',texto:'BENEFÍCIO DE TESTE 3'},
+  {icone:'selo',texto:'BENEFÍCIO DE TESTE 4'}]},
  maisVendidos:{ativo:true,titulo:'Produtos',destaque:'Mais Vendidos',seletorFonte:'#best',seletorItem:'.listagem-item'},
  lancamentos:{ativo:true,titulo:'Produtos',destaque:'Lançamentos',seletorFonte:'#launch',seletorItem:'.listagem-item'},
  promocoes:{ativo:true,titulo:'Produtos',destaque:'Promocionais',seletorFonte:'#deals',seletorItem:'.listagem-item'},
@@ -48,7 +48,8 @@ const html=[
 '#footer{padding:35px 6%}</style>',
 '<script>const cfg=',JSON.stringify(config),
 ';if(location.search.includes("disabled"))cfg.geral.ativo=false;window.Nichelle27Settings=cfg;'+
-  'if(location.search.includes("modules"))window.FWRNichelle={bannerVitrine:{ativo:true},galeriaVideos:{ativo:true},noticias:{ativo:true}};</script></head><body>',
+  'if(location.search.includes("modules"))window.FWRNichelle={bannerVitrine:{ativo:true},galeriaVideos:{ativo:true},noticias:{ativo:true}};</script></head><body data-nichelle-preview-fixture="true">',
+'<script>if(location.search.includes("blocked"))document.body.removeAttribute("data-nichelle-preview-fixture");</script>',
 '<header id="cabecalho"><strong>Nichelle Imports</strong><nav class="menu">Skincare · Tipos de Pele · Marcas</nav></header>',
 '<main><div id="n27-layout-root"></div></main>'+
  '<div id="fwr-nichelle-vitrine-slot"></div><div id="fwr-nichelle-video-slot"></div><div id="fwr-nichelle-noticias-slot"></div><div id="native-products">',
@@ -86,7 +87,9 @@ function send(method,params={}){
  });
 }
 async function start(){
- const candidates=[process.env.CHROME_BIN,'/usr/bin/google-chrome','/usr/bin/chromium','/usr/bin/chromium-browser'].filter(Boolean);
+ const candidates=[process.env.CHROME_BIN,'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+  'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
+  '/usr/bin/google-chrome','/usr/bin/chromium','/usr/bin/chromium-browser'].filter(Boolean);
  let bin;
  for(const c of candidates){try{await access(c);bin=c;break;}catch{}}
  if(!bin)throw Error('Chromium não disponível');
@@ -134,9 +137,9 @@ const expression="(function(){"+
  "qualifierColumns:benefits?getComputedStyle(benefits).gridTemplateColumns.split(' ').filter(Boolean).length:0,"+
  "shelfOverflow:shelf?shelf.scrollWidth>shelf.clientWidth:false,brandsCount:root.querySelectorAll('.n27-brands__item').length};"+
  "})()";
-async function measure(width,height,disabled=false,modules=false){
+async function measure(width,height,disabled=false,modules=false,blocked=false){
  await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<768});
- await send('Page.navigate',{url:base+(disabled?'/?disabled=1':(modules?'/?modules=1':'/'))});
+ await send('Page.navigate',{url:base+(blocked?'/?blocked=1':(disabled?'/?disabled=1':(modules?'/?modules=1':'/')))});
  for(let i=0;i<70;i++){
   await delay(70);
   const r=await send('Runtime.evaluate',{expression,returnByValue:true});
@@ -178,6 +181,13 @@ try{
   assert.equal(v.order.length,0);assert.equal(v.productsRoot,false);
   assert.equal(v.headerStyled,false);assert.equal(v.footerStyled,false);
   assert.equal(v.report.configuracaoAtiva,false);
+ });
+ await test('marcador de prévia ausente — bloqueia alterações em elementos nativos',async()=>{
+  const v=await measure(1440,900,false,false,true);
+  assert.equal(v.order.length,0);assert.equal(v.productsRoot,false);
+  assert.equal(v.headerStyled,false);assert.equal(v.footerStyled,false);
+  assert.equal(v.report.bloqueado,true);assert.equal(v.report.previewPermitido,false);
+  assert.equal(v.productCount,7);
  });
 }finally{
  try{ws?.close();}catch{}

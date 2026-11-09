@@ -1,3 +1,7 @@
+<!-- NÃO INSTALAR: fixture histórica. Consulte docs/07-ARQUITETURA-SIMPLIFICADA-GIT-HTML.md.
+     O framework Nichelle27 só funciona em preview isolado; a integração atual usa
+     integracao/html-galeria-shorts.html com o runtime public/nichelle.js.
+-->
 <!-- NICHELLE 27 | FRAMEWORK DE HOMOLOGAÇÃO
   1. Na home, posicione este HTML no início da área de conteúdo, depois do topo.
   2. CSS do framework vai no HEAD, antes do conteúdo.
@@ -24,20 +28,21 @@ window.Nichelle27Settings = {
     seletor: ".cabecalho", // Confirmar o seletor do cabeçalho real
     faixaAtiva: false,     // Faixa superior de qualificadores
     qualificadores: [
-      { titulo: "LOJA 100% SEGURA", texto: "COM PROTEÇÃO DE CERTIFICADO SSL" },
-      { titulo: "ENTREGA GARANTIDA", texto: "PARA TODO O BRASIL" },
-      { titulo: "PARCELE SUAS COMPRAS", texto: "EM ATÉ 10X NO CARTÃO" },
-      { titulo: "TROCA FÁCIL", texto: "EM ATÉ 7 DIAS APÓS O RECEBIMENTO" }
+      // Conteúdo neutro; claims comerciais só entram após confirmação da Nichelle.
+      { titulo: "INFORMAÇÃO DA LOJA", texto: "TEXTO A CONFIRMAR" },
+      { titulo: "ENTREGA", texto: "CONDIÇÕES A CONFIRMAR" },
+      { titulo: "PAGAMENTO", texto: "CONDIÇÕES A CONFIRMAR" },
+      { titulo: "TROCAS", texto: "POLÍTICA A CONFIRMAR" }
     ]
   },
   qualificadores: {
     ativo: false,
     rotulo: "VANTAGENS",
     itens: [
-      { icone: "caixa", texto: "COSMÉTICOS IMPORTADOS À PRONTA ENTREGA" },
-      { icone: "original", texto: "PRODUTOS 100% ORIGINAIS COM NOTA FISCAL" },
-      { icone: "atendimento", texto: "ATENDIMENTO PERSONALIZADO COM EQUIPE ESPECIALISTA" },
-      { icone: "selo", texto: "LOJA COM SELO DE VERIFICAÇÃO RECLAME AQUI" }
+      { icone: "caixa", texto: "COSMÉTICOS IMPORTADOS · TEXTO A CONFIRMAR" },
+      { icone: "original", texto: "ORIGINALIDADE · TEXTO A CONFIRMAR" },
+      { icone: "atendimento", texto: "ATENDIMENTO · TEXTO A CONFIRMAR" },
+      { icone: "selo", texto: "SELO · TEXTO A CONFIRMAR" }
     ]
   },
   // Cada vitrine reutiliza uma lista de produtos ORIGINAL da Loja Integrada,

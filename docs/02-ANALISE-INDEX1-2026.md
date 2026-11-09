@@ -4,6 +4,9 @@
 
 ## Evidência coletada
 
+- Em 2026-11-09, o cliente enviou 11 capturas de estruturas em desktop: topo/header/menu, benefícios, vitrines, tiles de pele, marcas, galeria de vídeos, notícias, newsletter/Instagram e institucional/rodapé. Elas confirmam a aparência dessas regiões para a prévia; não confirmam gestão, interação, conteúdo comercial aprovado nem comportamento responsivo.
+- A prévia de homologação em `preview/index.html` organiza as estruturas na sequência dos screenshots, com conteúdo e imagens sintéticos claramente sinalizados. Os quatro links finais de vídeo, imagens oficiais de produto/marca/notícia/Instagram e conteúdo comercial ainda precisam ser fornecidos ou aprovados.
+
 - A URL exata abriu em navegador Chromium e exibiu o layout de página inteira, com a sequência descrita abaixo.
 - A estrutura HTML observável da página contém um elemento de imagem centralizado: `<img src="images/banner-regua.png" width="1250" height="8550" alt="">`. A imagem tem dimensões de layout declaradas de **1250 × 8550 CSS px** e não há texto semântico ou elementos DOM separados para os blocos.
 - A imagem é uma composição visual longa. Ela permite mapear aparência e ordem visual, mas não revela seletores de seção, links, origem dos componentes, integração de formulários, controles de reprodução ou comportamento de breakpoints.
