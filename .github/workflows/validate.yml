@@ -18,6 +18,8 @@ jobs:
         with:
           node-version: '22'
       - run: node --test tests/*.test.mjs
+      - name: Validar notícias no Chromium (desktop, tablet e celular)
+        run: node tests/noticias.browser.mjs
       - name: Compilar pacote JS para Vercel
         run: |
           node vercel/build.mjs
