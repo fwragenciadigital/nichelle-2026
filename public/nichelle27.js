@@ -1,5 +1,5 @@
 /*
- * Nichelle 27 — Framework estrutural FWR v0.3.0 (pré-homologação)
+ * Nichelle 27 — Framework estrutural FWR v0.4.0 (ativação direta por opt-in na Loja Integrada)
  * Origem: layout de referência Nichelle 2026.
  * Somente integra conteúdo real da Loja Integrada. NÃO cria produtos/preços fictícios,
  * checkout, autenticação, formulários falsos ou imagens externas automáticas.
@@ -9,7 +9,7 @@
 (function () {
   "use strict";
   if (window.Nichelle27Framework && window.Nichelle27Framework.initialized) return;
-  const VERSION = "0.3.0";
+  const VERSION = "0.4.0";
   const ORDER = Object.freeze([
     "qualificadores", "maisVendidos", "banners", "lancamentos", "marcas",
     "videos", "promocoes", "noticias", "newsletter", "instagram", "empresa"
@@ -31,7 +31,12 @@
     const privateMode = liveHost && !!(document.documentElement &&
       document.documentElement.dataset.n27PrivateMode === "fwr-local-extension" &&
       window.__FWR_NICHELLE_PRIVATE_MODE__ === true);
-    return fixture || privateMode;
+    // Publicação oficial: opt-in explícito no HTML da Loja Integrada.
+    // O script hospedado sozinho na Vercel NÃO ativa nenhuma personalização.
+    // A home e as páginas internas obedecem às flags e páginas em Settings.
+    const directStoreMode = liveHost &&
+      !!(settings().geral && settings().geral.publicarNaLoja === true);
+    return fixture || privateMode || directStoreMode;
   }
   function log() {
     if (settings().geral && settings().geral.debug === true) {
@@ -336,10 +341,10 @@
   function mount() {
     const cfg = settings();
     if (!enabled(cfg.geral)) return { ativo: false, montados: Array.from(mounted) };
-    // Este framework ainda é uma fixture visual. Não altere header, footer,
-    // vitrines ou formulários da Loja Integrada até a homologação do tema.
+    // Execução permitida somente na fixture, na extensão privada ou
+    // no domínio oficial com publicarNaLoja:true explicitamente configurado.
     if (!previewFixtureAllowed()) {
-      log("Bloqueado fora da prévia isolada; tema nativo preservado.");
+      log("Bloqueado: exige modo privado ou publicarNaLoja:true no domínio oficial.");
       return { ativo: false, bloqueado: true, montados: Array.from(mounted) };
     }
 
@@ -388,6 +393,7 @@
     diagnostico: function () {
       return { versao: VERSION, configuracaoAtiva: enabled(settings().geral),
         previewPermitido: previewFixtureAllowed(),
+        publicacaoAtiva: !!(settings().geral && settings().geral.publicarNaLoja === true),
         bloqueado: enabled(settings().geral) && !previewFixtureAllowed(),
         layout: !!select(settings().layout && settings().layout.seletor),
         ordem: Array.from(ORDER), montados: Array.from(mounted),
