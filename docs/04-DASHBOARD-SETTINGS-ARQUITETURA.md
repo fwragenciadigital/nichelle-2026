@@ -44,7 +44,7 @@ seção FWR é montada em slot estável e predeterminado
 - O editor oferece somente os campos YouTube definidos no schema; HTML/JS arbitrário, MP4/Vimeo e configurações nativas não fazem parte da V1.
 - Rascunho, prévia autenticada, publicar e rollback ficam em PHP; versões privadas usam `NICHELLE_DATA_DIR` fora do document root.
 - O artefato público read-only é `public/galeria-publicada.json`, sem senha/token. A loja lê somente essa configuração.
-- O servidor valida Shorts/`watch`/`youtu.be`, URL canônica e allowlist de host para capas personalizadas. HTTPS isoladamente não libera host externo.
+- O servidor valida Shorts/`watch`/`youtu.be`, URL canônica e allowlist de host para capas personalizadas. URL de capa exige HTTPS sem query ou fragmento; HTTPS isoladamente não libera host externo.
 - Hospedagem/CDN ainda precisa de CORS, MIME `application/json`, HTTPS, cache/ETag/versão e medição de propagação antes de instalar em homologação.
 - O runtime aceita somente o schema/versão válidos e só monta no slot fixo. A integração LI informa `configUrl` uma vez; a publicação do dashboard altera o JSON lido pelo runtime, sem nova edição manual para cada vídeo. Falha de rede/configuração conserva o espaço e apresenta aviso neutro.
 - **Preço, estoque, desconto e disponibilidade** continuam sendo dados nativos da Loja Integrada, nunca JSON do painel.

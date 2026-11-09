@@ -58,7 +58,7 @@ V1 não aceita HTML, CSS, JS, iframes, seletores, provedores adicionais ou links
 - **Mobile/tablet:** a arte rasterizada mantém 1250 px de largura e corta conteúdo nos viewports menores; ela não informa o comportamento responsivo de produção. A implementação candidata usa scroll-snap abaixo de 768px, sujeito à aprovação visual na LI.
 - **Slot:** runtime usa o alvo fixo `#fwr-nichelle-video-slot`; o tema precisa fornecer esse slot e a classe `.fwr-nichelle-video-slot` no ponto visual certo. O mecanismo de inserção no tema LI ainda não foi inspecionado; nunca localizar por texto/copy frágil nem aceitar seletor editável pelo cliente.
 - **Integração remota:** código e mídia servidos por infraestrutura pública aprovada da FWR; `public/galeria-publicada.json` em HTTPS, CORS explícito, MIME JSON, versão/cache/ETag documentados. O browser da loja só lê configuração pública sanitizada via `fetch` com credenciais omitidas, cache `no-store` e redirects recusados.
-- **Hosts de mídia:** HTTPS não basta. O backend aplica allowlist de host para capas personalizadas (`NICHELLE_POSTER_HOSTS`), remove query tracking da URL do vídeo ao canonicalizar e recusa parâmetros com credenciais/assinaturas na capa.
+- **Hosts de mídia:** HTTPS não basta. O backend aplica allowlist de host para capas personalizadas (`NICHELLE_POSTER_HOSTS`), remove query tracking da URL do vídeo ao canonicalizar e recusa query strings e fragmentos em capas públicas.
 
 ## Estados estáveis e risco de CLS
 

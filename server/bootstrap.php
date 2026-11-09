@@ -80,11 +80,8 @@ function nichelle_safe_public_url(string $raw,array $allowedHosts): string {
  if($url==='')return '';
  $parts=parse_url($url);$host=strtolower((string)($parts['host']??''));
  if(!in_array($host,$allowedHosts,true))throw new InvalidArgumentException('A imagem precisa estar em um domínio HTTPS aprovado pela FWR.');
- parse_str((string)($parts['query']??''),$query);
- foreach(array_keys($query) as $key){
-  if(preg_match('/token|auth|signature|credential|api[_-]?key|^sig$|^key$|^x-(?:amz|goog)-|^awsaccesskeyid$|^expires$/i',(string)$key))
-   throw new InvalidArgumentException('Remova credenciais e parâmetros assinados da URL pública da imagem.');
- }
+ if(array_key_exists('query',$parts)||array_key_exists('fragment',$parts))
+  throw new InvalidArgumentException('A URL pública da capa não pode conter parâmetros ou fragmentos.');
  return $url;
 }
 function nichelle_poster_hosts(): array {

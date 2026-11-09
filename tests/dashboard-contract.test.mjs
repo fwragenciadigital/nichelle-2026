@@ -24,3 +24,9 @@ test("ações de escrita exigem sessão e CSRF; painel mantém senha apenas no s
   assert.match(draft, /Cache-Control|nichelle_secure_session/);
   assert.doesNotMatch(await read("../public/nichelle.js"), /NICHELLE_ADMIN_PASSWORD_HASH|NICHELLE_SESSION_SECRET|password_verify/);
 });
+
+test("capas públicas aceitam apenas URL HTTPS aprovada sem query nem fragmento", () => {
+  assert.match(bootstrap, /function nichelle_safe_public_url\(string \$raw,array \$allowedHosts\)/);
+  assert.match(bootstrap, /if\(array_key_exists\('query',\$parts\)\|\|array_key_exists\('fragment',\$parts\)\)/);
+  assert.match(bootstrap, /A URL pública da capa não pode conter parâmetros ou fragmentos/);
+});
