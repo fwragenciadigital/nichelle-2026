@@ -385,11 +385,159 @@
     }, 6000);
   }
 
+  /*
+   * NOTÍCIAS EDITORIAIS — cadastro no HTML/Rodapé; URL de destino
+   * aponta para página de conteúdo da Loja Integrada.
+   * Oculte SOMENTE os links dessas páginas no rodapé, nunca as páginas.
+   */
+  function initNoticias() {
+    const config = window.FWRNichelle && window.FWRNichelle.noticias;
+    if (!config || !Array.isArray(config.itens)) return;
+
+    function safeUrl(input, sameOriginOnly) {
+      if (typeof input !== "string" || !input.trim()) return "";
+      try {
+        const u = new URL(input.trim(), window.location.href);
+        if (u.protocol !== "https:" && !(u.protocol === "http:" && u.origin === window.location.origin)) return "";
+        if (u.username || u.password) return "";
+        if (sameOriginOnly && u.origin !== window.location.origin) return "";
+        return u.href;
+      } catch (_) { return ""; }
+    }
+    function pathOf(href) {
+      const url = safeUrl(href, true);
+      if (!url) return "";
+      const u = new URL(url);
+      return u.pathname.replace(/\/+$/, "") || "/";
+    }
+    // Páginas extras/institucionais são listadas no rodapé nativo da LI.
+    // Apenas o link exato de cada notícia cadastrada é removido dali.
+    function hideFooterLinks() {
+      if (config.ocultarLinksRodape !== true) return;
+      const paths = new Set(config.itens.map(function (item) {
+        return item && pathOf(item.link);
+      }).filter(Boolean));
+      if (!paths.size) return;
+      document.querySelectorAll("footer a[href], .rodape a[href], #rodape a[href], .footer a[href], #footer a[href]")
+        .forEach(function (anchor) {
+          if (!paths.has(pathOf(anchor.getAttribute("href")))) return;
+          const li = anchor.closest("li");
+          const target = li && li.querySelectorAll("a[href]").length === 1 ? li : anchor;
+          target.style.setProperty("display", "none", "important");
+          target.setAttribute("data-fwr-noticia-footer-oculta", "1");
+        });
+    }
+    hideFooterLinks();
+
+    if (config.ativo !== true) return;
+    const slot = document.getElementById("fwr-nichelle-noticias-slot");
+    if (!slot || slot.dataset.fwrInitialized === "1") return;
+
+    const items = config.itens.slice(0, 3).map(function (raw) {
+      if (!raw || typeof raw !== "object") return null;
+      const foto = safeUrl(raw.foto, false), link = safeUrl(raw.link, true);
+      const titulo = typeof raw.titulo === "string" ? raw.titulo.trim().slice(0, 170) : "";
+      const resumo = typeof raw.resumo === "string" ? raw.resumo.trim().slice(0, 310) : "";
+      const data = typeof raw.data === "string" ? raw.data.trim() : "";
+      if (!foto || !link || !titulo || !resumo || !data) return null;
+      let iso = "", label = data.slice(0, 60);
+      const parts = /^(\d{4})-(\d{2})-(\d{2})$/.exec(data);
+      if (parts) {
+        const year = Number(parts[1]), month = Number(parts[2]), day = Number(parts[3]);
+        const date = new Date(Date.UTC(year, month - 1, day));
+        if (year >= 2000 && date.getUTCFullYear() === year &&
+            date.getUTCMonth() === month - 1 && date.getUTCDate() === day) {
+          iso = data;
+          label = new Intl.DateTimeFormat("pt-BR", {
+            day: "2-digit", month: "long", year: "numeric", timeZone: "UTC"
+          }).format(date);
+        }
+      }
+      return { foto, link, titulo, resumo, iso, data: label };
+    }).filter(Boolean);
+    if (!items.length) return;
+
+    const styleId = "fwr-nichelle-news-styles";
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement("style");
+      style.id = styleId;
+      style.textContent = "#fwr-nichelle-noticias-slot{box-sizing:border-box;width:100%}\n#fwr-nichelle-noticias-slot,#fwr-nichelle-noticias-slot *{box-sizing:border-box}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news{background:#f0eaf2;padding:clamp(26px,3.2vw,55px) 0}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__inner{max-width:1460px;margin-inline:auto;padding-inline:clamp(16px,2.2vw,32px)}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__heading{display:flex;align-items:center;gap:10px;margin:0 0 clamp(22px,2vw,32px);font:400 clamp(19px,1.5vw,23px)/1.25 Arial,sans-serif;color:#68616c}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__heading strong{color:#aa41bb;font-weight:700}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__heading:after{content:\"\";flex:1;height:1px;background:#bcb4bf}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:stretch}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__layout[data-count=\"1\"]{grid-template-columns:minmax(0,1fr)}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__featured{position:relative;display:block;overflow:hidden;isolation:isolate;aspect-ratio:1.48;min-height:0;border-radius:17px;background:#d8c9d7;text-decoration:none;color:#fff}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__featured:after{content:\"\";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,transparent 24%,rgba(0,0,0,.12) 39%,rgba(0,0,0,.86) 100%);pointer-events:none}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__image{display:block;width:100%;height:100%;object-fit:cover}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__featured-content{position:absolute;z-index:2;bottom:0;left:0;right:0;padding:clamp(18px,2.4vw,34px);display:grid;gap:clamp(12px,1.3vw,21px)}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__featured-title{margin:0;font:800 clamp(16px,1.3vw,21px)/1.18 Arial,sans-serif;text-transform:uppercase;letter-spacing:.005em;overflow-wrap:anywhere}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__featured-summary{margin:0;font:400 clamp(12px,.95vw,15px)/1.45 Arial,sans-serif;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__meta{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;font:400 clamp(11px,.94vw,14px)/1.35 Arial,sans-serif}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__read{text-decoration:underline;font-weight:700;white-space:nowrap}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__sidebar{display:grid;grid-auto-rows:minmax(0,1fr);gap:16px;min-width:0}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__item{min-width:0;display:grid;grid-template-columns:minmax(0,44%) minmax(0,1fr);gap:clamp(12px,1vw,19px);align-items:stretch;color:#625d66;text-decoration:none}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__thumb{display:block;min-width:0;overflow:hidden;position:relative;aspect-ratio:1.38;border-radius:17px;background:#dbcddd}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__info{min-width:0;display:flex;flex-direction:column;padding:clamp(8px,1.6vw,32px) 0;gap:clamp(9px,.9vw,17px)}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__item-title{margin:0;color:#a83cba;font:800 clamp(13px,1.05vw,17px)/1.12 Arial,sans-serif;text-transform:uppercase;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__summary{margin:0;font:400 clamp(11px,.9vw,14px)/1.28 Arial,sans-serif;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__item .fwr-nichelle-news__meta{margin-top:auto;font-size:clamp(10px,.87vw,13px)}\n#fwr-nichelle-noticias-slot a:focus-visible{outline:3px solid #a83cba;outline-offset:4px}\n@media(max-width:1100px){\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__layout{grid-template-columns:minmax(0,1fr)}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__featured{aspect-ratio:1.75}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__sidebar{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__item{grid-template-columns:minmax(0,43%) minmax(0,1fr)}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__thumb{aspect-ratio:.98}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__info{padding:2px 0}\n}\n@media(max-width:700px){\n#fwr-nichelle-noticias-slot .fwr-nichelle-news{padding:28px 0}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__inner{padding-inline:16px}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__heading{font-size:19px;margin-bottom:20px}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__featured{aspect-ratio:auto;height:clamp(350px,110vw,480px)}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__featured-content{padding:20px;gap:14px}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__featured-title{font-size:16px}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__featured-summary{font-size:12px;-webkit-line-clamp:2}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__sidebar{grid-template-columns:minmax(0,1fr);gap:20px}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__item{grid-template-columns:minmax(0,42%) minmax(0,1fr);gap:13px}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__thumb{aspect-ratio:1.14;border-radius:13px}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__item-title{font-size:13px}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__summary{font-size:12px;-webkit-line-clamp:2}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__meta{font-size:11px}\n}\n@media(max-width:360px){\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__item{grid-template-columns:minmax(0,40%) minmax(0,1fr);gap:10px}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__item-title{font-size:12px}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__summary{font-size:11px}\n#fwr-nichelle-noticias-slot .fwr-nichelle-news__item .fwr-nichelle-news__meta{font-size:10px;gap:5px}\n}";
+      (document.head || document.documentElement).appendChild(style);
+    }
+    function element(name, className, text) {
+      const el = document.createElement(name);
+      if (className) el.className = className;
+      if (typeof text === "string") el.textContent = text;
+      return el;
+    }
+    function photo(item, featured) {
+      const img = element("img", "fwr-nichelle-news__image");
+      img.src = item.foto;
+      img.alt = item.titulo;
+      img.loading = "lazy";
+      img.decoding = "async";
+      img.width = featured ? 1200 : 700;
+      img.height = featured ? 810 : 500;
+      return img;
+    }
+    function metadata(item) {
+      const meta = element("div", "fwr-nichelle-news__meta");
+      const published = element("time", "", "Publicado em " + item.data);
+      if (item.iso) published.dateTime = item.iso;
+      const read = element("span", "fwr-nichelle-news__read", "Ler mais");
+      meta.append(published, read);
+      return meta;
+    }
+    const section = element("section", "fwr-nichelle-news");
+    section.setAttribute("aria-label", "Conteúdos para você");
+    const inner = element("div", "fwr-nichelle-news__inner");
+    const heading = element("h2", "fwr-nichelle-news__heading");
+    heading.append(document.createTextNode("Conteúdos "), element("strong", "", "para você"));
+    const layout = element("div", "fwr-nichelle-news__layout");
+    layout.dataset.count = String(items.length);
+
+    const featured = items[0];
+    const hero = element("a", "fwr-nichelle-news__featured");
+    hero.href = featured.link;
+    hero.appendChild(photo(featured, true));
+    const copy = element("div", "fwr-nichelle-news__featured-content");
+    copy.append(element("h3", "fwr-nichelle-news__featured-title", featured.titulo),
+      element("p", "fwr-nichelle-news__featured-summary", featured.resumo),
+      metadata(featured));
+    hero.appendChild(copy);
+    layout.appendChild(hero);
+
+    if (items.length > 1) {
+      const side = element("div", "fwr-nichelle-news__sidebar");
+      items.slice(1).forEach(function (item) {
+        const card = element("a", "fwr-nichelle-news__item");
+        card.href = item.link;
+        const thumb = element("span", "fwr-nichelle-news__thumb");
+        thumb.appendChild(photo(item, false));
+        const detail = element("div", "fwr-nichelle-news__info");
+        detail.append(element("h3", "fwr-nichelle-news__item-title", item.titulo),
+          element("p", "fwr-nichelle-news__summary", item.resumo),
+          metadata(item));
+        card.append(thumb, detail);
+        side.appendChild(card);
+      });
+      layout.appendChild(side);
+    }
+    inner.append(heading, layout);
+    section.appendChild(inner);
+    slot.replaceChildren(section);
+    slot.dataset.fwrInitialized = "1";
+    slot.dataset.fwrActive = "1";
+    slot.style.minHeight = "";
+  }
+
   function start() {
     initVideoGallery();
     initBannerVitrine();
+    initNoticias();
     /* Adicionar futuras funções exclusivas aqui, sem recriar recursos nativos da LI. */
   }
+  document.addEventListener("fwr:nichelle:news-config", initNoticias);
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start, {once:true});
   else start();
 })();
