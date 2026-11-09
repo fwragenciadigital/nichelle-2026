@@ -241,6 +241,9 @@
   function initBannerVitrine() {
     const cfg = window.FWRNichelle && window.FWRNichelle.bannerVitrine;
     if (!cfg || cfg.ativo !== true) return;
+    // Na categoria, a LI publica Full Banners, não os banners da posição Vitrine.
+    // O modo "categoria" aceita 4 Full Banners identificados pelos nomes/ALT.
+    const origem = cfg.origem === "categoria" ? "categoria" : "vitrine";
     const slot = document.getElementById("fwr-nichelle-vitrine-slot");
     if (!slot || slot.dataset.fwrInitialized === "1") return;
     // Não renderizar nem alterar os banners nativos sem todos os quatro nomes.
@@ -269,7 +272,9 @@
         const img = images.find(function (candidate) {
           if (candidate.closest("#fwr-nichelle-vitrine-slot")) return false;
           if (key(candidate.getAttribute("alt") || candidate.getAttribute("title")) !== name) return false;
-          // Apenas Banner Vitrine ou imagem oriunda do diretório nativo de banners.
+          // Os ALT são nomes exclusivos configurados no painel LI. Para categorias,
+          // o tema pode usar nomes de classes e diretórios diferentes para Full Banner.
+          if (origem === "categoria") return !candidate.closest(".slick-cloned, .swiper-slide-duplicate");
           const src = candidate.currentSrc || candidate.getAttribute("data-src") ||
             candidate.getAttribute("data-original") || candidate.getAttribute("src") || "";
           return !!candidate.closest(".banner.vitrine, .banner-vitrine, [class*='banner-vitrine'], .secao-banners") ||
@@ -277,7 +282,7 @@
         });
         if (!img) return [];
         const src = safeURL(img.getAttribute("data-src") || img.getAttribute("data-original") ||
-          img.currentSrc || img.getAttribute("src"));
+          img.getAttribute("data-lazy") || img.currentSrc || img.getAttribute("src"));
         if (!src) return [];
         const link = img.closest("a[href]");
         const destination = link && safeURL(link.getAttribute("href"));
@@ -347,11 +352,16 @@
       slot.style.minHeight = "";
       // Ocultar apenas os quatro banners individuais reaproveitados. Os demais
       // banners, vitrines, carrinho e módulos nativos da LI ficam intactos.
-      banners.forEach(function (banner) {
-        const source = banner.link && banner.link.querySelectorAll("img").length === 1 ?
-          banner.link : banner.img;
-        source.classList.add("fwr-nichelle-vitrine-native-hidden");
-      });
+      // Full Banner de categoria costuma integrar um carrossel nativo.
+      // Não ocultar itens dentro dele sem a opção explícita, para não deixar
+      // um carrossel vazio ou interromper o slider da Loja Integrada.
+      if (origem !== "categoria" || cfg.ocultarOriginais === true) {
+        banners.forEach(function (banner) {
+          const source = banner.link && banner.link.querySelectorAll("img").length === 1 ?
+            banner.link : banner.img;
+          source.classList.add("fwr-nichelle-vitrine-native-hidden");
+        });
+      }
     }
 
     let observer = null, timer = null, pending = false;
@@ -538,6 +548,7 @@
     initNoticias();
     /* Adicionar futuras funções exclusivas aqui, sem recriar recursos nativos da LI. */
   }
+  document.addEventListener("fwr:nichelle:banner-config", initBannerVitrine);
   document.addEventListener("fwr:nichelle:news-config", initNoticias);
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start, {once:true});
   else start();
