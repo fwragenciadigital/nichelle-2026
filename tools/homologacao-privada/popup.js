@@ -36,7 +36,7 @@ async function action(mode) {
     });
     let report = result[0]?.result;
     if (!report?.ok) throw new Error(report?.message || "A aba não respondeu.");
-    if (mode !== "inspect") {
+    if (mode !== "inspect" && !report.alreadyActive) {
       // Assets locais empacotados a partir de public/nichelle27.js/.css.
       await chrome.scripting.insertCSS({ target: { tabId: tab.id }, files: ["nichelle27.css"] });
       await chrome.scripting.executeScript({ target: { tabId: tab.id }, world: "MAIN", files: ["nichelle27.js"] });
@@ -74,8 +74,16 @@ function enablePrivate(mode) {
     document.querySelector("#corpo .conteudo") || document.querySelector("main");
   if (!main || main.closest("header,nav,.cabecalho")) return {ok:false,message:"Área de conteúdo não identificada. Nenhum módulo foi ativado."};
   if (window.__FWR_NICHELLE_PRIVATE_MODE__ === true) {
-    return {ok:true,message:"O modo FWR já está ativo. Recarregue para mudar de modo.",
+    return {ok:true,alreadyActive:true,message:"O modo FWR já está ativo. Recarregue para mudar de modo.",
       details: "Módulos: " + (window.Nichelle27Framework?.diagnostico?.().montados || []).join(", ")};
+  }
+  // A LI pode já ter carregado um Nichelle27 antigo (inicializado, mas bloqueado).
+  // Substituir SOMENTE o objeto de runtime na aba local, antes de injetar a versão empacotada.
+  // A atualização da página restaura o runtime original normalmente.
+  if (window.Nichelle27Framework?.initialized) {
+    try { delete window.Nichelle27Framework; }
+    catch (_) { return {ok:false,message:"Runtime existente não pode ser substituído em modo privado."}; }
+    if (window.Nichelle27Framework) return {ok:false,message:"Runtime anterior ainda ativo. Atualize a página."};
   }
   const root = document.getElementById("n27-layout-root");
   if (root && !main.contains(root)) return {ok:false,message:"Slot n27-layout-root fora do conteúdo principal. Interrompido por segurança."};
