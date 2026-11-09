@@ -30,7 +30,8 @@
 
   // Ajustável por tipo de página: insere ANTES da primeira lista de produtos.
   // Se desejar outro posicionamento, altere este seletor do HTML, não o JS.
-  var seletorAntes = ".pagina-categoria .listagem, .pagina-inicial .listagem, #corpo .listagem, .listagem, .pagina-categoria .conteudo";
+  // Escopo #corpo obrigatório: .listagem sem escopo também existe nos menus ocultos.
+  var seletorAntes = "#corpo .secao-principal .conteudo .listagem, #corpo .secao-principal .conteudo .listagem-produtos, #corpo .secao-principal .conteudo";
   var cfg = window.FWRNichelle.bannerVitrine;
 
   function normalize(path) {
