@@ -53,6 +53,7 @@ try {
   });
   await command("Page.enable");
   await command("Runtime.enable");
+  await command("Emulation.setDeviceMetricsOverride",{width:1440,height:900,deviceScaleFactor:1,mobile:false});
   await command("Page.navigate",{url:"https://www.nichelleimports.com.br/cabelos"});
   await delay(6000);
   const expression = String.raw`(function(){
@@ -94,10 +95,26 @@ try {
       diagnostic:window.FWRNichelle?.diagnosticoBanners?.()||null
     };
   })()`;
+  const check = function (name,report) {
+    console.log("DIAGNÓSTICO DOM PÚBLICO "+name+":",JSON.stringify(report,null,2));
+    if(!report || !report.configured || !report.runtimeLoaded ||
+       !report.slotExists || !report.mounted || report.cards<1 ||
+       !report.cardCSS || report.cardCSS.width<30 || report.cardCSS.height<30 ||
+       report.cardCSS.display==="none" || !report.imageStatus ||
+       !report.imageStatus.complete || report.imageStatus.naturalWidth<1) {
+      throw Error("Banner não está visível ou imagem não carregou no viewport "+name);
+    }
+  };
   const out=await command("Runtime.evaluate",{expression,returnByValue:true});
-  console.log("DIAGNÓSTICO DOM PÚBLICO:",JSON.stringify(out.result?.value||out,null,2));
+  check("desktop 1440px",out.result?.value);
+  await command("Emulation.setDeviceMetricsOverride",{width:390,height:844,deviceScaleFactor:1,mobile:true});
+  await command("Page.navigate",{url:"https://www.nichelleimports.com.br/cabelos"});
+  await delay(6000);
+  const mobile=await command("Runtime.evaluate",{expression,returnByValue:true});
+  check("mobile 390px",mobile.result?.value);
 } catch(error) {
-  console.log("Auditoria dinâmica indisponível:",String(error).slice(0,300));
+  console.error("Auditoria dinâmica falhou:",String(error).slice(0,500));
+  process.exitCode=1;
 } finally {
   try{ws?.close();}catch{}
   if(chrome && chrome.exitCode===null && chrome.signalCode===null){
