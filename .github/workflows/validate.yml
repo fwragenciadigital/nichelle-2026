@@ -32,6 +32,8 @@ jobs:
         run: |
           node --check public/nichelle27.js
           node --check tools/homologacao-privada/popup.js
+      - name: Verificar acesso público ao Preview Vercel sem autenticação
+        run: node tests/check-vercel-preview.mjs
       - name: Compilar assets públicos e prévia isolada para Vercel
         run: |
           node vercel/build.mjs
