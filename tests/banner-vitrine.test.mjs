@@ -5,8 +5,9 @@ import { Script, runInNewContext } from "node:vm";
 
 const js = await readFile(new URL("../public/nichelle.js", import.meta.url), "utf8");
 const html = await readFile(new URL("../integracao/html-banner-vitrine-4-cards.html", import.meta.url), "utf8");
+const categoryHtml = await readFile(new URL("../integracao/html-categoria-cabelos.html", import.meta.url), "utf8");
 
-function createEnvironment(active, amount = 4) {
+function createEnvironment(active, amount = 4, origin = "vitrine") {
   const state = { edits: [], slot: null, sources: [] };
   function elem(tag = "div") {
     const x = {
@@ -34,9 +35,9 @@ function createEnvironment(active, amount = 4) {
     a.attributes.href = "/colecao-" + (i + 1);
     const img = elem("img");
     img.attributes.alt = names[i];
-    img.attributes.src = "https://cdn.awsli.com.br/100/banner/card" + i + ".jpg";
+    img.attributes.src = "https://cdn.awsli.com.br/100/" + (origin === "categoria" ? "uploads" : "banner") + "/card" + i + ".jpg";
     img.currentSrc = img.attributes.src;
-    img.closest = selector => selector === "a[href]" ? a : (selector.includes(".banner.vitrine") ? a : null);
+    img.closest = selector => selector === "a[href]" ? a : (origin === "vitrine" && selector.includes(".banner.vitrine") ? a : null);
     img.parentElement = null;
     a.children.push(img);
     state.sources.push(img);
@@ -60,7 +61,7 @@ function createEnvironment(active, amount = 4) {
   };
   const window = {
     location: { href: "https://www.nichelleimports.com.br/", origin: "https://www.nichelleimports.com.br" },
-    FWRNichelle: { bannerVitrine: { ativo: active, nomes: names } }
+    FWRNichelle: { bannerVitrine: { ativo: active, nomes: names, origem: origin } }
   };
   runInNewContext(js, { window, document, URL, MutationObserver: class {}, Set, console });
   return state;
@@ -110,4 +111,28 @@ test("CSS separado do módulo de Shorts, sem bibliotecas ou requisições de API
   assert.match(js, /aspect-ratio:3\/5/);
   assert.match(js, /scroll-snap-type:x mandatory/);
   assert.doesNotMatch(js, /\bfetch\s*\(|\baxios\b/);
+});
+
+test("Categoria Cabelos: configuração só atua nesta categoria e inicia false", () => {
+ assert.match(categoryHtml, /\/cabelos/);
+ assert.match(categoryHtml, /origem: "categoria"/);
+ assert.match(categoryHtml, /ativo: false/);
+ assert.match(categoryHtml, /ocultarOriginais: false/);
+ const scripts=[...categoryHtml.matchAll(/<script>([\s\S]*?)<\/script>/g)];
+ assert.equal(scripts.length,1);
+ assert.doesNotThrow(()=>new Script(scripts[0][1]));
+});
+test("Full Banner de categoria usa nome ALT mesmo sem classes de banner e preserva slider nativo",()=>{
+ const env=createEnvironment(true,4,"categoria");
+ assert.equal(env.slot.dataset.fwrInitialized,"1");
+ assert.equal(env.slot.children[0].children[0].children.length,4);
+ assert.equal(env.edits.filter(x=>x==="fwr-nichelle-vitrine-native-hidden").length,0);
+ assert.equal(env.slot.children[0].children[0].children[0].children[0].src,
+  "https://cdn.awsli.com.br/100/uploads/card0.jpg");
+});
+test("Disponibiliza diagnóstico sem varrer DOM no carregamento quando módulo desligado",()=>{
+ assert.match(js,/diagnosticoBanners = function/);
+ assert.match(js,/slotEncontrado/);
+ assert.match(js,/imagemNoDOM/);
+ assert.match(js,/document\.addEventListener\("fwr:nichelle:banner-config", initBannerVitrine\)/);
 });
