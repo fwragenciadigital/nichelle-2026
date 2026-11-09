@@ -55,7 +55,8 @@ function createEnvironment(active, amount = 4) {
     querySelectorAll(selector) {
       return selector === "img[alt],img[title]" ? state.sources : [];
     },
-    createElement: elem
+    createElement: elem,
+    addEventListener() {} // Simula document.addEventListener para outros módulos isolados.
   };
   const window = {
     location: { href: "https://www.nichelleimports.com.br/", origin: "https://www.nichelleimports.com.br" },
