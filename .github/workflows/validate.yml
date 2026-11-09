@@ -24,11 +24,15 @@ jobs:
         run: node tests/framework27.browser.mjs
       - name: Validar sintaxe do framework independente
         run: node --check public/nichelle27.js
-      - name: Compilar pacote JS para Vercel
+      - name: Compilar e validar os três assets separados para Vercel
         run: |
           node vercel/build.mjs
           node --check vercel/dist/nichelle.js
+          node --check vercel/dist/nichelle27.js
           cmp public/nichelle.js vercel/dist/nichelle.js
+          cmp public/nichelle27.js vercel/dist/nichelle27.js
+          cmp public/nichelle27.css vercel/dist/nichelle27.css
+          test -s vercel/dist/nichelle27.css
       - name: Validar PHP do painel
         run: |
           php -l server/bootstrap.php
