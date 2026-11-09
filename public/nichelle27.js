@@ -315,11 +315,16 @@
       empresa: function () { return mountEmpresa(cfg.empresa); }
     };
 
-    ORDER.forEach(function (key) {
+    ORDER.forEach(function (key, index) {
       if (mounted.has(key)) return;
       const created = map[key]();
       if (!created) return;
-      root.appendChild(created);
+      // Garante a sequência do layout mesmo se um bloco for ativado mais tarde.
+      created.dataset.n27Section = key;
+      const next = ORDER.slice(index + 1)
+        .map(function (name) { return select('[data-n27-section="' + name + '"]', root); })
+        .find(Boolean);
+      root.insertBefore(created, next || null);
       mounted.add(key);
       log("Seção montada:", key);
     });
