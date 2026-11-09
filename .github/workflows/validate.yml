@@ -20,6 +20,8 @@ jobs:
       - run: node --test tests/*.test.mjs
       - name: Diagnosticar banners publicados na página (somente leitura)
         run: node tests/audit-live-banners.mjs
+      - name: Inspecionar montagem real dos banners no Chromium (somente leitura)
+        run: node tests/audit-live-banners-browser.mjs
       - name: Validar notícias no Chromium (desktop, tablet e celular)
         run: node tests/noticias.browser.mjs
       - name: Validar framework Nichelle27 no Chromium (desktop e mobile)
