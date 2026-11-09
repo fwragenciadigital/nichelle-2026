@@ -254,18 +254,28 @@
       if (!cfg.paginas.some(function (p) { return normal(p) === normal(window.location.pathname); })) return;
     }
     // Não renderizar nem alterar os banners nativos sem todos os quatro nomes.
-    const names = Array.isArray(cfg.nomes) ? cfg.nomes.slice(0, 4) : [];
-    if (names.length !== 4 || names.some(function (n) { return typeof n !== "string" || !n.trim(); })) return;
-    // Por padrão só monta com 4 imagens. Na página de homologação, minimo:1
-    // mostra os cards já publicados e mantém os demais intactos.
-    const minimo = Number.isInteger(cfg.minimo) && cfg.minimo >= 1 && cfg.minimo <= 4 ? cfg.minimo : (origem === "lateral" ? 1 : 4);
+    const configuredNames = Array.isArray(cfg.nomes) ? cfg.nomes.slice(0, 4) : [];
+    if (configuredNames.length !== 4 ||
+        configuredNames.some(function (n) { return typeof n !== "string" || !n.trim(); })) return;
+    // Por padrão só monta com 4 imagens. Na homologação lateral, minimo:1
+    // mostra as imagens publicadas mesmo que a configuração tenha nomes repetidos.
+    const minimo = Number.isInteger(cfg.minimo) && cfg.minimo >= 1 && cfg.minimo <= 4 ?
+      cfg.minimo : (origem === "lateral" ? 1 : 4);
 
     function key(s) {
       return String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "")
         .replace(/\s+/g, " ").trim().toLowerCase();
     }
+    const usedNames = new Set();
+    const names = configuredNames.filter(function (value) {
+      const normalized = key(value);
+      if (usedNames.has(normalized)) return false;
+      usedNames.add(normalized);
+      return true;
+    });
+    // Nas vitrines normais continua obrigatória a presença dos 4 nomes distintos.
+    if (names.length < minimo || (origem !== "lateral" && names.length !== 4)) return;
     const required = names.map(key);
-    if (new Set(required).size !== 4) return;
 
     function safeURL(value) {
       if (!value || typeof value !== "string" || value.trim() === "#") return "";
@@ -646,6 +656,7 @@
       pagina: window.location.pathname,
       ativo: cfg.ativo === true,
       origem: ["lateral", "mini", "categoria"].includes(cfg.origem) ? cfg.origem : "vitrine",
+      nomesUnicos: new Set((Array.isArray(cfg.nomes) ? cfg.nomes : []).map(norm)).size,
       fonteAlternativa: cfg.fonteAlternativa || "",
       imagensDiretasConfiguradas: Array.isArray(cfg.imagens) ? cfg.imagens.filter(function (i) { return i && i.imagem; }).length : 0,
       minimo: Number.isInteger(cfg.minimo) && cfg.minimo >= 1 && cfg.minimo <= 4 ? cfg.minimo : (cfg.origem === "lateral" ? 1 : 4),
