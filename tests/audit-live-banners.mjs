@@ -8,7 +8,7 @@ for (const page of pages) {
     const counts = Object.fromEntries(
       ["mini-pages1","mini-pages2","mini-pages3","mini-pages4",
        "fwr-nichelle-vitrine-slot","nichelle.js","banner-lateral","banner lateral"].map(k =>
-        [k, (html.match(new RegExp(k.replace(/[.*+?^${}()|[\\]\\]/g, "\\$&"), "gi")) || []).length]));
+        [k, html.toLowerCase().split(k.toLowerCase()).length - 1]));
     const examples = [];
     for (const marker of ["mini-pages1","mini-pages2","fwr-nichelle-vitrine-slot","nichelle.js"]) {
       const index = html.toLowerCase().indexOf(marker.toLowerCase());
