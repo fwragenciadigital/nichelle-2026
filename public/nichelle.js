@@ -241,9 +241,10 @@
   function initBannerVitrine() {
     const cfg = window.FWRNichelle && window.FWRNichelle.bannerVitrine;
     if (!cfg || cfg.ativo !== true) return;
-    // Na categoria, a LI publica Full Banners, não os banners da posição Vitrine.
-    // O modo "categoria" aceita 4 Full Banners identificados pelos nomes/ALT.
-    const origem = cfg.origem === "categoria" ? "categoria" : "vitrine";
+    // "mini" busca imagens da posição Mini Banner, quando o tema LI
+    // efetivamente as renderiza na página. "categoria" preserva legado Full Banner.
+    // A modalidade "vitrine" permanece disponível para configurações anteriores.
+    const origem = ["mini", "categoria"].includes(cfg.origem) ? cfg.origem : "vitrine";
     const slot = document.getElementById("fwr-nichelle-vitrine-slot");
     if (!slot || slot.dataset.fwrInitialized === "1") return;
     // Não renderizar nem alterar os banners nativos sem todos os quatro nomes.
@@ -272,9 +273,12 @@
         const img = images.find(function (candidate) {
           if (candidate.closest("#fwr-nichelle-vitrine-slot")) return false;
           if (key(candidate.getAttribute("alt") || candidate.getAttribute("title")) !== name) return false;
-          // Os ALT são nomes exclusivos configurados no painel LI. Para categorias,
-          // o tema pode usar nomes de classes e diretórios diferentes para Full Banner.
-          if (origem === "categoria") return !candidate.closest(".slick-cloned, .swiper-slide-duplicate");
+          // Mini Banner e Full Banner em categorias podem ter classes distintas.
+          // Usar nome ALT exato impede capturar outras artes da loja; ignorar clones
+          // de carrosséis para preservar a ordem e a origem real dos banners.
+          if (origem === "categoria" || origem === "mini") {
+            return !candidate.closest(".slick-cloned, .swiper-slide-duplicate, [aria-hidden='true']");
+          }
           const src = candidate.currentSrc || candidate.getAttribute("data-src") ||
             candidate.getAttribute("data-original") || candidate.getAttribute("src") || "";
           return !!candidate.closest(".banner.vitrine, .banner-vitrine, [class*='banner-vitrine'], .secao-banners") ||
@@ -352,10 +356,10 @@
       slot.style.minHeight = "";
       // Ocultar apenas os quatro banners individuais reaproveitados. Os demais
       // banners, vitrines, carrinho e módulos nativos da LI ficam intactos.
-      // Full Banner de categoria costuma integrar um carrossel nativo.
-      // Não ocultar itens dentro dele sem a opção explícita, para não deixar
-      // um carrossel vazio ou interromper o slider da Loja Integrada.
-      if (origem !== "categoria" || cfg.ocultarOriginais === true) {
+      // Mini Banner e Full Banner podem integrar um carrossel do tema.
+      // Preservá-lo por padrão; ocultação só com autorização explícita,
+      // evitando espaços vazios e quebra da navegação nativa.
+      if (origem === "vitrine" || cfg.ocultarOriginais === true) {
         banners.forEach(function (banner) {
           const source = banner.link && banner.link.querySelectorAll("img").length === 1 ?
             banner.link : banner.img;
@@ -563,7 +567,7 @@
     return {
       pagina: window.location.pathname,
       ativo: cfg.ativo === true,
-      origem: cfg.origem === "categoria" ? "categoria" : "vitrine",
+      origem: ["mini", "categoria"].includes(cfg.origem) ? cfg.origem : "vitrine",
       slotEncontrado: !!slot,
       galeriaMontada: !!(slot && slot.dataset.fwrInitialized === "1"),
       banners: names.map(function (name) {
