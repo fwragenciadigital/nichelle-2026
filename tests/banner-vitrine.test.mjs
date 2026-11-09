@@ -35,7 +35,7 @@ function createEnvironment(active, amount = 4, origin = "vitrine") {
     a.attributes.href = "/colecao-" + (i + 1);
     const img = elem("img");
     img.attributes.alt = names[i];
-    img.attributes.src = "https://cdn.awsli.com.br/100/" + (origin === "categoria" ? "uploads" : "banner") + "/card" + i + ".jpg";
+    img.attributes.src = "https://cdn.awsli.com.br/100/" + (["categoria","mini"].includes(origin) ? "uploads" : "banner") + "/card" + i + ".jpg";
     img.currentSrc = img.attributes.src;
     img.closest = selector => selector === "a[href]" ? a : (origin === "vitrine" && selector.includes(".banner.vitrine") ? a : null);
     img.parentElement = null;
@@ -115,15 +115,15 @@ test("CSS separado do módulo de Shorts, sem bibliotecas ou requisições de API
 
 test("Categoria Cabelos: configuração só atua nesta categoria e inicia false", () => {
  assert.match(categoryHtml, /\/cabelos/);
- assert.match(categoryHtml, /origem: "categoria"/);
+ assert.match(categoryHtml, /origem: "mini"/);
  assert.match(categoryHtml, /ativo: false/);
  assert.match(categoryHtml, /ocultarOriginais: false/);
  const scripts=[...categoryHtml.matchAll(/<script>([\s\S]*?)<\/script>/g)];
  assert.equal(scripts.length,1);
  assert.doesNotThrow(()=>new Script(scripts[0][1]));
 });
-test("Full Banner de categoria usa nome ALT mesmo sem classes de banner e preserva slider nativo",()=>{
- const env=createEnvironment(true,4,"categoria");
+test("Mini Banner de categoria usa nome ALT mesmo sem classes e preserva slider nativo",()=>{
+ const env=createEnvironment(true,4,"mini");
  assert.equal(env.slot.dataset.fwrInitialized,"1");
  assert.equal(env.slot.children[0].children[0].children.length,4);
  assert.equal(env.edits.filter(x=>x==="fwr-nichelle-vitrine-native-hidden").length,0);
@@ -135,4 +135,21 @@ test("Disponibiliza diagnóstico sem varrer DOM no carregamento quando módulo d
  assert.match(js,/slotEncontrado/);
  assert.match(js,/imagemNoDOM/);
  assert.match(js,/document\.addEventListener\("fwr:nichelle:banner-config", initBannerVitrine\)/);
+});
+
+test("HTML padrão de quatro cards aponta para Mini Banner e começa desativado", () => {
+ assert.match(html, /origem: "mini"/);
+ assert.match(html, /ocultarOriginais: false/);
+ assert.match(html, /ativo: false/);
+});
+test("Modo Mini Banner não precisa de classes específicas nem oculta os banners de origem", () => {
+ const env = createEnvironment(true, 4, "mini");
+ assert.equal(env.slot.dataset.fwrInitialized, "1");
+ assert.equal(env.slot.children[0].children[0].children.length, 4);
+ assert.equal(env.edits.length, 0);
+});
+test("Compatibilidade com modo categoria antigo permanece disponível", () => {
+ const env = createEnvironment(true, 4, "categoria");
+ assert.equal(env.slot.dataset.fwrInitialized, "1");
+ assert.equal(env.edits.length, 0);
 });
