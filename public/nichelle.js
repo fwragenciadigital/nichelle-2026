@@ -244,9 +244,15 @@
     // "mini" busca imagens da posição Mini Banner, quando o tema LI
     // efetivamente as renderiza na página. "categoria" preserva legado Full Banner.
     // A modalidade "vitrine" permanece disponível para configurações anteriores.
-    const origem = ["mini", "categoria"].includes(cfg.origem) ? cfg.origem : "vitrine";
+    const origem = ["lateral", "mini", "categoria"].includes(cfg.origem) ? cfg.origem : "vitrine";
     const slot = document.getElementById("fwr-nichelle-vitrine-slot");
     if (!slot || slot.dataset.fwrInitialized === "1") return;
+    // Sem restrição fixa de categoria: a lista de páginas é configurada no HTML.
+    // Array vazio ou ausência da opção permite renderização em qualquer página.
+    if (Array.isArray(cfg.paginas) && cfg.paginas.length) {
+      const normal = function (p) { return (String(p || "/").replace(/\/+$/, "") || "/"); };
+      if (!cfg.paginas.some(function (p) { return normal(p) === normal(window.location.pathname); })) return;
+    }
     // Não renderizar nem alterar os banners nativos sem todos os quatro nomes.
     const names = Array.isArray(cfg.nomes) ? cfg.nomes.slice(0, 4) : [];
     if (names.length !== 4 || names.some(function (n) { return typeof n !== "string" || !n.trim(); })) return;
@@ -259,7 +265,7 @@
     if (new Set(required).size !== 4) return;
 
     function safeURL(value) {
-      if (!value || typeof value !== "string") return "";
+      if (!value || typeof value !== "string" || value.trim() === "#") return "";
       try {
         const u = new URL(value.trim(), window.location.href);
         return (u.protocol === "https:" || (u.protocol === "http:" && u.origin === window.location.origin)) ? u.href : "";
@@ -276,7 +282,7 @@
           // Mini Banner e Full Banner em categorias podem ter classes distintas.
           // Usar nome ALT exato impede capturar outras artes da loja; ignorar clones
           // de carrosséis para preservar a ordem e a origem real dos banners.
-          if (origem === "categoria" || origem === "mini") {
+          if (origem === "categoria" || origem === "mini" || origem === "lateral") {
             return !candidate.closest(".slick-cloned, .swiper-slide-duplicate, [aria-hidden='true']");
           }
           const src = candidate.currentSrc || candidate.getAttribute("data-src") ||
@@ -567,7 +573,7 @@
     return {
       pagina: window.location.pathname,
       ativo: cfg.ativo === true,
-      origem: ["mini", "categoria"].includes(cfg.origem) ? cfg.origem : "vitrine",
+      origem: ["lateral", "mini", "categoria"].includes(cfg.origem) ? cfg.origem : "vitrine",
       slotEncontrado: !!slot,
       galeriaMontada: !!(slot && slot.dataset.fwrInitialized === "1"),
       banners: names.map(function (name) {
