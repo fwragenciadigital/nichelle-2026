@@ -556,8 +556,8 @@
     const slot = document.getElementById("fwr-nichelle-vitrine-slot");
     const images = Array.from(document.querySelectorAll("img[alt], img[title]"));
     const norm = function (value) {
-      return String(value || "").normalize("NFD").replace(/[\\u0300-\\u036f]/g, "")
-        .replace(/\\s+/g, " ").trim().toLowerCase();
+      return String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/\s+/g, " ").trim().toLowerCase();
     };
     const names = Array.isArray(cfg.nomes) ? cfg.nomes.slice(0, 4) : [];
     return {
