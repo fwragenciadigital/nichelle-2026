@@ -8,7 +8,7 @@ const html = await readFile(new URL("../integracao/html-banner-vitrine-4-cards.h
 const categoryHtml = await readFile(new URL("../integracao/html-categoria-cabelos.html", import.meta.url), "utf8");
 const lateralHtml = await readFile(new URL("../integracao/html-banners-laterais-global.html", import.meta.url), "utf8");
 
-function createEnvironment(active, amount = 4, origin = "vitrine", page = "/", pages = null, minimum = 4) {
+function createEnvironment(active, amount = 4, origin = "vitrine", page = "/", pages = null, minimum = 4, configNames = null, sourceNames = null) {
   const state = { edits: [], slot: null, sources: [] };
   function elem(tag = "div") {
     const x = {
@@ -35,7 +35,7 @@ function createEnvironment(active, amount = 4, origin = "vitrine", page = "/", p
     const a = elem("a");
     a.attributes.href = "/colecao-" + (i + 1);
     const img = elem("img");
-    img.attributes.alt = names[i];
+    img.attributes.alt = (sourceNames || names)[i];
     img.attributes.src = "https://cdn.awsli.com.br/100/" + (["categoria","mini","lateral"].includes(origin) ? "uploads" : "banner") + "/card" + i + ".jpg";
     img.currentSrc = img.attributes.src;
     img.closest = selector => selector === "a[href]" ? a : (origin === "vitrine" && selector.includes(".banner.vitrine") ? a : null);
@@ -62,7 +62,7 @@ function createEnvironment(active, amount = 4, origin = "vitrine", page = "/", p
   };
   const window = {
     location: { href: "https://www.nichelleimports.com.br" + page, pathname: page, origin: "https://www.nichelleimports.com.br" },
-    FWRNichelle: { bannerVitrine: { ativo: active, nomes: names, origem: origin, paginas: pages, minimo: minimum } },
+    FWRNichelle: { bannerVitrine: { ativo: active, nomes: configNames || names, origem: origin, paginas: pages, minimo: minimum } },
     requestAnimationFrame(fn) { fn(); },
     setTimeout() { return 1; }, clearTimeout() {}
   };
@@ -220,6 +220,21 @@ test("Homologação mostra 1 banner lateral real sem esperar os outros 3", () =>
  assert.equal(testPage.edits.length,0,"Preservar banner lateral nativo");
  const strictPage=createEnvironment(true,1,"lateral","/cabelos",["/cabelos"],4);
  assert.equal(strictPage.slot.dataset.fwrInitialized,undefined);
+});
+test("Configuração publicada com 4 vezes mini-pages1 mostra o primeiro banner no modo lateral", () => {
+ const env = createEnvironment(true,1,"lateral","/cabelos",["/cabelos"],1,
+   ["mini-pages1","mini-pages1","mini-pages1","mini-pages1"],["mini-pages1"]);
+ assert.equal(env.slot.dataset.fwrInitialized,"1");
+ const grid=env.slot.children[0].children[0];
+ assert.equal(grid.children.length,1);
+ assert.equal(grid.children[0].children[0].alt,"mini-pages1");
+ assert.equal(env.edits.length,0);
+});
+test("Repetição de nomes não relaxa validação dos demais modos", () => {
+ const env=createEnvironment(true,1,"mini","/cabelos",null,1,
+   ["mini-pages1","mini-pages1","mini-pages1","mini-pages1"],["mini-pages1"]);
+ assert.equal(env.slot.dataset.fwrInitialized,undefined);
+ assert.equal(env.edits.length,0);
 });
 test("URL '#' de banner lateral não vira navegação; preserva imagem",()=>{
  assert.match(js,/value\.trim\(\) === "#"/);
