@@ -58,8 +58,32 @@ try {
   const expression = String.raw`(function(){
     const slot=document.getElementById("fwr-nichelle-vitrine-slot");
     const cfg=window.FWRNichelle?.bannerVitrine || {};
+    const rect=function(node) {
+      if(!node)return null;
+      const b=node.getBoundingClientRect(),c=getComputedStyle(node);
+      return {tag:node.tagName,id:node.id,classes:String(node.className||"").slice(0,120),
+        x:Math.round(b.x),y:Math.round(b.y),width:Math.round(b.width),height:Math.round(b.height),
+        display:c.display,visibility:c.visibility,opacity:c.opacity,
+        overflow:c.overflow,position:c.position,zIndex:c.zIndex,
+        maxWidth:c.maxWidth,transform:c.transform,clipPath:c.clipPath};
+    };
+    const card=slot?.querySelector(".fwr-nichelle-vitrine__card");
+    const img=card?.querySelector("img");
+    const bounds=card?.getBoundingClientRect();
+    const center=bounds?document.elementFromPoint(
+      Math.max(0,Math.min(window.innerWidth-1,bounds.left+bounds.width/2)),
+      Math.max(0,Math.min(window.innerHeight-1,bounds.top+bounds.height/2))):null;
     return {
       url:location.href,readyState:document.readyState,
+      viewport:{w:innerWidth,h:innerHeight,scrollY:scrollY,pageHeight:document.documentElement.scrollHeight},
+      slotCSS:rect(slot),sectionCSS:rect(slot?.firstElementChild),
+      gridCSS:rect(slot?.querySelector(".fwr-nichelle-vitrine__grid")),
+      cardCSS:rect(card),imageCSS:rect(img),
+      imageStatus:img&&{complete:img.complete,naturalWidth:img.naturalWidth,naturalHeight:img.naturalHeight,src:img.currentSrc||img.src},
+      ancestors:slot&&Array.from((function*(node){for(let i=0;node&&i<9;i++,node=node.parentElement)yield node})(slot)).map(rect),
+      cardIsOnscreen:!!(bounds&&bounds.width>0&&bounds.height>0&&bounds.bottom>0&&bounds.top<innerHeight),
+      cardCoveredBy:center&&{tag:center.tagName,id:center.id,className:String(center.className||"").slice(0,80)},
+      sameSourceCount:document.querySelectorAll('img[alt="mini-pages1"]').length,
       configured:cfg.ativo===true,origin:cfg.origem||"",
       min:cfg.minimo||null,
       runtimeLoaded:window.__FWR_NICHELLE_RUNTIME__===true,
