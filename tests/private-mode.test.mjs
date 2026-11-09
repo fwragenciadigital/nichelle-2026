@@ -46,10 +46,12 @@ test("extensão só aplica alterações após clique e permite desligar por relo
   assert.match(popup,/chrome\.scripting\.executeScript/);
   assert.match(popup,/world:\s*"MAIN"/);
   assert.match(popup,/chrome\.tabs\.reload/);
+  assert.match(popup,/chrome\.scripting\.insertCSS/);
+  assert.doesNotMatch(popup,/nichelle-2026\.vercel\.app/);
   assert.match(popup,/window\.__FWR_NICHELLE_PRIVATE_MODE__ = true/);
   assert.match(popup,/dataset\.n27PrivateMode = "fwr-local-extension"/);
-  assert.match(popup,/base\+"\/nichelle27\.js"/);
-  assert.match(popup,/base\+"\/nichelle27\.css"/);
+  assert.match(popup,/files: \["nichelle27\.js"\]/);
+  assert.match(popup,/files: \["nichelle27\.css"\]/);
   assert.match(popup,/window\.Nichelle27Framework\?\.mount\(\)/);
   assert.doesNotMatch(popup,/localStorage|sessionStorage|chrome\.storage|\/web_api\/cart|checkout|fetch\s*\(/);
   assert.match(html,/id="inspect"/);
