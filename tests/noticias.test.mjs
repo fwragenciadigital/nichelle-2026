@@ -140,5 +140,8 @@ test("CSS tem layout 2 colunas no desktop e adaptação tablet/mobile", () => {
   assert.match(js, /@media\(max-width:360px\)/);
   assert.match(js, /fwr-nichelle-news__featured/);
   assert.match(js, /fwr-nichelle-news__sidebar/);
-  assert.doesNotMatch(js, /\bfetch\s*\(|\baxios\b/);
+  // O módulo de banners pode buscar opcionalmente o HTML da HOME na própria loja.
+  // O módulo Notícias continua sem requisições adicionais.
+  const noticias = js.slice(js.indexOf("function initNoticias()"), js.indexOf("function start()"));
+  assert.doesNotMatch(noticias, /\bfetch\s*\(|\baxios\b/);
 });
