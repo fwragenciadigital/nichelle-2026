@@ -6,8 +6,9 @@ import { Script, runInNewContext } from "node:vm";
 const js = await readFile(new URL("../public/nichelle.js", import.meta.url), "utf8");
 const html = await readFile(new URL("../integracao/html-banner-vitrine-4-cards.html", import.meta.url), "utf8");
 const categoryHtml = await readFile(new URL("../integracao/html-categoria-cabelos.html", import.meta.url), "utf8");
+const lateralHtml = await readFile(new URL("../integracao/html-banners-laterais-global.html", import.meta.url), "utf8");
 
-function createEnvironment(active, amount = 4, origin = "vitrine") {
+function createEnvironment(active, amount = 4, origin = "vitrine", page = "/", pages = null) {
   const state = { edits: [], slot: null, sources: [] };
   function elem(tag = "div") {
     const x = {
@@ -35,7 +36,7 @@ function createEnvironment(active, amount = 4, origin = "vitrine") {
     a.attributes.href = "/colecao-" + (i + 1);
     const img = elem("img");
     img.attributes.alt = names[i];
-    img.attributes.src = "https://cdn.awsli.com.br/100/" + (["categoria","mini"].includes(origin) ? "uploads" : "banner") + "/card" + i + ".jpg";
+    img.attributes.src = "https://cdn.awsli.com.br/100/" + (["categoria","mini","lateral"].includes(origin) ? "uploads" : "banner") + "/card" + i + ".jpg";
     img.currentSrc = img.attributes.src;
     img.closest = selector => selector === "a[href]" ? a : (origin === "vitrine" && selector.includes(".banner.vitrine") ? a : null);
     img.parentElement = null;
@@ -60,8 +61,8 @@ function createEnvironment(active, amount = 4, origin = "vitrine") {
     addEventListener() {} // Simula document.addEventListener para outros módulos isolados.
   };
   const window = {
-    location: { href: "https://www.nichelleimports.com.br/", origin: "https://www.nichelleimports.com.br" },
-    FWRNichelle: { bannerVitrine: { ativo: active, nomes: names, origem: origin } }
+    location: { href: "https://www.nichelleimports.com.br" + page, pathname: page, origin: "https://www.nichelleimports.com.br" },
+    FWRNichelle: { bannerVitrine: { ativo: active, nomes: names, origem: origin, paginas: pages } }
   };
   runInNewContext(js, { window, document, URL, MutationObserver: class {}, Set, console });
   return state;
@@ -152,4 +153,35 @@ test("Compatibilidade com modo categoria antigo permanece disponível", () => {
  const env = createEnvironment(true, 4, "categoria");
  assert.equal(env.slot.dataset.fwrInitialized, "1");
  assert.equal(env.edits.length, 0);
+});
+
+test("Banner Lateral pode ser origem de cards sem depender da categoria ou classe CSS", () => {
+ const home=createEnvironment(true,4,"lateral","/");
+ const category=createEnvironment(true,4,"lateral","/cabelos");
+ assert.equal(home.slot.dataset.fwrInitialized,"1");
+ assert.equal(category.slot.dataset.fwrInitialized,"1");
+ assert.equal(home.edits.length,0,"Não esconder componente nativo por padrão");
+ assert.equal(home.slot.children[0].children[0].children.length,4);
+});
+test("Escopo configurável: homologação em /cabelos, sem impor categoria no runtime", () => {
+ const category=createEnvironment(true,4,"lateral","/cabelos",["/cabelos"]);
+ const home=createEnvironment(true,4,"lateral","/",["/cabelos"]);
+ assert.equal(category.slot.dataset.fwrInitialized,"1");
+ assert.equal(home.slot.dataset.fwrInitialized,undefined);
+ const everywhere=createEnvironment(true,4,"lateral","/pagina/institucional",[]);
+ assert.equal(everywhere.slot.dataset.fwrInitialized,"1");
+});
+test("Cadastro global para Banner Lateral não instala segundo JS nem ativa por padrão", () => {
+ assert.match(lateralHtml,/origem: "lateral"/);
+ assert.match(lateralHtml,/ativo: false/);
+ assert.match(lateralHtml,/paginas: \["\/cabelos"\]/);
+ assert.match(lateralHtml,/"mini-pages1"/);
+ assert.match(lateralHtml,/document\.dispatchEvent\(new Event\("fwr:nichelle:banner-config"\)\)/);
+ assert.doesNotMatch(lateralHtml,/script[^\n]*src=/);
+ const scripts=[...lateralHtml.matchAll(/<script>([\s\S]*?)<\/script>/g)];
+ assert.equal(scripts.length,1);
+ assert.doesNotThrow(()=>new Script(scripts[0][1]));
+});
+test("URL '#' de banner lateral não vira navegação; preserva imagem",()=>{
+ assert.match(js,/value\.trim\(\) === "#"/);
 });
