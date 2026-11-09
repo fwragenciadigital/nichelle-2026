@@ -1,5 +1,7 @@
 <!-- NICHELLE | CATEGORIA CABELOS
-  Modo específico para exibir 4 imagens de Full Banner administradas no painel da LI.
+  Modo específico para exibir 4 imagens de Mini Banner administradas no painel da LI.
+  IMPORTANTE: alguns temas não publicam Mini Banners em páginas de categoria;
+  nesse caso, será necessário disponibilizá-los no próprio HTML da categoria.
   Inserir no HTML/Rodapé (todas as páginas). O script só atua em /cabelos.
   Se o tema suportar inserir o bloco direto na categoria, use somente o slot
   lá, ANTES da lista de produtos, para reservar espaço sem CLS.
@@ -11,14 +13,14 @@
 
   window.FWRNichelle = window.FWRNichelle || {};
   window.FWRNichelle.bannerVitrine = {
-    ativo: false,                // Alterar para true após publicar os 4 Full Banners
-    origem: "categoria",         // O tipo Banner Vitrine nativo é destinado à home
-    ocultarOriginais: false,     // Primeiro validar o slider nativo; evita sumir banner
+    ativo: false,                // Alterar para true após publicar os 4 Mini Banners
+    origem: "mini",              // Lê a posição Mini Banner quando presente no HTML
+    ocultarOriginais: false,     // Preserva o componente nativo até homologação
     nomes: [
-      "Cabelos Card 1",
-      "Cabelos Card 2",
-      "Cabelos Card 3",
-      "Cabelos Card 4"
+      "Mini 1 vitrine-mini",
+      "Mini 2 vitrine-mini",
+      "Mini 3 vitrine-mini",
+      "Mini 4 vitrine-mini"
     ]
   };
 
