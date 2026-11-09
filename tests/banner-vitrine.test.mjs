@@ -8,7 +8,7 @@ const html = await readFile(new URL("../integracao/html-banner-vitrine-4-cards.h
 const categoryHtml = await readFile(new URL("../integracao/html-categoria-cabelos.html", import.meta.url), "utf8");
 const lateralHtml = await readFile(new URL("../integracao/html-banners-laterais-global.html", import.meta.url), "utf8");
 
-function createEnvironment(active, amount = 4, origin = "vitrine", page = "/", pages = null) {
+function createEnvironment(active, amount = 4, origin = "vitrine", page = "/", pages = null, minimum = 4) {
   const state = { edits: [], slot: null, sources: [] };
   function elem(tag = "div") {
     const x = {
@@ -62,7 +62,7 @@ function createEnvironment(active, amount = 4, origin = "vitrine", page = "/", p
   };
   const window = {
     location: { href: "https://www.nichelleimports.com.br" + page, pathname: page, origin: "https://www.nichelleimports.com.br" },
-    FWRNichelle: { bannerVitrine: { ativo: active, nomes: names, origem: origin, paginas: pages } }
+    FWRNichelle: { bannerVitrine: { ativo: active, nomes: names, origem: origin, paginas: pages, minimo: minimum } }
   };
   runInNewContext(js, { window, document, URL, MutationObserver: class {}, Set, console });
   return state;
@@ -100,7 +100,7 @@ test("quando true, exibe 4 cards ordenados por nome, preserva links e oculta fon
 test("não oculta banner algum se faltar um dos quatro", () => {
   // Não observar DOM nesta fixture, apenas confirmar o fail-closed pela origem.
   const html = js.slice(js.indexOf("  function initBannerVitrine()"), js.indexOf("  function start()"));
-  assert.match(html, /if \(!entry\) return \[\]/);
+  assert.match(html, /if \(minimo < 4\) continue;/);
   assert.match(html, /if \(found.length !== 4\) return false/);
   assert.match(html, /observer\.disconnect\(\)/);
   assert.match(html, /6000/);
@@ -193,8 +193,9 @@ test("Novo modo Banner Lateral identifica imagem pelo arquivo mesmo com ALT gen�
 });
 test("HTML de homologação não ativa banners na HOME", () => {
  assert.match(lateralHtml,/paginas: \["\/cabelos"\]/);
- assert.match(lateralHtml,/fonteAlternativa: "\/"/);
+ assert.match(lateralHtml,/fonteAlternativa: ""/);
  assert.match(lateralHtml,/imagens: \[\]/);
+ assert.match(lateralHtml,/minimo: 1/);
  assert.match(lateralHtml,/ativo: true/);
 });
 test("Fonte alternativa só faz requisição dentro da mesma loja", () => {
@@ -206,6 +207,16 @@ test("URL manual opcional permite reaproveitar banners cadastrados na LI", () =>
  assert.match(js,/Array\.isArray\(cfg\.imagens\)/);
  assert.match(js,/safeURL\(item\.imagem\)/);
  assert.match(js,/destination: safeURL\(item\.link\)/);
+});
+test("Homologação mostra 1 banner lateral real sem esperar os outros 3", () => {
+ const testPage=createEnvironment(true,1,"lateral","/cabelos",["/cabelos"],1);
+ assert.equal(testPage.slot.dataset.fwrInitialized,"1");
+ const grid=testPage.slot.children[0].children[0];
+ assert.equal(grid.children.length,1);
+ assert.equal(grid.children[0].href,"https://www.nichelleimports.com.br/colecao-1");
+ assert.equal(testPage.edits.length,0,"Preservar banner lateral nativo");
+ const strictPage=createEnvironment(true,1,"lateral","/cabelos",["/cabelos"],4);
+ assert.equal(strictPage.slot.dataset.fwrInitialized,undefined);
 });
 test("URL '#' de banner lateral não vira navegação; preserva imagem",()=>{
  assert.match(js,/value\.trim\(\) === "#"/);
