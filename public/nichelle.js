@@ -629,7 +629,7 @@
   window.FWRNichelle.diagnosticoBanners = function () {
     const cfg = window.FWRNichelle.bannerVitrine || {};
     const slot = document.getElementById("fwr-nichelle-vitrine-slot");
-    const images = Array.from(document.querySelectorAll("img[alt], img[title]"));
+    const images = Array.from(document.querySelectorAll("img"));
     const norm = function (value) {
       return String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "")
         .replace(/\s+/g, " ").trim().toLowerCase();
@@ -643,6 +643,14 @@
       imagensDiretasConfiguradas: Array.isArray(cfg.imagens) ? cfg.imagens.filter(function (i) { return i && i.imagem; }).length : 0,
       slotEncontrado: !!slot,
       galeriaMontada: !!(slot && slot.dataset.fwrInitialized === "1"),
+      possiveisBanners: images.filter(function (img) {
+        const meta = [img.getAttribute("src"), img.getAttribute("alt"),
+          img.getAttribute("title"), img.getAttribute("data-src")].join(" ");
+        return /mini[-_ ]?pages|banner[-_ ]?lateral|vitrine[-_ ]?mini/i.test(meta);
+      }).slice(0, 12).map(function (img) {
+        return { alt: img.getAttribute("alt") || "",
+          src: (img.getAttribute("src") || img.getAttribute("data-src") || "").slice(0, 250) };
+      }),
       banners: names.map(function (name) {
         const normalized = norm(name);
         return { nome: name, imagemNoDOM: images.some(function (img) {
