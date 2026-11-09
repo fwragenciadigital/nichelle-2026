@@ -46,6 +46,8 @@ test("extensão só aplica alterações após clique e permite desligar por relo
   assert.match(popup,/chrome\.scripting\.executeScript/);
   assert.match(popup,/world:\s*"MAIN"/);
   assert.match(popup,/chrome\.tabs\.reload/);
+  assert.match(popup,/delete window\.Nichelle27Framework/);
+  assert.match(popup,/!report\.alreadyActive/);
   assert.match(popup,/chrome\.scripting\.insertCSS/);
   assert.doesNotMatch(popup,/nichelle-2026\.vercel\.app/);
   assert.match(popup,/window\.__FWR_NICHELLE_PRIVATE_MODE__ = true/);
