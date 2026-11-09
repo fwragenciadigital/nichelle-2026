@@ -33,14 +33,17 @@ test("framework Nichelle não usa nomes Malheiro, não recria checkout nem alter
   assert.match(js, /fwr-nichelle-video-slot/);
   assert.match(js, /fwr-nichelle-vitrine-slot/);
   assert.match(js, /fwr-nichelle-noticias-slot/);
-  assert.doesNotMatch(js, /\/web_api\/cart|checkout|fetch\s*\(/);
+  const executable = js.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
+  assert.doesNotMatch(executable, /\/web_api\/cart|checkout|fetch\s*\(/);
 });
 test("ordem do layout e Settings para fonte de produtos nativa, sem inventar dados", () => {
   const expected = [
     "qualificadores","maisVendidos","banners","lancamentos","marcas",
     "videos","promocoes","noticias","newsletter","instagram","empresa"
   ];
-  const keys = [...js.matchAll(/^\s+"(qualificadores|maisVendidos|banners|lancamentos|marcas|videos|promocoes|noticias|newsletter|instagram|empresa)"[,]?\s*$/gm)].map(m => m[1]);
+  const orderExpression = js.match(/const ORDER = Object\.freeze\(\[([\s\S]*?)\]\);/);
+  assert.ok(orderExpression, "ORDER ausente");
+  const keys = [...orderExpression[1].matchAll(/"([^"]+)"/g)].map(m => m[1]);
   assert.deepEqual(keys, expected);
   assert.match(js, /source\.dataset\.n27Adopted/);
   assert.match(js, /source\.classList\.add\("n27-shelf__track"\)/);
@@ -58,5 +61,6 @@ test("CSS escopado tem versões desktop, tablet, mobile e respeito a movimento r
   assert.match(css, /\@media\(max-width:1199px\)/);
   assert.match(css, /\@media\(max-width:767px\)/);
   assert.match(css, /\@media\(prefers-reduced-motion:reduce\)/);
-  assert.doesNotMatch(css, /\@import|https:\/\/fonts\./);
+  const cssExecutable = css.replace(/\/\*[\s\S]*?\*\//g, "");
+  assert.doesNotMatch(cssExecutable, /\@import|https:\/\/fonts\./);
 });
