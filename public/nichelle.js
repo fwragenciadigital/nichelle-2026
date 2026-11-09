@@ -548,6 +548,33 @@
     initNoticias();
     /* Adicionar futuras funções exclusivas aqui, sem recriar recursos nativos da LI. */
   }
+  // Diagnóstico sob demanda: window.FWRNichelle.diagnosticoBanners()
+  // Não varre o DOM nem altera banners durante a navegação normal.
+  window.FWRNichelle = window.FWRNichelle || {};
+  window.FWRNichelle.diagnosticoBanners = function () {
+    const cfg = window.FWRNichelle.bannerVitrine || {};
+    const slot = document.getElementById("fwr-nichelle-vitrine-slot");
+    const images = Array.from(document.querySelectorAll("img[alt], img[title]"));
+    const norm = function (value) {
+      return String(value || "").normalize("NFD").replace(/[\\u0300-\\u036f]/g, "")
+        .replace(/\\s+/g, " ").trim().toLowerCase();
+    };
+    const names = Array.isArray(cfg.nomes) ? cfg.nomes.slice(0, 4) : [];
+    return {
+      pagina: window.location.pathname,
+      ativo: cfg.ativo === true,
+      origem: cfg.origem === "categoria" ? "categoria" : "vitrine",
+      slotEncontrado: !!slot,
+      galeriaMontada: !!(slot && slot.dataset.fwrInitialized === "1"),
+      banners: names.map(function (name) {
+        const normalized = norm(name);
+        return { nome: name, imagemNoDOM: images.some(function (img) {
+          return norm(img.getAttribute("alt") || img.getAttribute("title")) === normalized;
+        }) };
+      })
+    };
+  };
+
   document.addEventListener("fwr:nichelle:banner-config", initBannerVitrine);
   document.addEventListener("fwr:nichelle:news-config", initNoticias);
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start, {once:true});
