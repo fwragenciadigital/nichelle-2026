@@ -28,8 +28,10 @@ jobs:
         run: node tests/framework27.browser.mjs
       - name: Validar galeria YouTube no Chromium sem rede externa
         run: node tests/video-gallery.browser.mjs
-      - name: Validar sintaxe do framework independente
-        run: node --check public/nichelle27.js
+      - name: Validar sintaxe do framework e extensão local
+        run: |
+          node --check public/nichelle27.js
+          node --check tools/homologacao-privada/popup.js
       - name: Compilar assets públicos e prévia isolada para Vercel
         run: |
           node vercel/build.mjs
@@ -44,6 +46,8 @@ jobs:
           test ! -e vercel/dist/admin
           test ! -e vercel/dist/server
           test ! -e vercel/dist/qa
+          test ! -e vercel/dist/tools
+          test ! -e vercel/dist/admin
       - name: Validar PHP do painel
         run: |
           php -l server/bootstrap.php
