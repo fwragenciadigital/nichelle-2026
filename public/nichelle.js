@@ -246,7 +246,21 @@
     // A modalidade "vitrine" permanece disponível para configurações anteriores.
     const origem = ["lateral", "mini", "categoria"].includes(cfg.origem) ? cfg.origem : "vitrine";
     const slot = document.getElementById("fwr-nichelle-vitrine-slot");
-    if (!slot || slot.dataset.fwrInitialized === "1") return;
+    if (!slot) return;
+    // Alguns temas têm .listagem dentro de submenus ocultos do cabeçalho.
+    // Se o HTML antigo criou o slot ali, realocá-lo para o conteúdo principal.
+    // Nunca deslocar slots intencionalmente posicionados fora do menu.
+    if (slot.closest && slot.closest("header, nav, .cabecalho, .submenu, .submenu-wrap, .menu.superior")) {
+      const content = document.querySelector("#corpo .secao-principal .conteudo") ||
+        document.querySelector("#corpo .conteudo");
+      if (content && !content.contains(slot)) {
+        let before = content.querySelector(".listagem, .listagem-produtos");
+        // insertBefore exige um filho direto; respeita agrupamentos do tema.
+        while (before && before.parentElement !== content) before = before.parentElement;
+        content.insertBefore(slot, before || content.firstElementChild || null);
+      }
+    }
+    if (slot.dataset.fwrInitialized === "1") return;
     // Sem restrição fixa de categoria: a lista de páginas é configurada no HTML.
     // Array vazio ou ausência da opção permite renderização em qualquer página.
     if (Array.isArray(cfg.paginas) && cfg.paginas.length) {
