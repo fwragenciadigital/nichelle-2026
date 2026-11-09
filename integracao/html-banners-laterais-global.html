@@ -4,17 +4,21 @@
   Para permitir em qualquer página: paginas: [] (desde que a LI carregue banners lá).
   A posição é escolhida por seletorAntes: o componente é inserido antes desse elemento.
   O JS principal já fica instalado uma única vez no rodapé via Vercel.
-  ATENÇÃO: ativo inicia em FALSE; não deixa espaçamento quando desligado.
+  HOMOLOGAÇÃO em /cabelos: ativo inicia TRUE nesta versão de instalação.
+  Home e todas as demais páginas não serão afetadas.
 -->
 <script>
 (function () {
   window.FWRNichelle = window.FWRNichelle || {};
 
   window.FWRNichelle.bannerVitrine = {
-    ativo: false,
+    ativo: true,             // TESTE SOMENTE em /cabelos
     origem: "lateral",
     ocultarOriginais: false,
-    paginas: ["/cabelos"],
+    paginas: ["/cabelos"],   // Após aprovar: ["/"] para ativar na HOME
+    fonteAlternativa: "/",  // Se o banner não existe na categoria, procura na HOME
+    // Se o tema não imprimir as imagens em nenhuma página, informar URLs da LI:
+    imagens: [],             // { nome: "mini-pages1", imagem: "URL-DA-IMAGEM-LI", link: "/destino" }
     nomes: [
       "mini-pages1",
       "mini-pages2",
@@ -25,7 +29,7 @@
 
   // Ajustável por tipo de página: insere ANTES da primeira lista de produtos.
   // Se desejar outro posicionamento, altere este seletor do HTML, não o JS.
-  var seletorAntes = ".pagina-categoria .listagem, .pagina-inicial .listagem, .listagem";
+  var seletorAntes = ".pagina-categoria .listagem, .pagina-inicial .listagem, #corpo .listagem, .listagem, .pagina-categoria .conteudo";
   var cfg = window.FWRNichelle.bannerVitrine;
 
   function normalize(path) {
