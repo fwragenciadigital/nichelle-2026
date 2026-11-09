@@ -14,7 +14,7 @@ Extensão local para Google Chrome (Manifest V3). Ativa o framework visual SOMEN
 8. **Ativar vitrines reais (experimental)** também movimenta as listagens encontradas no DOM do navegador para testar o layout. Isso pode afetar sliders e eventos na aba local. **Não finalizar pedidos, alterar carrinho ou testar pagamentos nesse modo.**
 9. Para desligar, clique em **Desativar e recarregar** ou atualize a página.
 
-Os scripts e CSS são buscados pelo navegador em https://nichelle-2026.vercel.app/nichelle27.js e .css. Se o tema aplicar CSP que bloqueie esses domínios, a extensão avisa. Nesse caso não forçar uma instalação pública e revisar a opção de empacotar os recursos localmente.
+**O pacote é totalmente local:** os arquivos nichelle27.js e nichelle27.css são copiados do GitHub durante o build, sem depender de Vercel, CSP remoto ou quota de deployments. Para gerar uma nova versão após alterações de código, execute node tools/homologacao-privada/build.mjs na raiz do repositório e compacte a pasta dist. Use sempre o ZIP gerado pelo workflow do GitHub Actions; não distribua um ZIP apenas com os três arquivos do popup.
 
 ## Contrato de segurança
 
