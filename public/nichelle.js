@@ -258,7 +258,7 @@
     if (names.length !== 4 || names.some(function (n) { return typeof n !== "string" || !n.trim(); })) return;
     // Por padrão só monta com 4 imagens. Na página de homologação, minimo:1
     // mostra os cards já publicados e mantém os demais intactos.
-    const minimo = Number.isInteger(cfg.minimo) && cfg.minimo >= 1 && cfg.minimo <= 4 ? cfg.minimo : 4;
+    const minimo = Number.isInteger(cfg.minimo) && cfg.minimo >= 1 && cfg.minimo <= 4 ? cfg.minimo : (origem === "lateral" ? 1 : 4);
 
     function key(s) {
       return String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "")
@@ -648,7 +648,7 @@
       origem: ["lateral", "mini", "categoria"].includes(cfg.origem) ? cfg.origem : "vitrine",
       fonteAlternativa: cfg.fonteAlternativa || "",
       imagensDiretasConfiguradas: Array.isArray(cfg.imagens) ? cfg.imagens.filter(function (i) { return i && i.imagem; }).length : 0,
-      minimo: Number.isInteger(cfg.minimo) && cfg.minimo >= 1 && cfg.minimo <= 4 ? cfg.minimo : 4,
+      minimo: Number.isInteger(cfg.minimo) && cfg.minimo >= 1 && cfg.minimo <= 4 ? cfg.minimo : (cfg.origem === "lateral" ? 1 : 4),
       slotEncontrado: !!slot,
       galeriaMontada: !!(slot && slot.dataset.fwrInitialized === "1"),
       possiveisBanners: images.filter(function (img) {
