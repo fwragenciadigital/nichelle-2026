@@ -8,7 +8,7 @@ const html = await readFile(new URL("../integracao/html-banner-vitrine-4-cards.h
 const categoryHtml = await readFile(new URL("../integracao/html-categoria-cabelos.html", import.meta.url), "utf8");
 const lateralHtml = await readFile(new URL("../integracao/html-banners-laterais-global.html", import.meta.url), "utf8");
 
-function createEnvironment(active, amount = 4, origin = "vitrine", page = "/", pages = null, minimum = 4, configNames = null, sourceNames = null) {
+function createEnvironment(active, amount = 4, origin = "vitrine", page = "/", pages = null, minimum = 4, configNames = null, sourceNames = null, hiddenMenu = false) {
   const state = { edits: [], slot: null, sources: [] };
   function elem(tag = "div") {
     const x = {
@@ -45,6 +45,20 @@ function createEnvironment(active, amount = 4, origin = "vitrine", page = "/", p
   }
   const slot = elem("div");
   state.slot = slot;
+  if (hiddenMenu) {
+    const main = elem("div");
+    main.contains = node => main.children.includes(node);
+    main.insertBefore = (node, ref) => {
+      main.children.unshift(node);
+      node.parentElement = main;
+      state.movedToMain = true;
+      state.insertBeforeRef = ref;
+      return node;
+    };
+    main.querySelector = () => null;
+    state.main = main;
+    slot.closest = () => true; // Slot foi inserido num submenu oculto.
+  }
   const document = {
     readyState: "complete", head: elem("head"), documentElement: elem("html"),
     getElementById(id) {
@@ -53,7 +67,11 @@ function createEnvironment(active, amount = 4, origin = "vitrine", page = "/", p
       if (id === "fwr-nichelle-vitrine-slot") return slot;
       return null;
     },
-    querySelector() { return null; },
+    querySelector(selector) {
+      if (hiddenMenu && (selector === "#corpo .secao-principal .conteudo" ||
+          selector === "#corpo .conteudo")) return state.main;
+      return null;
+    },
     querySelectorAll(selector) {
       return ["img", "img[alt],img[title]"].includes(selector) ? state.sources : [];
     },
@@ -235,6 +253,14 @@ test("Repetição de nomes não relaxa validação dos demais modos", () => {
    ["mini-pages1","mini-pages1","mini-pages1","mini-pages1"],["mini-pages1"]);
  assert.equal(env.slot.dataset.fwrInitialized,undefined);
  assert.equal(env.edits.length,0);
+});
+test("Slot criado no submenu invisível é movido ao corpo antes do banner montar",()=>{
+ const env=createEnvironment(true,1,"lateral","/cabelos",["/cabelos"],1,
+  ["mini-pages1","mini-pages1","mini-pages1","mini-pages1"],["mini-pages1"],true);
+ assert.equal(env.movedToMain,true);
+ assert.equal(env.slot.parentElement,env.main);
+ assert.equal(env.slot.dataset.fwrInitialized,"1");
+ assert.equal(env.slot.children[0].children[0].children.length,1);
 });
 test("URL '#' de banner lateral não vira navegação; preserva imagem",()=>{
  assert.match(js,/value\.trim\(\) === "#"/);
