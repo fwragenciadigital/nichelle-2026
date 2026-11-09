@@ -1,7 +1,8 @@
-<!-- NICHELLE | 4 BANNERS VITRINE (administrados na Loja Integrada)
+<!-- NICHELLE | 4 MINI BANNERS (administrados na Loja Integrada)
      Cole uma vez na HOME, exatamente onde deseja o bloco de 4 cards.
      O JS + CSS padrão já são carregados por nichelle.js no rodapé.
-     Cadastre 4 banners na posição "Vitrine" com os mesmos nomes abaixo.
+     Cadastre 4 banners na posição "Mini Banner" com os mesmos nomes abaixo.
+     Em páginas de categoria, só funciona se o tema renderizar Mini Banners nessa página.
      IMPORTANTE: ATIVO sempre começa FALSE, altere para TRUE só após conferir as artes. -->
 <div id="fwr-nichelle-vitrine-slot" data-fwr-active="0"></div>
 
@@ -9,6 +10,8 @@
 window.FWRNichelle = window.FWRNichelle || {};
 window.FWRNichelle.bannerVitrine = {
   ativo: false, // ALTERAR PARA true PARA HABILITAR
+  origem: "mini", // Usa Mini Banner do painel da Loja Integrada
+  ocultarOriginais: false, // Não oculta carrossel nativo sem homologação
   nomes: [
     "Mini 1 vitrine-mini",
     "Mini 2 vitrine-mini",
@@ -16,6 +19,8 @@ window.FWRNichelle.bannerVitrine = {
     "Mini 4 vitrine-mini"
   ]
 };
+// Atualiza se este HTML for injetado depois do script JS.
+document.dispatchEvent(new Event("fwr:nichelle:banner-config"));
 
 /* Reserva crítica anti-CLS quando ativo; o layout e CSS ficam no JS oficial. */
 (function () {
