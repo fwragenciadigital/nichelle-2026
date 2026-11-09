@@ -1,6 +1,6 @@
 /* FWR Nichelle 2026 — extensão local MV3; ativação manual, apenas na aba atual. */
 "use strict";
-const BASE = "https://nichelle-2026.vercel.app";
+// O pacote inclui JS/CSS do commit homologado. Não depende da quota Vercel nem de CSP externo.
 const statusEl = document.getElementById("status");
 const buttons = [...document.querySelectorAll("button")];
 const allowed = url => {
@@ -32,10 +32,18 @@ async function action(mode) {
     const result = await chrome.scripting.executeScript({
       target: { tabId: tab.id }, world: "MAIN",
       func: mode === "inspect" ? inspectSite : enablePrivate,
-      args: mode === "inspect" ? [] : [mode, BASE]
+      args: mode === "inspect" ? [] : [mode]
     });
-    const report = result[0]?.result;
+    let report = result[0]?.result;
     if (!report?.ok) throw new Error(report?.message || "A aba não respondeu.");
+    if (mode !== "inspect") {
+      // Assets locais empacotados a partir de public/nichelle27.js/.css.
+      await chrome.scripting.insertCSS({ target: { tabId: tab.id }, files: ["nichelle27.css"] });
+      await chrome.scripting.executeScript({ target: { tabId: tab.id }, world: "MAIN", files: ["nichelle27.js"] });
+      const done = await chrome.scripting.executeScript({ target: { tabId: tab.id }, world: "MAIN", func: finishPrivate });
+      report = done[0]?.result;
+      if (!report?.ok) throw new Error(report?.message || "A montagem falhou.");
+    }
     setStatus(report.message + (report.details ? "\n" + report.details : ""));
   } catch(e) {
     setStatus("Não foi possível executar: " + String(e.message || e), true);
@@ -57,7 +65,7 @@ function inspectSite() {
       " · banner FWR: " + (diagnosis?.galeriaMontada ? "montado" : "não montado") +
       " · framework: " + (window.Nichelle27Framework?.version || "não carregado") };
 }
-async function enablePrivate(mode, base) {
+function enablePrivate(mode) {
   if (!["visual", "advanced"].includes(mode)) return {ok:false,message:"Modo inválido"};
   if (location.protocol !== "https:" || !["www.nichelleimports.com.br", "nichelleimports.com.br"].includes(location.hostname)) {
     return {ok:false,message:"Esta extensão funciona somente no domínio oficial da Nichelle."};
@@ -105,43 +113,26 @@ async function enablePrivate(mode, base) {
   };
   window.__FWR_NICHELLE_PRIVATE_MODE__ = true;
   document.documentElement.dataset.n27PrivateMode = "fwr-local-extension";
-  const cssId = "n27-private-css";
+  return {ok:true,message:"Navegador preparado para a prévia FWR.",
+    details:"Modo: "+(mode==="advanced"?"avançado":"seguro")+
+      " · vitrines reais detectadas: "+shelfNodes.length};
+}
+function finishPrivate() {
   try {
-    if (!document.getElementById(cssId)) {
-      await new Promise((resolve,reject)=>{
-        const link=document.createElement("link");
-        link.id=cssId;link.rel="stylesheet";link.href=base+"/nichelle27.css";
-        link.onload=resolve;link.onerror=()=>reject(new Error("CSS não carregou (CSP ou rede)"));
-        document.head.appendChild(link);
-      });
-    }
-    if (!window.Nichelle27Framework?.initialized) {
-      await new Promise((resolve,reject)=>{
-        const script=document.createElement("script");
-        script.src=base+"/nichelle27.js";script.async=true;
-        script.onload=resolve;script.onerror=()=>reject(new Error("JS não carregou (CSP ou rede)"));
-        (document.head||document.documentElement).appendChild(script);
-      });
-    }
-    const status = window.Nichelle27Framework?.mount();
-    if (!status || status.bloqueado === true) throw new Error("Framework bloqueado; valide o JS publicado na Vercel.");
-    const report = window.Nichelle27Framework?.diagnostico?.();
+    const status=window.Nichelle27Framework?.mount();
+    if(!status || status.bloqueado===true) throw Error("Framework não autorizado neste navegador.");
+    const report=window.Nichelle27Framework?.diagnostico?.();
     let badge=document.getElementById("n27-private-badge");
-    if (!badge) {
+    if(!badge) {
       badge=document.createElement("div");badge.id="n27-private-badge";
       badge.textContent="PRÉVIA FWR · APENAS NESTE NAVEGADOR";
       badge.style.cssText="position:fixed!important;bottom:12px;left:12px;z-index:2147483000;padding:10px 14px;background:#700092;color:white;border-radius:9px;font:700 11px/1.2 Arial,sans-serif;box-shadow:0 4px 20px #0004;pointer-events:none";
       document.body.appendChild(badge);
     }
     return {ok:true,message:"Prévia FWR ativada somente nesta aba.",details:
-      "Modo: "+(mode==="advanced"?"avançado":"seguro")+
-      " · vitrines detectadas: "+shelfNodes.length+
-      " · módulos montados: "+(report?.montados||[]).join(", ")+
+      "Módulos montados: "+(report?.montados||[]).join(", ")+
       " · Para desligar: recarregue a página."};
-  } catch(e) {
-    // Não tentar reconstruir listas movidas: recarregar é rollback confiável.
-    return {ok:false,message:String(e.message||e)+". Recarregue para restaurar."};
-  }
+  }catch(e){return {ok:false,message:String(e.message||e)+". Recarregue para restaurar."};}
 }
 document.getElementById("inspect").addEventListener("click",()=>action("inspect"));
 document.getElementById("visual").addEventListener("click",()=>action("visual"));
