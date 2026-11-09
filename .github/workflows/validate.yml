@@ -50,6 +50,21 @@ jobs:
           test ! -e vercel/dist/qa
           test ! -e vercel/dist/tools
           test ! -e vercel/dist/admin
+      - name: Gerar pacote da extensão privada FWR
+        run: |
+          node tools/homologacao-privada/build.mjs
+          cmp public/nichelle27.js tools/homologacao-privada/dist/nichelle27.js
+          cmp public/nichelle27.css tools/homologacao-privada/dist/nichelle27.css
+          test -s tools/homologacao-privada/dist/popup.js
+          cd tools/homologacao-privada/dist
+          zip -q -r "$GITHUB_WORKSPACE/nichelle-modo-privado-fwr.zip" .
+      - name: Disponibilizar extensão FWR para instalação local
+        uses: actions/upload-artifact@v4
+        with:
+          name: nichelle-modo-privado-fwr
+          path: nichelle-modo-privado-fwr.zip
+          retention-days: 14
+          if-no-files-found: error
       - name: Validar PHP do painel
         run: |
           php -l server/bootstrap.php
