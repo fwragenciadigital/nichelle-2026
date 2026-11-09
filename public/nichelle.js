@@ -437,7 +437,8 @@
       if (!raw || typeof raw !== "object") return null;
       const foto = safeUrl(raw.foto, false), link = safeUrl(raw.link, true);
       const titulo = typeof raw.titulo === "string" ? raw.titulo.trim().slice(0, 170) : "";
-      const resumo = typeof raw.resumo === "string" ? raw.resumo.trim().slice(0, 310) : "";
+      const breve = typeof raw.breveTexto === "string" ? raw.breveTexto : raw.resumo;
+      const resumo = typeof breve === "string" ? breve.trim().slice(0, 310) : "";
       const data = typeof raw.data === "string" ? raw.data.trim() : "";
       if (!foto || !link || !titulo || !resumo || !data) return null;
       let iso = "", label = data.slice(0, 60);
