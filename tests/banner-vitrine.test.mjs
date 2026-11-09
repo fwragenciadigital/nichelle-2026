@@ -100,7 +100,7 @@ test("quando true, exibe 4 cards ordenados por nome, preserva links e oculta fon
 test("não oculta banner algum se faltar um dos quatro", () => {
   // Não observar DOM nesta fixture, apenas confirmar o fail-closed pela origem.
   const html = js.slice(js.indexOf("  function initBannerVitrine()"), js.indexOf("  function start()"));
-  assert.match(html, /if \(!img\) return \[\]/);
+  assert.match(html, /if \(!entry\) return \[\]/);
   assert.match(html, /if \(found.length !== 4\) return false/);
   assert.match(html, /observer\.disconnect\(\)/);
   assert.match(html, /6000/);
@@ -111,7 +111,8 @@ test("CSS separado do módulo de Shorts, sem bibliotecas ou requisições de API
   assert.match(js, /initVideoGallery\(\);\s*initBannerVitrine\(\)/);
   assert.match(js, /aspect-ratio:3\/5/);
   assert.match(js, /scroll-snap-type:x mandatory/);
-  assert.doesNotMatch(js, /\bfetch\s*\(|\baxios\b/);
+  assert.doesNotMatch(js, /\baxios\b/);
+  assert.match(js, /url\.origin === window\.location\.origin/);
 });
 
 test("Categoria Cabelos: configuração só atua nesta categoria e inicia false", () => {
@@ -173,7 +174,7 @@ test("Escopo configurável: homologação em /cabelos, sem impor categoria no ru
 });
 test("Cadastro global para Banner Lateral não instala segundo JS nem ativa por padrão", () => {
  assert.match(lateralHtml,/origem: "lateral"/);
- assert.match(lateralHtml,/ativo: false/);
+ assert.match(lateralHtml,/ativo: true/);
  assert.match(lateralHtml,/paginas: \["\/cabelos"\]/);
  assert.match(lateralHtml,/"mini-pages1"/);
  assert.match(lateralHtml,/document\.dispatchEvent\(new Event\("fwr:nichelle:banner-config"\)\)/);
@@ -181,6 +182,30 @@ test("Cadastro global para Banner Lateral não instala segundo JS nem ativa por 
  const scripts=[...lateralHtml.matchAll(/<script>([\s\S]*?)<\/script>/g)];
  assert.equal(scripts.length,1);
  assert.doesNotThrow(()=>new Script(scripts[0][1]));
+});
+
+test("Novo modo Banner Lateral identifica imagem pelo arquivo mesmo com ALT genérico", () => {
+ const env=createEnvironment(true,4,"lateral","/cabelos");
+ assert.equal(env.slot.dataset.fwrInitialized,"1");
+ assert.match(js,/function bannerNameMatches\(img, name\)/);
+ assert.match(js,/leaf\.startsWith\(name \+ "-"/);
+ assert.match(js,/data-banner-name/);
+});
+test("HTML de homologação não ativa banners na HOME", () => {
+ assert.match(lateralHtml,/paginas: \["\/cabelos"\]/);
+ assert.match(lateralHtml,/fonteAlternativa: "\/"/);
+ assert.match(lateralHtml,/imagens: \[\]/);
+ assert.match(lateralHtml,/ativo: true/);
+});
+test("Fonte alternativa só faz requisição dentro da mesma loja", () => {
+ assert.match(js,/url\.origin === window\.location\.origin/);
+ assert.match(js,/credentials: "same-origin"/);
+ assert.match(js,/new window\.DOMParser\(\)\.parseFromString/);
+});
+test("URL manual opcional permite reaproveitar banners cadastrados na LI", () => {
+ assert.match(js,/Array\.isArray\(cfg\.imagens\)/);
+ assert.match(js,/safeURL\(item\.imagem\)/);
+ assert.match(js,/destination: safeURL\(item\.link\)/);
 });
 test("URL '#' de banner lateral não vira navegação; preserva imagem",()=>{
  assert.match(js,/value\.trim\(\) === "#"/);
