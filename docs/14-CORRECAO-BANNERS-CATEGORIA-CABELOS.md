@@ -1,3 +1,5 @@
+> **HISTÓRICO (substituído):** O módulo de quatro cards agora utiliza a posição **Mini Banner** por decisão posterior. Para instalação atual, siga [docs/15-MINI-BANNER-QUATRO-CARDS.md](15-MINI-BANNER-QUATRO-CARDS.md). O procedimento abaixo descreve a tentativa anterior com Full Banner e não deve ser seguido como instrução vigente.
+
 # Correção — banners não aparecem em /cabelos
 
 ## Diagnóstico
