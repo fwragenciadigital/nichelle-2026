@@ -18,14 +18,14 @@ jobs:
         with:
           node-version: '22'
       - run: node --test tests/*.test.mjs
+      - name: Diagnosticar banners publicados na página (somente leitura)
+        run: node tests/audit-live-banners.mjs
       - name: Validar notícias no Chromium (desktop, tablet e celular)
         run: node tests/noticias.browser.mjs
       - name: Validar framework Nichelle27 no Chromium (desktop e mobile)
         run: node tests/framework27.browser.mjs
       - name: Validar sintaxe do framework independente
         run: node --check public/nichelle27.js
-      - name: Diagnosticar banners publicados na página (somente leitura)
-        run: node tests/audit-live-banners.mjs
       - name: Compilar e validar os três assets separados para Vercel
         run: |
           node vercel/build.mjs
