@@ -62,9 +62,12 @@ function createEnvironment(active, amount = 4, origin = "vitrine", page = "/", p
   };
   const window = {
     location: { href: "https://www.nichelleimports.com.br" + page, pathname: page, origin: "https://www.nichelleimports.com.br" },
-    FWRNichelle: { bannerVitrine: { ativo: active, nomes: names, origem: origin, paginas: pages, minimo: minimum } }
+    FWRNichelle: { bannerVitrine: { ativo: active, nomes: names, origem: origin, paginas: pages, minimo: minimum } },
+    requestAnimationFrame(fn) { fn(); },
+    setTimeout() { return 1; }, clearTimeout() {}
   };
-  runInNewContext(js, { window, document, URL, MutationObserver: class {}, Set, console });
+  runInNewContext(js, { window, document, URL,
+    MutationObserver: class { observe() {} disconnect() {} }, Set, console });
   return state;
 }
 
@@ -101,7 +104,7 @@ test("não oculta banner algum se faltar um dos quatro", () => {
   // Não observar DOM nesta fixture, apenas confirmar o fail-closed pela origem.
   const html = js.slice(js.indexOf("  function initBannerVitrine()"), js.indexOf("  function start()"));
   assert.match(html, /if \(minimo < 4\) continue;/);
-  assert.match(html, /if \(found.length !== 4\) return false/);
+  assert.match(html, /if \(found.length < minimo \|\| found.length > 4\) return false/);
   assert.match(html, /observer\.disconnect\(\)/);
   assert.match(html, /6000/);
 });
