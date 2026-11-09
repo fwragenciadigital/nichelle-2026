@@ -22,8 +22,16 @@
     const localHost = host === "localhost" || host === "127.0.0.1";
     const vercelPreview = host.startsWith("nichelle-2026-") &&
       host.endsWith("-fwragenciadigitals-projects.vercel.app");
-    return !!(document.body && document.body.dataset.nichellePreviewFixture === "true" &&
+    const fixture = !!(document.body && document.body.dataset.nichellePreviewFixture === "true" &&
       (localHost || vercelPreview));
+    // O modo FWR é inserido manualmente, em uma única aba, por uma extensão
+    // local do Chrome. Não concede acesso a painel ou API; é apenas um gate
+    // de execução para o visual em um navegador privado.
+    const liveHost = host === "www.nichelleimports.com.br" || host === "nichelleimports.com.br";
+    const privateMode = liveHost && !!(document.documentElement &&
+      document.documentElement.dataset.n27PrivateMode === "fwr-local-extension" &&
+      window.__FWR_NICHELLE_PRIVATE_MODE__ === true);
+    return fixture || privateMode;
   }
   function log() {
     if (settings().geral && settings().geral.debug === true) {
@@ -207,6 +215,9 @@
       noticias: { id: "fwr-nichelle-noticias-slot", cfg: "noticias", event: "fwr:nichelle:news-config" }
     };
     const spec = sources[key], config = window.FWRNichelle && window.FWRNichelle[spec.cfg];
+    // Na homologação local é permitido não mover os módulos já instalados.
+    const integrations = settings().integracoes;
+    if (integrations && integrations[key] === false) return null;
     if (!config || config.ativo !== true) return null;
     let slot = document.getElementById(spec.id);
     if (!slot) { slot = el("div"); slot.id = spec.id; slot.dataset.fwrActive = "0"; }
