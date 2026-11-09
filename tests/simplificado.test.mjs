@@ -14,7 +14,9 @@ test("runtime unico com sintaxe JavaScript valida",()=>{
  assert.match(js,/window\.FWRNichelle\.galeriaVideos/);
 });
 test("nao usa dashboard, JSON remoto nem bibliotecas novas",()=>{
- assert.doesNotMatch(js,/\bfetch\s*\(/);
+ // A única busca opcional permitida é de banners na mesma origem da loja.
+ assert.match(js,/url\.origin === window\.location\.origin/);
+ assert.match(js,/credentials: "same-origin"/);
  assert.doesNotMatch(js,/\bjQuery\b|\$\(\s*document/);
  assert.doesNotMatch(js,/galeria-publicada\.json|galeria-preview\.json|password_verify/);
 });
