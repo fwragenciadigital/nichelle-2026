@@ -1,6 +1,6 @@
 /*
- * Nichelle 27 — Framework estrutural FWR v0.4.0 (ativação direta por opt-in na Loja Integrada)
- * Origem: layout de referência Nichelle 2026.
+ * Nichelle 27 — Adaptador estrutural FWR v0.5.0 (base Malheiro, visual Nichelle 2026)
+ * Adapta o padrão de inicialização/Settings da base Malheiro; não carrega o bundle Malheiro.
  * Somente integra conteúdo real da Loja Integrada. NÃO cria produtos/preços fictícios,
  * checkout, autenticação, formulários falsos ou imagens externas automáticas.
  * Preserva todos os módulos já existentes em public/nichelle.js.
@@ -9,7 +9,7 @@
 (function () {
   "use strict";
   if (window.Nichelle27Framework && window.Nichelle27Framework.initialized) return;
-  const VERSION = "0.4.0";
+  const VERSION = "0.5.0";
   const ORDER = Object.freeze([
     "qualificadores", "maisVendidos", "banners", "lancamentos", "marcas",
     "videos", "promocoes", "noticias", "newsletter", "instagram", "empresa"
@@ -17,6 +17,11 @@
   const mounted = new Set();
 
   function settings() { return window.Nichelle27Settings || {}; }
+  function officialStoreMode() {
+    const host = String(window.location.hostname || "").toLowerCase();
+    const liveHost = host === "www.nichelleimports.com.br" || host === "nichelleimports.com.br";
+    return liveHost && !!(settings().geral && settings().geral.publicarNaLoja === true);
+  }
   function previewFixtureAllowed() {
     const host = String(window.location.hostname || "").toLowerCase();
     const localHost = host === "localhost" || host === "127.0.0.1";
@@ -34,9 +39,7 @@
     // Publicação oficial: opt-in explícito no HTML da Loja Integrada.
     // O script hospedado sozinho na Vercel NÃO ativa nenhuma personalização.
     // A home e as páginas internas obedecem às flags e páginas em Settings.
-    const directStoreMode = liveHost &&
-      !!(settings().geral && settings().geral.publicarNaLoja === true);
-    return fixture || privateMode || directStoreMode;
+    return fixture || privateMode || officialStoreMode();
   }
   function log() {
     if (settings().geral && settings().geral.debug === true) {
@@ -179,7 +182,9 @@
   function mountVitrine(cfg, key) {
     if (!enabled(cfg) || typeof cfg.seletorFonte !== "string" || !cfg.seletorFonte.trim()) return null;
     const source = select(cfg.seletorFonte);
-    if (!source || source.dataset.n27Adopted === "1") return null;
+    if (!source) return null;
+    // mount() never calls this for the official store; the real LI DOM remains native.
+    if (source.dataset.n27Adopted === "1") return null;
     const selector = cfg.seletorItem || ":scope > *";
     let items;
     try { items = source.querySelectorAll(selector); } catch (_) { log("Seletor item inválido", selector); return null; }
@@ -225,6 +230,12 @@
     if (integrations && integrations[key] === false) return null;
     if (!config || config.ativo !== true) return null;
     let slot = document.getElementById(spec.id);
+    if (officialStoreMode()) {
+      // Keep the FWR-owned slot where the merchant placed it. Never guess a
+      // location or mutate native LI sections on the official host.
+      if (!slot) { log("Slot FWR não encontrado:", spec.id); return null; }
+      return null;
+    }
     if (!slot) { slot = el("div"); slot.id = spec.id; slot.dataset.fwrActive = "0"; }
     const outer = section(key);
     if (key === "noticias") {
@@ -266,9 +277,11 @@
   function mountNewsletter(cfg) {
     if (!enabled(cfg)) return null;
     const form = select(cfg.seletorFormulario);
-    if (!form || form.dataset.n27Adopted === "1") return null;
+    if (!form) return null;
     const source = form.matches("form") ? form : select("form", form);
     if (!source || !source.querySelector("input[type=email], input[name=email]")) return null;
+    // mount() never calls this for the official store; the real LI form remains native.
+    if (form.dataset.n27Adopted === "1") return null;
     const outer = section("newsletter"), frame = container();
     const banner = el("div", "n27-newsletter");
     const layout = el("div", "n27-newsletter__content");
@@ -346,6 +359,13 @@
     if (!previewFixtureAllowed()) {
       log("Bloqueado: exige modo privado ou publicarNaLoja:true no domínio oficial.");
       return { ativo: false, bloqueado: true, montados: Array.from(mounted) };
+    }
+
+    if (officialStoreMode()) {
+      // Official integration is limited to the one confirmed FWR component.
+      // Do not touch native LI nodes until exact theme selectors are verified.
+      mountSlot("videos");
+      return { ativo: true, adaptador: true, layout: false, montados: Array.from(mounted) };
     }
 
     mountTopo();

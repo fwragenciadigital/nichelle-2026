@@ -4,7 +4,7 @@
 
 **EXECUTE PRIMEIRO:** [PROMPT_INICIAL_CODEX.md](./PROMPT_INICIAL_CODEX.md).
 
-O projeto mantém catálogo, conteúdo e operação comercial próprios, mas **usa como referência técnica a base JavaScript da Malheiro**. O arquivo/SHA-256 auditado e o delta de adaptação constam em `docs/04-DASHBOARD-SETTINGS-ARQUITETURA.md`. Não copiar produtos, mídia, URLs ou configuração comercial da Malheiro.
+Os dois assets CDN enviados da Malheiro são a fundação escolhida para adaptação seletiva, combinada com a composição visual Nichelle demonstrada em `/preview/`. Não carregue o bundle bruto nem copie seletores, plugins ou efeitos comerciais da Malheiro. O delta, os hashes auditados e os limites do que está aplicado aos assets oficiais constam em `docs/04-DASHBOARD-SETTINGS-ARQUITETURA.md`. Não copiar produtos, mídia, URLs ou configuração comercial da Malheiro.
 
 ## Regra inegociável
 Logo, banner principal, categorias, busca, minicart/carrinho, vitrines nativas, produto, estoque, preço e checkout **continuam na Loja Integrada**. O painel externo FWR controla **somente módulos customizados** desenvolvidos por nossa equipe, começando pela galeria editorial de 4 vídeos verticais prevista no briefing e posicionada visualmente após a faixa de marcas no layout final `index1.html`. A imagem confirma aparência/ordem; o slot funcional e a interação de vídeo ainda precisam de validação.

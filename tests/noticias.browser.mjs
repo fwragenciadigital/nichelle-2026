@@ -7,6 +7,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 
 const runtime = await readFile(new URL("../public/nichelle.js", import.meta.url));
+const styles = await readFile(new URL("../public/nichelle.css", import.meta.url));
 const fixture = String.raw`<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>html,body{margin:0;padding:0;font-family:Arial,sans-serif}footer{padding:20px;background:#fff}footer a{display:inline-block;margin-right:10px}</style>
@@ -27,6 +28,10 @@ const server = createServer((req, res) => {
   if (req.url === "/nichelle.js") {
     res.writeHead(200, { "Content-Type": "text/javascript; charset=utf-8" });
     return res.end(runtime);
+  }
+  if (req.url === "/nichelle.css") {
+    res.writeHead(200, { "Content-Type": "text/css; charset=utf-8" });
+    return res.end(styles);
   }
   if (req.url === "/") {
     res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });

@@ -4,7 +4,7 @@
 
 ## Base técnica do runtime
 
-Por decisão do usuário, o runtime de Nichelle usa como referência técnica a base JavaScript da Malheiro, com fonte, revisão, dependências e delta registrados abaixo. Reutilizar a fundação técnica não transfere catálogo, imagens, vídeos, URLs, configuração comercial nem comportamento de compra específico da Malheiro. Preservar a inicialização nativa da LI e evitar duplicar plugins.
+Os dois arquivos CDN enviados pelo cliente são a base de referência estrutural escolhida para adaptação do projeto. O layout Nichelle/Vercel orienta a composição visual. A adaptação é seletiva: os assets foram auditados para identificar limites de inicialização, configuração e distribuição; o código Malheiro não é carregado integralmente nem seus seletores, plugins, conteúdo ou fluxo comercial são copiados. O tema e os controles nativos da Loja Integrada permanecem responsáveis pela operação da loja.
 
 ### Fonte auditada para a galeria Nichelle
 
@@ -17,16 +17,24 @@ Por decisão do usuário, o runtime de Nichelle usa como referência técnica a 
 
 ### Assets CDN enviados para auditoria em 2026-11-13
 
-Os links fornecidos pelo cliente foram consultados como referência da base Malheiro; eles não são um export do HTML/CSS do tema Nichelle.
+Os links fornecidos pelo cliente foram consultados como os assets-base da adaptação; eles não são um export do HTML/CSS do tema Nichelle.
 
 | Arquivo | URL | HTTP/MIME | Bytes | SHA-256 observado |
 |---|---|---|---:|---|
 | JavaScript | [`malheiroshoww-estabilizado.js`](https://cdn.awsli.com.br/1351/1351790/arquivos/malheiroshoww-estabilizado.js) | 200 · `application/x-javascript` | 159.549 | `D504599D2629873C8CF889C121C8918ED692A7F720F4F599D7762DDBBA5C2E2A` |
 | CSS | [`csscompactadoo.css`](https://cdn.awsli.com.br/1351/1351790/arquivos/csscompactadoo.css) | 200 · `text/css` | 252.760 | `EFE3F3A7E383C1AFA12F2440603DCC12D03BC3673896FCEBABAA69680735D5C9` |
 
-O JavaScript remoto depende de jQuery e executa alterações amplas em elementos da loja de origem, incluindo header, menu, botões e carrinho. O CSS também contém seletores e componentes próprios da Malheiro. Os hashes do JavaScript remoto diferem dos dois registros anteriores acima; não substituir nem igualar esses registros sem reconciliação da versão. Não carregar nenhum dos dois assets diretamente na Nichelle. Reaproveitar somente padrões técnicos após revisão e adaptação aos seletores reais da Nichelle, com estilos isolados e preservação dos handlers/comportamentos nativos da Loja Integrada.
+O JavaScript remoto depende de jQuery e executa alterações amplas em elementos da loja de origem, incluindo header, menu, botões e carrinho. O CSS também contém seletores e componentes próprios da Malheiro. Os hashes do JavaScript remoto diferem dos dois registros anteriores acima; não substituir nem igualar esses registros sem reconciliação da versão. Os arquivos brutos ficam como fundação auditada, mas não são carregados diretamente na Nichelle. Seus padrões são adaptados seletivamente em código FWR próprio, isolado e revisado. Não transplantar seletores/efeitos globais para a loja destino sem conferir o DOM exato.
 
-Para adaptar e validar o visual do layout final nos arquivos oficiais, permanece necessário o export HTML/CSS do tema Nichelle ou acesso a um tema de homologação. Os links Malheiro não fornecem o DOM nem os seletores da loja destino.
+### Estado da adaptação oficial
+
+- `public/nichelle.js` consome somente a galeria FWR confirmada no domínio oficial; banners e notícias legados seguem disponíveis em prévias, mas não são iniciados no host da loja.
+- `public/nichelle.css` separa os estilos oficiais da galeria. O runtime carrega esse arquivo somente da mesma origem do JS, reservando a geometria da seção no snippet da LI antes do carregamento.
+- `public/nichelle27.js` e `public/nichelle27.css` representam a composição completa da demo e permanecem isolados para prévia. Seu modo oficial limitado só reconhece o slot FWR da galeria; os outros blocos não são inseridos nem os elementos nativos são alterados.
+- A pele geral da demo (header/menu, vitrines, benefícios, marcas, newsletter, Instagram e institucional) ainda não está aplicada ao tema da loja: faltam export HTML/CSS ou tema de homologação que confirmem seletores e slots. Essa etapa não deve ser inferida do asset Malheiro.
+- A tentativa de comparação no Chromium contra a home pública, em 1440px, confirmou que as regras clássicas de cabeçalho da base não casam com o layout atualmente servido. Por isso elas foram removidas do CSS oficial; a folha oficial ficou restrita ao slot FWR da galeria. Esse acesso read-only não substitui o tema de homologação nem valida os breakpoints do tema.
+
+Para adaptar e validar o visual completo do layout final nos arquivos oficiais, permanece necessário o export HTML/CSS do tema Nichelle ou acesso a um tema de homologação. Os links Malheiro fornecem a fundação escolhida, mas não provam o DOM nem os seletores usados pela loja destino.
 
 ## Fronteira do sistema
 

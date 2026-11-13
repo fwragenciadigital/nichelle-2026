@@ -4,16 +4,33 @@
   "use strict";
   if (window.__FWR_NICHELLE_RUNTIME__) return;
   window.__FWR_NICHELLE_RUNTIME__ = true;
+  function isOfficialStoreHost() {
+    const host = String(window.location.hostname || "").toLowerCase();
+    return host === "www.nichelleimports.com.br" || host === "nichelleimports.com.br";
+  }
 
-  // CSS padrão versionado no JS oficial. O editor LI pode sobrescrever regras após o carregamento.
+  // Carrega o CSS oficial ao lado do JS. Pode ser sobrescrito no editor LI.
   function installStyles() {
     if (document.getElementById("fwr-nichelle-styles")) return;
-    const css = "#fwr-nichelle-video-slot{box-sizing:border-box;width:100%;max-width:1440px;margin-inline:auto}\n#fwr-nichelle-video-slot[data-fwr-active=\"1\"]{min-height:clamp(440px,calc(135.12vw + 84px),650px)}\n#fwr-nichelle-video-slot .fwr-nichelle-videos{padding:20px 18px 38px}\n#fwr-nichelle-video-slot .fwr-nichelle-videos *{box-sizing:border-box}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__track{display:grid;grid-auto-flow:column;grid-auto-columns:min(76vw,310px);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 0 12px}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__card{appearance:none;position:relative;display:block;width:100%;aspect-ratio:9/16;border:0;border-radius:20px;overflow:hidden;background:#ded8dc;cursor:pointer;scroll-snap-align:start;padding:0}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__poster{display:block;width:100%;height:100%;object-fit:cover}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__card::after{content:\"\";position:absolute;inset:0;background:rgba(0,0,0,.20);pointer-events:none}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__play{position:absolute;z-index:2;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none;filter:drop-shadow(0 2px 4px #3335)}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__play svg{display:block;width:46px;height:46px;fill:#fff}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__fallback{position:absolute;z-index:1;bottom:10px;left:12px;right:12px;padding:8px;background:#161616c9;color:white;text-align:center;font:500 12px/1.4 Arial,sans-serif;border-radius:8px}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__fallback[hidden]{display:none}\n#fwr-nichelle-video-slot .fwr-nichelle-videos__card:focus-visible{outline:3px solid #fff;outline-offset:-5px}\n@media (min-width:768px){\n  #fwr-nichelle-video-slot[data-fwr-active=\"1\"]{min-height:clamp(420px,calc(42vw + 72px),700px)}\n  #fwr-nichelle-video-slot .fwr-nichelle-videos{padding:28px 24px 42px}\n  #fwr-nichelle-video-slot .fwr-nichelle-videos__track{grid-auto-flow:row;grid-auto-columns:auto;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.8vw,30px);overflow:visible;scroll-snap-type:none}\n}\n.fwr-nichelle-video-modal{position:fixed;inset:0;z-index:2147482000;background:#000d;display:grid;place-items:center;padding:20px}\n.fwr-nichelle-video-modal__dialog{position:relative;width:min(450px,92vw);height:min(80vh,800px);aspect-ratio:9/16;border-radius:16px;background:#111}\n.fwr-nichelle-video-modal__media{display:block;width:100%;height:100%;border:0;border-radius:16px}\n.fwr-nichelle-video-modal__close{position:absolute;z-index:2;right:-12px;top:-12px;width:40px;height:40px;border:0;border-radius:50%;background:white;color:#111;font-size:25px;cursor:pointer}\n/* Navegação entre Shorts somente quando o modal é aberto. */\n.fwr-nichelle-video-modal{padding:18px 18px 72px}\n.fwr-nichelle-video-modal__dialog{width:min(450px,92vw,42.75vh);height:auto;aspect-ratio:9/16;max-height:76vh}\n.fwr-nichelle-video-modal__controls{position:absolute;z-index:4;top:calc(100% + 12px);left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;gap:15px;min-width:245px;color:#fff;touch-action:pan-y;user-select:none}\n.fwr-nichelle-video-modal__controls[hidden]{display:none!important}\n.fwr-nichelle-video-modal__nav{display:grid;place-items:center;flex:none;width:44px;height:44px;padding:0;border:1px solid #fff7;border-radius:50%;background:#242424;color:#fff;cursor:pointer;font:400 34px/1 Arial,sans-serif}\n.fwr-nichelle-video-modal__nav:focus-visible,.fwr-nichelle-video-modal__close:focus-visible{outline:3px solid #fff;outline-offset:3px}\n.fwr-nichelle-video-modal__position{min-width:92px;text-align:center;font:600 13px/1.3 Arial,sans-serif}\n.fwr-nichelle-video-modal__hint{display:block;margin-top:3px;white-space:nowrap;font:400 10px/1.3 Arial,sans-serif;color:#ffffffb8}\n@media(min-width:768px){.fwr-nichelle-video-modal__hint{display:none}}\n";
-    const el = document.createElement("style");
-    el.id = "fwr-nichelle-styles";
-    el.textContent = css;
-    el.textContent += "\n#fwr-nichelle-video-slot .fwr-nichelle-videos__status{display:grid;min-height:inherit;place-items:center;margin:0;padding:20px;color:#6b6370;font:500 14px/1.5 Arial,sans-serif}";
-    (document.head || document.documentElement).appendChild(el);
+    const script = document.currentScript;
+    const configured = window.FWRNichelleStylesheet ||
+      (script && script.getAttribute("data-stylesheet-url")) || "";
+    let href = "";
+    try {
+      if (!script || !script.src) return;
+      const scriptURL = new URL(script.src, window.location.href);
+      href = configured ? new URL(configured, scriptURL).href : new URL("nichelle.css", scriptURL).href;
+      const url = new URL(href);
+      const localHttp = url.protocol === "http:" &&
+        ["localhost", "127.0.0.1"].includes(url.hostname) && url.origin === scriptURL.origin;
+      if ((!localHttp && url.protocol !== "https:") || url.username || url.password || url.search || url.hash) return;
+      if (url.origin !== scriptURL.origin) return;
+    } catch (_) { return; }
+    const link = document.createElement("link");
+    link.id = "fwr-nichelle-styles";
+    link.rel = "stylesheet";
+    link.href = href;
+    (document.head || document.documentElement).appendChild(link);
   }
   installStyles();
 
@@ -74,7 +91,9 @@
   function loadPublishedGallery() {
     const settings = window.FWRNichelle && window.FWRNichelle.galeriaVideos;
     const configUrl = settings && typeof settings.configUrl === "string" ? settings.configUrl.trim() : "";
-    if (!configUrl) return Promise.resolve(settings || null);
+    // The official host only accepts the server-validated published snapshot.
+    // Manual settings remain available in local previews and isolated fixtures.
+    if (!configUrl) return Promise.resolve(isOfficialStoreHost() ? null : (settings || null));
     let url;
     try {
       url = new URL(configUrl, window.location.href);
@@ -703,6 +722,9 @@
 
   function start() {
     loadPublishedGallery().then(function (gallery) { initVideoGallery(gallery); });
+    if (isOfficialStoreHost()) return;
+    // The official storefront only enables the confirmed FWR gallery. Legacy
+    // banner/news modules remain available to previews but cannot rewrite LI UI.
     initBannerVitrine();
     initNoticias();
     /* Adicionar futuras funções exclusivas aqui, sem recriar recursos nativos da LI. */
@@ -749,8 +771,10 @@
     };
   };
 
-  document.addEventListener("fwr:nichelle:banner-config", initBannerVitrine);
-  document.addEventListener("fwr:nichelle:news-config", initNoticias);
+  if (!isOfficialStoreHost()) {
+    document.addEventListener("fwr:nichelle:banner-config", initBannerVitrine);
+    document.addEventListener("fwr:nichelle:news-config", initNoticias);
+  }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start, {once:true});
   else start();
 })();

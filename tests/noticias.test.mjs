@@ -12,7 +12,7 @@ const sample = [
   { foto: "https://cdn.awsli.com.br/1000/noticias/tres.jpg", titulo: "Três notícias", breveTexto: "Mais um breve texto.", data: "2026-08-11", link: "/pagina/noticia-tres" }
 ];
 
-function simulate({ active = true, items = sample, footer = true, slot = true } = {}) {
+function simulate({ active = true, items = sample, footer = true, slot = true, host = "localhost" } = {}) {
   const events = {}, nodes = [], styled = [];
   function el(tag) {
     const node = {
@@ -60,7 +60,7 @@ function simulate({ active = true, items = sample, footer = true, slot = true } 
     dispatchEvent(event) { if (events[event.type]) events[event.type](); }
   };
   const win = {
-    location: { href: "https://www.nichelleimports.com.br/", origin: "https://www.nichelleimports.com.br" },
+    location: { href: "https://www.nichelleimports.com.br/", origin: "https://www.nichelleimports.com.br", hostname: host },
     FWRNichelle: {
       noticias: { ativo: active, ocultarLinksRodape: true, itens: items }
     }
@@ -89,6 +89,13 @@ test("Com ativo false não cria o módulo, mas oculta apenas o link instituciona
   assert.equal(ctx.unrelated.attributes["data-fwr-noticia-footer-oculta"], undefined);
   assert.equal(ctx.styled.length, 1);
   assert.deepEqual(ctx.styled[0], {name: "display", value: "none", priority: "important"});
+});
+
+test("no host oficial, noticias legadas não alteram slot nem links LI", () => {
+  const ctx = simulate({ active: true, host: "www.nichelleimports.com.br" });
+  assert.equal(ctx.homeSlot.children.length, 0);
+  assert.equal(ctx.li.attributes["data-fwr-noticia-footer-oculta"], undefined);
+  assert.equal(ctx.styled.length, 0);
 });
 test("Com ativo true cria hero e duas notícias laterais, mantendo textos e links", () => {
   const ctx = simulate();
@@ -130,8 +137,8 @@ test("Renderização não interfere nos Shorts, na vitrine nativa ou em outras p
   assert.equal(ctx.li.attributes["data-fwr-noticia-footer-oculta"], "1");
   assert.match(js, /function initVideoGallery\(opts\)/);
   assert.match(js, /function initBannerVitrine\(\)/);
-  assert.match(js, /loadPublishedGallery\(\)\.then\(function \(gallery\) \{ initVideoGallery\(gallery\); \}\);\s*initBannerVitrine\(\);\s*initNoticias\(\)/);
-  assert.match(js, /document\.addEventListener\("fwr:nichelle:news-config", initNoticias\)/);
+  assert.match(js, /function start\(\)[\s\S]*?loadPublishedGallery\(\)[\s\S]*?if \(isOfficialStoreHost\(\)\) return;[\s\S]*?initBannerVitrine\(\);\s*initNoticias\(\)/);
+  assert.match(js, /if \(!isOfficialStoreHost\(\)\) \{\s*document\.addEventListener\("fwr:nichelle:banner-config", initBannerVitrine\);\s*document\.addEventListener\("fwr:nichelle:news-config", initNoticias\)/);
 });
 test("CSS tem layout 2 colunas no desktop e adaptação tablet/mobile", () => {
   assert.match(js, /grid-template-columns:minmax\(0,1fr\) minmax\(0,1fr\)/);

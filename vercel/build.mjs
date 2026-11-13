@@ -7,6 +7,8 @@ import { Script } from "node:vm";
 const assets = [
   { path: "public/nichelle.js", name: "nichelle.js", kind: "js",
     require: "window.__FWR_NICHELLE_RUNTIME__" },
+  { path: "public/nichelle.css", name: "nichelle.css", kind: "css",
+    require: "#fwr-nichelle-video-slot" },
   { path: "public/nichelle27.js", name: "nichelle27.js", kind: "js",
     require: "window.Nichelle27Framework" },
   { path: "public/nichelle27.css", name: "nichelle27.css", kind: "css",

@@ -4,11 +4,12 @@ import { readFile } from "node:fs/promises";
 import { Script, runInNewContext } from "node:vm";
 
 const js = await readFile(new URL("../public/nichelle.js", import.meta.url), "utf8");
+const galleryCss = await readFile(new URL("../public/nichelle.css", import.meta.url), "utf8");
 const html = await readFile(new URL("../integracao/html-banner-vitrine-4-cards.html", import.meta.url), "utf8");
 const categoryHtml = await readFile(new URL("../integracao/html-categoria-cabelos.html", import.meta.url), "utf8");
 const lateralHtml = await readFile(new URL("../integracao/html-banners-laterais-global.html", import.meta.url), "utf8");
 
-function createEnvironment(active, amount = 4, origin = "vitrine", page = "/", pages = null, minimum = 4, configNames = null, sourceNames = null, hiddenMenu = false) {
+function createEnvironment(active, amount = 4, origin = "vitrine", page = "/", pages = null, minimum = 4, configNames = null, sourceNames = null, hiddenMenu = false, host = "localhost") {
   const state = { edits: [], slot: null, sources: [] };
   function elem(tag = "div") {
     const x = {
@@ -79,7 +80,8 @@ function createEnvironment(active, amount = 4, origin = "vitrine", page = "/", p
     addEventListener() {} // Simula document.addEventListener para outros módulos isolados.
   };
   const window = {
-    location: { href: "https://www.nichelleimports.com.br" + page, pathname: page, origin: "https://www.nichelleimports.com.br" },
+    location: { href: "https://www.nichelleimports.com.br" + page, pathname: page,
+      origin: "https://www.nichelleimports.com.br", hostname: host },
     FWRNichelle: { bannerVitrine: { ativo: active, nomes: configNames || names, origem: origin, paginas: pages, minimo: minimum } },
     requestAnimationFrame(fn) { fn(); },
     setTimeout() { return 1; }, clearTimeout() {}
@@ -129,9 +131,9 @@ test("não oculta banner algum se faltar um dos quatro", () => {
 test("CSS separado do módulo de Shorts, sem bibliotecas ou requisições de API", () => {
   assert.match(js, /function initVideoGallery\(opts\)/);
   assert.match(js, /function initBannerVitrine\(\)/);
-  assert.match(js, /loadPublishedGallery\(\)\.then\(function \(gallery\) \{ initVideoGallery\(gallery\); \}\);\s*initBannerVitrine\(\)/);
-  assert.match(js, /aspect-ratio:3\/5/);
-  assert.match(js, /scroll-snap-type:x mandatory/);
+  assert.match(js, /function start\(\)[\s\S]*?loadPublishedGallery\(\)[\s\S]*?if \(isOfficialStoreHost\(\)\) return;[\s\S]*?initBannerVitrine\(\);\s*initNoticias\(\)/);
+  assert.match(galleryCss, /aspect-ratio:9\/16/);
+  assert.match(galleryCss, /scroll-snap-type:x mandatory/);
   assert.doesNotMatch(js, /\baxios\b/);
   assert.match(js, /url\.origin === window\.location\.origin/);
   assert.match(js, /credentials: "omit"/);
@@ -159,6 +161,12 @@ test("Disponibiliza diagnóstico sem varrer DOM no carregamento quando módulo d
  assert.match(js,/slotEncontrado/);
  assert.match(js,/imagemNoDOM/);
  assert.match(js,/document\.addEventListener\("fwr:nichelle:banner-config", initBannerVitrine\)/);
+});
+
+test("no host oficial só carrega a galeria e deixa banners nativos fora do runtime", () => {
+ const env = createEnvironment(true, 4, "mini", "/", null, 4, null, null, false, "www.nichelleimports.com.br");
+ assert.equal(env.slot.children.length, 0);
+ assert.equal(env.edits.length, 0);
 });
 
 test("HTML padrão de quatro cards aponta para Mini Banner e começa desativado", () => {

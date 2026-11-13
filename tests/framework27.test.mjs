@@ -36,7 +36,7 @@ test("framework Nichelle não usa nomes Malheiro, não recria checkout nem alter
   const executable = js.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
   assert.doesNotMatch(executable, /\/web_api\/cart|checkout|fetch\s*\(/);
 });
-test("ordem do layout e Settings para fonte de produtos nativa, sem inventar dados", () => {
+test("ordem da prévia e Settings para fonte de produtos nativa, sem inventar dados", () => {
   const expected = [
     "qualificadores","maisVendidos","banners","lancamentos","marcas",
     "videos","promocoes","noticias","newsletter","instagram","empresa"
@@ -45,10 +45,16 @@ test("ordem do layout e Settings para fonte de produtos nativa, sem inventar dad
   assert.ok(orderExpression, "ORDER ausente");
   const keys = [...orderExpression[1].matchAll(/"([^"]+)"/g)].map(m => m[1]);
   assert.deepEqual(keys, expected);
-  assert.match(js, /source\.dataset\.n27Adopted/);
-  assert.match(js, /source\.classList\.add\("n27-shelf__track"\)/);
-  assert.match(js, /viewport\.appendChild\(source\)/);
-  assert.match(js, /source\.scrollBy/);
+  const vitrine = js.slice(js.indexOf("function mountVitrine"), js.indexOf("function mountSlot"));
+  assert.match(vitrine, /source\.dataset\.n27Adopted/);
+  assert.match(vitrine, /source\.classList\.add\("n27-shelf__track"\)/);
+  assert.match(vitrine, /source\.scrollBy/);
+  const newsletter = js.slice(js.indexOf("function mountNewsletter"), js.indexOf("function mountInstagram"));
+  assert.match(newsletter, /formSlot\.appendChild\(form\)/);
+  const directMode = js.slice(js.indexOf("if (officialStoreMode()) {", js.indexOf("function mount()")),
+    js.indexOf("const opts = cfg.layout", js.indexOf("function mount()")));
+  assert.match(directMode, /mountSlot\("videos"\)/);
+  assert.doesNotMatch(directMode, /mountQualificadores|mountMarcas|mountInstagram|mountEmpresa/);
   assert.doesNotMatch(js, /R\$\s*[0-9]/);
 });
 test("CSS escopado tem versões desktop, tablet, mobile e respeito a movimento reduzido", () => {
@@ -63,4 +69,14 @@ test("CSS escopado tem versões desktop, tablet, mobile e respeito a movimento r
   assert.match(css, /\@media\(prefers-reduced-motion:reduce\)/);
   const cssExecutable = css.replace(/\/\*[\s\S]*?\*\//g, "");
   assert.doesNotMatch(cssExecutable, /\@import|https:\/\/fonts\./);
+});
+
+test("modo oficial limita o framework à galeria FWR existente", () => {
+  const mount = js.slice(js.indexOf("function mount()"), js.indexOf("window.Nichelle27Framework = Object.freeze"));
+  const official = mount.slice(mount.indexOf("if (officialStoreMode())"), mount.indexOf("mountTopo();"));
+  assert.match(official, /mountSlot\("videos"\)/);
+  assert.doesNotMatch(official, /mountTopo|nativeSkin|mountVitrine|mountNewsletter/);
+  const slot = js.slice(js.indexOf("function mountSlot"), js.indexOf("function mountMarcas"));
+  assert.match(slot, /if \(officialStoreMode\(\)\)[\s\S]*?if \(!slot\)/);
+  assert.ok(mount.indexOf("if (officialStoreMode())") < mount.indexOf("mountTopo();"));
 });

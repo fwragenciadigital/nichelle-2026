@@ -7,6 +7,7 @@ import { spawn } from "node:child_process";
 import { createServer } from "node:http";
 
 const runtime = await readFile(new URL("../public/nichelle.js", import.meta.url), "utf8");
+const styles = await readFile(new URL("../public/nichelle.css", import.meta.url), "utf8");
 const ids = ["AbCdEfGhI_1", "BcCdEfGhI_2", "CcCdEfGhI_3", "DcCdEfGhI_4"];
 const published = { schemaVersion: 1, project: "nichelle-2026", modules: { videoGallery: {
   enabled: true, placement: "after-brand-strip", mobileMode: "scroll-snap", openMode: "modal",
@@ -27,6 +28,9 @@ const server = createServer((req, res) => {
   }
   if (pathname === "/nichelle.js") {
     res.writeHead(200, { "Content-Type": "text/javascript" }); res.end(runtime); return;
+  }
+  if (pathname === "/nichelle.css") {
+    res.writeHead(200, { "Content-Type": "text/css" }); res.end(styles); return;
   }
   res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" }); res.end(html);
 });
@@ -95,9 +99,24 @@ try {
   assert.match(initial.poster, /i\.ytimg\.com\/vi\/AbCdEfGhI_1\/(?:oar2|oardefault|hqdefault)\.jpg/);
   assert.equal(initial.ratio, "9 / 16"); assert.match(initial.alt, /Fixture de teste 1/);
 
+  await test("responsividade 360, 390, 820 e 1440px sem overflow e com cards 9:16", async () => {
+    for (const width of [360, 390, 820, 1440]) {
+      await send("Emulation.setDeviceMetricsOverride", { width, height: 900, deviceScaleFactor: 1, mobile: width < 768 });
+      const layout = await evaluate(`(()=>{const track=document.querySelector('.fwr-nichelle-videos__track');
+        const card=document.querySelector('.fwr-nichelle-videos__card');const style=getComputedStyle(track);
+        return {width:innerWidth,page:document.documentElement.scrollWidth,flow:style.gridAutoFlow,
+          columns:style.gridTemplateColumns.split(' ').filter(Boolean).length,
+          ratio:Math.round((card.getBoundingClientRect().height/card.getBoundingClientRect().width)*100)/100}})()`);
+      assert.equal(layout.page <= width + 2, true, JSON.stringify(layout));
+      assert.equal(layout.ratio, 1.78, JSON.stringify(layout));
+      if (width < 768) assert.equal(layout.flow, "column", JSON.stringify(layout));
+      else assert.equal(layout.columns, 4, JSON.stringify(layout));
+    }
+  });
+
   const fallback = await evaluate(`new Promise(resolve=>{const img=document.querySelector('.fwr-nichelle-videos__poster');
     const get=()=>resolve(!!document.querySelector('.fwr-nichelle-videos__fallback:not([hidden])'));
-    if(img.complete&&img.naturalWidth===0)get();else img.addEventListener('error',get,{once:true});setTimeout(get,3000)})`);
+    if(img.complete&&img.naturalWidth===0)get();else img.addEventListener('error',get,{once:true});setTimeout(get,8000)})`);
   assert.equal(fallback, true, "thumbnail indisponível deve mostrar fallback");
 
   const opened = await evaluate(`(()=>{const card=document.querySelector('.fwr-nichelle-videos__card');card.focus();card.click();

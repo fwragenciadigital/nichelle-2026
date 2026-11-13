@@ -1,5 +1,5 @@
 /*
-  Nichelle 27 — Framework visual FWR | v0.3.0 (pré-homologação)
+  Nichelle 27 — Camada visual FWR | prévia local (base Malheiro adaptada para Nichelle)
   CSS isolado, sem @import, dependências ou redefinição de .listagem/.rodape globais.
   Carregar no <head> ANTES dos JS para reduzir CLS.
   Todos os blocos só recebem as classes abaixo com Nichelle27Settings.geral.ativo=true.

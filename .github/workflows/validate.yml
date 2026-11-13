@@ -30,6 +30,7 @@ jobs:
         run: node tests/video-gallery.browser.mjs
       - name: Validar sintaxe do framework e extensão local
         run: |
+          node --check public/nichelle.js
           node --check public/nichelle27.js
           node --check tools/homologacao-privada/popup.js
       - name: Verificar acesso público ao Preview Vercel sem autenticação
@@ -40,8 +41,10 @@ jobs:
           node --check vercel/dist/nichelle.js
           node --check vercel/dist/nichelle27.js
           cmp public/nichelle.js vercel/dist/nichelle.js
+          cmp public/nichelle.css vercel/dist/nichelle.css
           cmp public/nichelle27.js vercel/dist/nichelle27.js
           cmp public/nichelle27.css vercel/dist/nichelle27.css
+          test -s vercel/dist/nichelle.css
           test -s vercel/dist/nichelle27.css
           test -s vercel/dist/preview/index.html
           test -s vercel/dist/preview/preview-data.js

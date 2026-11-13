@@ -6,6 +6,21 @@ As 11 capturas enviadas pelo cliente são referência visual para a prévia isol
 
 `preview/index.html` demonstra a composição em navegador com assets SVG locais e conteúdo explicitamente ilustrativo. A prévia não é uma cópia funcional da loja, não contém dados comerciais reais e não deve ser instalada na Loja Integrada.
 
+### DOM observado na loja pública (13/11/2026, Chromium, 1440px)
+
+Leitura somente para comparação do tema atualmente servido; não altera a loja e não equivale a export do tema de homologação:
+
+| Área nativa observada | Estrutura/seletores encontrados | Limite de uso nesta fase |
+|---|---|---|
+| Cabeçalho, marca e busca | `#cabecalho.logo-centro > .conteiner > .row-fluid > .cabecalho-inside`; `.logo`, `.busca-topo`, `.busca`, `.busca2`, `.suporte-header` | Links, busca, conta e carrinho são nativos. A estrutura atual difere da composição da referência; nenhum nó deve ser reordenado/reparentado por JS. |
+| Navegação | `.menu-desktop .menu > .nivel-um`, `.menu-mobile`, `.tc-submenu` | Categorias e menus permanecem nativos, inclusive mega-menu/mobile. |
+| Hero e benefícios | `.secao-banners .banners-full`, `.banners-vantagens .banner-tarja-content` | Banner/carrossel e vantagens atuais são renderizados pela LI/tema; não substituir. Confirmar conteúdo/estilo final durante homologação. |
+| Vitrines | `.vitrine-produtos`, `.vitrine-carrossel`, `.listagem-item`, `.titulo-categoria` | Produtos, preços, condições e ações de compra continuam dentro dos elementos nativos. |
+| Marcas | `.vitrine-marcas .marcas` | Carrossel de marcas nativo observado; logos/links não são copiados para a fixture. |
+| Newsletter e rodapé | `#barraNewsletter .componente.newsletter`, `#rodape` e filhos `#rodape-*` | Formulário, envio e links institucionais permanecem nativos. |
+
+Essa inspeção encontrou componentes nativos utilizáveis no DOM atual, mas não confirma que o HTML/CSS de homologação seja idêntico nem identifica um slot seguro após marcas. O CSS oficial continua restrito ao módulo FWR; os estilos nativos da referência exigem validação pontual no tema antes de serem adicionados.
+
 ## Propriedade e gestão por seção
 
 | Ordem visual | Estrutura observada | Classificação | Gestão e decisão |
@@ -42,7 +57,7 @@ Não editar código Malheiro comercial. A base auditada serve somente para padr�
 - Desktop: capturas mostram vitrines horizontais com cinco produtos, quatro cards de categoria/vídeo e oito cartões de marca. O preview segue a composição com caixas dimensionadas antes das imagens.
 - Mobile/tablet: as capturas fornecidas não mostram reflow. A prévia propõe navegação horizontal `scroll-snap` em vitrines, navegação e cards verticais; notícia e rodapé empilham. É hipótese de homologação, não comportamento aprovado.
 - Galeria: cards 9:16 com dimensões intrínsecas declaradas; iframe não existe no carregamento inicial. No preview, os quatro cartazes SVG são demos sem vídeo e sem interação. A configuração remota reserva a geometria antes do fetch; falha/off mantém aviso neutro na mesma área.
-- Vitrines/forms: framework pode reparentar listas e formulário na fixture; isso não comprova compatibilidade LI. A rotina `Nichelle27Framework.mount()` agora exige o marcador de fixture e host local/Vercel Preview, bloqueando essa manipulação no host público.
+- Vitrines/forms: o framework pode reparentar listas/formulário somente na fixture, para demonstrar a composição visual. No host oficial, `Nichelle27Framework` limita-se ao slot da galeria FWR; não aplica skin ao topo/rodapé nem move vitrines/formulários. O runtime legado de banners/notícias também não inicia no host oficial. Isso preserva os recursos nativos enquanto o DOM real não é homologado.
 - Nenhuma medida de CLS no tema real foi executada. A referência raster não valida CLS ou mobile.
 
 ## Riscos e gates
@@ -55,4 +70,4 @@ Não editar código Malheiro comercial. A base auditada serve somente para padr�
 
 ## Base técnica Malheiro
 
-Fonte externa e snapshot local têm SHA-256 distintos (registrados no documento de arquitetura); não há prova de equivalência byte a byte. O delta adotado se limita a encapsulamento, inicialização idempotente e respeito ao ciclo nativo. O script de 159.899 bytes não é carregado no storefront, copiado pelo build nem incluído nos snippets Nichelle.
+Os CDN fornecidos pelo cliente são a base de adaptação, mas sua variante não coincide com o snapshot local/hashes anteriores; não há prova de equivalência byte a byte. A camada oficial da galeria tem CSS próprio separado e não carrega o JS/CSS Malheiro bruto. A prévia Vercel demonstra a composição completa; os elementos que dependem do tema Nichelle aguardam mapeamento de DOM e seletor antes de receber skin oficial.

@@ -1,4 +1,4 @@
-<!-- Nichelle | HTML editável da galeria: links e ativação. CSS padrão fica em public/nichelle.js.
+<!-- Nichelle | HTML editável da galeria: links e ativação. CSS padrão fica em public/nichelle.css.
      A reserva de altura abaixo é crítica para evitar CLS antes do carregamento do JS.
      O carregador externo deve ser inserido UMA vez, normalmente em HTML/Rodapé. -->
 
@@ -30,7 +30,7 @@ window.FWRNichelle.galeriaVideos = {
   });
   var ligado = cfg.ativo === true && preenchidos;
   slot.setAttribute("data-fwr-active", ligado ? "1" : "0");
-  // Reserva crítica durante o parse do HTML. Todo o restante do CSS vem do Git.
+  // Reserva crítica durante o parse do HTML. O CSS completo vem do asset nichelle.css.
   function reservar() {
     slot.style.minHeight = ligado ?
       (window.matchMedia("(min-width: 768px)").matches ?
@@ -43,4 +43,4 @@ window.FWRNichelle.galeriaVideos = {
 </script>
 
 <!-- Inclusão do JS externo apenas para quem NÃO instalou o loader no rodapé -->
-<script defer src="https://cdn.jsdelivr.net/gh/fwragenciadigital/nichelle-2026@develop/public/nichelle.js"></script>
+<script defer src="BASE_URL_PUBLICA/nichelle.js"></script>

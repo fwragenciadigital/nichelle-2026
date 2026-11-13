@@ -1,6 +1,6 @@
 # Nichelle — publicação Vercel de homologação
 
-Esta pasta compila **somente** `public/nichelle.js` em `vercel/dist/nichelle.js`.
+Esta pasta compila os assets públicos de homologação, incluindo `nichelle.js` e seu CSS oficial separado `nichelle.css`. O framework visual integral `nichelle27.*` continua destinado à prévia isolada.
 
 A pasta `vercel/dist/` é gerada no build, não deve ser versionada. Não publicar `admin/`, `server/`, arquivos de referência da Malheiro, settings privados ou URLs temporárias.
 
@@ -22,7 +22,7 @@ A pasta `vercel/dist/` é gerada no build, não deve ser versionada. Não public
 
 ## Teste
 
-`node vercel/build.mjs`; `node --check vercel/dist/nichelle.js`. Conferir o Network no navegador e a resposta real de HTTPS / Cache-Control.
+`node vercel/build.mjs`; `node --check vercel/dist/nichelle.js`. Conferir no Network as respostas JS/CSS, origem igual e cabeçalhos reais de HTTPS / Cache-Control.
 
 ## Destino final
 

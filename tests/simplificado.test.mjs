@@ -4,6 +4,7 @@ import {readFile} from "node:fs/promises";
 import {Script,runInNewContext} from "node:vm";
 const read=async path=>readFile(new URL(path,import.meta.url),"utf8");
 const js=await read("../public/nichelle.js");
+const css=await read("../public/nichelle.css");
 const html=await read("../integracao/html-galeria-shorts.html");
 const loader=await read("../integracao/rodape-loader-unico.html");
 const config=await read("../integracao/variaveis-tema-primeshop-REFERENCIA.html");
@@ -19,6 +20,12 @@ test("consome config pública opcional e mantém banners restritos à mesma orig
  assert.match(js,/credentials: "same-origin"/);
  assert.doesNotMatch(js,/\bjQuery\b|\$\(\s*document/);
  assert.doesNotMatch(js,/galeria-publicada\.json|galeria-preview\.json|password_verify/);
+ assert.match(js,/url\.origin !== scriptURL\.origin/);
+ assert.match(js,/function isOfficialStoreHost\(\)/);
+ assert.match(js,/isOfficialStoreHost\(\) \? null : \(settings \|\| null\)/);
+ assert.match(js,/if \(!isOfficialStoreHost\(\)\) \{[\s\S]*document\.addEventListener\("fwr:nichelle:banner-config"/);
+ assert.match(js,/url\.username \|\| url\.password \|\| url\.search \|\| url\.hash/);
+ assert.match(js,/localHttp && url\.protocol !== "https:"/);
 });
 test("Shorts valida hosts e formatos e recusa IDs invalidos",()=>{
  const start=js.indexOf("function youtubeId(value) {");
@@ -47,15 +54,19 @@ test("HTML da LI concentra as quatro URLs editaveis e pre-reserva condicional",(
  assert.match(html,/cfg\.ativo === true && preenchidos/);
  assert.doesNotMatch(html,/<style[\s>]/i);
  assert.match(html,/slot\.style\.minHeight/);
- assert.match(js,/aspect-ratio:9\/16/);
+ assert.match(css,/aspect-ratio:9\/16/);
+ assert.doesNotMatch(css,/(^|[\s,{])(?:body|header|#cabecalho|\.menu-desktop|\.vitrine-produtos|#barraNewsletter)(?:[\s.#:[,{]|$)/m);
  assert.match(js,/installStyles\(\)/);
  assert.match(js,/fwr-nichelle-styles/);
+ assert.match(js,/new URL\("nichelle\.css", scriptURL\)/);
+ assert.match(js,/url\.origin !== scriptURL\.origin/);
  const scripts=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];
  assert.equal(scripts.length,1);
  assert.doesNotThrow(()=>new Script(scripts[0][1]));
 });
 test("config do tema e loader mantidos separados, sem contatos externos ou token",()=>{
- assert.match(loader,/nichelle-2026\.vercel\.app\/nichelle\.js/);
+ assert.match(loader,/BASE_URL_PUBLICA\/nichelle\.js/);
+ assert.match(loader,/nichelle\.css da mesma origem/);
  assert.doesNotMatch(loader,/raw\.githubusercontent\.com/);
  assert.match(config,/var telefone1 = ""/);
  assert.match(config,/var whatsapp1 = ""/);
