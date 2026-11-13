@@ -721,7 +721,11 @@
   }
 
   function start() {
-    loadPublishedGallery().then(function (gallery) { initVideoGallery(gallery); });
+    // The LI footer can be global. Do not request public settings on pages
+    // where the merchant has not placed the FWR-owned gallery slot.
+    if (document.getElementById("fwr-nichelle-video-slot")) {
+      loadPublishedGallery().then(function (gallery) { initVideoGallery(gallery); });
+    }
     if (isOfficialStoreHost()) return;
     // The official storefront only enables the confirmed FWR gallery. Legacy
     // banner/news modules remain available to previews but cannot rewrite LI UI.

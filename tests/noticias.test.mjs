@@ -137,7 +137,8 @@ test("Renderização não interfere nos Shorts, na vitrine nativa ou em outras p
   assert.equal(ctx.li.attributes["data-fwr-noticia-footer-oculta"], "1");
   assert.match(js, /function initVideoGallery\(opts\)/);
   assert.match(js, /function initBannerVitrine\(\)/);
-  assert.match(js, /function start\(\)[\s\S]*?loadPublishedGallery\(\)[\s\S]*?if \(isOfficialStoreHost\(\)\) return;[\s\S]*?initBannerVitrine\(\);\s*initNoticias\(\)/);
+  assert.match(js, /function start\(\)[\s\S]*?if \(document\.getElementById\("fwr-nichelle-video-slot"\)\) \{\s*loadPublishedGallery\(\)/);
+  assert.match(js, /if \(isOfficialStoreHost\(\)\) return;[\s\S]*?initBannerVitrine\(\);\s*initNoticias\(\)/);
   assert.match(js, /if \(!isOfficialStoreHost\(\)\) \{\s*document\.addEventListener\("fwr:nichelle:banner-config", initBannerVitrine\);\s*document\.addEventListener\("fwr:nichelle:news-config", initNoticias\)/);
 });
 test("CSS tem layout 2 colunas no desktop e adaptação tablet/mobile", () => {

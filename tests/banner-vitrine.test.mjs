@@ -131,7 +131,8 @@ test("não oculta banner algum se faltar um dos quatro", () => {
 test("CSS separado do módulo de Shorts, sem bibliotecas ou requisições de API", () => {
   assert.match(js, /function initVideoGallery\(opts\)/);
   assert.match(js, /function initBannerVitrine\(\)/);
-  assert.match(js, /function start\(\)[\s\S]*?loadPublishedGallery\(\)[\s\S]*?if \(isOfficialStoreHost\(\)\) return;[\s\S]*?initBannerVitrine\(\);\s*initNoticias\(\)/);
+  assert.match(js, /function start\(\)[\s\S]*?if \(document\.getElementById\("fwr-nichelle-video-slot"\)\) \{\s*loadPublishedGallery\(\)/);
+  assert.match(js, /if \(isOfficialStoreHost\(\)\) return;[\s\S]*?initBannerVitrine\(\);\s*initNoticias\(\)/);
   assert.match(galleryCss, /aspect-ratio:9\/16/);
   assert.match(galleryCss, /scroll-snap-type:x mandatory/);
   assert.doesNotMatch(js, /\baxios\b/);

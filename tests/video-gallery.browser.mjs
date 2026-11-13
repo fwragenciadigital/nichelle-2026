@@ -20,6 +20,7 @@ const html = `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><met
 <script>window.FWRNichelle={galeriaVideos:{configUrl:"/published.json",ativo:false,shorts:[]}};</script></head><body>
 <main><div id="fwr-nichelle-video-slot" class="fwr-nichelle-video-slot" data-fwr-active="1" data-fwr-remote="1"></div></main>
 <script defer src="/nichelle.js"></script></body></html>`;
+const htmlWithoutSlot = html.replace(/<main>[\s\S]*?<\/main>/, "");
 const server = createServer((req, res) => {
   const pathname = new URL(req.url || "/", "http://127.0.0.1").pathname;
   if (pathname === "/published.json") {
@@ -32,7 +33,8 @@ const server = createServer((req, res) => {
   if (pathname === "/nichelle.css") {
     res.writeHead(200, { "Content-Type": "text/css" }); res.end(styles); return;
   }
-  res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" }); res.end(html);
+  res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+  res.end(pathname === "/no-slot.html" ? htmlWithoutSlot : html);
 });
 await new Promise(resolve => server.listen(0, "127.0.0.1", resolve));
 const base = "http://127.0.0.1:" + server.address().port;
@@ -144,7 +146,12 @@ try {
     if (await evaluate("!!document.querySelector('.fwr-nichelle-videos__status')")) { unavailable = true; break; }
   }
   assert.equal(unavailable, true, "falha de rede deve manter estado reservado e falhar fechado");
-  console.log("PASS — config publicada, poster 9:16, lazy iframe, fallback, modal, teclado, foco e falha de rede");
+  await send("Page.navigate", { url: base + "/no-slot.html" });
+  await wait(250);
+  assert.equal(await evaluate('document.querySelectorAll("[data-fwr-nichelle-video-gallery]").length'), 0);
+  assert.equal(await evaluate('performance.getEntriesByType("resource").some(entry=>entry.name.includes("/published.json"))'), false,
+    "não buscar configuração em páginas sem o slot FWR");
+  console.log("PASS — galeria, modal, rede, teclado e config não solicitada sem slot");
 } finally {
   try { socket?.close(); } catch {}
   if (chrome && chrome.exitCode === null && chrome.signalCode === null) {
