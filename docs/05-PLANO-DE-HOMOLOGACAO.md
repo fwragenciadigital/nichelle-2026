@@ -8,7 +8,8 @@
 - Referência rasterizada, 11 capturas recebidas e limitações desktop/mobile: `docs/02-ANALISE-INDEX1-2026.md`.
 - A página de prévia usa os assets reais do runtime e SVGs sintéticos locais claramente identificados; não contém produtos, preços, estoque ou funcionalidades reais.
 - `Nichelle27Framework` pode apresentar a composição integral somente em fixture/preview. No host oficial, o modo opt-in só reconhece o slot existente da galeria; não toca header, rodapé, vitrines, banners ou formulários nativos.
-- O runtime oficial da galeria carrega `public/nichelle.css` ao lado de `public/nichelle.js` na mesma origem. Ambos estão preparados no build; nenhuma URL de hospedagem foi liberada/verificada nesta etapa.
+- O runtime oficial da galeria carrega `public/nichelle.css` ao lado de `public/nichelle.js` na mesma origem. URLs públicas de homologação no alias `develop`: `https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app/nichelle.js` e `/nichelle.css`; `/preview/` contém a prévia isolada.
+- A integração Git-Vercel cria deployment após push em `develop` e atualiza o alias da branch quando concluído. A configuração publicada `/galeria-publicada.json` ainda responde 404 nesse host; vídeos reais e endpoint público sanitizado continuam necessários para homologar a galeria completa.
 
 ## Fase 2 — galeria Shorts
 
@@ -30,7 +31,7 @@
 
 1. Obter tema/loja de homologação e backup dos campos HTML/Cabeçalho, HTML/Rodapé e CSS.
 2. Confirmar se o tema pode fornecer `#fwr-nichelle-video-slot.fwr-nichelle-video-slot` na posição visual entre marcas e promocionais. Sem slot inicial estável, não instalar.
-3. Validar hospedagem pública HTTPS para `public/nichelle.js` e `public/nichelle.css`, MIME, cache, CSP e URL exata de distribuição. Não usar URL de repositório privado ou placeholder.
+3. Validar novamente no alias Vercel de `develop` o deployment mais recente, MIME, cache, CSP e URL exata de distribuição. Hospedar e validar também o JSON publicado com CORS e MIME; hoje `/galeria-publicada.json` responde 404. Não usar URL de repositório privado ou placeholder.
 4. Usar `integracao/html-galeria-shorts.html` e `integracao/rodape-loader-unico.html` somente após acesso autorizado ao ambiente de homologação. Não transferir HTML ou conteúdo de `/preview/` para produção.
 5. Testar quatro URLs reais, thumbnails/fallbacks, reprodução, fechamento por botão/ESC, teclado/foco, falhas de rede e comportamento sem vídeos nos viewports 360, 390, 820 e 1440.
 6. Medir CLS/LCP/INP na homologação e verificar topo, menu, busca, banners, vitrines, produtos, preço, estoque, carrinho e checkout sem completar pedidos.

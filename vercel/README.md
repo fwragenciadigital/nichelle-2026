@@ -13,8 +13,13 @@ A pasta `vercel/dist/` é gerada no build, não deve ser versionada. Não public
 - Output: `vercel/dist`.
 - Branch de teste: `develop`.
 - Branch principal `main` somente após homologação, aprovação e merge.
-- Link público estável: a URL de deployment/branch **ainda depende da criação e validação do projeto na conta Vercel**.
-- O script na Loja Integrada **não muda** até que uma URL HTTPS retornando 200 esteja verificada.
+- Preview público atualizado pela branch `develop`: `https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app`.
+- Prévia visual: `https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app/preview/`.
+- JS oficial: `https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app/nichelle.js`.
+- CSS oficial: `https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app/nichelle.css` (carregado pelo JS da mesma origem).
+- Esses são aliases de homologação da branch `develop`, não o domínio estável legado. Um push concluído em `develop` aciona um novo deployment e atualiza o alias. PRs e branches diferentes recebem previews próprios.
+- A configuração publicada da galeria (`/galeria-publicada.json`) ainda não está hospedada nesse build. Até existir um endpoint JSON público sanitizado com CORS/MIME/cache validados e URLs reais aprovadas, o carregamento do JS/CSS não significa que a galeria esteja pronta para exibir vídeos.
+- O HTML de integração com a Loja Integrada continua separado: não foi inserido na loja, e o host legado não deve ser substituído sem plano de migração.
 
 ## Cache
 
@@ -26,4 +31,4 @@ A pasta `vercel/dist/` é gerada no build, não deve ser versionada. Não public
 
 ## Destino final
 
-Depois de tudo pronto, migrar para a hospedagem/gestão de arquivos que a Loja Integrada realmente disponibilizar, **somente se suportar JavaScript próprio acessível por URL pública**. Não assumir que um campo HTML ou upload de imagem é hospedagem de JS. Ajustar o link no HTML/Rodapé apenas após confirmar a URL de produção.
+Após homologação, definir e aprovar o endpoint JSON e o plano de migração do runtime legado antes de instalar os arquivos na Loja Integrada. Não assumir que um campo HTML ou upload de imagem é hospedagem de JS.
