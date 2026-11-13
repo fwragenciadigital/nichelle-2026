@@ -1,0 +1,82 @@
+name: Validar configurações Nichelle
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [develop]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: browser-actions/setup-chrome@v2
+        id: setup-chrome
+        with:
+          install-dependencies: true
+      - name: Expor Chromium para os testes de navegador
+        run: echo "CHROME_BIN=${{ steps.setup-chrome.outputs.chrome-path }}" >> "$GITHUB_ENV"
+      - run: node --test tests/*.test.mjs
+      - name: Diagnosticar banners publicados na página (somente leitura)
+        run: node tests/audit-live-banners.mjs
+      - name: Inspecionar montagem real dos banners no Chromium (somente leitura)
+        run: node tests/audit-live-banners-browser.mjs
+      - name: Validar notícias no Chromium (desktop, tablet e celular)
+        run: node tests/noticias.browser.mjs
+      - name: Validar framework Nichelle27 no Chromium (desktop e mobile)
+        run: node tests/framework27.browser.mjs
+      - name: Validar galeria YouTube no Chromium sem rede externa
+        run: node tests/video-gallery.browser.mjs
+      - name: Validar sintaxe do framework e extensão local
+        run: |
+          node --check public/nichelle.js
+          node --check public/nichelle27.js
+          node --check tools/homologacao-privada/popup.js
+      - name: Verificar acesso público ao Preview Vercel sem autenticação
+        run: node tests/check-vercel-preview.mjs
+      - name: Compilar assets públicos e prévia isolada para Vercel
+        run: |
+          node vercel/build.mjs
+          node --check vercel/dist/nichelle.js
+          node --check vercel/dist/nichelle27.js
+          cmp public/nichelle.js vercel/dist/nichelle.js
+          cmp public/nichelle.css vercel/dist/nichelle.css
+          cmp public/nichelle27.js vercel/dist/nichelle27.js
+          cmp public/nichelle27.css vercel/dist/nichelle27.css
+          test -s vercel/dist/nichelle.css
+          test -s vercel/dist/nichelle27.css
+          test -s vercel/dist/preview/index.html
+          test -s vercel/dist/preview/preview-data.js
+          test ! -e vercel/dist/admin
+          test ! -e vercel/dist/server
+          test ! -e vercel/dist/qa
+          test ! -e vercel/dist/tools
+          test ! -e vercel/dist/admin
+      - name: Gerar pacote da extensão privada FWR
+        run: |
+          node tools/homologacao-privada/build.mjs
+          cmp public/nichelle27.js tools/homologacao-privada/dist/nichelle27.js
+          cmp public/nichelle27.css tools/homologacao-privada/dist/nichelle27.css
+          test -s tools/homologacao-privada/dist/popup.js
+          cd tools/homologacao-privada/dist
+          zip -q -r "$GITHUB_WORKSPACE/nichelle-modo-privado-fwr.zip" .
+      - name: Disponibilizar extensão FWR para instalação local
+        uses: actions/upload-artifact@v4
+        with:
+          name: nichelle-modo-privado-fwr
+          path: nichelle-modo-privado-fwr.zip
+          retention-days: 14
+          if-no-files-found: error
+      - name: Validar PHP do painel
+        run: |
+          php -l server/bootstrap.php
+          php -l admin/index.php
+          php -l admin/preview.php
+          php -l admin/draft.php

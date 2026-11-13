@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "project": "nichelle-2026",
+  "modules": {
+    "videoGallery": {
+      "enabled": false,
+      "placement": "pending",
+      "mobileMode": "pending",
+      "openMode": "pending",
+      "items": []
+    }
+  }
+}

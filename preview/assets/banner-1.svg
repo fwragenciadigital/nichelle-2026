@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" role="img"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#e4c78c"/><stop offset="1" stop-color="#e8aa50"/></linearGradient><linearGradient id="b"><stop stop-color="#fff8e7"/><stop offset="1" stop-color="#ffffff"/></linearGradient></defs>
+ <rect width="600" height="900" rx="25" fill="url(#g)"/><path d="M0 650Q160 550 300 660T600 670V900H0Z" fill="#ffffff30"/>
+ <text x="58" y="100" font-size="37" fill="#fff" font-family="Arial,sans-serif" font-weight="bold">Peles Sensíveis</text><text x="58" y="143" font-size="37" fill="#fff" font-family="Arial,sans-serif" font-weight="bold">ou Irritadas</text>
+ <ellipse cx="310" cy="820" rx="175" ry="26" fill="#3d3d3d25"/>
+ <g transform="translate(160 345) rotate(-7 150 250)">
+ <rect x="95" y="185" width="230" height="330" rx="32" fill="url(#b)" stroke="#ffffffaa" stroke-width="4"/>
+ <rect x="146" y="130" width="128" height="93" rx="13" fill="#f9faf8"/>
+ <rect x="150" y="122" width="120" height="20" fill="#dfe4df"/>
+ <rect x="115" y="275" width="185" height="170" rx="8" fill="#ffffffcc"/>
+ <text x="208" y="320" text-anchor="middle" font-size="24" font-weight="700" font-family="Arial" fill="#333">CENTELLA</text>
+ <text x="208" y="360" text-anchor="middle" font-size="14" font-family="Arial" fill="#777">SKINCARE</text>
+ <rect x="165" y="384" width="82" height="3" fill="#aaa"/>
+ </g></svg>

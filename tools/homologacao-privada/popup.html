@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FWR — Nichelle</title>
+<style>
+  *{box-sizing:border-box}body{font:13px/1.45 Arial,sans-serif;background:#fff;color:#39313e;margin:0;padding:18px;width:326px}
+  h1{font-size:19px;color:#8100a8;margin:0 0 5px}p{margin:6px 0 16px;color:#665d69}
+  button{display:block;width:100%;border:0;border-radius:9px;padding:11px 13px;margin-top:9px;font-size:13px;cursor:pointer;text-align:left;font-weight:700}
+  button:focus-visible{outline:3px solid #8d17ae;outline-offset:2px}
+  #visual{background:#8100a8;color:#fff}#advanced{background:#e9ddeb;color:#5a116e}
+  #inspect{background:#f1eef3;color:#514457}#reset{background:#fff;color:#772588;border:1px solid #d9cade}
+  #status{margin-top:12px;border-radius:8px;background:#f5f2f6;padding:10px;min-height:38px;white-space:pre-wrap;font-size:11px}
+  small{display:block;margin-top:14px;color:#756f77;font-size:10px}
+</style>
+</head>
+<body>
+<h1>Nichelle · FWR</h1>
+<p>Prévia apenas nesta aba. Nenhuma alteração é salva na Loja Integrada.</p>
+<button id="inspect">Diagnosticar esta página (sem alterações)</button>
+<button id="visual">Ativar prévia visual segura</button>
+<button id="advanced">Ativar vitrines reais (experimental)</button>
+<button id="reset">Desativar e recarregar</button>
+<div id="status" role="status" aria-live="polite">Abra a home ou /cabelos da Nichelle.</div>
+<small>Não aciona carrinho ou checkout. Modo avançado move vitrines SOMENTE no navegador. Recarregar restaura a página original.</small>
+<script src="popup.js"></script>
+</body></html>

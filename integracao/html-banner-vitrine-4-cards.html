@@ -1,0 +1,49 @@
+<!-- NICHELLE | 4 MINI BANNERS (administrados na Loja Integrada)
+     Cole uma vez na HOME, exatamente onde deseja o bloco de 4 cards.
+     O JS + CSS padrão já são carregados por nichelle.js no rodapé.
+     Cadastre 4 banners na posição "Mini Banner" com os mesmos nomes abaixo.
+     Em páginas de categoria, só funciona se o tema renderizar Mini Banners nessa página.
+     IMPORTANTE: ATIVO sempre começa FALSE, altere para TRUE só após conferir as artes. -->
+<div id="fwr-nichelle-vitrine-slot" data-fwr-active="0"></div>
+
+<script>
+window.FWRNichelle = window.FWRNichelle || {};
+window.FWRNichelle.bannerVitrine = {
+  ativo: false, // ALTERAR PARA true PARA HABILITAR
+  origem: "mini", // Usa Mini Banner do painel da Loja Integrada
+  ocultarOriginais: false, // Não oculta carrossel nativo sem homologação
+  nomes: [
+    "Mini 1 vitrine-mini",
+    "Mini 2 vitrine-mini",
+    "Mini 3 vitrine-mini",
+    "Mini 4 vitrine-mini"
+  ]
+};
+// Atualiza se este HTML for injetado depois do script JS.
+document.dispatchEvent(new Event("fwr:nichelle:banner-config"));
+
+/* Reserva crítica anti-CLS quando ativo; o layout e CSS ficam no JS oficial. */
+(function () {
+  var cfg = window.FWRNichelle.bannerVitrine;
+  var slot = document.getElementById("fwr-nichelle-vitrine-slot");
+  if (!slot) return;
+  var ligado = cfg.ativo === true && Array.isArray(cfg.nomes) &&
+    cfg.nomes.length === 4 && cfg.nomes.every(function (n) {
+      return typeof n === "string" && n.trim() !== "";
+    });
+  slot.setAttribute("data-fwr-active", ligado ? "1" : "0");
+  if (!ligado) return;
+
+  function reservarEspaco() {
+    if (slot.dataset.fwrInitialized === "1") return;
+    var w = Math.min(window.innerWidth, 1920);
+    var mobile = window.innerWidth < 768;
+    var larguraCard = mobile ? w * 0.72 :
+      (w - 2 * Math.max(14, Math.min(65, 0.033 * w)) -
+         3 * Math.max(12, Math.min(36, 0.0185 * w))) / 4;
+    slot.style.minHeight = Math.ceil(larguraCard * 5 / 3 + (mobile ? 54 : 48)) + "px";
+  }
+  reservarEspaco();
+  window.addEventListener("resize", reservarEspaco, {passive: true});
+})();
+</script>
