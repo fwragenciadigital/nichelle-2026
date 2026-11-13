@@ -17,6 +17,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - uses: browser-actions/setup-chrome@v2
+        id: setup-chrome
+        with:
+          install-dependencies: true
+      - name: Expor Chromium para os testes de navegador
+        run: echo "CHROME_BIN=${{ steps.setup-chrome.outputs.chrome-path }}" >> "$GITHUB_ENV"
       - run: node --test tests/*.test.mjs
       - name: Diagnosticar banners publicados na página (somente leitura)
         run: node tests/audit-live-banners.mjs
