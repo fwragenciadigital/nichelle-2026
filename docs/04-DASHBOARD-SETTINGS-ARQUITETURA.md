@@ -15,6 +15,19 @@ Por decisão do usuário, o runtime de Nichelle usa como referência técnica a 
 - Delta técnico adotado para Nichelle: manter a fronteira da Loja Integrada, encapsular/inicializar de modo idempotente, esperar o DOM e não duplicar o ciclo de plugins da loja. A discrepância de hash do snapshot precisa ser reconciliada antes de alegar rastreabilidade byte a byte. Não carregar o script Malheiro comercial, nem copiar seu catálogo, mídia, URLs, settings ou seletores específicos.
 - A fonte fica fora do repositório; o SHA registra a variante auditada, mas não a distribui nem substitui a validação final de conflitos no tema LI de homologação.
 
+### Assets CDN enviados para auditoria em 2026-11-13
+
+Os links fornecidos pelo cliente foram consultados como referência da base Malheiro; eles não são um export do HTML/CSS do tema Nichelle.
+
+| Arquivo | URL | HTTP/MIME | Bytes | SHA-256 observado |
+|---|---|---|---:|---|
+| JavaScript | [`malheiroshoww-estabilizado.js`](https://cdn.awsli.com.br/1351/1351790/arquivos/malheiroshoww-estabilizado.js) | 200 · `application/x-javascript` | 159.549 | `D504599D2629873C8CF889C121C8918ED692A7F720F4F599D7762DDBBA5C2E2A` |
+| CSS | [`csscompactadoo.css`](https://cdn.awsli.com.br/1351/1351790/arquivos/csscompactadoo.css) | 200 · `text/css` | 252.760 | `EFE3F3A7E383C1AFA12F2440603DCC12D03BC3673896FCEBABAA69680735D5C9` |
+
+O JavaScript remoto depende de jQuery e executa alterações amplas em elementos da loja de origem, incluindo header, menu, botões e carrinho. O CSS também contém seletores e componentes próprios da Malheiro. Os hashes do JavaScript remoto diferem dos dois registros anteriores acima; não substituir nem igualar esses registros sem reconciliação da versão. Não carregar nenhum dos dois assets diretamente na Nichelle. Reaproveitar somente padrões técnicos após revisão e adaptação aos seletores reais da Nichelle, com estilos isolados e preservação dos handlers/comportamentos nativos da Loja Integrada.
+
+Para adaptar e validar o visual do layout final nos arquivos oficiais, permanece necessário o export HTML/CSS do tema Nichelle ou acesso a um tema de homologação. Os links Malheiro não fornecem o DOM nem os seletores da loja destino.
+
 ## Fronteira do sistema
 
 O painel **NÃO** edita logo, banners nativos, categorias nativas, vitrines nativas, produtos/preço/estoque, checkout, carrinho ou frete. Esses recursos continuam no painel da Loja Integrada.
