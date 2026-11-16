@@ -35,21 +35,6 @@ html[data-n27-approved="1"] #n27-approved-hero > img {
   object-position:center top;
 }
 html[data-n27-approved="1"] #n27-approved-hero .n27-approved-hero__mobile{display:none;}
-html[data-n27-approved="1"] #n27-preview-stage > #n27-approved-benefits {
-  display:flex;align-items:center;justify-content:center;
-  width:min(100% - 48px,1250px)!important;margin:18px auto 8px!important;
-  min-height:76px!important;padding:8px 12px!important;
-  background:#f6f5f6!important;border-radius:5px!important;
-}
-html[data-n27-approved="1"] #n27-approved-benefits .banners-vantagens {
-  display:flex!important;align-items:center!important;justify-content:space-around!important;
-  flex-wrap:wrap!important;gap:12px!important;width:100%!important;
-  padding:4px!important;margin:0!important;background:transparent!important;
-}
-html[data-n27-approved="1"] #n27-approved-benefits :is(.vantagem,.item,.banner-vantagem) {
-  background:transparent!important;border:0!important;min-width:0!important;
-  flex:1 1 160px!important;
-}
 html[data-n27-approved="1"] #n27-preview-stage > .listagem.vitrine-produtos {
   background:#fff!important;padding:42px 0 54px!important;margin:0!important;
   height:auto!important;min-height:0!important;
@@ -226,10 +211,6 @@ html[data-n27-approved="1"] #rodape :is(.institucional,.pagamento-selos,.rodape-
  html[data-n27-approved="1"] #n27-approved-hero .n27-approved-hero__mobile strong {
    font:800 34px/1.2 Arial,sans-serif;
  }
- html[data-n27-approved="1"] #n27-preview-stage > #n27-approved-benefits{
-   width:calc(100% - 28px)!important;min-height:0!important;
-   margin:12px auto!important;padding:12px!important;
- }
  html[data-n27-approved="1"] #n27-preview-stage > .listagem.vitrine-produtos {
    padding:28px 0 32px!important;
  }
@@ -266,12 +247,3 @@ html[data-n27-approved="1"] #rodape :is(.institucional,.pagamento-selos,.rodape-
  html[data-n27-approved="1"] * {scroll-behavior:auto!important;}
 }
 
-/* Limitar a tarja Slick do Groom, que expande o scrollWidth no mobile. */
-html[data-n27-approved="1"] #n27-approved-benefits,
-html[data-n27-approved="1"] #n27-approved-benefits .banners-vantagens,
-html[data-n27-approved="1"] #n27-approved-benefits .banner-tarja-avancada,
-html[data-n27-approved="1"] #n27-approved-benefits .banner-tarja-avancada > .conteiner,
-html[data-n27-approved="1"] #n27-approved-benefits .banner-tarja-avancada .row-fluid {
-  box-sizing:border-box!important;min-width:0!important;max-width:100%!important;
-  width:100%!important;overflow:hidden!important;
-}
