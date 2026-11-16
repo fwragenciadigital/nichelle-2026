@@ -268,6 +268,7 @@
       window.requestAnimationFrame(()=>{
         rail.classList.remove("n27-best-shelf__rail--rebase");
         rail.dataset.n27Ready="1";
+        normalize();
       });
     }
     function currentIndex() {

@@ -400,11 +400,8 @@ html[data-n27-best-shelf="1"] #n27-approved-best-sellers
   scroll-behavior:auto!important;
   scroll-snap-type:none!important;
 }
-html[data-n27-best-shelf="1"] #n27-approved-best-sellers
-.n27-best-card[data-n27-clone="1"] {
-  /* Edge duplicates are visual only; source product URLs remain intact. */
-  pointer-events:none!important;
-}
+/* Cloned edge cards keep their real product URLs clickable. They are
+   aria-hidden and removed from the keyboard tab-order by the JS. */
 /* Mockup approved: original (struck out) and current price share one row;
    installment/payment terms remain underneath. */
 html[data-n27-best-shelf="1"] #n27-approved-best-sellers .n27-best-card__price-row {
