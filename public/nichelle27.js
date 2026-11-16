@@ -9,7 +9,7 @@
 (function () {
   "use strict";
   if (window.Nichelle27Framework && window.Nichelle27Framework.initialized) return;
-  const VERSION = "0.6.1";
+  const VERSION = "0.7.0";
   const ORDER = Object.freeze([
     "qualificadores", "maisVendidos", "banners", "lancamentos", "marcas",
     "videos", "promocoes", "noticias", "newsletter", "instagram", "empresa"
@@ -501,6 +501,7 @@
         publicacaoAtiva: !!(settings().geral && settings().geral.publicarNaLoja === true),
         bloqueado: enabled(settings().geral) && !previewFixtureAllowed(),
         layout: !!select(settings().layout && settings().layout.seletor),
+        isolamentoVisual: document.documentElement.dataset.n27Isolated === "1",
         ordem: Array.from(ORDER), montados: Array.from(mounted),
         modules: Object.keys(settings()).filter(function (k) { return settings()[k] && settings()[k].ativo === true; }) };
     }

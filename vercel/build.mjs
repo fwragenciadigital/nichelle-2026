@@ -43,13 +43,18 @@ const legacyRuntime = (await readFile(resolve("public/nichelle.js"), "utf8"))
 if (legacyRuntime.includes("  installStyles();")) {
   throw new Error("O bundle tentou carregar CSS duplicado");
 }
+const isolationJS = await readFile(resolve("public/nichelle-isolation.js"), "utf8");
+new Script(isolationJS, { filename: "nichelle-isolation.js" });
 const combinedJS = (await readFile(resolve("public/nichelle27.js"), "utf8")) +
-  "\n\n/* Runtime FWR legado integrado ao bundle Nichelle27 */\n" + legacyRuntime;
+  "\n\n/* Runtime FWR legado integrado ao bundle Nichelle27 */\n" + legacyRuntime +
+  "\n\n/* Isolamento visual exclusivo da home em preview */\n" + isolationJS;
 new Script(combinedJS, { filename: "nichelle27.js" });
 await writeFile(join(target, "nichelle27.js"), combinedJS);
 const combinedCSS = (await readFile(resolve("public/nichelle27.css"), "utf8")) +
   "\n\n/* Módulos FWR existentes: banners, notícias, vídeos */\n" +
-  (await readFile(resolve("public/nichelle.css"), "utf8"));
+  (await readFile(resolve("public/nichelle.css"), "utf8")) +
+  "\n\n/* Neutralização visual do tema ativo (somente preview) */\n" +
+  (await readFile(resolve("public/nichelle-isolation.css"), "utf8"));
 await writeFile(join(target, "nichelle27.css"), combinedCSS);
 for (const file of ["galeria-videos.js", "galeria-videos.css",
   "galeria-preview.json", "galeria-publicada.json"]) {

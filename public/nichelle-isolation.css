@@ -1,0 +1,138 @@
+/*
+ * NICHELLE 2026 — Visual próprio na home de prévia; sem desinstalar o tema.
+ * Guardas: domínio/flag pelo JS + data-n27-isolated aplicado somente à home.
+ */
+html[data-n27-isolated="1"] body.pagina-inicial #corpo {
+  background:#fff!important;min-width:0!important;
+}
+html[data-n27-isolated="1"] body.pagina-inicial #corpo > .banners-extras,
+html[data-n27-isolated="1"] body.pagina-inicial #corpo > ul[data-produtos-linha] {
+  display:none!important;
+}
+html[data-n27-isolated="1"] #n27-preview-stage {
+  display:flex!important;flex-direction:column!important;
+  width:100%!important;max-width:none!important;
+  padding:0!important;margin:0 auto!important;
+  background:#fff!important;isolation:isolate;
+}
+html[data-n27-isolated="1"] #n27-preview-stage > * {
+  order:0!important;width:100%!important;max-width:none!important;
+  min-width:0!important;float:none!important;clear:both!important;
+}
+html[data-n27-isolated="1"] #n27-preview-stage > .secao-banners {
+  margin:0!important;padding:0!important;
+}
+html[data-n27-isolated="1"] #n27-preview-stage > .listagem.vitrine-produtos {
+  --secao-altura:auto!important;
+  position:relative!important;height:auto!important;min-height:0!important;
+  flex:none!important;margin:0!important;
+  padding:clamp(30px,4.6vw,64px) 0!important;
+  background:#fff!important;
+}
+html[data-n27-isolated="1"] #n27-preview-stage > .listagem.vitrine-produtos:nth-child(even) {
+  background:#fcf9fd!important;
+}
+html[data-n27-isolated="1"] #n27-preview-stage .listagem.vitrine-produtos > .conteiner {
+  display:block!important;max-width:1300px!important;width:100%!important;
+  margin:0 auto!important;box-sizing:border-box!important;
+  padding:0 clamp(16px,2.5vw,30px)!important;
+}
+html[data-n27-isolated="1"] #n27-preview-stage .listagem .row-fluid {
+  display:block!important;width:100%!important;min-height:0!important;
+}
+html[data-n27-isolated="1"] #n27-preview-stage .listagem .titulo-categoria {
+  display:flex!important;align-items:center!important;
+  justify-content:flex-start!important;gap:12px!important;
+  width:100%!important;min-height:0!important;margin:0 0 24px!important;
+  padding:0!important;color:#5d286c!important;background:transparent!important;
+}
+html[data-n27-isolated="1"] #n27-preview-stage .listagem .titulo-categoria strong {
+  font:800 clamp(19px,1.8vw,25px)/1.3 Arial,sans-serif!important;
+  color:#660080!important;
+}
+html[data-n27-isolated="1"] #n27-preview-stage .listagem .titulo-categoria:after {
+  content:"";display:block;height:1px;flex:1;background:#e7d7eb;
+}
+html[data-n27-isolated="1"] #n27-preview-stage .n27-best-products {
+  width:100%!important;margin:0!important;
+}
+html[data-n27-isolated="1"] #n27-preview-stage .n27-best-products__track {
+  display:flex!important;flex-flow:row nowrap!important;
+  gap:16px!important;overflow-x:auto!important;overflow-y:hidden!important;
+  overscroll-behavior-x:contain!important;scrollbar-width:thin;
+  scroll-snap-type:x mandatory;width:100%!important;max-width:100%!important;
+  max-height:none!important;height:auto!important;
+  padding:6px 2px 16px!important;margin:0!important;list-style:none!important;
+}
+html[data-n27-isolated="1"] #n27-preview-stage .n27-best-products__track > .listagem-item {
+  position:relative!important;float:none!important;
+  flex:0 0 calc((100% - 64px)/5)!important;width:auto!important;
+  min-width:0!important;max-width:none!important;height:auto!important;
+  margin:0!important;padding:12px!important;box-sizing:border-box!important;
+  scroll-snap-align:start;border:1px solid #eee4ef!important;
+  border-radius:12px!important;background:#fff!important;
+}
+html[data-n27-isolated="1"] #n27-preview-stage .n27-best-products__track .imagem-produto img {
+  max-height:230px!important;object-fit:contain;
+}
+html[data-n27-isolated="1"] #n27-preview-stage .vitrine-marcas {
+  background:#f5eef6!important;margin:0!important;padding:32px 16px!important;
+}
+html[data-n27-isolated="1"] #n27-preview-stage .vitrine-video {
+  margin:0!important;padding:32px 0!important;
+  min-height:0!important;background:#fff!important;
+}
+html[data-n27-isolated="1"] #n27-preview-stage > #n27-layout-root {
+  margin:0!important;padding:0!important;
+}
+html[data-n27-isolated="1"] #n27-preview-stage #n27-layout-root .n27-section[hidden] {
+  display:none!important;
+}
+/* Trilhos nativos de produto, independentes de Slick/Groom. */
+html[data-n27-isolated="1"] #n27-preview-stage ul.n27-native-products-rail {
+  position:relative!important;display:flex!important;flex-flow:row nowrap!important;
+  gap:16px!important;overflow-x:auto!important;overflow-y:hidden!important;
+  scroll-snap-type:x mandatory;overscroll-behavior-x:contain;
+  width:100%!important;height:auto!important;max-height:none!important;
+  min-height:0!important;padding:10px 2px 18px!important;
+  margin:0!important;list-style:none!important;
+  float:none!important;clear:both!important;
+}
+html[data-n27-isolated="1"] #n27-preview-stage ul.n27-native-products-rail > .listagem-item {
+  position:relative!important;display:block!important;float:none!important;
+  flex:0 0 calc((100% - 64px)/5)!important;width:auto!important;
+  min-width:0!important;max-width:none!important;height:auto!important;min-height:0!important;
+  box-sizing:border-box!important;margin:0!important;padding:12px!important;
+  border:1px solid #eee4ef!important;border-radius:12px!important;
+  background:#fff!important;scroll-snap-align:start;
+}
+html[data-n27-isolated="1"] #n27-preview-stage .listagem .conteiner,
+html[data-n27-isolated="1"] #n27-preview-stage .listagem .row-fluid {
+  height:auto!important;min-height:0!important;
+}
+html[data-n27-isolated="1"] #n27-preview-stage .listagem .listagem-item > .produto-sobrepor {
+  position:absolute!important;inset:0!important;
+  width:100%!important;height:100%!important;
+}
+@media(max-width:767px) {
+  html[data-n27-isolated="1"] #n27-preview-stage > .listagem.vitrine-produtos {
+    padding:28px 0!important;
+  }
+  html[data-n27-isolated="1"] #n27-preview-stage .n27-best-products__track > .listagem-item,
+  html[data-n27-isolated="1"] #n27-preview-stage ul.n27-native-products-rail > .listagem-item {
+    flex-basis:clamp(158px,63vw,245px)!important;
+  }
+  html[data-n27-isolated="1"] #n27-preview-stage .listagem .titulo-categoria {
+    margin-bottom:15px!important;
+  }
+  html[data-n27-isolated="1"] #n27-preview-stage .listagem .titulo-categoria strong {
+    font-size:18px!important;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  html[data-n27-isolated="1"] #n27-preview-stage *,
+  html[data-n27-isolated="1"] #n27-preview-stage *:before,
+  html[data-n27-isolated="1"] #n27-preview-stage *:after {
+    scroll-behavior:auto!important;animation:none!important;transition:none!important;
+  }
+}

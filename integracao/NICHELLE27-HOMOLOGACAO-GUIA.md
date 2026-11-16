@@ -39,3 +39,17 @@ A home continua usando hero, benefícios, vitrines, marcas e newsletter **nativa
 - O seletor genérico `.vitrine-produtos` posicionava o slot na estrutura errada. Passou a priorizar `.vitrine-mas-vendido`.
 - Os quatro arquivos `mini1.webp` … `mini4.webp` retornavam 404 na URL `https://cdn.awsli.com.br/2550/2550587/arquivos/`. Enquanto esses arquivos não forem publicados, a seção editorial fica oculta em vez de deixar quatro caixas vazias. Não é possível concluir a fidelidade visual sem imagens publicadas e sem validar novamente a LI.
 - O layout aprovado exibe hero rosa Medicube, vitrines de cinco itens, marcas, vídeos, editorial e faixas institucionais. A página vista ainda usa hero verde e estruturas nativas diferentes. Corrigir esses blocos requer trabalhar no cadastro de banners e no tema da Loja Integrada; a atualização deste commit não os substitui.
+
+
+## Prévia sem a aparência do tema Groom — versão 0.7.0
+
+- URL de homologação: `https://www.nichelleimports.com.br/?nichelle_preview=1`.
+- O mesmo HTML/CSS externo já cadastrado na Loja Integrada continua válido; não é preciso editar o painel após este deploy.
+- O bundle `nichelle27.js` agora agrega `public/nichelle-isolation.js`; o bundle CSS agrega `public/nichelle-isolation.css`.
+- O isolamento é restrito ao domínio oficial, à home, à query `nichelle_preview=1` e ao `geral.modoPreview=true`, com `publicarNaLoja=false`.
+- O modo utiliza `data-n27-isolated=1` e cria `#n27-preview-stage` com os blocos nativos em ordem: hero, mais vendidos, módulos FWR, lançamentos, marcas, vídeos e vitrines seguintes.
+- Corrige o UL de 20 produtos órfão da vitrine mais vendidos. Os cards são movimentados, não clonados; links e elementos de compra permanecem reais.
+- Os sliders Slick de vitrines da home de prévia são substituídos por trilhos CSS responsivos; não altera Slick em categorias, PDP ou loja pública.
+- Não interrompe nem remove os scripts originais do tema: a neutralização é visual. O único caminho para desinstalar o tema real é pelo painel.
+- Na última revisão prévia, as quatro artes mini1.webp a mini4.webp retornavam 404. A seção dessas artes permanece oculta até disponibilizá-las; o hero principal continua sendo o banner cadastrado no painel da LI.
+- Para depurar, execute `Nichelle27Framework.diagnostico()` no console e confira `isolamentoVisual:true` em preview e `false` na loja normal.
