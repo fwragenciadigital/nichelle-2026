@@ -317,7 +317,8 @@
     });
     const onResize=()=>{
       if(!shelf.isConnected)return;
-      const index=currentIndex();
+      const saved=Number(rail.dataset.n27Index);
+      const index=Number.isInteger(saved)?modulo(saved,total):currentIndex();
       resizing=true;
       window.requestAnimationFrame(()=>{
         instant((edge+index)*step());
@@ -326,6 +327,9 @@
       });
     };
     window.addEventListener("resize",onResize,{passive:true});
+    // Quando outras seções da home são reorganizadas, o browser pode
+    // restaurar o scrollLeft a zero. Alinhar novamente ao índice real.
+    document.addEventListener("nichelle27:home:reordered",onResize);
     // Show only after the real first card (not the tail clones) is aligned.
     window.requestAnimationFrame(()=>{
       instant(edge*step());

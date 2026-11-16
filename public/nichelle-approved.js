@@ -134,7 +134,18 @@
     // componentes HTML. Cada seção real é montada com os nós LI existentes.
     const order = [hero, benefits, featured, best, category, launches, brands,
       videos, promo, editorial, extra, newsletter, social].filter(Boolean);
-    order.forEach(function (section) { stage.appendChild(section); });
+    // A home executa retries em load e depois do DOMContentLoaded.
+    // Reanexar a vitrine FWR a cada retry zera o scrollLeft do carrossel
+    // circular no Chrome. Não mover nós quando já estão na ordem correta.
+    const allAttached=order.every(function (section) {return section.parentNode===stage;});
+    const orderStable=allAttached && order.every(function (section,idx) {
+      return idx===0 || !!(order[idx-1].compareDocumentPosition(section) &
+        Node.DOCUMENT_POSITION_FOLLOWING);
+    });
+    if(!orderStable) {
+      order.forEach(function (section) {stage.appendChild(section);});
+      document.dispatchEvent(new Event("nichelle27:home:reordered"));
+    }
     const footer = document.getElementById("rodape");
     if (footer && !document.getElementById("n27-approved-footer-band")) {
       const band = node("div", "n27-approved-footer-band");
