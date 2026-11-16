@@ -331,7 +331,8 @@
     document.addEventListener("keydown",e=>{
       if(e.key==="Escape"&&!drawer.overlay.hidden)setDrawer(false);
     });
-    const root=el("header","n27-owned-header");
+    const root=el("div","n27-owned-header");
+    root.setAttribute("role","banner");
     root.id="n27-independent-header";
     root.append(buildMarquee(),main.box,buildNav(items,key=>setDrawer(true,key)));
     // Overlay is portaled outside the navigation scroll container.
@@ -344,7 +345,7 @@
       main.cartCount.setAttribute("aria-label",n+" itens no carrinho");
     }
     updateCart();
-    window.NichelleHeader={version:"1.0",categories:items,refreshCart:updateCart};
+    window.NichelleHeader={version:"1.1",categories:items,refreshCart:updateCart};
     window.addEventListener("nichelle:cart-updated",e=>updateCart(e.detail?.quantity));
     window.addEventListener("cart:updated",e=>updateCart(e.detail?.quantity));
     // Optional bridge for LI themes that expose a rendered cart quantity.
