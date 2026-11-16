@@ -145,12 +145,13 @@ html[data-n27-best-shelf="1"] #n27-approved-best-sellers .n27-best-card__media i
   margin:0!important;
   padding:0!important;
   border:0!important;
+  transform:scale(1.12)!important;
   transition:transform .23s ease!important;
   background:transparent!important;
 }
 @media (hover:hover) {
   html[data-n27-best-shelf="1"] #n27-approved-best-sellers .n27-best-card__media:hover img {
-    transform:scale(1.035);
+    transform:scale(1.18)!important;
   }
 }
 html[data-n27-best-shelf="1"] #n27-approved-best-sellers .n27-best-card__badge {
