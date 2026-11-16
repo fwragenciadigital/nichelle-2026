@@ -50,7 +50,9 @@ const combinedJS = (await readFile(resolve("public/nichelle27.js"), "utf8")) +
   "\n\n/* Isolamento visual exclusivo da home em preview */\n" + isolationJS +
   "\n\n/* Reconstrução da home a partir da arte aprovada */\n" +
   (await readFile(resolve("public/nichelle-approved.js"), "utf8")) +
-  "\n\n/* Cabeçalho FWR aprovado, controles nativos LI */\n" +
+  "\n\n/* Catálogo de categorias publicado na LI */\n" +
+  "window.N27CategoryCatalog = " + JSON.stringify(JSON.parse(await readFile(resolve("public/nichelle-category-catalog.json"), "utf8"))) + ";\n" +
+  "\n\n/* Topo 100% FWR, sem dependências de apresentação do Groom */\n" +
   (await readFile(resolve("public/nichelle-header.js"), "utf8"));
 new Script(combinedJS, { filename: "nichelle27.js" });
 await writeFile(join(target, "nichelle27.js"), combinedJS);
@@ -61,7 +63,7 @@ const combinedCSS = (await readFile(resolve("public/nichelle27.css"), "utf8")) +
   (await readFile(resolve("public/nichelle-isolation.css"), "utf8")) +
   "\n\n/* Reconstrução visual da home aprovada */\n" +
   (await readFile(resolve("public/nichelle-approved.css"), "utf8")) +
-  "\n\n/* Cabeçalho do mockup aprovado */\n" +
+  "\n\n/* Cabeçalho FWR independente do Groom */\n" +
   (await readFile(resolve("public/nichelle-header.css"), "utf8"));
 await writeFile(join(target, "nichelle27.css"), combinedCSS);
 for (const file of ["galeria-videos.js", "galeria-videos.css",

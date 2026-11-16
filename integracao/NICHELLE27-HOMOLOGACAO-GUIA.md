@@ -81,3 +81,17 @@ O layout aprovado disponibilizado em https://projetos.fwragenciadigital.com.br/n
 - Categorias do menu aprovadas: Mais Vendidos, Skincare, Tipos de Pele, Necessidades da Pele, Cuidados Pessoais, Kits, Marcas. URLs nativas encontradas: /mais-vendidos, /skincare, /corpo-banho, /kits-de-skincare, /marcas.
 - **Pendência de cadastro:** Tipos de Pele e Necessidades da Pele não estavam no menu nativo da LI; até cadastradas, os links utilizam a busca nativa da plataforma.
 - Testar: desktop 1440, mobile 390, busca /buscar?q, drawer menu, login, carrinho, hover/dropdown atendimento, links do menu, ausência de horizontal overflow e normal sem parâmetro.
+
+
+## Cabeçalho independente (v0.9.0 / 16-11-2026)
+
+O topo do preview agora é um HTML próprio com ID `#n27-independent-header`, sem reutilizar o DOM visual do Groom. Os controles comerciais são implementados como links/formulários próprios FWR que utilizam os **endpoints da Loja Integrada**: `/buscar?q=`, `/conta/login`, `/conta/index`, `/conta/pedido/listar`, `/carrinho/index`, rotas de categoria existentes e contatos oficiais da loja. O carrinho lê `window.qtd_prods_carrinho` (dado global da plataforma), com bridge opcional do contador no DOM do tema anterior e evento `nichelle:cart-updated`. Nenhum layout, menu drawer, dropdown ou animação depende do Groom.
+
+`public/nichelle-category-catalog.json` é o **espelho publicado** do catálogo real de categorias da Loja Integrada nesta data; contém Marcas (43 subcategorias), Skincare (8), Corpo & Banho (3), Makes (3) e demais raízes. O build injeta o conteúdo JSON no JS final como `window.N27CategoryCatalog`, antes do componente. A plataforma continua sendo dona do cadastro e das URLs: novas categorias/subcategorias exigem sincronizar esse JSON com a loja; não é uma API automática da LI.
+
+Os 7 itens aprovados ficam na ordem: Mais Vendidos, Skincare, Tipos de Pele, Necessidades da Pele, Cuidados Pessoais (origem Corpo & Banho), Kits (origem Skincare > Kits), Marcas. **Tipos de Pele e Necessidades da Pele não estavam registrados como categorias na navegação da loja** e usam busca nativa, sem inventar subcategorias.
+
+`n27-owned-benefits__track`: marquee CSS infinito com duas cópias *idênticas* de um grupo largo, translateX(-50%), repetição contínua sem salto, pausa no hover e `prefers-reduced-motion`.
+`n27-owned-nav`: mega-dropdown desktop, toggles por teclado e menu mobile FWR independente com `details` e links do catálogo. O tema antigo só é ocultado quando `data-n27-independent-header=1` é criado na home `?nichelle_preview=1`.
+
+Testes: marquee em 390/1440/1920; submenus de Skincare, Marcas, Cuidados Pessoais; drawer mobile; busca nativa; checkout/carrinho; ausência de overflow; loja sem preview intocada.

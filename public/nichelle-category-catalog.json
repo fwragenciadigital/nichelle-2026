@@ -1,0 +1,338 @@
+{
+  "schemaVersion": 1,
+  "source": "Loja Integrada: categorias e subcategorias publicadas no menu da loja em 2026-11-16",
+  "generatedAt": "2026-11-16",
+  "categories": [
+    {
+      "id": "categoria-id-18709305",
+      "name": "Marcas",
+      "url": "/marcas",
+      "children": [
+        {
+          "id": "categoria-id-24392775",
+          "name": "Abib",
+          "url": "/abib"
+        },
+        {
+          "id": "categoria-id-21930994",
+          "name": "AHC",
+          "url": "/ahc"
+        },
+        {
+          "id": "categoria-id-23904059",
+          "name": "Anua",
+          "url": "/anua"
+        },
+        {
+          "id": "categoria-id-24418516",
+          "name": "Axis-Y",
+          "url": "/axis-y"
+        },
+        {
+          "id": "categoria-id-23128956",
+          "name": "Banila CO",
+          "url": "/banila-co"
+        },
+        {
+          "id": "categoria-id-23077992",
+          "name": "Bath & Body Works",
+          "url": "/bath-body-works"
+        },
+        {
+          "id": "categoria-id-23127900",
+          "name": "Beauty of Joseon",
+          "url": "/beauty-of-joseon"
+        },
+        {
+          "id": "categoria-id-23882249",
+          "name": "Celimax",
+          "url": "/celimax"
+        },
+        {
+          "id": "categoria-id-24069906",
+          "name": "CKD",
+          "url": "/ckd"
+        },
+        {
+          "id": "categoria-id-23009672",
+          "name": "Cosrx",
+          "url": "/cosrx"
+        },
+        {
+          "id": "categoria-id-24392780",
+          "name": "Dr. Althea",
+          "url": "/dr-althea"
+        },
+        {
+          "id": "categoria-id-24443121",
+          "name": "Dr.G",
+          "url": "/drg"
+        },
+        {
+          "id": "categoria-id-24392776",
+          "name": "Dr. Reju-All",
+          "url": "/dr-reju-all"
+        },
+        {
+          "id": "categoria-id-23118511",
+          "name": "Elizavecca",
+          "url": "/elizavecca"
+        },
+        {
+          "id": "categoria-id-23009814",
+          "name": "Etude",
+          "url": "/etude"
+        },
+        {
+          "id": "categoria-id-24159456",
+          "name": "HEVEBLUE",
+          "url": "/heveblue"
+        },
+        {
+          "id": "categoria-id-24455571",
+          "name": "Illiyoon",
+          "url": "/illiyoon"
+        },
+        {
+          "id": "categoria-id-23223155",
+          "name": "JBSara",
+          "url": "/jbsara"
+        },
+        {
+          "id": "categoria-id-24158364",
+          "name": "KOEC",
+          "url": "/koec"
+        },
+        {
+          "id": "categoria-id-24451294",
+          "name": "K-Secret",
+          "url": "/k-secret"
+        },
+        {
+          "id": "categoria-id-23751767",
+          "name": "Laneige",
+          "url": "/laneige"
+        },
+        {
+          "id": "categoria-id-24392781",
+          "name": "Lilyeve",
+          "url": "/lilyeve"
+        },
+        {
+          "id": "categoria-id-23129533",
+          "name": "Luna",
+          "url": "/luna"
+        },
+        {
+          "id": "categoria-id-23245260",
+          "name": "Medicube",
+          "url": "/medicube"
+        },
+        {
+          "id": "categoria-id-23127672",
+          "name": "Mise en Scène",
+          "url": "/mise-en-scene"
+        },
+        {
+          "id": "categoria-id-18930682",
+          "name": "Missha",
+          "url": "/missha"
+        },
+        {
+          "id": "categoria-id-24145581",
+          "name": "Mixsoon",
+          "url": "/mixsoon"
+        },
+        {
+          "id": "categoria-id-24158471",
+          "name": "MUMCHIT",
+          "url": "/mumchit"
+        },
+        {
+          "id": "categoria-id-24388516",
+          "name": "Numbuzin",
+          "url": "/numbuzin"
+        },
+        {
+          "id": "categoria-id-24416355",
+          "name": "Purito",
+          "url": "/purito"
+        },
+        {
+          "id": "categoria-id-24343968",
+          "name": "Pyunkang Yul",
+          "url": "/pyunkang-yul"
+        },
+        {
+          "id": "categoria-id-24392779",
+          "name": "Rejuran",
+          "url": "/rejuran"
+        },
+        {
+          "id": "categoria-id-24392777",
+          "name": "Round Lab",
+          "url": "/round-lab"
+        },
+        {
+          "id": "categoria-id-23882248",
+          "name": "Senka",
+          "url": "/senka"
+        },
+        {
+          "id": "categoria-id-23245257",
+          "name": "Shiseido",
+          "url": "/shiseido"
+        },
+        {
+          "id": "categoria-id-23245259",
+          "name": "SKIN1004",
+          "url": "/skin1004"
+        },
+        {
+          "id": "categoria-id-22962493",
+          "name": "Some By Mi",
+          "url": "/some-by-mi"
+        },
+        {
+          "id": "categoria-id-23714983",
+          "name": "Tirtir",
+          "url": "/tirtir"
+        },
+        {
+          "id": "categoria-id-24443075",
+          "name": "Tocobo",
+          "url": "/tocobo"
+        },
+        {
+          "id": "categoria-id-22854288",
+          "name": "Tree Hut",
+          "url": "/tree-hut"
+        },
+        {
+          "id": "categoria-id-20453444",
+          "name": "Victoria's Secret",
+          "url": "/victorias-secret"
+        },
+        {
+          "id": "categoria-id-24005467",
+          "name": "VT Cosmetics",
+          "url": "/vt-cosmetics"
+        },
+        {
+          "id": "categoria-id-23640798",
+          "name": "Yepre",
+          "url": "/yepre"
+        }
+      ]
+    },
+    {
+      "id": "categoria-id-23118505",
+      "name": "Makes",
+      "url": "/makes",
+      "children": [
+        {
+          "id": "categoria-id-24485544",
+          "name": "Lábios",
+          "url": "/labios"
+        },
+        {
+          "id": "categoria-id-24485545",
+          "name": "Olhos",
+          "url": "/maquiagem-olhos"
+        },
+        {
+          "id": "categoria-id-24485543",
+          "name": "Rosto",
+          "url": "/maquiagem-rosto"
+        }
+      ]
+    },
+    {
+      "id": "categoria-id-24485532",
+      "name": "Cabelos",
+      "url": "/cabelos",
+      "children": []
+    },
+    {
+      "id": "categoria-id-23903402",
+      "name": "Skincare",
+      "url": "/skincare",
+      "children": [
+        {
+          "id": "categoria-id-24485534",
+          "name": "Hidratante",
+          "url": "/hidratante-facial"
+        },
+        {
+          "id": "categoria-id-24485538",
+          "name": "Kits",
+          "url": "/kits-de-skincare"
+        },
+        {
+          "id": "categoria-id-24485536",
+          "name": "Limpeza",
+          "url": "/limpeza-facial"
+        },
+        {
+          "id": "categoria-id-24485539",
+          "name": "Máscaras",
+          "url": "/mascaras-faciais"
+        },
+        {
+          "id": "categoria-id-24485537",
+          "name": "Olhos",
+          "url": "/area-dos-olhos"
+        },
+        {
+          "id": "categoria-id-24485535",
+          "name": "Protetor Solar",
+          "url": "/protetor-solar"
+        },
+        {
+          "id": "categoria-id-24485533",
+          "name": "Sérum",
+          "url": "/serum"
+        },
+        {
+          "id": "categoria-id-24485528",
+          "name": "Tônico",
+          "url": "/tonico"
+        }
+      ]
+    },
+    {
+      "id": "categoria-id-18930654",
+      "name": "Perfumaria",
+      "url": "/perfumaria",
+      "children": []
+    },
+    {
+      "id": "categoria-id-24485531",
+      "name": "Corpo & Banho",
+      "url": "/corpo-banho",
+      "children": [
+        {
+          "id": "categoria-id-24485540",
+          "name": "Body Splash",
+          "url": "/body-splash"
+        },
+        {
+          "id": "categoria-id-24485541",
+          "name": "Hidratante Corporal",
+          "url": "/hidratante-corporal"
+        },
+        {
+          "id": "categoria-id-24485542",
+          "name": "Sabonete & Esfoliante",
+          "url": "/sabonete-e-esfoliante"
+        }
+      ]
+    },
+    {
+      "id": "categoria-id-24488857",
+      "name": "Mais vendidos",
+      "url": "/mais-vendidos",
+      "children": []
+    }
+  ]
+}

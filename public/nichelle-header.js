@@ -1,172 +1,365 @@
 /*
- * FWR | Nichelle Imports — topo aprovado 2026
- * Preview-only. Reaproveita logo, busca, atendimento, conta e carrinho da LI.
- * Não cria formulários, conta, checkout ou carrinho paralelos.
+ * Nichelle FWR | Cabeçalho independente v1.0
+ * Own HTML/CSS/events. Loja Integrada remains owner of /buscar, /conta,
+ * /carrinho and registered category URLs; no Groom UI is reused.
  */
 (function () {
   "use strict";
-
-  const qs = new URLSearchParams(location.search);
+  const path = location.pathname.replace(/\/+$/, "") || "/";
   if (!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname) ||
-      qs.get("nichelle_preview") !== "1" ||
-      (location.pathname.replace(/\/+$/, "") || "/") !== "/") return;
+      path !== "/" ||
+      new URLSearchParams(location.search).get("nichelle_preview") !== "1") return;
 
-  function permitted() {
+  function allowed() {
     const s = window.Nichelle27Settings;
-    return !!(s && s.geral && s.geral.ativo === true &&
-      s.geral.modoPreview === true && s.geral.publicarNaLoja !== true);
+    return !!(s && s.geral?.ativo === true && s.geral?.modoPreview === true &&
+      s.geral?.publicarNaLoja !== true);
   }
-  function tag(name, classes, text) {
-    const n = document.createElement(name);
-    if (classes) n.className = classes;
+  function el(tag, cls, text) {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
     if (text !== undefined) n.textContent = text;
     return n;
   }
-  const icons = Object.freeze({
-    safe: '<path d="M7 10V7a5 5 0 0 1 10 0v3"/><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M12 14v3"/>',
-    truck: '<rect x="2" y="5" width="13" height="12" rx="1"/><path d="M15 9h4l3 4v4h-7M6 17a2 2 0 1 0 4 0M17 17a2 2 0 1 0 4 0"/>',
-    card: '<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h6"/>',
-    exchange: '<path d="M20 7h-12a5 5 0 0 0-5 5M4 7h16l-4-4M4 17h12a5 5 0 0 0 5-5M20 17H4l4 4"/>',
-    star: '<path d="m12 2 3.1 6.3 7 .9-5 4.9 1.2 7-6.3-3.3-6.3 3.3 1.2-7-5-4.9 7-.9Z" fill="currentColor" stroke="none"/>',
-    skincare: '<path d="M12 2c5.2 0 8.5 4 8.5 9.5 0 5.6-4 10.5-8.5 10.5S3.5 17.1 3.5 11.5C3.5 6 6.8 2 12 2Z" fill="currentColor" stroke="none"/><circle cx="9" cy="11" r="1.2" fill="#8000a5"/><circle cx="15" cy="11" r="1.2" fill="#8000a5"/><path d="M9 16c1.6 1.4 4.4 1.4 6 0" stroke="#8000a5"/>',
-    type: '<path d="M3 14 14 3a2.3 2.3 0 0 1 3.3 0l3.7 3.7a2.3 2.3 0 0 1 0 3.3L10 21a3 3 0 0 1-4.2 0L3 18.2A3 3 0 0 1 3 14Z"/><path d="m12 5 7 7M6 17l4 4M7 11l2 2"/>',
-    needs: '<path d="m5 19 13-13 2 2L7 21H5Z"/><path d="M18 2v3M22 6h-3M17 11l-2-2M4 6V3M2 5h4"/>',
-    heart: '<path d="M20.8 5.4a5.3 5.3 0 0 0-7.5 0L12 6.7l-1.3-1.3a5.3 5.3 0 0 0-7.5 7.5L12 21l8.8-8.1a5.3 5.3 0 0 0 0-7.5Z" fill="currentColor" stroke="none"/>',
-    kits: '<rect x="3" y="9" width="7" height="12" rx="1"/><path d="M5 9V6h3v3M6.5 3v3"/><rect x="13" y="6" width="8" height="15" rx="1"/><path d="M15 6V3h4v3M15 13h4M5 15h3"/>',
-    brands: '<rect x="3" y="3" width="8" height="8" rx="1" fill="currentColor" stroke="none"/><rect x="13" y="3" width="8" height="8" rx="1" fill="currentColor" stroke="none"/><rect x="3" y="13" width="8" height="8" rx="1" fill="currentColor" stroke="none"/><rect x="13" y="13" width="8" height="8" rx="1" fill="currentColor" stroke="none"/>'
-  });
-  function icon(name, className) {
-    const span = tag("span", className || "n27-h-icon");
-    span.setAttribute("aria-hidden", "true");
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("viewBox", "0 0 24 24");
-    svg.setAttribute("fill", "none");
-    svg.setAttribute("stroke", "currentColor");
-    svg.setAttribute("stroke-width", "1.9");
-    svg.setAttribute("stroke-linejoin", "round");
-    svg.setAttribute("stroke-linecap", "round");
-    svg.innerHTML = icons[name] || icons.star;
-    span.appendChild(svg);
-    return span;
+  function svg(name, cls) {
+    const paths = {
+      safe:'<path d="M7 10V7a5 5 0 0 1 10 0v3"/><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M12 14v3"/>',
+      truck:'<path d="M3 6h11v11H3zM14 10h4l3 4v3h-7M5 17a2 2 0 1 0 4 0M16 17a2 2 0 1 0 4 0"/>',
+      card:'<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h5"/>',
+      exchange:'<path d="M4 7h15l-4-4M19 7l-4 4M20 17H5l4 4M5 17l4-4"/>',
+      star:'<path d="m12 2 3.1 6.3 7 .9-5 4.9 1.2 7L12 17.8l-6.3 3.3 1.2-7-5-4.9 7-.9Z" fill="currentColor" stroke="none"/>',
+      skincare:'<path d="M12 2c5.2 0 8.5 4 8.5 9.5 0 5.6-4 10.5-8.5 10.5S3.5 17.1 3.5 11.5C3.5 6 6.8 2 12 2Z" fill="currentColor" stroke="none"/><circle cx="9" cy="11" r="1.2" fill="#8000a5"/><circle cx="15" cy="11" r="1.2" fill="#8000a5"/><path d="M9 16c1.6 1.4 4.4 1.4 6 0" stroke="#8000a5"/>',
+      type:'<path d="M3 14 14 3a2.3 2.3 0 0 1 3.3 0l3.7 3.7a2.3 2.3 0 0 1 0 3.3L10 21a3 3 0 0 1-4.2 0L3 18.2A3 3 0 0 1 3 14Z"/><path d="m12 5 7 7M6 17l4 4"/>',
+      needs:'<path d="m5 19 13-13 2 2L7 21H5Z"/><path d="M18 2v3M22 6h-3M17 11l-2-2M4 6V3M2 5h4"/>',
+      heart:'<path d="M20.8 5.4a5.3 5.3 0 0 0-7.5 0L12 6.7l-1.3-1.3a5.3 5.3 0 0 0-7.5 7.5L12 21l8.8-8.1a5.3 5.3 0 0 0 0-7.5Z" fill="currentColor" stroke="none"/>',
+      kits:'<rect x="3" y="9" width="7" height="12" rx="1"/><path d="M5 9V6h3v3M6.5 3v3"/><rect x="13" y="6" width="8" height="15" rx="1"/><path d="M15 6V3h4v3M15 13h4M5 15h3"/>',
+      brands:'<rect x="3" y="3" width="8" height="8" rx="1" fill="currentColor" stroke="none"/><rect x="13" y="3" width="8" height="8" rx="1" fill="currentColor" stroke="none"/><rect x="3" y="13" width="8" height="8" rx="1" fill="currentColor" stroke="none"/><rect x="13" y="13" width="8" height="8" rx="1" fill="currentColor" stroke="none"/>',
+      search:'<circle cx="10.8" cy="10.8" r="7"/><path d="m16 16 5 5"/>',
+      account:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/>',
+      support:'<path d="M4 4h13a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H9l-5 3v-3a3 3 0 0 1-2-3V7a3 3 0 0 1 2-3z"/><path d="M7 9h10M7 13h7"/>',
+      cart:'<path d="M3 7h18l-1.6 14H4.6L3 7Z"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/>',
+      menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',
+      close:'<path d="M5 5l14 14M19 5 5 19"/>',
+      chevron:'<path d="m6 9 6 6 6-6"/>',
+      phone:'<path d="M8 3H5a2 2 0 0 0-2 2c0 9 7 16 16 16a2 2 0 0 0 2-2v-3l-5-2-2 3a13 13 0 0 1-7-7l3-2-2-5Z"/>'
+    };
+    const s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    s.setAttribute("viewBox", "0 0 24 24");
+    s.setAttribute("aria-hidden", "true");
+    s.setAttribute("fill", "none");
+    s.setAttribute("stroke", "currentColor");
+    s.setAttribute("stroke-width", "1.8");
+    s.setAttribute("stroke-linecap", "round");
+    s.setAttribute("stroke-linejoin", "round");
+    if (cls) s.setAttribute("class", cls);
+    s.innerHTML = paths[name] || paths.star;
+    return s;
   }
-  function renderHighlights(header, anchor) {
-    let bar = document.getElementById("n27-head-benefits");
-    if (bar) return bar;
-    bar = tag("div", "n27-head-benefits");
-    bar.id = "n27-head-benefits";
-    bar.setAttribute("aria-label", "Benefícios da Nichelle Imports");
-    const track = tag("div", "n27-head-benefits__track");
-    const data = [
-      ["safe", "LOJA 100% SEGURA", "COM PROTEÇÃO DE CERTIFICADO SSL"],
-      ["truck", "ENTREGA GARANTIDA", "PARA TODO O BRASIL"],
-      ["card", "PARCELE SUAS COMPRAS", "EM ATÉ 10X NO CARTÃO"],
-      ["exchange", "TROCA FÁCIL", "EM ATÉ 7 DIAS APÓS O RECEBIMENTO"]
+  function safeInternal(raw) {
+    if (!raw || typeof raw !== "string") return "";
+    try {
+      const u = new URL(raw, location.origin);
+      return u.origin === location.origin && /^https?:$/.test(u.protocol) ?
+        u.pathname + u.search + u.hash : "";
+    } catch (_) { return ""; }
+  }
+  function searchURL(text) { return "/buscar?" + new URLSearchParams({q:text}); }
+  const normalize = s => String(s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
+  function menuData() {
+    const registered = Array.isArray(window.N27CategoryCatalog?.categories) ?
+      window.N27CategoryCatalog.categories : [];
+    const top = label => registered.find(c => normalize(c.name) === normalize(label));
+    const child = label => registered.flatMap(c=>Array.isArray(c.children)?c.children:[])
+      .find(c => normalize(c.name) === normalize(label));
+    const items = [
+      {label:"Mais Vendidos",icon:"star",source:top("Mais vendidos"),fallback:"/mais-vendidos"},
+      {label:"Skincare",icon:"skincare",source:top("Skincare"),fallback:"/skincare"},
+      {label:"Tipos de Pele",icon:"type",source:top("Tipos de Pele"),fallback:searchURL("Tipos de Pele")},
+      {label:"Necessidades da Pele",icon:"needs",source:top("Necessidades da Pele"),fallback:searchURL("Necessidades da Pele")},
+      {label:"Cuidados Pessoais",icon:"heart",source:top("Corpo & Banho"),fallback:"/corpo-banho"},
+      {label:"Kits",icon:"kits",source:top("Kits") || child("Kits"),fallback:"/kits-de-skincare"},
+      {label:"Marcas",icon:"brands",source:top("Marcas"),fallback:"/marcas"}
     ];
-    data.concat(data.slice(0, 3)).forEach(function (item, i) {
-      const row = tag("div", "n27-head-benefits__item");
-      if (i > 3) row.setAttribute("aria-hidden", "true");
-      row.appendChild(icon(item[0], "n27-head-benefits__icon"));
-      const copy = tag("span", "n27-head-benefits__copy");
-      copy.append(tag("strong", "", item[1]), tag("span", "", " " + item[2]));
-      row.appendChild(copy);
-      track.appendChild(row);
+    return items.map((item,index)=>{
+      const link=safeInternal(item.source?.url) || item.fallback;
+      const children=(Array.isArray(item.source?.children)?item.source.children:[])
+        .map(sub=>({name:sub.name,url:safeInternal(sub.url)}))
+        .filter(sub=>sub.name&&sub.url);
+      return {...item,key:String(index),url:link,children};
     });
+  }
+  function buildMarquee() {
+    const bar=el("div","n27-owned-benefits");
+    bar.setAttribute("aria-label","Benefícios da loja");
+    const track=el("div","n27-owned-benefits__track");
+    const data=[
+      ["safe","LOJA 100% SEGURA","COM PROTEÇÃO DE CERTIFICADO SSL"],
+      ["truck","ENTREGA GARANTIDA","PARA TODO O BRASIL"],
+      ["card","PARCELE SUAS COMPRAS","EM ATÉ 10X NO CARTÃO"],
+      ["exchange","TROCA FÁCIL","EM ATÉ 7 DIAS APÓS O RECEBIMENTO"]
+    ];
+    for(let g=0;g<2;g++){
+      const group=el("div","n27-owned-benefits__group");
+      if(g)group.setAttribute("aria-hidden","true");
+      // Uma volta é mais larga que a viewport, evitando vazios no loop.
+      for(let repeat=0;repeat<4;repeat++){
+        for(const info of data){
+          const item=el("span","n27-owned-benefits__item");
+          item.appendChild(svg(info[0]));
+          const copy=el("span","n27-owned-benefits__copy");
+          copy.append(el("strong","",info[1]),el("span",""," "+info[2]));
+          item.appendChild(copy);group.appendChild(item);
+        }
+      }
+      track.appendChild(group);
+    }
     bar.appendChild(track);
-    header.insertBefore(bar, anchor);
     return bar;
   }
-  function nativeHref(label, form, fallback) {
-    const exact = Array.from(document.querySelectorAll(".menu-desktop a[href], .menu-mobile a[href]"))
-      .find(function (a) {return a.textContent.replace(/\s+/g, " ").trim().toLowerCase() === label.toLowerCase();});
-    if (exact) {
-      try {
-        const u = new URL(exact.href, location.origin);
-        if (u.origin === location.origin && u.pathname !== "/") return u.pathname + u.search;
-      } catch (_) {}
-    }
-    if (fallback) return fallback;
-    const action = form?.getAttribute("action") || "/buscar";
-    const field = form?.querySelector('input[name="q"]');
-    const params = new URLSearchParams([[field?.name || "q", label]]);
-    return action + "?" + params.toString();
+  function button(text,classes,onClick,iconName){
+    const btn=el("button",classes,text);
+    btn.type="button";
+    if(iconName){btn.textContent="";btn.appendChild(svg(iconName));}
+    if(onClick)btn.addEventListener("click",onClick);
+    return btn;
   }
-  function renderNav(header, anchor, form) {
-    let nav = document.getElementById("n27-head-nav");
-    if (nav) return nav;
-    nav = tag("nav", "n27-head-nav");
-    nav.id = "n27-head-nav";
-    nav.setAttribute("aria-label", "Categorias principais");
-    const track = tag("div", "n27-head-nav__inner");
-    const items = [
-      ["Mais Vendidos", "star", "Mais vendidos", "/mais-vendidos"],
-      ["Skincare", "skincare", "Skincare", "/skincare"],
-      ["Tipos de Pele", "type", "Tipos de Pele", ""],
-      ["Necessidades da Pele", "needs", "Necessidades da Pele", ""],
-      ["Cuidados Pessoais", "heart", "Corpo & Banho", "/corpo-banho"],
-      ["Kits", "kits", "Kits", "/kits-de-skincare"],
-      ["Marcas", "brands", "Marcas", "/marcas"]
-    ];
-    items.forEach(function (item) {
-      const a = tag("a", "n27-head-nav__link");
-      a.href = nativeHref(item[2], form, item[3]);
-      a.append(icon(item[1]), tag("span", "n27-head-nav__label", item[0]));
-      track.appendChild(a);
+  function buildDetails(cls,iconName,title,subtitle,menuItems){
+    const root=el("details","n27-owned-actions__detail "+cls);
+    const summary=el("summary","n27-owned-actions__summary");
+    const labels=el("span","n27-owned-actions__labels");
+    labels.append(el("strong","",title),el("small","",subtitle));
+    summary.append(svg(iconName),labels);
+    root.appendChild(summary);
+    const panel=el("div","n27-owned-actions__dropdown");
+    menuItems.forEach(item=>{
+      if(!item.url)return;
+      const a=el("a","n27-owned-actions__dropdown-link",item.label);
+      a.href=item.url;
+      if(item.external){a.target="_blank";a.rel="noopener noreferrer";}
+      panel.appendChild(a);
+    });
+    root.appendChild(panel);
+    root.addEventListener("mouseenter",()=>{if(window.matchMedia("(min-width: 768px)").matches)root.open=true;});
+    root.addEventListener("mouseleave",()=>{if(window.matchMedia("(min-width: 768px)").matches)root.open=false;});
+    return root;
+  }
+  function buildMain() {
+    const box=el("div","n27-owned-main");
+    const wrap=el("div","n27-owned-container n27-owned-main__inner");
+    const mobileBtn=button("","n27-owned-mobile-toggle",null,"menu");
+    mobileBtn.setAttribute("aria-label","Abrir menu");
+    mobileBtn.setAttribute("aria-expanded","false");
+    mobileBtn.setAttribute("aria-controls","n27-owned-drawer");
+    const logo=el("a","n27-owned-logo");
+    logo.href="/";logo.title="Nichelle Imports — início";
+    const image=el("img");
+    image.src="https://cdn.awsli.com.br/400x300/2550/2550587/logo/logo-nichelle-loja-integrada-600-13zuqalvp1.png";
+    image.alt="Nichelle Imports";image.width=200;image.height=60;
+    logo.appendChild(image);
+    const form=el("form","n27-owned-search");
+    form.action="/buscar";form.method="get";form.role="search";
+    const label=el("label","n27-owned-sr-only","Buscar produtos");
+    const input=el("input","n27-owned-search__field");
+    input.type="search";input.name="q";input.placeholder="Buscar na loja";
+    input.maxLength=255;input.autocomplete="off";input.id="n27-owned-search-input";
+    label.htmlFor=input.id;form.append(label,input);
+    const searchBtn=button("","n27-owned-search__button",null,"search");
+    searchBtn.type="submit";searchBtn.setAttribute("aria-label","Buscar");
+    form.appendChild(searchBtn);
+    const actions=el("div","n27-owned-actions");
+    const support=buildDetails("n27-owned-actions__support","support","Atendimento","Fale com nossa equipe",[
+      {label:"Conversar pelo WhatsApp",url:"https://wa.me/5551994641695",external:true},
+      {label:"Ligar: (51) 99464-1695",url:"tel:51994641695"},
+      {label:"Enviar e-mail",url:"mailto:contato@nichelleimports.com.br"},
+      {label:"Formulário de contato",url:"/contato"}
+    ]);
+    const account=buildDetails("n27-owned-actions__account","account","Meu Painel","Entrar ou Cadastrar-se",[
+      {label:"Entrar ou cadastrar",url:"/conta/login"},
+      {label:"Minha Conta",url:"/conta/index"},
+      {label:"Meus Pedidos",url:"/conta/pedido/listar"},
+      {label:"Lista de Desejos",url:"/conta/favorito/listar"}
+    ]);
+    const cart=el("a","n27-owned-cart");
+    cart.href="/carrinho/index";cart.title="Abrir carrinho de compras";
+    cart.setAttribute("aria-label","Abrir carrinho de compras");
+    cart.appendChild(svg("cart"));
+    const count=el("span","n27-owned-cart__badge","0");
+    count.id="n27-owned-cart-count";cart.appendChild(count);
+    actions.append(support,account,cart);
+    wrap.append(mobileBtn,logo,form,actions);
+    box.appendChild(wrap);
+    return{box,mobileBtn,cartCount:count};
+  }
+  function buildNav(items,openMobile) {
+    const nav=el("nav","n27-owned-nav");
+    nav.setAttribute("aria-label","Categorias principais");
+    const track=el("ul","n27-owned-nav__track n27-owned-container");
+    items.forEach(item=>{
+      const li=el("li","n27-owned-nav__item");
+      li.dataset.key=item.key;
+      const main=el("a","n27-owned-nav__main");
+      main.href=item.url;
+      main.append(svg(item.icon),el("span","",item.label));
+      li.appendChild(main);
+      if(item.children.length){
+        li.classList.add("n27-owned-nav__item--children");
+        const t=button("","n27-owned-nav__toggle",null,"chevron");
+        t.setAttribute("aria-label","Abrir subcategorias de "+item.label);
+        t.setAttribute("aria-expanded","false");
+        t.addEventListener("click",function(event){
+          event.stopPropagation();
+          if(window.matchMedia("(max-width: 767px)").matches){
+            openMobile(item.key);return;
+          }
+          const was=li.dataset.open==="true";
+          track.querySelectorAll('.n27-owned-nav__item[data-open="true"]').forEach(n=>{
+            n.dataset.open="false";
+            const x=n.querySelector('.n27-owned-nav__toggle');if(x)x.setAttribute("aria-expanded","false");
+          });
+          li.dataset.open=String(!was);
+          t.setAttribute("aria-expanded",String(!was));
+        });
+        li.appendChild(t);
+        const menu=el("div","n27-owned-submenu");
+        menu.setAttribute("role","group");
+        menu.setAttribute("aria-label","Subcategorias de "+item.label);
+        const intro=el("a","n27-owned-submenu__viewall","Ver todos em "+item.label);
+        intro.href=item.url;menu.appendChild(intro);
+        const links=el("div","n27-owned-submenu__grid");
+        if(item.children.length>20)links.classList.add("n27-owned-submenu__grid--large");
+        item.children.forEach(sub=>{
+          const a=el("a","n27-owned-submenu__link",sub.name);
+          a.href=sub.url;links.appendChild(a);
+        });
+        menu.appendChild(links);
+        li.appendChild(menu);
+      }
+      track.appendChild(li);
     });
     nav.appendChild(track);
-    header.insertBefore(nav, anchor);
+    document.addEventListener("click",ev=>{
+      if(nav.contains(ev.target))return;
+      track.querySelectorAll('.n27-owned-nav__item[data-open="true"]').forEach(n=>{
+        n.dataset.open="false";
+        n.querySelector(".n27-owned-nav__toggle")?.setAttribute("aria-expanded","false");
+      });
+    });
+    document.addEventListener("keydown",ev=>{
+      if(ev.key==="Escape")track.querySelectorAll('.n27-owned-nav__item[data-open="true"]').forEach(n=>{
+        n.dataset.open="false";n.querySelector(".n27-owned-nav__toggle")?.setAttribute("aria-expanded","false");
+      });
+    });
     return nav;
   }
-  function mount() {
-    if (!permitted()) return;
-    const cabecalho = document.getElementById("cabecalho");
-    const header = cabecalho?.closest("header");
-    const inside = cabecalho?.querySelector(".cabecalho-inside");
-    const logo = inside?.querySelector(".logo");
-    const search = inside?.querySelector(".busca-mobile");
-    const form = search?.querySelector("form#form-buscar");
-    const painel = inside?.querySelector(".painel");
-    const menu = inside?.querySelector(".mobile-left .menu-mobile-button");
-    if (!header || !inside || !logo || !form || !painel || !menu) return;
-
-    const searchField = form.querySelector('input[name="q"]');
-    if (searchField) {
-      searchField.placeholder = "Buscar na loja";
-      searchField.setAttribute("aria-label", "Buscar na loja");
-    }
-    const support = painel.querySelector(".painel-atendimento");
-    const account = painel.querySelector(".painel-conta");
-    const contactTop = support?.querySelector(".a .b .c");
-    const contactBottom = support?.querySelector(".a .b .d strong");
-    if (contactTop) contactTop.textContent = "Atendimento";
-    if (contactBottom) contactBottom.textContent = "Fale com nossa equipe";
-    const accountTop = account?.querySelector(".a .b .c");
-    if (accountTop) accountTop.textContent = "Meu Painel";
-    const register = account?.querySelector(".a .b .d a:last-of-type");
-    if (register) register.textContent = "Cadastrar-se";
-
-    // Não recriar controles LI. Só aplica CSS Grid aos filhos existentes
-    // de .cabecalho-inside e adiciona duas faixas de conteúdo aprovado.
-    inside.classList.add("n27-head-main");
-    cabecalho.classList.add("n27-head-base");
-    menu.setAttribute("role", "button");
-    menu.setAttribute("tabindex", "0");
-    menu.setAttribute("aria-label", "Abrir menu de categorias");
-    if (!menu.dataset.n27Keyboard) {
-      menu.addEventListener("keydown", function (ev) {
-        if (ev.key === "Enter" || ev.key === " ") {ev.preventDefault();menu.click();}
+  function buildDrawer(items) {
+    const overlay=el("div","n27-owned-drawer");
+    overlay.id="n27-owned-drawer";overlay.hidden=true;
+    const scrim=button("","n27-owned-drawer__scrim");
+    scrim.setAttribute("aria-label","Fechar menu");
+    const aside=el("div","n27-owned-drawer__panel");
+    aside.setAttribute("role","dialog");aside.setAttribute("aria-modal","true");
+    aside.setAttribute("aria-label","Menu Nichelle Imports");
+    const head=el("div","n27-owned-drawer__top");
+    head.append(el("strong","","Categorias"));
+    const close=button("","n27-owned-drawer__close",null,"close");
+    close.setAttribute("aria-label","Fechar menu");
+    head.appendChild(close);aside.appendChild(head);
+    const list=el("div","n27-owned-drawer__list");
+    for(const item of items){
+      const details=el("details","n27-owned-drawer__item");
+      details.dataset.key=item.key;
+      const summary=el("summary","n27-owned-drawer__summary");
+      summary.append(svg(item.icon),el("span","",item.label));
+      if(item.children.length){summary.appendChild(svg("chevron","n27-owned-drawer__chevron"));}
+      details.appendChild(summary);
+      const inside=el("div","n27-owned-drawer__links");
+      const all=el("a","n27-owned-drawer__all","Ver todos em "+item.label);
+      all.href=item.url;inside.appendChild(all);
+      item.children.forEach(sub=>{
+        const a=el("a","",sub.name);a.href=sub.url;inside.appendChild(a);
       });
-      menu.dataset.n27Keyboard = "1";
+      details.appendChild(inside);
+      if(!item.children.length)summary.addEventListener("click",ev=>{
+        ev.preventDefault();window.location.href=item.url;
+      });
+      list.appendChild(details);
     }
-    renderHighlights(header, cabecalho);
-    renderNav(header, header.querySelector(".menu-desktop") || null, form);
-    document.documentElement.dataset.n27Header = "1";
+    aside.appendChild(list);
+    const foot=el("div","n27-owned-drawer__foot");
+    const links=[
+      ["Minha Conta","/conta/login"],
+      ["Meus Pedidos","/conta/pedido/listar"],
+      ["Atendimento","https://wa.me/5551994641695"]
+    ];
+    links.forEach(it=>{
+      const a=el("a","",it[0]);a.href=it[1];
+      if(/^https:/.test(it[1])){a.target="_blank";a.rel="noopener noreferrer";}
+      foot.appendChild(a);
+    });
+    aside.appendChild(foot);
+    overlay.append(scrim,aside);
+    return {overlay,close,scrim,list};
   }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", mount, { once:true });
-  } else mount();
-  window.addEventListener("load", mount, { once:true });
-  [220, 720, 1450, 2850, 4800].forEach(function (delay) {
-    setTimeout(mount, delay);
-  });
+  function readCartCount() {
+    // Dados LI; nunca utiliza estilos ou eventos do Groom.
+    if(typeof window.qtd_prods_carrinho==="number")return Math.max(0,window.qtd_prods_carrinho);
+    if(Array.isArray(window.CARRINHO_PRODS))return window.CARRINHO_PRODS.length;
+    return 0;
+  }
+  function mount() {
+    if(!allowed()||document.getElementById("n27-independent-header"))return;
+    const host=document.querySelector(".conteiner-principal")||document.body;
+    if(!host)return;
+    const main=buildMain();
+    const items=menuData();
+    const drawer=buildDrawer(items);
+    function setDrawer(open,key) {
+      drawer.overlay.hidden=!open;
+      main.mobileBtn.setAttribute("aria-expanded",String(open));
+      document.documentElement.classList.toggle("n27-owned-menu-open",open);
+      if(open){
+        if(key!==undefined){
+          const selected=[...drawer.list.querySelectorAll("details")].find(n=>n.dataset.key===key);
+          if(selected){selected.open=true;selected.scrollIntoView({block:"nearest"});}
+        }
+        drawer.close.focus();
+      } else main.mobileBtn.focus();
+    }
+    main.mobileBtn.addEventListener("click",()=>setDrawer(true));
+    drawer.close.addEventListener("click",()=>setDrawer(false));
+    drawer.scrim.addEventListener("click",()=>setDrawer(false));
+    document.addEventListener("keydown",e=>{
+      if(e.key==="Escape"&&!drawer.overlay.hidden)setDrawer(false);
+    });
+    const root=el("header","n27-owned-header");
+    root.id="n27-independent-header";
+    root.append(buildMarquee(),main.box,buildNav(items,key=>setDrawer(true,key)));
+    // Overlay is portaled outside the navigation scroll container.
+    root.appendChild(drawer.overlay);
+    host.insertBefore(root,host.firstChild);
+    function updateCart(override) {
+      const qty=typeof override==="number"&&Number.isFinite(override)?override:readCartCount();
+      const n=Math.max(0,Math.floor(qty));
+      main.cartCount.textContent=String(n);
+      main.cartCount.setAttribute("aria-label",n+" itens no carrinho");
+    }
+    updateCart();
+    window.NichelleHeader={version:"1.0",categories:items,refreshCart:updateCart};
+    window.addEventListener("nichelle:cart-updated",e=>updateCart(e.detail?.quantity));
+    window.addEventListener("cart:updated",e=>updateCart(e.detail?.quantity));
+    // Optional bridge for LI themes that expose a rendered cart quantity.
+    // Nothing visual or interactive depends on this node's existence.
+    const nativeBadge=document.querySelector('#cabecalho .qtd-carrinho');
+    if(nativeBadge && window.MutationObserver){
+      new MutationObserver(()=>{
+        const qty=Number(nativeBadge.textContent.trim());
+        if(Number.isFinite(qty))updateCart(qty);
+      }).observe(nativeBadge,{childList:true,characterData:true,subtree:true});
+    }
+    document.documentElement.dataset.n27IndependentHeader="1";
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",mount,{once:true});
+  else mount();
+  window.addEventListener("load",mount,{once:true});
+  [180,600,1500,3000].forEach(t=>setTimeout(mount,t));
 })();
