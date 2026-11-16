@@ -69,3 +69,15 @@ O layout aprovado disponibilizado em https://projetos.fwragenciadigital.com.br/n
 - As peças do Instagram do layout estático não foram fornecidas separadamente; a prévia apresenta fotos reais de produtos como substituto provisório.
 - Apenas ativa com `?nichelle_preview=1`; não remove a instalação Groom nem altera checkout.
 - Pendências para homologação final: vídeos e posts reais, conteúdo institucional, URLs definitivas dos banners, CSS pixel-perfect em mobile/desktop.
+
+
+## Cabeçalho aprovado (16/11/2026)
+
+- Modelo: faixa superior fina branca de benefícios (SSL, entrega, parcelamento, troca), logo à esquerda, busca central longa, Atendimento e Meu Painel com ícones roxos, carrinho à direita, e faixa roxa com 7 itens/iconografia.
+- `public/nichelle-header.js` e `public/nichelle-header.css` são concatenados em `nichelle27.js` e `nichelle27.css`; links no painel da LI não mudam.
+- Todo código é opt-in na home com `?nichelle_preview=1`. Sem parâmetro: sem mudanças visuais.
+- **Funcionalidade:** preserva `#form-buscar` (GET /buscar?q=), logo nativo, `.painel-atendimento` com suas opções, `.painel-conta` com rotas existentes, `.painel-carrinho` com atualizações AJAX, e `.menu-mobile-button` acionando menu mobile real.
+- O topo do tema Groom (`.info-destaque` e `.menu-desktop`) é ocultado visualmente só no preview. O menu mobile real permanece no DOM e seus eventos JS intactos.
+- Categorias do menu aprovadas: Mais Vendidos, Skincare, Tipos de Pele, Necessidades da Pele, Cuidados Pessoais, Kits, Marcas. URLs nativas encontradas: /mais-vendidos, /skincare, /corpo-banho, /kits-de-skincare, /marcas.
+- **Pendência de cadastro:** Tipos de Pele e Necessidades da Pele não estavam no menu nativo da LI; até cadastradas, os links utilizam a busca nativa da plataforma.
+- Testar: desktop 1440, mobile 390, busca /buscar?q, drawer menu, login, carrinho, hover/dropdown atendimento, links do menu, ausência de horizontal overflow e normal sem parâmetro.

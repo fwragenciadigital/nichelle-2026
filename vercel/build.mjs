@@ -49,7 +49,9 @@ const combinedJS = (await readFile(resolve("public/nichelle27.js"), "utf8")) +
   "\n\n/* Runtime FWR legado integrado ao bundle Nichelle27 */\n" + legacyRuntime +
   "\n\n/* Isolamento visual exclusivo da home em preview */\n" + isolationJS +
   "\n\n/* Reconstrução da home a partir da arte aprovada */\n" +
-  (await readFile(resolve("public/nichelle-approved.js"), "utf8"));
+  (await readFile(resolve("public/nichelle-approved.js"), "utf8")) +
+  "\n\n/* Cabeçalho FWR aprovado, controles nativos LI */\n" +
+  (await readFile(resolve("public/nichelle-header.js"), "utf8"));
 new Script(combinedJS, { filename: "nichelle27.js" });
 await writeFile(join(target, "nichelle27.js"), combinedJS);
 const combinedCSS = (await readFile(resolve("public/nichelle27.css"), "utf8")) +
@@ -58,7 +60,9 @@ const combinedCSS = (await readFile(resolve("public/nichelle27.css"), "utf8")) +
   "\n\n/* Neutralização visual do tema ativo (somente preview) */\n" +
   (await readFile(resolve("public/nichelle-isolation.css"), "utf8")) +
   "\n\n/* Reconstrução visual da home aprovada */\n" +
-  (await readFile(resolve("public/nichelle-approved.css"), "utf8"));
+  (await readFile(resolve("public/nichelle-approved.css"), "utf8")) +
+  "\n\n/* Cabeçalho do mockup aprovado */\n" +
+  (await readFile(resolve("public/nichelle-header.css"), "utf8"));
 await writeFile(join(target, "nichelle27.css"), combinedCSS);
 for (const file of ["galeria-videos.js", "galeria-videos.css",
   "galeria-preview.json", "galeria-publicada.json"]) {
