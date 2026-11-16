@@ -1,0 +1,160 @@
+/*
+ * Nichelle Imports / FWR — brand showcase v1.0
+ * Approved visual: lavender section, centered title, rounded white logo cards.
+ * Content & order are read from Loja Integrada's brand configuration.
+ */
+html[data-n27-brands="1"] #n27-preview-stage > .vitrine-marcas[data-n27-brands-source="1"] {
+  display:none!important;
+}
+html[data-n27-brands="1"] #n27-preview-stage > #n27-approved-brands.n27-brands {
+  display:block!important;position:relative!important;
+  width:100%!important;max-width:none!important;min-width:0!important;
+  margin:0!important;padding:38px 0 48px!important;
+  min-height:252px!important;height:auto!important;
+  border:0!important;box-shadow:none!important;
+  background:#efe9f0!important;
+  overflow:hidden!important;isolation:isolate;
+  color:#27252a!important;
+}
+html[data-n27-brands="1"] #n27-approved-brands,
+html[data-n27-brands="1"] #n27-approved-brands *,
+html[data-n27-brands="1"] #n27-approved-brands *::before,
+html[data-n27-brands="1"] #n27-approved-brands *::after {
+  box-sizing:border-box!important;
+}
+html[data-n27-brands="1"] #n27-approved-brands .n27-brands__inner {
+  position:relative!important;display:flex!important;flex-direction:column!important;
+  align-items:center!important;justify-content:center!important;
+  width:min(calc(100% - 44px),1402px)!important;
+  max-width:1402px!important;min-width:0!important;
+  margin:0 auto!important;padding:0!important;
+}
+html[data-n27-brands="1"] #n27-approved-brands .n27-brands__heading {
+  display:block!important;flex:0 0 auto!important;
+  margin:0 0 44px!important;padding:0!important;
+  border:0!important;
+  color:#77727a!important;background:none!important;
+  font:400 clamp(17px,1.12vw,21px)/1.3 Arial,Helvetica,sans-serif!important;
+  text-align:center!important;text-transform:none!important;
+  white-space:normal!important;letter-spacing:-.025em!important;
+}
+html[data-n27-brands="1"] #n27-approved-brands .n27-brands__heading strong {
+  display:inline!important;color:#a832b5!important;
+  font-weight:800!important;font-size:inherit!important;line-height:inherit!important;
+}
+html[data-n27-brands="1"] #n27-approved-brands .n27-brands__rail {
+  display:flex!important;flex-flow:row nowrap!important;align-items:stretch!important;
+  justify-content:safe center!important;
+  gap:clamp(14px,1.42vw,28px)!important;
+  width:100%!important;max-width:100%!important;min-width:0!important;
+  height:94px!important;min-height:94px!important;
+  padding:2px 0 5px!important;margin:0!important;
+  overflow-x:auto!important;overflow-y:hidden!important;
+  overscroll-behavior-x:contain!important;
+  scroll-snap-type:x mandatory!important;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none!important;
+  background:none!important;border:0!important;
+}
+html[data-n27-brands="1"] #n27-approved-brands .n27-brands__rail::-webkit-scrollbar {
+  display:none!important;
+}
+html[data-n27-brands="1"] #n27-approved-brands .n27-brands__card {
+  position:relative!important;display:flex!important;
+  align-items:center!important;justify-content:center!important;
+  flex:0 0 clamp(132px,10.15vw,151px)!important;
+  width:clamp(132px,10.15vw,151px)!important;max-width:151px!important;
+  height:88px!important;min-height:88px!important;
+  margin:0!important;padding:9px 12px!important;
+  border:1px solid #e6e2e8!important;border-radius:16px!important;
+  background:#fff!important;
+  box-shadow:0 2px 4px rgba(53,34,58,.11)!important;
+  color:#2e2b30!important;text-decoration:none!important;
+  scroll-snap-align:start!important;overflow:hidden!important;
+  transition:transform .2s ease,box-shadow .2s ease!important;
+}
+html[data-n27-brands="1"] #n27-approved-brands .n27-brands__logo {
+  display:block!important;width:100%!important;height:100%!important;
+  max-height:80px!important;max-width:100%!important;
+  margin:0!important;padding:0!important;
+  object-fit:contain!important;object-position:center center!important;
+  transform:scale(1.42)!important;
+  background:transparent!important;filter:none!important;
+}
+html[data-n27-brands="1"] #n27-approved-brands .n27-brands__logo[hidden] {
+  display:none!important;
+}
+html[data-n27-brands="1"] #n27-approved-brands .n27-brands__fallback {
+  display:block!important;color:#28242a!important;
+  font:700 13px/1.15 Arial,Helvetica,sans-serif!important;
+  text-align:center!important;
+}
+html[data-n27-brands="1"] #n27-approved-brands .n27-brands__card:hover {
+  transform:translateY(-2px)!important;
+  box-shadow:0 4px 12px rgba(53,34,58,.13)!important;
+}
+html[data-n27-brands="1"] #n27-approved-brands .n27-brands__card:focus-visible,
+html[data-n27-brands="1"] #n27-approved-brands .n27-brands__arrow:focus-visible {
+  outline:2px solid #9807ad!important;outline-offset:2px!important;
+}
+html[data-n27-brands="1"] #n27-approved-brands .n27-brands__controls {
+  display:flex!important;align-items:center!important;justify-content:flex-end!important;
+  gap:10px!important;
+  width:100%!important;max-width:100%!important;
+  height:30px!important;margin:8px 0 -38px!important;
+  padding:0!important;
+}
+html[data-n27-brands="1"] #n27-approved-brands .n27-brands__controls[hidden] {display:none!important;}
+html[data-n27-brands="1"] #n27-approved-brands .n27-brands__arrow {
+  display:grid!important;place-items:center!important;
+  width:28px!important;height:29px!important;padding:3px!important;margin:0!important;
+  border:0!important;border-radius:4px!important;background:transparent!important;
+  color:#4b3052!important;cursor:pointer!important;
+}
+html[data-n27-brands="1"] #n27-approved-brands .n27-brands__arrow:disabled {
+  opacity:.23!important;cursor:default!important;
+}
+html[data-n27-brands="1"] #n27-approved-brands .n27-brands__arrow svg {
+  display:block!important;width:20px!important;height:20px!important;
+}
+@media(min-width:1550px){
+  html[data-n27-brands="1"] #n27-approved-brands .n27-brands__card{
+    flex-basis:151px!important;width:151px!important;
+  }
+}
+@media(max-width:1023px){
+  html[data-n27-brands="1"] #n27-approved-brands .n27-brands__rail {
+    justify-content:flex-start!important;
+  }
+}
+@media(max-width:767px){
+  html[data-n27-brands="1"] #n27-preview-stage > #n27-approved-brands.n27-brands {
+    padding:32px 0 32px!important;min-height:207px!important;
+  }
+  html[data-n27-brands="1"] #n27-approved-brands .n27-brands__inner {
+    width:calc(100% - 28px)!important;
+  }
+  html[data-n27-brands="1"] #n27-approved-brands .n27-brands__heading {
+    font-size:19px!important;margin-bottom:28px!important;
+  }
+  html[data-n27-brands="1"] #n27-approved-brands .n27-brands__rail {
+    height:94px!important;min-height:94px!important;
+    justify-content:flex-start!important;gap:12px!important;
+  }
+  html[data-n27-brands="1"] #n27-approved-brands .n27-brands__card {
+    flex:0 0 142px!important;width:142px!important;
+    height:86px!important;min-height:86px!important;
+    border-radius:14px!important;
+  }
+  html[data-n27-brands="1"] #n27-approved-brands .n27-brands__logo {
+    max-height:78px!important;
+  }
+  html[data-n27-brands="1"] #n27-approved-brands .n27-brands__controls {
+    display:none!important;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  html[data-n27-brands="1"] #n27-approved-brands .n27-brands__card {
+    transition:none!important;
+  }
+}

@@ -137,3 +137,16 @@ Comparação da captura atual enviada pelo cliente (2048×721) com a arte aprova
 No HTML de administração `integracao/NICHELLE27-VITRINE-ADMIN.html` foi incluído o campo `loopInfinito:true` (padrão), podendo ser colocado como false para navegação limitada. A nova versão continua disponível apenas na home com `?nichelle_preview=1`.
 
 Os valores, produtos, imagens e percentuais permanecem provenientes da Loja Integrada. O mockup de aprovação é referência visual, não deve forçar fotos/preços/cupom de itens inexistentes no cadastro.
+
+
+## Vitrine de marcas aprovada — v0.13.0 (16/11/2026)
+
+A versão antiga "Escolha pela marca" com cinco logos soltos, fundo rosa e Slick foi **substituída na prévia** pelo bloco FWR `#n27-approved-brands`, com título central `Compre as ` + `Melhores Marcas` roxo e cards brancos de até 151×88px arredondados com sombra, fundo `#EFE9F0`, responsivo e scroll horizontal mobile. O código reside em `public/nichelle-brands.js` + `public/nichelle-brands.css`; o build agrega às URLs existentes de `nichelle27.js` e `nichelle27.css`.
+
+**Fonte do painel LI:** o JS lê diretamente os links e logos `<a href="/marca/..."><img alt src>` publicados na área nativa `.vitrine-marcas` da Loja Integrada. Adaptação em leitura; a apresentação e interações não dependem do Slick/Groom. Links internos /marca, imagens HTTPS; duplicações Slick ignoradas. Atualizações de nomes, logos e ordem no painel da Loja Integrada aparecem ao recarregar; MutationObserver acompanha re-renderizações dinâmicas.
+
+Na verificação inicial, a vitrine de marcas da plataforma publicava **cinco marcas**: Victoria's Secret, Tree Hut, Bath & Body Works, SKIN1004 e Medicube. O aprovado inclui oito cards, mas não inventamos os três logos ausentes. Para ver oito, cadastrar/publicar mais três marcas com logo na vitrine de marcas do painel.
+
+**Administração visual:** edite `window.Nichelle27Settings.vitrineMarcas` no cabeçalho ou cole `integracao/NICHELLE27-MARCAS-ADMIN.html` no rodapé. Propriedades `ativo`, `prefixo`, `titulo`, `maxMarcas`. JSON inline alternativo com id `n27-vitrine-marcas-json`. Não duplicar marcas comerciais em JSON, pois permanecem no cadastro LI.
+
+**Fail-safe:** se não houver marcas com logo e link, mantenha a seção original. A prévia `?nichelle_preview=1` não altera a loja pública. Independência total da marcação de dados da vitrine nativa depende de API/feed LI autenticado; nesta etapa só o visual é desacoplado.
