@@ -123,6 +123,7 @@
       container.append(heading, grid);
       social.appendChild(container);
     }
+    const featured = one("#n27-approved-best-sellers", stage);
     const best = one(".vitrine-mas-vendido", stage);
     const launches = one(".vitrine-lancamento", stage);
     const brands = one(".vitrine-marcas", stage);
@@ -131,7 +132,7 @@
     const extra = one(".vitrine-18709305", stage);
     // A imagem do projeto é a especificação visual, não uma página com
     // componentes HTML. Cada seção real é montada com os nós LI existentes.
-    const order = [hero, benefits, best, category, launches, brands,
+    const order = [hero, benefits, featured, best, category, launches, brands,
       videos, promo, editorial, extra, newsletter, social].filter(Boolean);
     order.forEach(function (section) { stage.appendChild(section); });
     const footer = document.getElementById("rodape");

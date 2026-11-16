@@ -111,3 +111,18 @@ A seção da home foi reconstruída com a arte aprovada `image(20261116-153958).
 5. Para atualização durante a mesma página, após salvar configurações em JS no HTML, dispare `document.dispatchEvent(new Event("nichelle27:vantagens:update"))`. Em navegação normal basta atualizar a página.
 
 Importante: a publicação deste commit continua **somente em `?nichelle_preview=1`** e não altera a loja pública sem o parâmetro. Não registrar JSON externo sem CORS nem dados arbitrários contendo SVG/HTML. Os ícones são de uma lista segura, e textos são inseridos via `textContent`.
+
+
+## Vitrine Mais Vendidos FWR — versão 0.11.0 (16/11/2026)
+
+Referência: imagens fornecidas pelo cliente em 16/11/2026, primeira imagem é **layout aprovado** (cinco produtos grandes, fundo branco, heading Produtos **Mais Vendidos**, badge oval roxo, linha fina separando preços e PIX, setas no canto inferior direito); segunda imagem é **vitrine atual** (miniaturas pequenas, badge laranja, estrelas, caixa PIX cinza e scrollbar). Esta entrega substitui **apenas a apresentação da primeira vitrine**.
+
+O componente está separado em `public/nichelle-best-sellers.js` + `public/nichelle-best-sellers.css` e concatenado no bundle JS/CSS já configurado na Loja Integrada. O preview monta `#n27-approved-best-sellers` antes da vitrine fonte. **A vitrine fonte fica no DOM e recebe `data-n27-shelf-source="1"` para ocultação visual somente quando o novo módulo já possui dados suficientes**. Nada é clonado do HTML do Groom para o novo card; a UI, o carrossel, os controles, os selos e o CSS são próprios da FWR.
+
+**Dados da plataforma:** imagens, nome do produto, URLs, preço promocional e preço anterior, parcelamento e PIX são extraídos em leitura do HTML de produtos publicado pela LI; nunca sobrescrevemos valores. Se não houver dados, o original continua visível. Selos percentuais são calculados sobre os preços atuais (arredondamento inteiro): não aplicamos o “10% OFF” genérico da imagem de referência a produtos com descontos diferentes. Sem PIX ou parcelamento no HTML de origem, essas linhas são omitidas, nunca estimadas.
+
+**Visual:** desktop ≥1200 px apresenta 5 cards, tablet 3 cards e mobile ~1,2 cards com scroll-snap. Sem Slick ou scrollbar visível, com setas próprias acessíveis, fundo branco, produtos grandes, conteúdo alinhado à esquerda e PIX sem caixas coloridas. A home continua ativada **somente em `?nichelle_preview=1`**; a loja pública é preservada.
+
+**Administração:** `integracao/NICHELLE27-VITRINE-ADMIN.html` pode ser colado em Loja Integrada > Incluir código HTML > Rodapé (ou configurar `window.Nichelle27Settings.vitrineMaisVendidos` já incluído no template de cabeçalho). Campos: `ativo`, `prefixo`, `titulo`, `exibirSelo`, `exibirPix`, `exibirParcelamento`, `maxProdutos`. JSON inline em `<script type="application/json" id="n27-vitrine-mais-vendidos-json">` também é aceito. **Os produtos e sua ordem continuam sendo administrados no painel da Loja Integrada**, não por valores hardcoded. Atualizar sem reload: `document.dispatchEvent(new Event("nichelle27:vitrine:update"))`.
+
+Nota de integração: o adaptador de dados ainda lê o HTML de produtos gerado no storefront da LI; não há uma API pública estável de produtos ligada a este preview. A UI está desacoplada do Groom, mas o contrato de dados ainda exige uma vitrine nativa existente. Para independência total de marcação HTML, será necessário um feed/API de produtos da plataforma com autorização e políticas de atualização.

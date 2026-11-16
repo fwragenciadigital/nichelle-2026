@@ -1,0 +1,36 @@
+<!-- NICHELLE IMPORTS 2026 — VITRINE MAIS VENDIDOS | ADMINISTRAÇÃO FWR
+Cole este bloco no HTML/Rodapé da Loja Integrada ou mova o objeto
+vitrineMaisVendidos para window.Nichelle27Settings no HTML/Cabeçalho.
+
+Os PRODUTOS, imagens, preços, descontos, parcelamento, PIX e links vêm da
+vitrine cadastrada na Loja Integrada. NÃO edite valores comerciais aqui.
+-->
+<script>
+window.Nichelle27Settings = window.Nichelle27Settings || {};
+window.Nichelle27Settings.vitrineMaisVendidos = {
+  ativo: true,
+  prefixo: "Produtos",
+  titulo: "Mais Vendidos",
+  exibirSelo: true,
+  exibirPix: true,
+  exibirParcelamento: true,
+  maxProdutos: 20
+};
+document.dispatchEvent(new Event("nichelle27:vitrine:update"));
+</script>
+<!-- Opcional: edite por JSON inline, sem JavaScript:
+<script type="application/json" id="n27-vitrine-mais-vendidos-json">
+{
+  "ativo": true,
+  "prefixo": "Produtos",
+  "titulo": "Mais Vendidos",
+  "exibirSelo": true,
+  "exibirPix": true,
+  "exibirParcelamento": true,
+  "maxProdutos": 20
+}
+</script>
+
+Para mudar os itens e a ordenação: utilize a vitrine "Mais vendidos"
+no painel da Loja Integrada. Este código não substitui o cadastro.
+-->
