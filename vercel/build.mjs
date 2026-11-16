@@ -59,7 +59,9 @@ const combinedJS = (await readFile(resolve("public/nichelle27.js"), "utf8")) +
   "\n\n/* Mais Vendidos FWR: cards próprios, dados reais da Loja Integrada */\n" +
   (await readFile(resolve("public/nichelle-best-sellers.js"), "utf8")) +
   "\n\n/* Marcas: logos, links e ordenação nativos da Loja Integrada */\n" +
-  (await readFile(resolve("public/nichelle-brands.js"), "utf8"));
+  (await readFile(resolve("public/nichelle-brands.js"), "utf8")) +
+  "\n\n/* Galeria Shorts FWR — 4 cards verticais, dados do JSON publicado */\n" +
+  (await readFile(resolve("public/nichelle-shorts.js"), "utf8"));
 new Script(combinedJS, { filename: "nichelle27.js" });
 await writeFile(join(target, "nichelle27.js"), combinedJS);
 const combinedCSS = (await readFile(resolve("public/nichelle27.css"), "utf8")) +
@@ -76,7 +78,9 @@ const combinedCSS = (await readFile(resolve("public/nichelle27.css"), "utf8")) +
   "\n\n/* Mais Vendidos: vitrine visual fiel à arte aprovada */\n" +
   (await readFile(resolve("public/nichelle-best-sellers.css"), "utf8")) +
   "\n\n/* Marcas FWR: cartões brancos sobre fundo lilás aprovado */\n" +
-  (await readFile(resolve("public/nichelle-brands.css"), "utf8"));
+  (await readFile(resolve("public/nichelle-brands.css"), "utf8")) +
+  "\n\n/* Cards Shorts FWR independentes do Groom */\n" +
+  (await readFile(resolve("public/nichelle-shorts.css"), "utf8"));
 await writeFile(join(target, "nichelle27.css"), combinedCSS);
 for (const file of ["galeria-videos.js", "galeria-videos.css",
   "galeria-preview.json", "galeria-publicada.json", "nichelle-vantagens.json"]) {

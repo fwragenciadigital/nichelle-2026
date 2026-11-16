@@ -60,6 +60,14 @@ window.Nichelle27Settings = {
   vitrineMarcas: {
     ativo:true, prefixo:"Compre as", titulo:"Melhores Marcas", maxMarcas:60
   },
+  // Galeria Shorts FWR. Sem URLs publicadas, renderiza apenas quatro
+  // cards demonstrativos desativados NA PRÉVIA; nenhum vídeo inventado.
+  // O JSON galeria-publicada.json segue sendo a fonte oficial do dashboard.
+  galeriaShorts: {
+    ativo:true, titulo:"", exibirPrevia:true,
+    configUrl:"https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app/galeria-publicada.json",
+    itens:[]
+  },
   promocoes: { ativo:false, titulo:"Produtos", destaque:"Promocionais",
     seletorFonte:"", seletorItem:".listagem-item" },
   newsletter: { ativo:false, seletorFormulario:"", titulo:"Novidades Nichelle", texto:"" },

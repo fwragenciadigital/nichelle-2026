@@ -167,3 +167,24 @@ As quatro fontes contêm 20 produtos reais na loja em 16/11/2026; imagens, títu
 **Marcas:** consulta ao menu da Loja Integrada encontrou 43 marcas publicadas e à vitrine de logotipos da home encontrou 5. `public/nichelle-brands.js` agora combina ambas as fontes: cinco logos prioritários no início, restantes marcas cadastradas em ordem, com fallback tipográfico para quem não tem imagem publicada. O carrossel horizontal dispõe de setas cíclicas e swipe no mobile; 43 URLs reais, nenhuma marca inventada. O campo `maxMarcas` foi ampliado para 60 por padrão.
 
 **Preview:** `?nichelle_preview=1`. O tema Groom não controla o visual ou o slider das novas vitrines; a fonte de dados ainda é o HTML público renderizado pela plataforma, um adaptador em leitura.
+
+
+## Galeria Shorts FWR na home — v0.15.0 (16/11/2026)
+
+A partir dos arquivos encaminhados pelo cliente (`html-galeria-shorts.html`, `galeria-videos.js`, `galeria-videos.css`, `galeria-publicada.json`, `galeria-preview.json`) e da referência de quatro cards 9:16, foi criado `public/nichelle-shorts.js` + `public/nichelle-shorts.css`. Entram automaticamente nas duas URLs existentes `nichelle27.js` / `nichelle27.css` pelo `vercel/build.mjs`; nada deve ser instalado duas vezes.
+
+**Localização:** `#n27-approved-shorts` é montado na home imediatamente após a seção de marcas FWR `#n27-approved-brands` e antes da vitrine de vídeo nativa. Esta última permanece no DOM e só é ocultada quando o componente novo está realmente renderizado na prévia. Se houver instalação anterior de `#fwr-nichelle-video-slot`, ela é ocultada somente nessa prévia para evitar galerias duplicadas. A loja pública sem `?nichelle_preview=1` permanece intacta.
+
+**Referência visual:** quatro cards verticais 9:16, bordas arredondadas, capa preenchendo o card, filtro escurecido e ícone play centralizado. Desktop: grade de quatro com largura até 1402px; mobile: scroll horizontal com scroll-snap e próximo card parcialmente visível. Sem cabeçalho obrigatório, como na arte enviada.
+
+**Configuração e funcionalidade:** o projeto utiliza o schema já existente `schemaVersion:1`, `project:"nichelle-2026"`, `modules.videoGallery` com `enabled`, `items`, `provider:"youtube"`, `videoUrl`, `posterUrl`, `alt`, `order` e `enabled` por item. Até quatro vídeos são aceitos, e a reprodução inicia **somente após clique**, em modal YouTube-nocookie sem autoplay na home. Escape, botão fechar, clique no fundo, bloqueio/restauração de foco e rolagem são suportados. Capas podem ser URLs HTTPS configuradas ou thumbs verticais YouTube com fallback.
+
+**Estado atual dos anexos:** tanto `galeria-publicada.json` quanto `galeria-preview.json` estão **desativados e vazios**. Portanto não existem quatro vídeos reais fornecidos; na prévia a galeria monta quatro cards demonstrativos com imagens de produtos Medicube já publicados na LI (ou gradientes como fallback), **indicados como “Vídeo em preparação” e não clicáveis**. Não são vídeos inventados. Quando o cliente preencher e publicar o JSON, os cards ficam automaticamente reproduzíveis; se forem menos de quatro vídeos, os demais lugares continuam como preparação.
+
+**Administração:** 
+- `integracao/NICHELLE27-SHORTS-ADMIN.html` contém `window.Nichelle27Settings.galeriaShorts` (ativo, titulo opcional, exibirPrevia, configUrl e itens). Edite no HTML Cabeçalho ou cole no HTML Rodapé da LI. Ao preencher `itens` com URLs reais de YouTube Shorts, esses valores têm precedência sobre o arquivo remoto.
+- Alternativa JSON inline `<script type="application/json" id="n27-galeria-shorts-json">...</script>`.
+- Método preferido a longo prazo: atualizar `galeria-publicada.json` no dashboard/Git com vídeos reais. Com a mesma URL, a loja lê o JSON sem atualização do HTML (conforme políticas de CORS e cache).
+- Após alterações de código inline em uma página já aberta, emitir `document.dispatchEvent(new Event("nichelle27:shorts:update"))`. Recarregamento também funciona.
+
+**Limites:** vídeos precisam de URLs oficiais HTTPS do YouTube; não afirmar que os quatro vídeos da screenshot estão cadastrados, porque os anexos contêm zero itens. A página pública mantém a vitrine de vídeo anterior enquanto a versão FWR não for publicada.

@@ -1,0 +1,74 @@
+<!--
+NICHELLE IMPORTS | GALERIA SHORTS FWR — ADMINISTRAÇÃO
+Cole em Loja Integrada > Incluir código HTML > Rodapé,
+ou edite galeriaShorts no window.Nichelle27Settings do Cabeçalho.
+
+IMPORTANTE
+- NÃO adicione novamente galeria-videos.js / galeria-videos.css:
+  o nichelle27.js e nichelle27.css já incluem o componente atualizado.
+- NÃO adicione outra div #fwr-nichelle-video-slot na home reformulada.
+- Os dois JSON enviados pelo cliente estão DESATIVADOS e SEM VÍDEOS.
+- Se os itens abaixo permanecerem vazios, 4 cards demonstrativos
+  aparecem apenas em ?nichelle_preview=1, sem reprodução.
+-->
+
+<script>
+window.Nichelle27Settings = window.Nichelle27Settings || {};
+window.Nichelle27Settings.galeriaShorts = {
+  ativo: true,
+
+  // Deixe vazio para manter o visual aprovado, sem título.
+  titulo: "",
+
+  // Mostrar os 4 cards ilustrativos até publicar vídeos reais.
+  // false = não exibir a galeria enquanto não houver URLs.
+  exibirPrevia: true,
+
+  // Configuração oficial (dashboard FWR / Vercel):
+  configUrl: "https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app/galeria-publicada.json",
+
+  // Se preferir administrar a partir deste HTML, preencha itens:
+  // { videoUrl: "https://www.youtube.com/shorts/SEU_ID_REAL",
+  //   posterUrl: "https://SUA-IMAGEM-PUBLICADA.jpg",
+  //   alt: "Descrição do vídeo" }
+  //
+  // Apenas URLs reais de YouTube Shorts ou youtube.com/watch.
+  // Capas HTTPS opcionais; sem capa, usamos a miniatura do YouTube.
+  // Se adicionar itens válidos aqui, eles têm prioridade sobre o JSON.
+  itens: []
+};
+document.dispatchEvent(new Event("nichelle27:shorts:update"));
+</script>
+
+<!--
+ALTERNATIVA VIA JSON INLINE NO PAINEL (SEM O SCRIPT JS ACIMA):
+
+<script type="application/json" id="n27-galeria-shorts-json">
+{
+  "ativo": true,
+  "titulo": "",
+  "exibirPrevia": true,
+  "configUrl": "https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app/galeria-publicada.json",
+  "itens": []
+}
+</script>
+
+DASHBOARD: public/galeria-publicada.json continua usando o schema original:
+{
+  "schemaVersion": 1,
+  "project": "nichelle-2026",
+  "modules": {
+    "videoGallery": {
+      "enabled": false,
+      "placement": "after-brands",
+      "mobileMode": "scroll-snap",
+      "openMode": "modal",
+      "items": []
+    }
+  }
+}
+Para ativar, altere enabled=true e registre até 4 itens com:
+id (único), order (1..4), enabled=true, provider="youtube",
+videoUrl, posterUrl (opcional), alt.
+Não publique IDs ou vídeos de demonstração como se fossem reais.
+-->

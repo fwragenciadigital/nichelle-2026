@@ -129,6 +129,7 @@
     const launches = one(".vitrine-lancamento", stage);
     const featuredBrands = one("#n27-approved-brands", stage);
     const brands = one(".vitrine-marcas", stage);
+    const featuredShorts = one("#n27-approved-shorts", stage);
     const videos = one(".vitrine-video", stage);
     const featuredPromo = one("#n27-approved-highlights", stage);
     const promo = one(".vitrine-destaque", stage);
@@ -137,7 +138,7 @@
     // A imagem do projeto é a especificação visual, não uma página com
     // componentes HTML. Cada seção real é montada com os nós LI existentes.
     const order = [hero, benefits, featured, best, category, featuredLaunches, launches,
-      featuredBrands, brands, videos, featuredPromo, promo, editorial,
+      featuredBrands, brands, featuredShorts, videos, featuredPromo, promo, editorial,
       featuredExtra, extra, newsletter, social].filter(Boolean);
     // A home executa retries em load e depois do DOMContentLoaded.
     // Reanexar a vitrine FWR a cada retry zera o scrollLeft do carrossel
