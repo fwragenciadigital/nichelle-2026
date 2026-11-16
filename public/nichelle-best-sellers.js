@@ -245,6 +245,8 @@
     }
     rail.dataset.n27Infinite=loop?"1":"0";
     rail.dataset.n27Ready="0";
+    // Do not infer index from tail clones before initial alignment.
+    rail.dataset.n27Index="0";
 
     const step=()=>{
       const cards=rail.querySelectorAll(":scope > .n27-best-card");
@@ -272,7 +274,7 @@
       return modulo(Math.round(rail.scrollLeft/Math.max(1,step()))-edge,total);
     }
     function normalize() {
-      if(resizing || !total)return;
+      if(resizing || !total || rail.dataset.n27Ready!=="1")return;
       const s=step();
       let shifted=0;
       if(loop) {
@@ -318,7 +320,7 @@
     const onResize=()=>{
       if(!shelf.isConnected)return;
       const saved=Number(rail.dataset.n27Index);
-      const index=Number.isInteger(saved)?modulo(saved,total):currentIndex();
+      const index=Number.isInteger(saved)?modulo(saved,total):0;
       resizing=true;
       window.requestAnimationFrame(()=>{
         instant((edge+index)*step());
