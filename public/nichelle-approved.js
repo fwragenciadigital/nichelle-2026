@@ -1,0 +1,165 @@
+/*
+ * Nichelle Imports 2026 - Home homologada, base no mockup FWR de 20/10/2026.
+ * Somente prévia, sem substituir recursos de comércio nativos da Loja Integrada.
+ */
+(function () {
+  "use strict";
+  const HOST = "https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app";
+  const CDN = "https://cdn.awsli.com.br/2550/2550587/arquivos/";
+  if (!/^(www\.)?nichelleimports\.com\.br$/.test(location.hostname) ||
+      location.pathname.replace(/\/+$/, "") !== "" ||
+      new URLSearchParams(location.search).get("nichelle_preview") !== "1") return;
+  function allowed() {
+    const s = window.Nichelle27Settings;
+    return !!(s && s.geral && s.geral.ativo === true &&
+      s.geral.modoPreview === true && s.geral.publicarNaLoja !== true);
+  }
+  function one(s, root) { return (root || document).querySelector(s); }
+  function node(tag, cls, txt) {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (txt) e.textContent = txt;
+    return e;
+  }
+  function img(src, alt, width, height) {
+    const i = node("img");
+    i.src = src;
+    i.alt = alt;
+    i.width = width;
+    i.height = height;
+    i.loading = "lazy";
+    i.decoding = "async";
+    return i;
+  }
+  function make(id, cls) {
+    const n = document.createElement("section");
+    n.id = id;
+    n.className = "n27-approved " + cls;
+    return n;
+  }
+  function enter(stage) {
+    if (!allowed() || !stage || !one(".vitrine-mas-vendido", stage)) return;
+    const originalBanner = one(".secao-banners", stage);
+    let hero = document.getElementById("n27-approved-hero");
+    if (!hero) {
+      hero = make("n27-approved-hero", "n27-approved-hero");
+      const image = img(HOST + "/assets/hero-medicube.webp",
+        "Medicube: linha completa de produtos de skincare", 1600, 545);
+      image.loading = "eager";
+      image.fetchPriority = "high";
+      hero.appendChild(image);
+      const mobile = node("div", "n27-approved-hero__mobile");
+      mobile.append(node("span", "", "LINHA COMPLETA DE PRODUTOS"),
+        node("strong", "", "medicube+"));
+      hero.appendChild(mobile);
+    }
+    let benefits = document.getElementById("n27-approved-benefits");
+    if (!benefits) benefits = make("n27-approved-benefits", "n27-approved-benefits");
+    const originalAdvantages = originalBanner && one(".banners-vantagens", originalBanner);
+    if (originalAdvantages && originalAdvantages.parentNode !== benefits) {
+      benefits.appendChild(originalAdvantages);
+    }
+    if (!benefits.children.length) {
+      benefits.appendChild(node("div", "n27-approved-benefits__label", "Nossas vantagens"));
+    }
+    let category = document.getElementById("n27-approved-categories");
+    if (!category) {
+      category = make("n27-approved-categories", "n27-approved-categories");
+      const frame = node("div", "n27-approved-container n27-approved-categories__grid");
+      [
+        ["mini-1.webp", "Peles sensíveis ou irritadas"],
+        ["mini-2.webp", "Hidratação profunda"],
+        ["mini-3.webp", "Controle de oleosidade e acne"],
+        ["mini-4.webp", "Clareamento de manchas escuras"]
+      ].forEach(function (item) {
+        const art = node("div", "n27-approved-category");
+        art.appendChild(img(HOST + "/assets/" + item[0], item[1], 405, 710));
+        frame.appendChild(art);
+      });
+      category.appendChild(frame);
+    }
+    let editorial = document.getElementById("n27-approved-editorial");
+    if (!editorial) {
+      editorial = make("n27-approved-editorial", "n27-approved-editorial");
+      const row = node("div", "n27-approved-container n27-approved-editorial__grid");
+      const portrait = node("div", "n27-approved-editorial__portrait");
+      portrait.appendChild(img(CDN + "coreana.jpg",
+        "Modelo aplicando cuidados de skincare", 970, 648));
+      const text = node("div", "n27-approved-editorial__text");
+      text.appendChild(node("span", "n27-approved-eyebrow", "BELEZA, CUIDADO E INOVAÇÃO"));
+      text.appendChild(node("h2", "", "Sua rotina de skincare começa aqui"));
+      text.appendChild(node("p", "", "Explore produtos selecionados das marcas de cuidados com a pele disponíveis na Nichelle."));
+      text.appendChild(img(CDN + "coreana1.jpg",
+        "Produtos de skincare coreano Medicube", 380, 279));
+      row.append(portrait, text);
+      editorial.appendChild(row);
+    }
+    let newsletter = document.getElementById("n27-approved-newsletter");
+    if (!newsletter) {
+      newsletter = make("n27-approved-newsletter", "n27-approved-newsletter");
+      const wrap = node("div", "n27-approved-container");
+      const native = document.getElementById("barraNewsletter");
+      if (native) {
+        native.classList.remove("hidden-phone");
+        wrap.appendChild(native);
+      }
+      newsletter.appendChild(wrap);
+    }
+    let social = document.getElementById("n27-approved-instagram");
+    if (!social) {
+      social = make("n27-approved-instagram", "n27-approved-instagram");
+      const container = node("div", "n27-approved-container");
+      const heading = node("div", "n27-approved-section-title");
+      heading.appendChild(node("h2", "", "Acompanhe a Nichelle"));
+      const grid = node("div", "n27-approved-instagram__grid");
+      grid.appendChild(node("div", "n27-approved-instagram__brand", "Nichelle Imports"));
+      const nativeImages = Array.from(document.querySelectorAll(".listagem-item .imagem-produto img")).slice(0, 28);
+      let used = 0;
+      for (const image of nativeImages) {
+        if (used === 4) break;
+        const src = image.currentSrc || image.src;
+        if (!src || !/^https:\/\//.test(src)) continue;
+        const link = image.closest(".listagem-item")?.querySelector("a[href]");
+        const wrapper = node("a", "n27-approved-instagram__tile");
+        wrapper.href = link?.href || "/";
+        wrapper.appendChild(img(src, image.alt || "Produto Nichelle", 300, 300));
+        grid.appendChild(wrapper);
+        used++;
+      }
+      container.append(heading, grid);
+      social.appendChild(container);
+    }
+    const best = one(".vitrine-mas-vendido", stage);
+    const launches = one(".vitrine-lancamento", stage);
+    const brands = one(".vitrine-marcas", stage);
+    const videos = one(".vitrine-video", stage);
+    const promo = one(".vitrine-destaque", stage);
+    const extra = one(".vitrine-18709305", stage);
+    // A imagem do projeto é a especificação visual, não uma página com
+    // componentes HTML. Cada seção real é montada com os nós LI existentes.
+    const order = [hero, benefits, best, category, launches, brands,
+      videos, promo, editorial, extra, newsletter, social].filter(Boolean);
+    order.forEach(function (section) { stage.appendChild(section); });
+    const footer = document.getElementById("rodape");
+    if (footer && !document.getElementById("n27-approved-footer-band")) {
+      const band = node("div", "n27-approved-footer-band");
+      band.id = "n27-approved-footer-band";
+      const inner = node("div", "n27-approved-container n27-approved-footer-band__inner");
+      inner.appendChild(img(CDN + "logo-footer.png", "Nichelle Imports", 323, 78));
+      inner.appendChild(node("p", "", "Beleza, skincare e marcas para você descobrir."));
+      band.appendChild(inner);
+      footer.insertBefore(band, footer.firstChild);
+    }
+    document.documentElement.dataset.n27Approved = "1";
+  }
+  function mount() {
+    const stage = document.getElementById("n27-preview-stage");
+    if (stage && allowed()) enter(stage);
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", mount, { once:true });
+  } else mount();
+  window.addEventListener("load", mount, { once:true });
+  [350, 1100, 2300, 4250].forEach(function (delay) { window.setTimeout(mount, delay); });
+  document.addEventListener("nichelle27:refresh", mount);
+})();

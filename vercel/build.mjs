@@ -47,20 +47,30 @@ const isolationJS = await readFile(resolve("public/nichelle-isolation.js"), "utf
 new Script(isolationJS, { filename: "nichelle-isolation.js" });
 const combinedJS = (await readFile(resolve("public/nichelle27.js"), "utf8")) +
   "\n\n/* Runtime FWR legado integrado ao bundle Nichelle27 */\n" + legacyRuntime +
-  "\n\n/* Isolamento visual exclusivo da home em preview */\n" + isolationJS;
+  "\n\n/* Isolamento visual exclusivo da home em preview */\n" + isolationJS +
+  "\n\n/* Reconstrução da home a partir da arte aprovada */\n" +
+  (await readFile(resolve("public/nichelle-approved.js"), "utf8"));
 new Script(combinedJS, { filename: "nichelle27.js" });
 await writeFile(join(target, "nichelle27.js"), combinedJS);
 const combinedCSS = (await readFile(resolve("public/nichelle27.css"), "utf8")) +
   "\n\n/* Módulos FWR existentes: banners, notícias, vídeos */\n" +
   (await readFile(resolve("public/nichelle.css"), "utf8")) +
   "\n\n/* Neutralização visual do tema ativo (somente preview) */\n" +
-  (await readFile(resolve("public/nichelle-isolation.css"), "utf8"));
+  (await readFile(resolve("public/nichelle-isolation.css"), "utf8")) +
+  "\n\n/* Reconstrução visual da home aprovada */\n" +
+  (await readFile(resolve("public/nichelle-approved.css"), "utf8"));
 await writeFile(join(target, "nichelle27.css"), combinedCSS);
 for (const file of ["galeria-videos.js", "galeria-videos.css",
   "galeria-preview.json", "galeria-publicada.json"]) {
   await copyFile(resolve("public", file), join(target, file));
 }
-console.log("Nichelle27: bundle JS/CSS + 4 arquivos de galeria publicados.");
+// Artes editoriais produzidas a partir do mockup aprovado do cliente.
+const assetNames = ["hero-medicube.webp","mini-1.webp","mini-2.webp","mini-3.webp","mini-4.webp"];
+await mkdir(join(target, "assets"), { recursive: true });
+for (const name of assetNames) {
+  await copyFile(resolve("public", "assets", name), join(target, "assets", name));
+}
+console.log("Nichelle27: JS/CSS integrados + " + assetNames.length + " artes de preview + arquivos de galeria.");
 await writeFile(join(target, "index.html"),
   '<!doctype html><html lang="pt-BR"><meta charset="utf-8"><title>Nichelle 2026 — Assets</title>' +
   '<body><p>Nichelle 2026 · scripts e estilos versionados individualmente.</p></body></html>\n');

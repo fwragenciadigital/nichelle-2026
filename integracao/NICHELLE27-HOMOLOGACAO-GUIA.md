@@ -53,3 +53,19 @@ A home continua usando hero, benefícios, vitrines, marcas e newsletter **nativa
 - Não interrompe nem remove os scripts originais do tema: a neutralização é visual. O único caminho para desinstalar o tema real é pelo painel.
 - Na última revisão prévia, as quatro artes mini1.webp a mini4.webp retornavam 404. A seção dessas artes permanece oculta até disponibilizá-las; o hero principal continua sendo o banner cadastrado no painel da LI.
 - Para depurar, execute `Nichelle27Framework.diagnostico()` no console e confira `isolamentoVisual:true` em preview e `false` na loja normal.
+
+
+## V0.8.0 — Reconstrução visual da home em 16/11/2026
+
+O layout aprovado disponibilizado em https://projetos.fwragenciadigital.com.br/nichelle/2026/index1.html é **uma imagem JPEG de 2549×8550 px aplicada como background**, mais uma pequena régua PNG. Não contém componentes HTML de loja interativos. Foi usada como referência de composição, e NÃO publicada como uma página de imagem única.
+
+- Hero rosa Medicube (corte otimizado da arte aprovada), substituindo visualmente o banner verde apenas na prévia.
+- Régua de vantagens reutiliza os textos nativos da loja.
+- Vitrine Mais vendidos restaurada com produtos reais.
+- Quatro artes verticais otimizadas do layout aprovado, hospedadas na Vercel, sem dependência dos `mini1.webp` a `mini4.webp` da CDN LI que retornavam 404.
+- Vitrine Lançamentos; marcas; vídeo nativo; produtos em destaque; editorial skincare usando as imagens `coreana.jpg` e `coreana1.jpg` do CDN LI.
+- Newsletter nativa reposicionada, Instagram com produtos reais como amostra visual e rodapé lavanda com imagem Medicube nativa.
+- O bloco com quatro vídeos verticais da referência não pode ser reconstruído fielmente sem os vídeos aprovados: o JSON `galeria-publicada.json` indica `enabled:false, items:[]`.
+- As peças do Instagram do layout estático não foram fornecidas separadamente; a prévia apresenta fotos reais de produtos como substituto provisório.
+- Apenas ativa com `?nichelle_preview=1`; não remove a instalação Groom nem altera checkout.
+- Pendências para homologação final: vídeos e posts reais, conteúdo institucional, URLs definitivas dos banners, CSS pixel-perfect em mobile/desktop.
