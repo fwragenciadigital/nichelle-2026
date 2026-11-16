@@ -168,18 +168,22 @@
       const data=await response.json();
       if (!data || typeof data !== "object" || Array.isArray(data)) throw Error("Formato JSON inválido");
       if (!active() || getSettings().configUrl !== url) return;
+      externalCache={url,data};
       mountConfig(normalize(data));
     } catch (error) {
       console.warn("[Nichelle Vantagens] JSON externo indisponível. Mantendo configuração do painel.",error);
     }
   }
-  let queued=false, requested="";
+  let queued=false, requested="", externalCache=null;
   function mount() {
     if (!active()) return;
-    const cfg=normalize(getSettings());
+    const admin=getSettings();
+    const url=safeString(admin.configUrl,500);
+    const cfg=normalize(externalCache && externalCache.url===url ? externalCache.data : admin);
     mountConfig(cfg);
-    if (cfg.configUrl && requested !== cfg.configUrl) {
-      requested=cfg.configUrl;loadExternal(cfg.configUrl);
+    if (url && requested !== url) {
+      requested=url;
+      loadExternal(url);
     }
   }
   function scheduleMount() {
@@ -193,6 +197,6 @@
   else mount();
   window.addEventListener("load",mount,{once:true});
   [250,850,2200].forEach(delay=>window.setTimeout(mount,delay));
-  document.addEventListener("nichelle27:vantagens:update",function(){requested="";scheduleMount();});
+  document.addEventListener("nichelle27:vantagens:update",function(){requested="";externalCache=null;scheduleMount();});
   window.NichelleHomeBenefits={version:"1.0.0",refresh:scheduleMount,icons:Object.keys(ALLOWED_ICONS)};
 })();
