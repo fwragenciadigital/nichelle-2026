@@ -244,18 +244,18 @@
     const items = data.map(function (item) {
       if (!item) return null;
       const imagem = imageURL(item.imagem), link = safeURL(item.link);
-      return imagem && link ? { imagem, link, alt: String(item.alt || "Nichelle Imports").slice(0, 130) } : null;
+      return imagem ? { imagem, link, alt: String(item.alt || "Nichelle Imports").slice(0, 130) } : null;
     }).filter(Boolean);
     if (items.length !== 4) {
-      log("Mini banners aguardam quatro artes e quatro links válidos da loja.");
+      log("Mini banners aguardam as quatro artes da Nichelle na CDN.");
       return null;
     }
     const outer = section("banners"), frame = container();
     const grid = el("div", "n27-mini-grid");
     grid.setAttribute("aria-label", "Coleções e cuidados em destaque");
     items.forEach(function (item) {
-      const a = el("a", "n27-mini-card");
-      a.href = item.link;
+      const a = el(item.link ? "a" : "div", "n27-mini-card");
+      if (item.link) a.href = item.link;
       const img = el("img");
       img.src = item.imagem; img.alt = item.alt;
       img.loading = "lazy"; img.decoding = "async";
@@ -416,6 +416,9 @@
       return { ativo: true, adaptador: true, layout: false, montados: Array.from(mounted) };
     }
 
+    // Skin visual aplica estilos apenas depois do gate opt-in; sem a URL
+    // de teste e sem a flag publicarNaLoja, o site permanece inalterado.
+    if (enabled(cfg.visual)) document.documentElement.dataset.n27Theme = "1";
     mountTopo();
     nativeSkin(cfg.rodape, "data-n27-footer");
 

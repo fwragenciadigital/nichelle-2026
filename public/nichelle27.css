@@ -163,3 +163,27 @@
 @media(prefers-reduced-motion:reduce){
   .n27-mini-card img,[data-n27-topo][data-n27-sticky="1"]{transition:none}
 }
+
+/* Camada de identidade no DOM NATIVO da Loja Integrada.
+   Só é ativada com data-n27-theme=1 após passar pelo gate de homologação.
+   Não muda a estrutura, handlers, botões de compra, preços, menus ou checkout. */
+html[data-n27-theme="1"]{--nichelle-brand:#8300aa;--nichelle-brand-soft:#f0eaf3}
+html[data-n27-theme="1"] #cabecalho{background:#fff}
+html[data-n27-theme="1"] .menu-desktop .menu{background:var(--nichelle-brand)}
+html[data-n27-theme="1"] .menu-desktop .nivel-um > li > a{color:#fff}
+html[data-n27-theme="1"] .secao-banners img{max-width:100%;height:auto}
+html[data-n27-theme="1"] .banners-vantagens{background:#f8f5f9}
+html[data-n27-theme="1"] .vitrine-produtos .titulo-categoria,
+html[data-n27-theme="1"] .vitrine-produtos h2.titulo{color:var(--nichelle-brand)}
+html[data-n27-theme="1"] .vitrine-produtos .listagem-item{
+  border-radius:14px;transition:box-shadow .2s ease;
+}
+html[data-n27-theme="1"] .vitrine-produtos .listagem-item:hover{box-shadow:0 8px 28px #45005b12}
+html[data-n27-theme="1"] .vitrine-marcas .marcas img{object-fit:contain}
+html[data-n27-theme="1"] #barraNewsletter{
+  background:linear-gradient(120deg,#650079 0%,#a336bd 50%,#8300aa 100%);
+}
+html[data-n27-theme="1"] #rodape{background:#f0eaf3}
+@media(prefers-reduced-motion:reduce){
+  html[data-n27-theme="1"] .vitrine-produtos .listagem-item{transition:none}
+}
