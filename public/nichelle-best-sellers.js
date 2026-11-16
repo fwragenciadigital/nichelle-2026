@@ -1,5 +1,5 @@
 /*
- * FWR • Nichelle Imports 2026 • Mais Vendidos v1.0
+ * FWR • Nichelle Imports 2026 • Mais Vendidos v1.1
  *
  * Component visuals and events are FWR-owned. Product facts are sourced
  * read-only from Loja Integrada's existing product-list HTML, not from
@@ -16,7 +16,7 @@
 
   const SOURCE = ".vitrine-produtos.vitrine-mas-vendido";
   const ID = "n27-approved-best-sellers";
-  let observer = null, pending = false, previousKey = "", lastSource = null, buttonsBound = false;
+  let observer = null, pending = false, previousKey = "", lastSource = null;
 
   function enabled() {
     const s = window.Nichelle27Settings;
@@ -72,7 +72,8 @@
       exibirSelo:s.exibirSelo !== false,
       exibirPix:s.exibirPix !== false,
       exibirParcelamento:s.exibirParcelamento !== false,
-      maxProdutos:Math.min(30,Math.max(1,Number(s.maxProdutos) || 20))
+      maxProdutos:Math.min(30,Math.max(1,Number(s.maxProdutos) || 20)),
+      loopInfinito:s.loopInfinito !== false
     };
   }
   function extractItem(source) {
@@ -162,8 +163,10 @@
     title.href=product.href;
     info.appendChild(title);
     const price=el("div","n27-best-card__price");
-    if (product.oldPrice !== null) price.appendChild(el("del","n27-best-card__old-price",brl(product.oldPrice)));
-    price.appendChild(el("strong","n27-best-card__current-price",brl(product.current)));
+    const priceRow=el("div","n27-best-card__price-row");
+    if (product.oldPrice !== null) priceRow.appendChild(el("del","n27-best-card__old-price",brl(product.oldPrice)));
+    priceRow.appendChild(el("strong","n27-best-card__current-price",brl(product.current)));
+    price.appendChild(priceRow);
     if(cfg.exibirParcelamento && product.installment){
       const sub=el("span","n27-best-card__installments");
       sub.appendChild(document.createTextNode("até "));
@@ -206,29 +209,132 @@
     svg.appendChild(path);button.appendChild(svg);
     return button;
   }
-  function setupNavigation(shelf, rail) {
+  /**
+   * Circular snap rail. We clone only 6 edge cards, never a whole 20-item
+   * collection: 6 tail + N real cards + 6 head. Once the first/last
+   * clone settles, jump by exactly one set width with snapping disabled.
+   * No visual jump, no empty gap and no dependency on Slick/Groom.
+   */
+  function setupNavigation(shelf, rail, cfg) {
     const prev=shelf.querySelector(".n27-best-shelf__arrow--prev");
     const next=shelf.querySelector(".n27-best-shelf__arrow--next");
-    if(!prev||!next)return;
-    function refresh(){
-      const max=rail.scrollWidth-rail.clientWidth;
-      prev.disabled=rail.scrollLeft<=1;
-      next.disabled=rail.scrollLeft>=max-1;
-      const controls=shelf.querySelector(".n27-best-shelf__controls");
-      if(controls) controls.hidden=max<=2;
+    const controls=shelf.querySelector(".n27-best-shelf__controls");
+    const original=[...rail.querySelectorAll(":scope > .n27-best-card")];
+    const total=original.length;
+    const loop=cfg.loopInfinito && total>1;
+    const edge=loop ? Math.min(6,total) : 0;
+    if (controls) controls.hidden=total<=1;
+
+    function duplicate(card) {
+      const copy=card.cloneNode(true);
+      copy.dataset.n27Clone="1";
+      copy.setAttribute("aria-hidden","true");
+      copy.querySelectorAll("a,button,input,[tabindex]").forEach(control=>{
+        control.setAttribute("tabindex","-1");
+      });
+      copy.querySelectorAll("img").forEach(image=>{image.loading="lazy";});
+      return copy;
     }
-    const step=()=> {
-      const card=rail.querySelector(".n27-best-card");
-      const styles=getComputedStyle(rail);
-      return (card?.getBoundingClientRect().width||240)+
-        (parseFloat(styles.columnGap)||0);
+    if(loop) {
+      original.slice(-edge).forEach(card=>{
+        rail.insertBefore(duplicate(card),original[0]);
+      });
+      original.slice(0,edge).forEach(card=>{
+        rail.appendChild(duplicate(card));
+      });
+    }
+    rail.dataset.n27Infinite=loop?"1":"0";
+    rail.dataset.n27Ready="0";
+
+    const step=()=>{
+      const cards=rail.querySelectorAll(":scope > .n27-best-card");
+      if(cards.length>1){
+        const delta=cards[1].getBoundingClientRect().left-cards[0].getBoundingClientRect().left;
+        if(delta>0)return delta;
+      }
+      return (cards[0]?.getBoundingClientRect().width||260) +
+        (parseFloat(getComputedStyle(rail).columnGap)||0);
     };
-    prev.addEventListener("click",()=>rail.scrollBy({left:-step(),behavior:"smooth"}));
-    next.addEventListener("click",()=>rail.scrollBy({left:step(),behavior:"smooth"}));
-    rail.addEventListener("scroll",refresh,{passive:true});
-    window.addEventListener("resize",refresh,{passive:true});
-    window.requestAnimationFrame(refresh);
+    const prefersReduced=()=>window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const modulo=(value,size)=>((value%size)+size)%size;
+    let scrollTimer=0, resizing=false;
+
+    function instant(position) {
+      rail.classList.add("n27-best-shelf__rail--rebase");
+      rail.scrollLeft=Math.max(0,position);
+      // Await the next paint before re-enabling smooth snap.
+      window.requestAnimationFrame(()=>{
+        rail.classList.remove("n27-best-shelf__rail--rebase");
+        rail.dataset.n27Ready="1";
+      });
+    }
+    function currentIndex() {
+      return modulo(Math.round(rail.scrollLeft/Math.max(1,step()))-edge,total);
+    }
+    function normalize() {
+      if(resizing || !total)return;
+      const s=step();
+      let shifted=0;
+      if(loop) {
+        const logical=rail.scrollLeft/s-edge;
+        // Only jump after snapping to a clone, not while the
+        // last original card is still partly visible.
+        if(logical < -.5) shifted=total*s;
+        else if(logical >= total-.5) shifted=-total*s;
+      }
+      if(shifted) instant(rail.scrollLeft+shifted);
+      rail.dataset.n27Index=String(currentIndex());
+      if(!loop) {
+        prev.disabled=rail.scrollLeft<=1;
+        next.disabled=rail.scrollLeft>=rail.scrollWidth-rail.clientWidth-1;
+      } else {
+        prev.disabled=false;
+        next.disabled=false;
+      }
+    }
+    function go(direction) {
+      if(total<=1)return;
+      // If a user clicks repeatedly, let the native smooth scroller
+      // calculate relative to its present position. No disabled edge.
+      rail.scrollBy({left:direction*step(),
+        behavior:prefersReduced()?"auto":"smooth"});
+      window.clearTimeout(scrollTimer);
+      scrollTimer=window.setTimeout(normalize,360);
+    }
+    prev.addEventListener("click",()=>go(-1));
+    next.addEventListener("click",()=>go(1));
+    rail.addEventListener("keydown",event=>{
+      if(event.key==="ArrowRight" || event.key==="ArrowLeft") {
+        event.preventDefault();go(event.key==="ArrowRight"?1:-1);
+      }
+    });
+    rail.addEventListener("scroll",()=>{
+      window.clearTimeout(scrollTimer);
+      scrollTimer=window.setTimeout(normalize,170);
+    },{passive:true});
+    if("onscrollend" in rail)rail.addEventListener("scrollend",()=>{
+      window.clearTimeout(scrollTimer);normalize();
+    });
+    const onResize=()=>{
+      if(!shelf.isConnected)return;
+      const index=currentIndex();
+      resizing=true;
+      window.requestAnimationFrame(()=>{
+        instant((edge+index)*step());
+        resizing=false;
+        normalize();
+      });
+    };
+    window.addEventListener("resize",onResize,{passive:true});
+    // Show only after the real first card (not the tail clones) is aligned.
+    window.requestAnimationFrame(()=>{
+      instant(edge*step());
+      rail.dataset.n27Index="0";
+      normalize();
+    });
+    shelf.dataset.n27Loop=loop?"infinite":"finite";
   }
+
   function render(source,products,cfg) {
     const stage=document.getElementById("n27-preview-stage");
     if(!stage||source.parentNode!==stage)return;
@@ -270,7 +376,7 @@
     source.dataset.n27ShelfSource="1";
     document.documentElement.dataset.n27BestShelf="1";
     previousKey=dataKey;
-    setupNavigation(fresh,rail);
+    setupNavigation(fresh,rail,cfg);
   }
   function schedule(){
     if(pending)return;
@@ -300,5 +406,5 @@
   [250,750,1900,4000].forEach(t=>setTimeout(mount,t));
   document.addEventListener("nichelle27:refresh",schedule);
   document.addEventListener("nichelle27:vitrine:update",()=>{previousKey="";schedule();});
-  window.NichelleBestSellers={version:"1.0.0",refresh:schedule};
+  window.NichelleBestSellers={version:"1.1.0",refresh:schedule};
 })();

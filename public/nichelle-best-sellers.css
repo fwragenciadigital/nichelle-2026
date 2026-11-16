@@ -1,5 +1,5 @@
 /*
- * FWR • Nichelle Imports approved product showcase v1.0
+ * FWR • Nichelle Imports approved product showcase v1.1
  * Own cards/navigation. No Groom cards or Slick dependencies.
  * Ref: mockup "Produtos Mais Vendidos", 5 desktop cards.
  */
@@ -124,8 +124,8 @@ html[data-n27-best-shelf="1"] #n27-approved-best-sellers .n27-best-card__media {
   justify-content:center!important;
   position:relative!important;
   width:100%!important;
-  height:285px!important;
-  min-height:285px!important;
+  height:365px!important;
+  min-height:365px!important;
   padding:18px 8px 12px!important;
   margin:0!important;
   background:#fff!important;
@@ -145,13 +145,13 @@ html[data-n27-best-shelf="1"] #n27-approved-best-sellers .n27-best-card__media i
   margin:0!important;
   padding:0!important;
   border:0!important;
-  transform:scale(1.12)!important;
+  transform:scale(1.19)!important;
   transition:transform .23s ease!important;
   background:transparent!important;
 }
 @media (hover:hover) {
   html[data-n27-best-shelf="1"] #n27-approved-best-sellers .n27-best-card__media:hover img {
-    transform:scale(1.18)!important;
+    transform:scale(1.23)!important;
   }
 }
 html[data-n27-best-shelf="1"] #n27-approved-best-sellers .n27-best-card__badge {
@@ -344,7 +344,7 @@ html[data-n27-best-shelf="1"] #n27-approved-best-sellers :is(a,button,[tabindex]
     flex-basis:calc((100% - 48px)/3)!important;
   }
   html[data-n27-best-shelf="1"] #n27-approved-best-sellers .n27-best-card__media {
-    height:260px!important;min-height:260px!important;
+    height:318px!important;min-height:318px!important;
   }
 }
 @media (max-width:767px) {
@@ -367,7 +367,7 @@ html[data-n27-best-shelf="1"] #n27-approved-best-sellers :is(a,button,[tabindex]
     flex:0 0 min(74vw,268px)!important;
   }
   html[data-n27-best-shelf="1"] #n27-approved-best-sellers .n27-best-card__media {
-    height:265px!important;min-height:265px!important;
+    height:283px!important;min-height:283px!important;
   }
   html[data-n27-best-shelf="1"] #n27-approved-best-sellers .n27-best-card__title {
     font-size:13px!important;
@@ -386,4 +386,56 @@ html[data-n27-best-shelf="1"] #n27-approved-best-sellers :is(a,button,[tabindex]
   html[data-n27-best-shelf="1"] #n27-approved-best-sellers .n27-best-card__media img {
     transition:none!important;
   }
+}
+
+
+/* Preload the scroll position to the real first card, never display clones
+   while the rail is being initialized/rebased. No layout shift. */
+html[data-n27-best-shelf="1"] #n27-approved-best-sellers
+.n27-best-shelf__rail[data-n27-ready="0"] {
+  visibility:hidden!important;
+}
+html[data-n27-best-shelf="1"] #n27-approved-best-sellers
+.n27-best-shelf__rail.n27-best-shelf__rail--rebase {
+  scroll-behavior:auto!important;
+  scroll-snap-type:none!important;
+}
+html[data-n27-best-shelf="1"] #n27-approved-best-sellers
+.n27-best-card[data-n27-clone="1"] {
+  /* Edge duplicates are visual only; source product URLs remain intact. */
+  pointer-events:none!important;
+}
+/* Mockup approved: original (struck out) and current price share one row;
+   installment/payment terms remain underneath. */
+html[data-n27-best-shelf="1"] #n27-approved-best-sellers .n27-best-card__price-row {
+  display:flex!important;
+  flex-flow:row wrap!important;
+  justify-content:flex-start!important;
+  align-items:baseline!important;
+  gap:3px 6px!important;
+  min-height:28px!important;
+  width:100%!important;
+  margin:0!important;
+  padding:0!important;
+  white-space:normal!important;
+}
+html[data-n27-best-shelf="1"] #n27-approved-best-sellers .n27-best-card__old-price {
+  display:inline!important;
+  flex:0 0 auto!important;
+  font-size:11px!important;
+  line-height:1.2!important;
+}
+html[data-n27-best-shelf="1"] #n27-approved-best-sellers .n27-best-card__current-price {
+  display:inline!important;
+  flex:0 1 auto!important;
+  font-size:clamp(18px,1.35vw,23px)!important;
+  line-height:1.16!important;
+}
+@media(max-width:767px){
+ html[data-n27-best-shelf="1"] #n27-approved-best-sellers .n27-best-card__price-row {
+    min-height:26px!important;
+ }
+ html[data-n27-best-shelf="1"] #n27-approved-best-sellers .n27-best-card__current-price {
+    font-size:21px!important;
+ }
 }
