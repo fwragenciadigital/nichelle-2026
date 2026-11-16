@@ -30,3 +30,12 @@ O layout raster aprovado é referência visual, não código HTML. O tema LI dev
 ## Ordem dos blocos existentes
 
 A home continua usando hero, benefícios, vitrines, marcas e newsletter **nativas**. O slot especial das quatro artes é inserido após a primeira `.vitrine-produtos` renderizada; conferir no DevTools que essa é a vitrine “Mais Vendidos”. Alterar `layout.inserirDepois` somente depois de confirmar posição na loja. Não reordenar os elementos comerciais nativos sem testes. A personalização visual do tema é ativada pela flag `visual.ativo` e pelo gate de prévia, e não afeta visitantes comuns nesta fase.
+
+
+## Revisão visual em 16/11/2026 (Chromium)
+
+- O CSS e JS estavam carregados e a flag `modoPreview` era verdadeira.
+- A chamada inicial a `Nichelle27Framework.mount()` ocorria antes da criação da vitrine/âncora: não existia `#n27-layout-root` e nenhuma seção era montada. Chamar `mount()` após carregamento criava o slot e o módulo.
+- O seletor genérico `.vitrine-produtos` posicionava o slot na estrutura errada. Passou a priorizar `.vitrine-mas-vendido`.
+- Os quatro arquivos `mini1.webp` … `mini4.webp` retornavam 404 na URL `https://cdn.awsli.com.br/2550/2550587/arquivos/`. Enquanto esses arquivos não forem publicados, a seção editorial fica oculta em vez de deixar quatro caixas vazias. Não é possível concluir a fidelidade visual sem imagens publicadas e sem validar novamente a LI.
+- O layout aprovado exibe hero rosa Medicube, vitrines de cinco itens, marcas, vídeos, editorial e faixas institucionais. A página vista ainda usa hero verde e estruturas nativas diferentes. Corrigir esses blocos requer trabalhar no cadastro de banners e no tema da Loja Integrada; a atualização deste commit não os substitui.

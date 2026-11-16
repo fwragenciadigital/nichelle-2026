@@ -187,3 +187,10 @@ html[data-n27-theme="1"] #rodape{background:#f0eaf3}
 @media(prefers-reduced-motion:reduce){
   html[data-n27-theme="1"] .vitrine-produtos .listagem-item{transition:none}
 }
+
+
+/* Não deixar placeholders visíveis quando as artes editoriais ainda não estão na CDN. */
+[data-n27-section="banners"][hidden],
+[data-n27-section="banners"][data-n27-images="error"]{
+  display:none!important;
+}

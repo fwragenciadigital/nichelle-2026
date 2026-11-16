@@ -9,7 +9,7 @@
 (function () {
   "use strict";
   if (window.Nichelle27Framework && window.Nichelle27Framework.initialized) return;
-  const VERSION = "0.6.0";
+  const VERSION = "0.6.1";
   const ORDER = Object.freeze([
     "qualificadores", "maisVendidos", "banners", "lancamentos", "marcas",
     "videos", "promocoes", "noticias", "newsletter", "instagram", "empresa"
@@ -251,15 +251,36 @@
       return null;
     }
     const outer = section("banners"), frame = container();
+    // As quatro imagens só aparecem em conjunto após carregar. Se a CDN
+    // não tiver os arquivos, o visitante não vê retângulos vazios.
+    outer.hidden = true;
+    outer.dataset.n27Images = "loading";
     const grid = el("div", "n27-mini-grid");
     grid.setAttribute("aria-label", "Coleções e cuidados em destaque");
+    let loaded = 0, failed = false;
+    function settle(ok) {
+      if (!ok) {
+        failed = true;
+        outer.dataset.n27Images = "error";
+        log("Mini banners: imagem ausente na CDN; seção oculta.");
+        return;
+      }
+      loaded += 1;
+      if (!failed && loaded === items.length) {
+        outer.dataset.n27Images = "ready";
+        outer.hidden = false;
+      }
+    }
     items.forEach(function (item) {
       const a = el(item.link ? "a" : "div", "n27-mini-card");
       if (item.link) a.href = item.link;
       const img = el("img");
-      img.src = item.imagem; img.alt = item.alt;
-      img.loading = "lazy"; img.decoding = "async";
+      img.alt = item.alt;
+      img.loading = "eager"; img.decoding = "async";
       img.width = 405; img.height = 676;
+      img.addEventListener("load", function () { settle(img.naturalWidth > 0); }, { once: true });
+      img.addEventListener("error", function () { settle(false); }, { once: true });
+      img.src = item.imagem;
       a.appendChild(img); grid.appendChild(a);
     });
     frame.appendChild(grid); outer.appendChild(frame);
@@ -426,7 +447,12 @@
     if (!enabled(opts)) return { ativo: true, layout: false, montados: Array.from(mounted) };
     let root = select(opts.seletor);
     if (!root && opts.autocriarSlot === true && normalizePath(window.location.pathname) === "/") {
-      const anchor = select(opts.inserirDepois || ".secao-banners");
+      const configuredAnchor = opts.inserirDepois || ".secao-banners";
+      // Na Nichelle, o seletor genérico .vitrine-produtos pode apontar para
+      // uma estrutura invisível; usar a vitrine visível Mais Vendidos.
+      const anchor = configuredAnchor === ".vitrine-produtos" ?
+        (select(".vitrine-mas-vendido") || select(configuredAnchor)) :
+        select(configuredAnchor);
       if (anchor && anchor.parentNode) {
         root = el("div");
         root.id = "n27-layout-root";
@@ -482,4 +508,16 @@
   document.addEventListener("nichelle27:refresh", mount);
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount, { once: true });
   else mount();
+  // A Loja Integrada injeta vitrines e banners depois do DOMContentLoaded.
+  // A montagem inicial pode não encontrar a âncora. Retentativas curtas,
+  // idempotentes, somente na página e no modo autorizados.
+  if (normalizePath(window.location.pathname) === "/" && enabled(settings().geral) &&
+      previewFixtureAllowed()) {
+    window.addEventListener("load", mount, { once: true });
+    [250, 900, 2000, 4000].forEach(function (delay) {
+      window.setTimeout(function () {
+        if (!select(settings().layout && settings().layout.seletor)) mount();
+      }, delay);
+    });
+  }
 })();
