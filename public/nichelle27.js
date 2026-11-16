@@ -9,7 +9,7 @@
 (function () {
   "use strict";
   if (window.Nichelle27Framework && window.Nichelle27Framework.initialized) return;
-  const VERSION = "0.9.0";
+  const VERSION = "0.10.0";
   const ORDER = Object.freeze([
     "qualificadores", "maisVendidos", "banners", "lancamentos", "marcas",
     "videos", "promocoes", "noticias", "newsletter", "instagram", "empresa"

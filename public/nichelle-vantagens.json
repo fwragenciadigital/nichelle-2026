@@ -1,0 +1,30 @@
+{
+  "ativo": true,
+  "etiqueta": "+VANTAGENS",
+  "itens": [
+    {
+      "icone": "package",
+      "titulo": "COSMÉTICOS IMPORTADOS",
+      "descricao": "À PRONTA ENTREGA",
+      "link": ""
+    },
+    {
+      "icone": "seal",
+      "titulo": "PRODUTOS 100% ORIGINAIS",
+      "descricao": "COM NOTA FISCAL",
+      "link": ""
+    },
+    {
+      "icone": "headset",
+      "titulo": "ATENDIMENTO PERSONALIZADO",
+      "descricao": "COM EQUIPE ESPECIALISTA",
+      "link": ""
+    },
+    {
+      "icone": "medal",
+      "titulo": "LOJA COM SELO DE VERIFICAÇÃO",
+      "descricao": "RECLAME AQUI",
+      "link": ""
+    }
+  ]
+}

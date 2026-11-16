@@ -95,3 +95,19 @@ Os 7 itens aprovados ficam na ordem: Mais Vendidos, Skincare, Tipos de Pele, Nec
 `n27-owned-nav`: mega-dropdown desktop, toggles por teclado e menu mobile FWR independente com `details` e links do catálogo. O tema antigo só é ocultado quando `data-n27-independent-header=1` é criado na home `?nichelle_preview=1`.
 
 Testes: marquee em 390/1440/1920; submenus de Skincare, Marcas, Cuidados Pessoais; drawer mobile; busca nativa; checkout/carrinho; ausência de overflow; loja sem preview intocada.
+
+
+## Vantagens FWR — versão 0.10.0 (16/11/2026)
+
+A seção da home foi reconstruída com a arte aprovada `image(20261116-153958).png` como base. **Não reutiliza a barra antiga Frete grátis/Parcelamento/PIX/Segurança nem elementos `.banners-vantagens` do Groom.** O slot `#n27-approved-benefits` é criado pelo layout FWR e preenchido exclusivamente por `public/nichelle-home-benefits.js` + `public/nichelle-home-benefits.css`.
+
+**Desktop:** recipiente central com largura máxima 1402px; box esquerdo 101×101px, cor #BBBBBB, +VAN/TA/GENS; box direito #EFEFEF, 4 vantagens em colunas, ícones roxos; texto cinza em caixa alta. **Mobile:** box esquerdo lateral e caixa direita com trilho horizontal de quatro vantagens com scroll-snap, sem aumentar a largura da página.
+
+**Como administrar (pelo cliente):**
+1. Abra o arquivo `integracao/NICHELLE27-VANTAGENS-ADMIN.html`, copie o bloco `<script>...` e cole em **Loja Integrada > Incluir código HTML > Rodapé**. Isso sobrescreve `window.Nichelle27Settings.vantagens` do Cabeçalho sem alterar scripts externos. Alternativamente, edite `vantagens` diretamente no HTML de Cabeçalho.
+2. Campos: `ativo` (true/false), `etiqueta` (sugere-se manter "+VANTAGENS"), `itens[0..3].icone`, `titulo`, `descricao` e `link` (opcional, somente links internos da loja). Ícones permitidos: package, seal, headset, medal, truck, card, shield, pix.
+3. **JSON direto no painel**: cole `<script type="application/json" id="n27-vantagens-json"> ... </script>` contendo o objeto de `public/nichelle-vantagens.json`. Este modo tem precedência sobre a configuração Javascript inline.
+4. **JSON via arquivo**: informe `configUrl` apontando para um JSON publicado no domínio da loja, na CDN AWSLI ou na Vercel. O servidor do JSON precisa permitir CORS quando for outro domínio; se não permitir, o bloco mantém os valores do painel. Exemplo Vercel versionado: `https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app/nichelle-vantagens.json`.
+5. Para atualização durante a mesma página, após salvar configurações em JS no HTML, dispare `document.dispatchEvent(new Event("nichelle27:vantagens:update"))`. Em navegação normal basta atualizar a página.
+
+Importante: a publicação deste commit continua **somente em `?nichelle_preview=1`** e não altera a loja pública sem o parâmetro. Não registrar JSON externo sem CORS nem dados arbitrários contendo SVG/HTML. Os ícones são de uma lista segura, e textos são inseridos via `textContent`.

@@ -39,7 +39,6 @@
   }
   function enter(stage) {
     if (!allowed() || !stage || !one(".vitrine-mas-vendido", stage)) return;
-    const originalBanner = one(".secao-banners", stage);
     let hero = document.getElementById("n27-approved-hero");
     if (!hero) {
       hero = make("n27-approved-hero", "n27-approved-hero");
@@ -55,13 +54,8 @@
     }
     let benefits = document.getElementById("n27-approved-benefits");
     if (!benefits) benefits = make("n27-approved-benefits", "n27-approved-benefits");
-    const originalAdvantages = originalBanner && one(".banners-vantagens", originalBanner);
-    if (originalAdvantages && originalAdvantages.parentNode !== benefits) {
-      benefits.appendChild(originalAdvantages);
-    }
-    if (!benefits.children.length) {
-      benefits.appendChild(node("div", "n27-approved-benefits__label", "Nossas vantagens"));
-    }
+    // Este nó é um slot 100% FWR. A apresentação e o conteúdo da seção
+    // pertencem a nichelle-home-benefits.js, nunca ao HTML do Groom.
     let category = document.getElementById("n27-approved-categories");
     if (!category) {
       category = make("n27-approved-categories", "n27-approved-categories");

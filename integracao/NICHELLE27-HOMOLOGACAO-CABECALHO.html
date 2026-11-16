@@ -13,6 +13,17 @@ window.Nichelle27Settings = {
   topo: { ativo:true, seletor:"#cabecalho", fixo:true, faixaAtiva:false, qualificadores:[] },
   rodape: { ativo:true, seletor:"#rodape" },
   qualificadores: { ativo:false, rotulo:"VANTAGENS", itens:[] },
+  // VANTAGENS FWR: dados editáveis no HTML. Podem ser sobrescritos por
+  // integracao/NICHELLE27-VANTAGENS-ADMIN.html no Rodapé da loja.
+  vantagens: {
+    ativo:true, etiqueta:"+VANTAGENS", configUrl:"",
+    itens:[
+      { icone:"package", titulo:"COSMÉTICOS IMPORTADOS", descricao:"À PRONTA ENTREGA", link:"" },
+      { icone:"seal", titulo:"PRODUTOS 100% ORIGINAIS", descricao:"COM NOTA FISCAL", link:"" },
+      { icone:"headset", titulo:"ATENDIMENTO PERSONALIZADO", descricao:"COM EQUIPE ESPECIALISTA", link:"" },
+      { icone:"medal", titulo:"LOJA COM SELO DE VERIFICAÇÃO", descricao:"RECLAME AQUI", link:"" }
+    ]
+  },
   maisVendidos: { ativo:false, titulo:"Produtos", destaque:"Mais Vendidos",
     seletorFonte:"", seletorItem:".listagem-item" },
   miniBanners: { ativo:true, paginas:["/"], itens:[
