@@ -90,8 +90,9 @@
   }
   function buildMarquee() {
     const bar=el("div","n27-owned-benefits");
+    bar.id="n27-head-benefits";
     bar.setAttribute("aria-label","Benefícios da loja");
-    const track=el("div","n27-owned-benefits__track");
+    const track=el("div","n27-owned-benefits__track n27-head-benefits__track");
     const data=[
       ["safe","LOJA 100% SEGURA","COM PROTEÇÃO DE CERTIFICADO SSL"],
       ["truck","ENTREGA GARANTIDA","PARA TODO O BRASIL"],
@@ -192,6 +193,7 @@
   }
   function buildNav(items,openMobile) {
     const nav=el("nav","n27-owned-nav");
+    nav.id="n27-head-nav";
     nav.setAttribute("aria-label","Categorias principais");
     const track=el("ul","n27-owned-nav__track n27-owned-container");
     items.forEach(item=>{
