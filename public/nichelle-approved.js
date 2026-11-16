@@ -125,16 +125,20 @@
     }
     const featured = one("#n27-approved-best-sellers", stage);
     const best = one(".vitrine-mas-vendido", stage);
+    const featuredLaunches = one("#n27-approved-launches", stage);
     const launches = one(".vitrine-lancamento", stage);
     const featuredBrands = one("#n27-approved-brands", stage);
     const brands = one(".vitrine-marcas", stage);
     const videos = one(".vitrine-video", stage);
+    const featuredPromo = one("#n27-approved-highlights", stage);
     const promo = one(".vitrine-destaque", stage);
+    const featuredExtra = one("#n27-approved-brand-products", stage);
     const extra = one(".vitrine-18709305", stage);
     // A imagem do projeto é a especificação visual, não uma página com
     // componentes HTML. Cada seção real é montada com os nós LI existentes.
-    const order = [hero, benefits, featured, best, category, launches, featuredBrands, brands,
-      videos, promo, editorial, extra, newsletter, social].filter(Boolean);
+    const order = [hero, benefits, featured, best, category, featuredLaunches, launches,
+      featuredBrands, brands, videos, featuredPromo, promo, editorial,
+      featuredExtra, extra, newsletter, social].filter(Boolean);
     // A home executa retries em load e depois do DOMContentLoaded.
     // Reanexar a vitrine FWR a cada retry zera o scrollLeft do carrossel
     // circular no Chrome. Não mover nós quando já estão na ordem correta.

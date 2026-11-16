@@ -150,3 +150,20 @@ Na verificação inicial, a vitrine de marcas da plataforma publicava **cinco ma
 **Administração visual:** edite `window.Nichelle27Settings.vitrineMarcas` no cabeçalho ou cole `integracao/NICHELLE27-MARCAS-ADMIN.html` no rodapé. Propriedades `ativo`, `prefixo`, `titulo`, `maxMarcas`. JSON inline alternativo com id `n27-vitrine-marcas-json`. Não duplicar marcas comerciais em JSON, pois permanecem no cadastro LI.
 
 **Fail-safe:** se não houver marcas com logo e link, mantenha a seção original. A prévia `?nichelle_preview=1` não altera a loja pública. Independência total da marcação de dados da vitrine nativa depende de API/feed LI autenticado; nesta etapa só o visual é desacoplado.
+
+
+## Padronização de todas as vitrines + marcas — v0.14.0
+
+As **quatro listagens de produtos da home** agora usam um único componente de cards e navegação circular FWR:
+- `.vitrine-mas-vendido` → `#n27-approved-best-sellers` — Produtos Mais Vendidos;
+- `.vitrine-lancamento` → `#n27-approved-launches` — Novos Lançamentos;
+- `.vitrine-destaque` → `#n27-approved-highlights` — Produtos Em Destaque;
+- `.vitrine-18709305` → `#n27-approved-brand-products` — Produtos Por Marca.
+
+As quatro fontes contêm 20 produtos reais na loja em 16/11/2026; imagens, títulos, preços, percentuais, PIX, parcelamento e links são extraídos de leitura da Loja Integrada e não fixados no JavaScript. O CSS `public/nichelle-best-sellers.css` agora atua em toda `.n27-best-shelf`, e as listagens nativas são ocultadas apenas quando renderizadas com sucesso. Componentes não relacionados, como `.vitrine-video`, preservam seu papel próprio. Os carrosseis usam setas, teclado, arraste e loop circular com 6 cópias nas extremidades.
+
+**Administração visual:** configurações `vitrineMaisVendidos`, `vitrineLancamentos`, `vitrineDestaques`, `vitrineMarcasProdutos` em `window.Nichelle27Settings`; arquivo único para o Rodapé: `integracao/NICHELLE27-VITRINES-ADMIN.html`. Cada seção possui `ativo`, `prefixo`, `titulo`, `exibirSelo`, `exibirPix`, `exibirParcelamento`, `maxProdutos`, `loopInfinito`. Os produtos e sua ordenação devem continuar sendo gerenciados no painel da loja.
+
+**Marcas:** consulta ao menu da Loja Integrada encontrou 43 marcas publicadas e à vitrine de logotipos da home encontrou 5. `public/nichelle-brands.js` agora combina ambas as fontes: cinco logos prioritários no início, restantes marcas cadastradas em ordem, com fallback tipográfico para quem não tem imagem publicada. O carrossel horizontal dispõe de setas cíclicas e swipe no mobile; 43 URLs reais, nenhuma marca inventada. O campo `maxMarcas` foi ampliado para 60 por padrão.
+
+**Preview:** `?nichelle_preview=1`. O tema Groom não controla o visual ou o slider das novas vitrines; a fonte de dados ainda é o HTML público renderizado pela plataforma, um adaptador em leitura.

@@ -34,6 +34,19 @@ window.Nichelle27Settings = {
     // Carrossel circular: ao chegar no último produto, volta ao primeiro.
     loopInfinito:true
   },
+  // Todos os carrosseis FWR usam dados reais da Loja Integrada.
+  vitrineLancamentos: {
+    ativo:true, prefixo:"Novos", titulo:"Lançamentos", maxProdutos:20,
+    exibirSelo:true, exibirPix:true, exibirParcelamento:true, loopInfinito:true
+  },
+  vitrineDestaques: {
+    ativo:true, prefixo:"Produtos", titulo:"Em Destaque", maxProdutos:20,
+    exibirSelo:true, exibirPix:true, exibirParcelamento:true, loopInfinito:true
+  },
+  vitrineMarcasProdutos: {
+    ativo:true, prefixo:"Produtos", titulo:"Por Marca", maxProdutos:20,
+    exibirSelo:true, exibirPix:true, exibirParcelamento:true, loopInfinito:true
+  },
   miniBanners: { ativo:true, paginas:["/"], itens:[
     { imagem:"mini1.webp", link:"", alt:"Seleção de produtos Nichelle" },
     { imagem:"mini2.webp", link:"", alt:"Cuidados para a pele" },
@@ -45,7 +58,7 @@ window.Nichelle27Settings = {
   marcas: { ativo:false, titulo:"Compre as", destaque:"Melhores Marcas", itens:[] },
   // Logo, link e ordem DIRETAMENTE da vitrine de marcas da Loja Integrada.
   vitrineMarcas: {
-    ativo:true, prefixo:"Compre as", titulo:"Melhores Marcas", maxMarcas:40
+    ativo:true, prefixo:"Compre as", titulo:"Melhores Marcas", maxMarcas:60
   },
   promocoes: { ativo:false, titulo:"Produtos", destaque:"Promocionais",
     seletorFonte:"", seletorItem:".listagem-item" },

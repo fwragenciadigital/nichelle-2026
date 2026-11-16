@@ -14,7 +14,7 @@ window.Nichelle27Settings.vitrineMarcas = {
   ativo: true,
   prefixo: "Compre as",
   titulo: "Melhores Marcas",
-  maxMarcas: 40
+  maxMarcas: 60
 };
 document.dispatchEvent(new Event("nichelle27:marcas:update"));
 </script>
@@ -27,12 +27,15 @@ utilizando a estrutura abaixo (não use as duas alternativas ao mesmo tempo).
   "ativo": true,
   "prefixo": "Compre as",
   "titulo": "Melhores Marcas",
-  "maxMarcas": 40
+  "maxMarcas": 60
 }
 </script>
 
 O campo maxMarcas é um limite de leitura, não cria marcas.
 Se só existem 5 marcas publicadas no painel, a vitrine mostra as 5.
-Para chegar aos 8 cards do modelo, cadastre mais 3 marcas COM LOGOTIPO
-na vitrine de marcas da Loja Integrada.
+O componente combina 5 logotipos publicados na vitrine da home com as
+43 marcas registradas no menu da Loja Integrada. As marcas sem logotipo
+publicado aparecem em cards com nome em texto, sem inventar imagens.
+Para utilizar 8 cards com logos, disponibilize logos reais no cadastro
+de marcas da loja; o conteúdo acompanha o cadastro após recarregar.
 -->

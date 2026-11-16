@@ -51,28 +51,59 @@
       ativo:a.ativo!==false,
       prefixo:txt(a.prefixo ?? "Compre as",45),
       titulo:txt(a.titulo ?? "Melhores Marcas",55),
-      maxMarcas:Math.min(80,Math.max(1,Number(a.maxMarcas)||40))
+      maxMarcas:Math.min(100,Math.max(1,Number(a.maxMarcas)||60))
     };
   }
   function readNativeBrands(root,max) {
-    // These are genuine panel-defined brand records; Slick is ignored.
-    // Fall back to all link+image descendants if LI updates the native HTML.
-    const links=[...root.querySelectorAll("a[href]")];
-    const brands=[],seen=new Set();
-    for(const a of links) {
-      if(a.closest(".slick-cloned")) continue;
+    // Featured brand images are sourced from the Loja Integrada home module.
+    // The complete *registered* list is sourced from the category menu.
+    // It currently has 43 brands; only 5 images are published in the home.
+    // Never invent logos: use name-only fallback for unillustrated brands.
+    const normalize=name=>txt(name,150).normalize("NFD")
+      .replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]/g,"");
+    const featured=[],featuredByName=new Map();
+    for(const a of root.querySelectorAll("a[href]")) {
+      if(a.closest(".slick-cloned"))continue;
       const img=a.querySelector("img[src],img[data-src],img[data-original]");
       if(!img)continue;
       const href=safeLink(a.getAttribute("href"));
       const src=safeImage(img.getAttribute("src")||
         img.getAttribute("data-src")||img.getAttribute("data-original"));
       const name=txt(img.getAttribute("alt")||a.getAttribute("title")||a.textContent,100);
-      if(!href||!src||!name||!href.startsWith("/marca/")||seen.has(href))continue;
-      seen.add(href);
-      brands.push({name,href,src});
-      if(brands.length>=max)break;
+      if(!name||!href||!src)continue;
+      const key=normalize(name);
+      if(featuredByName.has(key))continue;
+      const item={name,href,src};
+      featured.push(item);featuredByName.set(key,item);
     }
-    return brands;
+    const menu=[...document.querySelectorAll(".menu-desktop ul.tc-level1 > li")]
+      .find(li=>normalize(li.querySelector(":scope > a")?.textContent)==="marcas");
+    const registry=[],byName=new Map();
+    if(menu){
+      for(const a of menu.querySelectorAll("ul.tc-level2 > li > a[href]")){
+        const name=txt(a.textContent,100),href=safeLink(a.getAttribute("href"));
+        const key=normalize(name);
+        if(!name||!href||!key||byName.has(key))continue;
+        const matched=featuredByName.get(key);
+        const item={name,href,src:matched?.src||""};
+        registry.push(item);byName.set(key,item);
+      }
+    }
+    // Put logos already selected by the client first, then the remaining
+    // registered brands in their published menu order.
+    const result=[],added=new Set();
+    for(const source of featured){
+      const key=normalize(source.name);
+      const entry=byName.get(key)||source;
+      if(added.has(key))continue;
+      result.push(entry);added.add(key);
+    }
+    for(const source of registry){
+      const key=normalize(source.name);
+      if(added.has(key))continue;
+      result.push(source);added.add(key);
+    }
+    return result.slice(0,max);
   }
   function chevron(direction) {
     const button=el("button","n27-brands__arrow n27-brands__arrow--"+direction);
@@ -102,15 +133,22 @@
     for(const b of brands){
       const card=el("a","n27-brands__card");card.href=b.href;
       card.title="Conheça "+b.name;card.setAttribute("aria-label","Ver produtos da marca "+b.name);
-      const img=el("img","n27-brands__logo");
-      img.alt=b.name;img.src=b.src;img.loading="lazy";img.decoding="async";
-      img.width=150;img.height=90;
-      img.addEventListener("error",()=>{
-        // A logo pode ser excluída no painel: usar texto, nunca ficar vazia.
-        img.hidden=true;
+      if(b.src){
+        const img=el("img","n27-brands__logo");
+        img.alt=b.name;img.src=b.src;img.loading="lazy";img.decoding="async";
+        img.width=150;img.height=90;
+        img.addEventListener("error",()=>{
+          img.hidden=true;
+          if(!card.querySelector(".n27-brands__fallback")){
+            card.appendChild(el("span","n27-brands__fallback",b.name));
+          }
+        },{once:true});
+        card.appendChild(img);
+      } else {
+        card.classList.add("n27-brands__card--text");
         card.appendChild(el("span","n27-brands__fallback",b.name));
-      },{once:true});
-      card.appendChild(img);rail.appendChild(card);
+      }
+      rail.appendChild(card);
     }
     container.appendChild(rail);
     const controls=el("div","n27-brands__controls");
@@ -126,11 +164,19 @@
       if(!root.isConnected)return;
       const max=rail.scrollWidth-rail.clientWidth;
       controls.hidden=max<=2;
-      prev.disabled=rail.scrollLeft<=1;
-      next.disabled=rail.scrollLeft>=max-1;
+      prev.disabled=max<=2;
+      next.disabled=max<=2;
     };
-    prev.addEventListener("click",()=>rail.scrollBy({left:-step(),behavior:"smooth"}));
-    next.addEventListener("click",()=>rail.scrollBy({left:step(),behavior:"smooth"}));
+    prev.addEventListener("click",()=>{
+      const max=rail.scrollWidth-rail.clientWidth;
+      if(rail.scrollLeft<=1)rail.scrollTo({left:max,behavior:"auto"});
+      else rail.scrollBy({left:-step(),behavior:"smooth"});
+    });
+    next.addEventListener("click",()=>{
+      const max=rail.scrollWidth-rail.clientWidth;
+      if(rail.scrollLeft>=max-1)rail.scrollTo({left:0,behavior:"auto"});
+      else rail.scrollBy({left:step(),behavior:"smooth"});
+    });
     rail.addEventListener("scroll",refresh,{passive:true});
     const resize=new ResizeObserver(refresh);resize.observe(rail);
     requestAnimationFrame(refresh);
@@ -189,5 +235,5 @@
   [250,700,1500,3200,4900].forEach(t=>setTimeout(mount,t));
   document.addEventListener("nichelle27:refresh",schedule);
   document.addEventListener("nichelle27:marcas:update",()=>{signature="";schedule();});
-  window.NichelleBrands={version:"1.0.0",refresh:schedule,source:"loja-integrada"};
+  window.NichelleBrands={version:"1.1.0",refresh:schedule,source:"loja-integrada",mode:"registered-menu-and-featured-logos"};
 })();

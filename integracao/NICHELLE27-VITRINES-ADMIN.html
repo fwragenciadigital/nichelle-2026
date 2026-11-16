@@ -1,0 +1,73 @@
+<!-- NICHELLE IMPORTS 2026 — TODAS AS VITRINES DE PRODUTOS
+     Cole no HTML/Rodapé da Loja Integrada (ou edite estes campos no
+     window.Nichelle27Settings do HTML/Cabeçalho).
+
+     ESTA CONFIGURAÇÃO CONTROLA SOMENTE O VISUAL:
+     Os produtos, preços, fotos, parcelamento, PIX e descontos reais
+     são administrados pelo painel da Loja Integrada e permanecem reais.
+-->
+<script>
+window.Nichelle27Settings = window.Nichelle27Settings || {};
+window.Nichelle27Settings.vitrineMaisVendidos = {
+  ativo: true,
+  prefixo: "Produtos",
+  titulo: "Mais Vendidos",
+  maxProdutos: 20,
+  exibirSelo: true,
+  exibirPix: true,
+  exibirParcelamento: true,
+  loopInfinito: true
+};
+window.Nichelle27Settings.vitrineLancamentos = {
+  ativo: true,
+  prefixo: "Novos",
+  titulo: "Lançamentos",
+  maxProdutos: 20,
+  exibirSelo: true,
+  exibirPix: true,
+  exibirParcelamento: true,
+  loopInfinito: true
+};
+window.Nichelle27Settings.vitrineDestaques = {
+  ativo: true,
+  prefixo: "Produtos",
+  titulo: "Em Destaque",
+  maxProdutos: 20,
+  exibirSelo: true,
+  exibirPix: true,
+  exibirParcelamento: true,
+  loopInfinito: true
+};
+window.Nichelle27Settings.vitrineMarcasProdutos = {
+  ativo: true,
+  prefixo: "Produtos",
+  titulo: "Por Marca",
+  maxProdutos: 20,
+  exibirSelo: true,
+  exibirPix: true,
+  exibirParcelamento: true,
+  loopInfinito: true
+};
+// Dispare para atualizar as seções já abertas, sem editar arquivos externos.
+document.dispatchEvent(new Event("nichelle27:vitrines:update"));
+</script>
+<!-- IDs de JSON alternativos no HTML da loja:
+     n27-vitrine-mais-vendidos-json
+     n27-vitrine-lancamentos-json
+     n27-vitrine-destaques-json
+     n27-vitrine-marcasProdutos-json
+
+     Exemplo JSON para uma seção (sem o bloco <script> acima):
+     <script type="application/json" id="n27-vitrine-lancamentos-json">
+     {
+       "ativo": true,
+       "prefixo": "Novos",
+       "titulo": "Lançamentos",
+       "maxProdutos": 20,
+       "exibirSelo": true,
+       "exibirPix": true,
+       "exibirParcelamento": true,
+       "loopInfinito": true
+     }
+     </script>
+-->

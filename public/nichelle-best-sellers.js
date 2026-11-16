@@ -14,9 +14,19 @@
       (location.pathname.replace(/\/+$/, "") || "/") !== "/" ||
       new URLSearchParams(location.search).get("nichelle_preview") !== "1") return;
 
-  const SOURCE = ".vitrine-produtos.vitrine-mas-vendido";
-  const ID = "n27-approved-best-sellers";
-  let observer = null, pending = false, previousKey = "", lastSource = null;
+  const SHELVES = [
+    {key:"maisVendidos", selector:".vitrine-mas-vendido", id:"n27-approved-best-sellers",
+      settings:"vitrineMaisVendidos", defaultPrefixo:"Produtos", defaultTitulo:"Mais Vendidos"},
+    {key:"lancamentos", selector:".vitrine-lancamento", id:"n27-approved-launches",
+      settings:"vitrineLancamentos", defaultPrefixo:"Novos", defaultTitulo:"Lançamentos"},
+    {key:"destaques", selector:".vitrine-destaque", id:"n27-approved-highlights",
+      settings:"vitrineDestaques", defaultPrefixo:"Produtos", defaultTitulo:"Em Destaque"},
+    {key:"marcasProdutos", selector:".vitrine-18709305", id:"n27-approved-brand-products",
+      settings:"vitrineMarcasProdutos", defaultPrefixo:"Produtos", defaultTitulo:"Por Marca"}
+  ];
+  const signatures = new Map();
+  const observedSources = new WeakSet();
+  let pending = false;
 
   function enabled() {
     const s = window.Nichelle27Settings;
@@ -52,9 +62,11 @@
     return Number.isFinite(v) && v >= 0 ? v : null;
   }
   const brl = v => new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"}).format(v);
-  function selectedConfig() {
-    const raw = window.Nichelle27Settings?.vitrineMaisVendidos || {};
-    const inline = document.getElementById("n27-vitrine-mais-vendidos-json");
+  function selectedConfig(def) {
+    const raw = window.Nichelle27Settings?.[def.settings] || {};
+    const inlineId = def.key==="maisVendidos" ?
+      "n27-vitrine-mais-vendidos-json" : "n27-vitrine-"+def.key+"-json";
+    const inline = document.getElementById(inlineId);
     if (inline) {
       try {
         const json=JSON.parse(inline.textContent);
@@ -63,12 +75,12 @@
     }
     return raw;
   }
-  function config() {
-    const s=selectedConfig();
+  function config(def) {
+    const s=selectedConfig(def);
     return {
       ativo:s.ativo !== false,
-      prefixo:safeText(s.prefixo ?? "Produtos",32),
-      titulo:safeText(s.titulo ?? "Mais Vendidos",55),
+      prefixo:safeText(s.prefixo ?? def.defaultPrefixo,32),
+      titulo:safeText(s.titulo ?? def.defaultTitulo,55),
       exibirSelo:s.exibirSelo !== false,
       exibirPix:s.exibirPix !== false,
       exibirParcelamento:s.exibirParcelamento !== false,
@@ -342,23 +354,25 @@
     shelf.dataset.n27Loop=loop?"infinite":"finite";
   }
 
-  function render(source,products,cfg) {
+  function render(source,products,cfg,def) {
     const stage=document.getElementById("n27-preview-stage");
     if(!stage||source.parentNode!==stage)return;
-    let shelf=document.getElementById(ID);
+    let shelf=document.getElementById(def.id);
     if (!cfg.ativo) {
       shelf?.remove();
       source.removeAttribute("data-n27-shelf-source");
+      signatures.delete(def.key);
       return;
     }
     const dataKey=JSON.stringify([cfg,products.map(p=>[
       p.id,p.name,p.img,p.oldPrice,p.current,p.pix,p.pixPercent,p.percent,
       p.installment?.amount,p.installment?.count
     ])]);
-    if(dataKey===previousKey && shelf && shelf.parentNode===stage) return;
+    if(dataKey===signatures.get(def.key) && shelf && shelf.parentNode===stage) return;
 
     const fresh=el("section","n27-best-shelf");
-    fresh.id=ID;
+    fresh.id=def.id;
+    fresh.dataset.n27ShelfType=def.key;
     fresh.setAttribute("aria-label",cfg.titulo+" — Nichelle Imports");
     const wrap=el("div","n27-best-shelf__inner");
     const heading=el("div","n27-best-shelf__heading");
@@ -382,7 +396,7 @@
     shelf?.remove();
     source.dataset.n27ShelfSource="1";
     document.documentElement.dataset.n27BestShelf="1";
-    previousKey=dataKey;
+    signatures.set(def.key,dataKey);
     setupNavigation(fresh,rail,cfg);
   }
   function schedule(){
@@ -393,25 +407,35 @@
   function mount(){
     if(!enabled())return;
     const stage=document.getElementById("n27-preview-stage");
-    const source=stage?.querySelector(":scope > "+SOURCE);
-    if(!source)return;
-    const cfg=config();
-    const products=getProductData(source,cfg.maxProdutos);
-    if(!products.length)return; // fail safe: retain native shelf if LI data is absent
-    render(source,products,cfg);
-    if(lastSource!==source){
-      observer?.disconnect();
-      observer=new MutationObserver(schedule);
-      observer.observe(source,{childList:true,characterData:true,subtree:true,
-        attributes:true,attributeFilter:["src","data-sell-price"]});
-      lastSource=source;
-    }
+    if(!stage)return;
+    SHELVES.forEach(def=>{
+      const source=stage.querySelector(":scope > .vitrine-produtos"+def.selector);
+      if(!source)return;
+      const cfg=config(def);
+      if(!cfg.ativo) {
+        render(source,[],cfg,def);
+        return;
+      }
+      const products=getProductData(source,cfg.maxProdutos);
+      if(!products.length)return; // keep the native vitrine as a safe fallback
+      render(source,products,cfg,def);
+      if(!observedSources.has(source)) {
+        const mo=new MutationObserver(schedule);
+        mo.observe(source,{childList:true,characterData:true,subtree:true,
+          attributes:true,attributeFilter:["src","data-sell-price"]});
+        observedSources.add(source);
+      }
+    });
   }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",mount,{once:true});
   else mount();
   window.addEventListener("load",mount,{once:true});
   [250,750,1900,4000].forEach(t=>setTimeout(mount,t));
   document.addEventListener("nichelle27:refresh",schedule);
-  document.addEventListener("nichelle27:vitrine:update",()=>{previousKey="";schedule();});
-  window.NichelleBestSellers={version:"1.1.0",refresh:schedule};
+  document.addEventListener("nichelle27:vitrine:update",()=>{signatures.clear();schedule();});
+  document.addEventListener("nichelle27:vitrines:update",()=>{signatures.clear();schedule();});
+  window.NichelleBestSellers={
+    version:"1.2.0",refresh:schedule,
+    sections:SHELVES.map(def=>({key:def.key,selector:def.selector,id:def.id}))
+  };
 })();
