@@ -1,0 +1,41 @@
+<!-- NICHELLE IMPORTS 2026 | HOMOLOGAÇÃO por ?nichelle_preview=1
+Cole uma única vez em Loja Integrada > Incluir código HTML > Cabeçalho (todas as páginas).
+Não substitui a loja atual; sem o parâmetro, o layout FWR fica desativado.
+Depois de aprovado: publicarNaLoja:true, modoPreview:false, sem trocar os links. -->
+<link rel="stylesheet" href="https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app/nichelle27.css">
+<script>
+window.Nichelle27Settings = {
+  assetsBase: "", // APÓS SUBIR Recortado.rar para a CDN LI, inserir a URL base aqui
+  geral: { ativo:true, modoPreview:true, publicarNaLoja:false, debug:false, paginas:[] },
+  layout: { ativo:true, homologado:true, autocriarSlot:true,
+    inserirDepois:".secao-banners", seletor:"#n27-layout-root", paginas:["/"] },
+  topo: { ativo:true, seletor:"#cabecalho", fixo:true, faixaAtiva:false, qualificadores:[] },
+  rodape: { ativo:true, seletor:"#rodape" },
+  qualificadores: { ativo:false, rotulo:"VANTAGENS", itens:[] },
+  maisVendidos: { ativo:false, titulo:"Produtos", destaque:"Mais Vendidos",
+    seletorFonte:"", seletorItem:".listagem-item" },
+  miniBanners: { ativo:true, paginas:["/"], itens:[
+    { imagem:"mini1.webp", link:"/skincare", alt:"Seleção de produtos Nichelle" },
+    { imagem:"mini2.webp", link:"/skincare", alt:"Cuidados para a pele" },
+    { imagem:"mini3.webp", link:"/skincare", alt:"Tratamentos e cuidados" },
+    { imagem:"mini4.webp", link:"/skincare", alt:"Seleção de skincare" }
+  ] },
+  lancamentos: { ativo:false, titulo:"Produtos", destaque:"Lançamentos",
+    seletorFonte:"", seletorItem:".listagem-item" },
+  marcas: { ativo:false, titulo:"Compre as", destaque:"Melhores Marcas", itens:[] },
+  promocoes: { ativo:false, titulo:"Produtos", destaque:"Promocionais",
+    seletorFonte:"", seletorItem:".listagem-item" },
+  newsletter: { ativo:false, seletorFormulario:"", titulo:"Novidades Nichelle", texto:"" },
+  instagram: { ativo:false, perfil:"", usuario:"@nichelle_imports", itens:[] },
+  empresa: { ativo:false, nome:"Nichelle Imports", logo:"logo-footer.png",
+    imagem:"rodape.webp", texto:"" },
+  integracoes: { banners:false, videos:true, noticias:false }
+};
+window.FWRNichelle = window.FWRNichelle || {};
+// Configuração publicada no dashboard FWR; a galeria fica desligada até
+// o cliente aprovar os quatro vídeos. Não enviar rascunhos privados ao browser.
+window.FWRNichelle.galeriaVideos = {
+  ativo:true, configUrl:"https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app/galeria-publicada.json"
+};
+</script>
+<script defer src="https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app/nichelle27.js"></script>

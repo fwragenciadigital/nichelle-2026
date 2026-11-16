@@ -36,6 +36,26 @@ for (const asset of assets) {
   await copyFile(source, join(target, asset.name));
   console.log("Asset publicado: /" + asset.name + " (" + Buffer.byteLength(contents) + " bytes)");
 }
+// Entrega primária: somente duas URLs externas para JS + CSS.
+ // Inclui os recursos legados já validados sem duplicar <script> na Loja Integrada.
+const legacyRuntime = (await readFile(resolve("public/nichelle.js"), "utf8"))
+  .replace(/\binstallStyles\(\);/, "/* CSS incorporado ao nichelle27.css */");
+if (legacyRuntime.includes("  installStyles();")) {
+  throw new Error("O bundle tentou carregar CSS duplicado");
+}
+const combinedJS = (await readFile(resolve("public/nichelle27.js"), "utf8")) +
+  "\n\n/* Runtime FWR legado integrado ao bundle Nichelle27 */\n" + legacyRuntime;
+new Script(combinedJS, { filename: "nichelle27.js" });
+await writeFile(join(target, "nichelle27.js"), combinedJS);
+const combinedCSS = (await readFile(resolve("public/nichelle27.css"), "utf8")) +
+  "\n\n/* Módulos FWR existentes: banners, notícias, vídeos */\n" +
+  (await readFile(resolve("public/nichelle.css"), "utf8"));
+await writeFile(join(target, "nichelle27.css"), combinedCSS);
+for (const file of ["galeria-videos.js", "galeria-videos.css",
+  "galeria-preview.json", "galeria-publicada.json"]) {
+  await copyFile(resolve("public", file), join(target, file));
+}
+console.log("Nichelle27: bundle JS/CSS + 4 arquivos de galeria publicados.");
 await writeFile(join(target, "index.html"),
   '<!doctype html><html lang="pt-BR"><meta charset="utf-8"><title>Nichelle 2026 — Assets</title>' +
   '<body><p>Nichelle 2026 · scripts e estilos versionados individualmente.</p></body></html>\n');

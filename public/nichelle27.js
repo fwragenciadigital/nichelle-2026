@@ -9,7 +9,7 @@
 (function () {
   "use strict";
   if (window.Nichelle27Framework && window.Nichelle27Framework.initialized) return;
-  const VERSION = "0.5.0";
+  const VERSION = "0.6.0";
   const ORDER = Object.freeze([
     "qualificadores", "maisVendidos", "banners", "lancamentos", "marcas",
     "videos", "promocoes", "noticias", "newsletter", "instagram", "empresa"
@@ -17,10 +17,18 @@
   const mounted = new Set();
 
   function settings() { return window.Nichelle27Settings || {}; }
-  function officialStoreMode() {
+  function isLiveStore() {
     const host = String(window.location.hostname || "").toLowerCase();
-    const liveHost = host === "www.nichelleimports.com.br" || host === "nichelleimports.com.br";
-    return liveHost && !!(settings().geral && settings().geral.publicarNaLoja === true);
+    return host === "www.nichelleimports.com.br" || host === "nichelleimports.com.br";
+  }
+  function previewOnStore() {
+    // Prévia opt-in. Visita normal sem ?nichelle_preview=1 NÃO altera a loja.
+    return isLiveStore() && settings().geral && settings().geral.modoPreview === true &&
+      new URLSearchParams(window.location.search).get("nichelle_preview") === "1";
+  }
+  function officialStoreMode() {
+    return isLiveStore() && !!(settings().geral && settings().geral.publicarNaLoja === true ||
+      previewOnStore());
   }
   function previewFixtureAllowed() {
     const host = String(window.location.hostname || "").toLowerCase();
@@ -56,6 +64,14 @@
     if (typeof css !== "string" || !css.trim()) return null;
     try { return (base || document).querySelector(css); }
     catch (error) { log("Seletor inválido:", css); return null; }
+  }
+  function imageURL(value) {
+    if (typeof value !== "string" || !value.trim()) return "";
+    const raw = value.trim();
+    if (/^(?:https?:)?\/\//i.test(raw) || raw.startsWith("/")) return safeURL(raw);
+    const base = String(settings().assetsBase || "").trim();
+    if (!base) return "";
+    return safeURL(base.replace(/\/+$/, "") + "/" + raw.replace(/^\/+/, ""));
   }
   function safeURL(value, sameOrigin) {
     if (typeof value !== "string" || !value.trim() || value.trim() === "#") return "";
@@ -97,6 +113,8 @@
     const cfg = settings().topo || {};
     if (!enabled(cfg)) return;
     nativeSkin(cfg, "data-n27-topo");
+    const nativeHeader = select(cfg.seletor);
+    if (nativeHeader && cfg.fixo === true) nativeHeader.dataset.n27Sticky = "1";
     if (cfg.faixaAtiva !== true || document.getElementById("n27-ticker")) return;
     const header = select(cfg.seletor);
     if (!header || !header.parentNode) return;
@@ -218,6 +236,36 @@
    * Slots são os mesmos do nichelle.js. O framework apenas os posiciona.
    * Ele não reimplementa banners, vídeos ou notícias.
    */
+  // Quatro cards 3:5 oriundos do recorte aprovado. Imagens e destinos vêm
+  // exclusivamente das Settings (CDN LI); nenhuma URL/compra é inventada.
+  function mountMiniBanners(cfg) {
+    if (!enabled(cfg)) return null;
+    const data = Array.isArray(cfg.itens) ? cfg.itens.slice(0, 4) : [];
+    const items = data.map(function (item) {
+      if (!item) return null;
+      const imagem = imageURL(item.imagem), link = safeURL(item.link);
+      return imagem && link ? { imagem, link, alt: String(item.alt || "Nichelle Imports").slice(0, 130) } : null;
+    }).filter(Boolean);
+    if (items.length !== 4) {
+      log("Mini banners aguardam quatro artes e quatro links válidos da loja.");
+      return null;
+    }
+    const outer = section("banners"), frame = container();
+    const grid = el("div", "n27-mini-grid");
+    grid.setAttribute("aria-label", "Coleções e cuidados em destaque");
+    items.forEach(function (item) {
+      const a = el("a", "n27-mini-card");
+      a.href = item.link;
+      const img = el("img");
+      img.src = item.imagem; img.alt = item.alt;
+      img.loading = "lazy"; img.decoding = "async";
+      img.width = 405; img.height = 676;
+      a.appendChild(img); grid.appendChild(a);
+    });
+    frame.appendChild(grid); outer.appendChild(frame);
+    return outer;
+  }
+
   function mountSlot(key) {
     const sources = {
       banners: { id: "fwr-nichelle-vitrine-slot", cfg: "bannerVitrine", event: "fwr:nichelle:banner-config" },
@@ -255,7 +303,7 @@
     const data = Array.isArray(cfg.itens) ? cfg.itens.slice(0, 16) : [];
     const items = data.map(function (item) {
       if (!item || typeof item.nome !== "string") return null;
-      const imagem = safeURL(item.imagem), link = safeURL(item.link);
+      const imagem = imageURL(item.imagem), link = safeURL(item.link);
       return imagem ? { nome: item.nome.trim().slice(0, 70), imagem, link } : null;
     }).filter(Boolean);
     if (!items.length) return null;
@@ -302,7 +350,7 @@
     const url = safeURL(cfg.perfil);
     const images = Array.isArray(cfg.itens) ? cfg.itens.slice(0, 8).map(function (v) {
       if (!v) return null;
-      const imagem = safeURL(v.imagem), link = safeURL(v.link);
+      const imagem = imageURL(v.imagem), link = safeURL(v.link);
       return imagem && link ? { imagem, link, alt: String(v.alt || "Instagram Nichelle").slice(0, 110) } : null;
     }).filter(Boolean) : [];
     if (!url && !images.length) return null;
@@ -331,7 +379,7 @@
     const outer = section("empresa"), company = el("div", "n27-company");
     const band = el("div", "n27-company__band"), frame = container();
     const inner = el("div", "n27-company__band-inner");
-    const logo = safeURL(cfg.logo);
+    const logo = imageURL(cfg.logo);
     const brand = logo ? el("img", "n27-company__brand") :
       el("strong", "n27-company__brand-fallback", cfg.nome || "Nichelle Imports");
     if (logo) {
@@ -340,7 +388,7 @@
     }
     inner.append(brand, el("div", "n27-company__description", cfg.texto.trim().slice(0, 1800)));
     frame.appendChild(inner); band.appendChild(frame); company.appendChild(band);
-    const photo = safeURL(cfg.imagem);
+    const photo = imageURL(cfg.imagem);
     if (photo) {
       const img = el("img", "n27-company__photo");
       img.src = photo; img.alt = cfg.nome || "Nichelle Imports";
@@ -361,9 +409,9 @@
       return { ativo: false, bloqueado: true, montados: Array.from(mounted) };
     }
 
-    if (officialStoreMode()) {
-      // Official integration is limited to the one confirmed FWR component.
-      // Do not touch native LI nodes until exact theme selectors are verified.
+    if (officialStoreMode() && !(cfg.layout && cfg.layout.homologado === true)) {
+      // Sem homologação explícita, só deixa os slots FWR existentes intactos.
+      // A liberação não depende de uma URL externa ou do mero download do JS.
       mountSlot("videos");
       return { ativo: true, adaptador: true, layout: false, montados: Array.from(mounted) };
     }
@@ -373,14 +421,22 @@
 
     const opts = cfg.layout || {};
     if (!enabled(opts)) return { ativo: true, layout: false, montados: Array.from(mounted) };
-    const root = select(opts.seletor);
+    let root = select(opts.seletor);
+    if (!root && opts.autocriarSlot === true && normalizePath(window.location.pathname) === "/") {
+      const anchor = select(opts.inserirDepois || ".secao-banners");
+      if (anchor && anchor.parentNode) {
+        root = el("div");
+        root.id = "n27-layout-root";
+        anchor.insertAdjacentElement("afterend", root);
+      }
+    }
     if (!root) { log("Slot principal ausente:", opts.seletor); return { ativo: true, layout: false }; }
     root.setAttribute("data-n27-root", "1");
 
     const map = {
       qualificadores: function () { return mountQualificadores(cfg.qualificadores || cfg.beneficios); },
       maisVendidos: function () { return mountVitrine(cfg.maisVendidos, "maisVendidos"); },
-      banners: function () { return mountSlot("banners"); },
+      banners: function () { return mountSlot("banners") || mountMiniBanners(cfg.miniBanners); },
       lancamentos: function () { return mountVitrine(cfg.lancamentos, "lancamentos"); },
       marcas: function () { return mountMarcas(cfg.marcas); },
       videos: function () { return mountSlot("videos"); },
@@ -412,7 +468,7 @@
     mount: mount,
     diagnostico: function () {
       return { versao: VERSION, configuracaoAtiva: enabled(settings().geral),
-        previewPermitido: previewFixtureAllowed(),
+        previewPermitido: previewFixtureAllowed(), modoPreview: previewOnStore(),
         publicacaoAtiva: !!(settings().geral && settings().geral.publicarNaLoja === true),
         bloqueado: enabled(settings().geral) && !previewFixtureAllowed(),
         layout: !!select(settings().layout && settings().layout.seletor),

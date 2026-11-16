@@ -130,3 +130,36 @@
 }
 @media(max-width:350px){.n27-benefits__list{grid-template-columns:1fr}.n27-newsletter__form button,.n27-newsletter__form input[type=submit]{font-size:10px;padding-inline:10px}}
 @media(prefers-reduced-motion:reduce){[data-n27-root] *,[data-n27-root] *:before,[data-n27-root] *:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+
+/* Nichelle 2026 • extensão visual integrada para o layout aprovado.
+   Todas as regras do tema real exigem atributos data-n27-* ativados pelo JS.
+   Os quatro banners têm proporção reservada para minimizar CLS. */
+[data-n27-topo][data-n27-sticky="1"]{
+  position:sticky;top:0;z-index:1010;background:#fff;
+  isolation:isolate;transition:box-shadow .2s ease;
+}
+[data-n27-topo][data-n27-sticky="1"]:is(:hover,:focus-within){box-shadow:0 3px 16px #36004518}
+[data-n27-topo] .menu-desktop .menu,
+[data-n27-topo] .menu.superior{background:#8300aa}
+[data-n27-topo] .menu-desktop .menu > .nivel-um > li > a{
+  color:#fff;font-weight:700;transition:background .2s ease;
+}
+[data-n27-topo] .busca-topo :is(input[type="search"],input[type="text"]),
+[data-n27-topo] .busca :is(input[type="search"],input[type="text"]){
+  max-width:100%;border:1px solid #e6dce8;border-radius:999px;background:#fff;
+}
+[data-n27-topo] .logo img{object-fit:contain}
+[data-n27-footer]{background:#f0eaf3}
+.n27-mini-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.8vw,26px)}
+.n27-mini-card{display:block;position:relative;overflow:hidden;border-radius:clamp(10px,1.2vw,18px);aspect-ratio:405/676;min-width:0;background:#e8e1e9;scroll-snap-align:start}
+.n27-mini-card img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .35s ease}
+.n27-mini-card:hover img{transform:scale(1.035)}
+.n27-mini-card:focus-visible{outline:3px solid #8300aa;outline-offset:4px}
+@media(max-width:767px){
+  .n27-mini-grid{display:grid;grid-auto-flow:column;grid-auto-columns:clamp(180px,63vw,270px);grid-template-columns:none;gap:13px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;padding:2px 2px 12px;scrollbar-width:thin}
+  [data-n27-topo][data-n27-sticky="1"]{position:sticky;top:0}
+}
+@media(prefers-reduced-motion:reduce){
+  .n27-mini-card img,[data-n27-topo][data-n27-sticky="1"]{transition:none}
+}
