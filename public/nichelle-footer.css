@@ -692,3 +692,21 @@ html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer a.n27-foot__agency img {
   filter:none!important;
   background:none!important;
 }
+
+/* Logo oficial na faixa institucional do rodape.
+   Reutiliza o slot ja aprovado, sem duplicar marcas ou afetar o restante da LI. */
+html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__logo {
+  flex-shrink:0!important;
+}
+html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__logo img {
+  display:block!important;
+  max-width:100%!important;
+  object-fit:contain!important;
+}
+html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__logo-label {
+  display:block!important;
+  color:#fff!important;
+  font:800 clamp(17px,2vw,27px)/1.1 "Montserrat",Arial,Helvetica,sans-serif!important;
+  letter-spacing:-.035em!important;
+  white-space:nowrap!important;
+}
