@@ -10,7 +10,7 @@ if(!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname)||pathname!=="/
  new URLSearchParams(location.search).get("nichelle_preview")!=="1")return;
 const ID="n27-approved-categories";
 const SOURCE=".row-fluid.banner.mini-banner, .banner.mini-banner, .mini-banner, .minibanner, [data-banner-posicao='mini'], [data-banner-position='mini']";
-const LIMIT=8;
+const LIMIT=4;
 let lastKey="",scheduled=false,watcher=null;
 const text=(val,max=180)=>String(val||"").replace(/\s+/g," ").trim().slice(0,max);
 function allowed(){
