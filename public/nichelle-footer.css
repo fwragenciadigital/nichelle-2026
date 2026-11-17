@@ -796,3 +796,16 @@ html[data-n27-fwr-footer="1"] a.n27-foot__agency--native-credit img {
 html[data-n27-fwr-footer="1"][data-n27-agency-credit="native"] #rodape #n27-fwr-footer a.n27-foot__agency {
   display:none!important;
 }
+
+/* Nichelle — ajustes refinados de colunas e titulos (desktop 1025px+) */
+@media (min-width:1025px) {
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__columns .n27-foot__details {
+    display:flex!important;
+    flex-direction:column!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__columns .n27-foot__title,
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__columns .n27-foot__shipping .n27-foot__title,
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__columns .n27-foot__security > .n27-foot__details .n27-foot__title {
+    font:400 clamp(16px,1vw,16px)/1.26 "Montserrat",Arial,Helvetica,sans-serif!important;
+  }
+}
