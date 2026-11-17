@@ -809,3 +809,45 @@ html[data-n27-fwr-footer="1"][data-n27-agency-credit="native"] #rodape #n27-fwr-
     font:400 clamp(16px,1vw,16px)/1.26 "Montserrat",Arial,Helvetica,sans-serif!important;
   }
 }
+
+/* Correção do collage do rodapé — DESKTOP somente.
+   Evita crop da imagem: nenhum fundo ultrapassa o container e
+   o frasco completo permanece enquadrado, sem invadir o topo roxo. */
+@media (min-width:1025px) {
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__art {
+    position:relative!important;
+    min-height:445px!important;
+    overflow:hidden!important;
+    background-size:contain!important;
+    background-position:center bottom!important;
+    background-repeat:no-repeat!important;
+    background-color:#eee9f0!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__art::before {
+    content:none!important;
+    display:none!important;
+    height:0!important;
+  }
+}
+/* Crédito da faixa inferior: a FWR substitui apenas a marca do Groom;
+   o logotipo e link "Plataforma: Loja Integrada" ficam intocados. */
+html[data-n27-fwr-footer="1"] a.n27-foot__agency--native-credit {
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:auto!important;
+  min-width:90px!important;
+  min-height:32px!important;
+  border:0!important;
+  background:transparent!important;
+  text-decoration:none!important;
+}
+html[data-n27-fwr-footer="1"] a.n27-foot__agency--native-credit img {
+  display:block!important;
+  height:32px!important;
+  max-height:32px!important;
+  width:auto!important;
+  max-width:105px!important;
+  object-fit:contain!important;
+  filter:none!important;
+}
