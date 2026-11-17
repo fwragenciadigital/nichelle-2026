@@ -42,15 +42,11 @@
     let hero = document.getElementById("n27-approved-hero");
     if (!hero) {
       hero = make("n27-approved-hero", "n27-approved-hero");
-      const image = img(HOST + "/assets/hero-medicube.webp",
-        "Medicube: linha completa de produtos de skincare", 1600, 545);
-      image.loading = "eager";
-      image.fetchPriority = "high";
-      hero.appendChild(image);
-      const mobile = node("div", "n27-approved-hero__mobile");
-      mobile.append(node("span", "", "LINHA COMPLETA DE PRODUTOS"),
-        node("strong", "", "medicube+"));
-      hero.appendChild(mobile);
+      // FULLBANNER: as imagens e os links serao extraidos SOMENTE
+      // dos banners nativos publicados pela Loja Integrada.
+      // Nao insira artes fixas: nichelle-fullbanners.js gerencia o slot.
+      hero.hidden = true;
+      hero.dataset.n27FullReady = "0";
     }
     let benefits = document.getElementById("n27-approved-benefits");
     if (!benefits) benefits = make("n27-approved-benefits", "n27-approved-benefits");
