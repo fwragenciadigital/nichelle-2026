@@ -37,8 +37,8 @@ html[data-n27-news="1"] #n27-approved-news *:after {
 html[data-n27-news="1"] #n27-approved-news .n27-news__inner {
   display:block!important;
   position:relative!important;
-  width:min(calc(100% - 48px),1438px)!important;
-  max-width:1438px!important;
+  width:100%!important;
+  max-width:1540px!important;
   min-width:0!important;
   height:auto!important;
   margin:0 auto!important;
