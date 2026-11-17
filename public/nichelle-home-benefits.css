@@ -67,7 +67,7 @@ html[data-n27-approved="1"] #n27-approved-benefits .n27-home-benefits__label-tex
   justify-content:center!important;
   gap:0!important;
   color:#fff!important;
-  font:900 20px/.87 Arial,Helvetica,sans-serif!important;
+  font:900 20px/.87 "Montserrat", Arial, Helvetica, sans-serif!important;
   letter-spacing:-.045em!important;
   text-align:center!important;
   text-transform:uppercase!important;
@@ -82,7 +82,7 @@ html[data-n27-approved="1"] #n27-approved-benefits .n27-home-benefits__label-tex
 html[data-n27-approved="1"] #n27-approved-benefits .n27-home-benefits__label-text b {
   display:inline!important;
   color:#8700ba!important;
-  font:900 22px/1 Arial,Helvetica,sans-serif!important;
+  font:900 22px/1 "Montserrat", Arial, Helvetica, sans-serif!important;
   letter-spacing:-.08em!important;
 }
 html[data-n27-approved="1"] #n27-approved-benefits .n27-home-benefits__list {
@@ -165,7 +165,7 @@ html[data-n27-approved="1"] #n27-approved-benefits .n27-home-benefits__text {
 html[data-n27-approved="1"] #n27-approved-benefits .n27-home-benefits__text strong,
 html[data-n27-approved="1"] #n27-approved-benefits .n27-home-benefits__text > span {
   display:block!important;
-  font:800 clamp(10px,.81vw,13.5px)/1.12 Arial,Helvetica,sans-serif!important;
+  font:800 clamp(10px,.81vw,13.5px)/1.12 "Montserrat", Arial, Helvetica, sans-serif!important;
   letter-spacing:-.025em!important;
   color:#999!important;
   text-transform:uppercase!important;
