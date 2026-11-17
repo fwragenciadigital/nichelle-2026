@@ -106,8 +106,10 @@ function setupPix(principal){
  hero.append(over,value,desc,discount);
  const variant=principal.querySelector(":scope > .atributos");
  const first=principal.querySelector(":scope > .acoes-produto");
- if(first)principal.insertBefore(hero,first);
- else if(variant)variant.after(hero);
+ // Price preview appears near the title, as in the approved minimal reference.
+ // The underlying values are still read from the visible native action.
+ if(variant)principal.insertBefore(hero,variant);
+ else if(first)principal.insertBefore(hero,first);
  else principal.append(hero);
 }
 function visibleAction(principal){
