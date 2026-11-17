@@ -27,7 +27,7 @@ const ROOTS=[
 ].join(",");
 const EXCLUDED=".mini-banner,.minibanner,.banner-tarja,.banner-lateral,.banner-vitrine,.slick-cloned,.owl-item.cloned,.swiper-slide-duplicate,[data-n27-full-clone]";
 const MAX=12;
-let signature="",observer=null,queued=false,rotateTimer=null,slideIndex=0;
+let signature="",observer=null,queued=false,rotateTimer=null,slideIndex=0,eventsController=null;
 function allowed(){
  const g=window.Nichelle27Settings?.geral;
  return !!(g&&g.ativo===true&&g.modoPreview===true&&g.publicarNaLoja!==true);
@@ -42,7 +42,7 @@ function config(){
  };
 }
 function safeUrl(raw){
- if(typeof raw!=="string"||!raw.trim())return "";
+ if(typeof raw!=="string"||!raw.trim()||raw.trim()==="#")return "";
  try{
   const u=new URL(raw.trim(),location.href);
   return ["https:","http:"].includes(u.protocol)&&!u.username&&!u.password?u.href:"";
@@ -115,12 +115,22 @@ function collect(){
   for(const [node,imgs] of grouped){
    const desktop=imgs.find(img=>!isMobileImage(img)&&imageUrl(img))||imgs.find(img=>imageUrl(img));
    if(!desktop)continue;
-   const src=imageUrl(desktop);if(!src)continue;
+   let src=imageUrl(desktop);if(!src)continue;
+   const desktopPicture=desktop.closest("picture");
+   if(desktopPicture){
+     const wide=[...desktopPicture.querySelectorAll("source[media]")]
+       .find(el=>/min-width|min-device-width/i.test(el.getAttribute("media")||""));
+     const alternative=sourceUrl(wide?.getAttribute("srcset")||wide?.getAttribute("data-srcset"));
+     if(alternative)src=alternative;
+   }
    const slide=node.matches?.("img")?desktop:node;
    const a=desktop.closest("a[href]")||slide.querySelector?.("a[href]")||
      root.closest("a[href]");
    const href=a?safeUrl(a.getAttribute("href")):"";
-   const mobile=mobileImage(slide,desktop,imgs);
+   let mobile=mobileImage(slide,desktop,imgs);
+   // Quando o <picture> usa a imagem base no mobile e um <source> desktop,
+   // preservar os dois arquivos, sem forcar crop da imagem desktop no celular.
+   if(desktopPicture&&src!==imageUrl(desktop)&&!mobile)mobile=imageUrl(desktop);
    const key=src+"|"+href+"|"+mobile;
    if(seen.has(key))continue;seen.add(key);
    result.push({
@@ -168,12 +178,20 @@ function render(){
  if(signature===key&&hero.dataset.n27FullReady==="1")return;
  signature=key;
  clearRotation();
+ eventsController?.abort();
+ eventsController=new AbortController();
+ document.querySelectorAll('[data-n27-native-full-source="1"]').forEach(el=>{
+   delete el.dataset.n27NativeFullSource;
+ });
  if(!banners.length){
   hero.replaceChildren();
   hero.hidden=true;hero.dataset.n27FullReady="0";
   document.documentElement.dataset.n27NativeFullbanner="0";
   return;
  }
+ // Identifica a origem exata no DOM para omitir somente o FULLBANNER
+ // nativo quando a nova vitrine ja estiver pronta para exibir.
+ getRoots().forEach(el=>{el.dataset.n27NativeFullSource="1";});
  const track=el("div","n27-full__track");
  track.setAttribute("aria-label","Banners de destaque da Nichelle Imports");
  const multiple=banners.length>1;
@@ -217,18 +235,19 @@ function render(){
    dots.append(dot);
   });
   controls.append(previous,dots,next);hero.append(controls);
-  hero.addEventListener("mouseenter",clearRotation,{once:false});
-  hero.addEventListener("mouseleave",startRotation,{once:false});
-  hero.addEventListener("focusin",clearRotation,{once:false});
-  hero.addEventListener("focusout",startRotation,{once:false});
+  const options={signal:eventsController.signal};
+  hero.addEventListener("mouseenter",clearRotation,options);
+  hero.addEventListener("mouseleave",startRotation,options);
+  hero.addEventListener("focusin",clearRotation,options);
+  hero.addEventListener("focusout",startRotation,options);
   let startX=0;
   hero.addEventListener("touchstart",ev=>{
    startX=ev.touches?.[0]?.clientX||0;
-  },{passive:true});
+  },{passive:true,signal:eventsController.signal});
   hero.addEventListener("touchend",ev=>{
    const endX=ev.changedTouches?.[0]?.clientX||0;
    if(Math.abs(startX-endX)>40){setActive(hero,slideIndex+(endX<startX?1:-1));startRotation();}
-  },{passive:true});
+  },{passive:true,signal:eventsController.signal});
  }
  hero.hidden=false;hero.dataset.n27FullReady="1";
  document.documentElement.dataset.n27NativeFullbanner="1";
