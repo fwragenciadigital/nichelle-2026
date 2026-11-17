@@ -24,7 +24,7 @@ function el(tag,cls,value){const n=document.createElement(tag);if(cls)n.classNam
 function settings(){
  const o=window.Nichelle27Settings?.carrinhoFWR||{};
  return {ativo:o.ativo!==false,orderBump:o.orderBump!==false,
-   maxOfertas:Math.max(0,Math.min(4,Number(o.maxOfertas)||3)),
+   maxOfertas:Math.max(0,Math.min(4,o.maxOfertas===undefined?3:Number(o.maxOfertas)||0)),
    titulo:txt(o.titulo??"Meu carrinho",65),
    subtitulo:txt(o.subtitulo??"Confira os produtos antes de finalizar.",90),
    ofertasTitulo:txt(o.ofertasTitulo??"Aproveite e leve também",90),
@@ -397,7 +397,12 @@ async function addOffer(offer,btn){
    location.href=offer.href+(offer.href.includes("?")?"&":"?")+"nichelle_preview=1";
    return;
   }
-  const response=await officialFetch(path,"application/json");
+  const response=await fetch(path,{
+    method:"GET",credentials:"same-origin",cache:"no-store",
+    headers:{Accept:"application/json","X-Requested-With":"XMLHttpRequest"}
+  });
+  if(!response.ok||new URL(response.url,location.href).origin!==location.origin)
+    throw Error("Erro da Loja Integrada ao adicionar produto");
   const data=await response.json();
   if(data?.status!=="sucesso")throw Error(data?.mensagem||"Produto não adicionado");
   cartState=await retrieve();
@@ -420,9 +425,16 @@ function onCartAnchor(e){
 function closeNativeSuccess(){
  const j=window.jQuery||window.$;
  if(!j?.fancybox?.close)return;
- const box=document.querySelector(".fancybox-opened");
- const native=box?.querySelector("#comprar-ajax-status, .ir-carrinho");
- if(native)try{j.fancybox.close();}catch(_){}
+ // Close only the add-to-cart success popup; never image/size-guide modals.
+ const wrapper=document.querySelector(".fancybox-wrap.modal-comprar-ajax-status.fancybox-opened");
+ if(wrapper)try{j.fancybox.close();}catch(_){}
+}
+function watchNativeSuccess(){
+ // Groom/LI sometimes opens the success popup *after* the AJAX event.
+ // A bounded series of checks avoids leaving that popup behind the drawer.
+ [0,150,380,680,1100,1700].forEach(ms=>window.setTimeout(()=>{
+   if(opened)closeNativeSuccess();
+ },ms));
 }
 function onNativeAjaxSuccess(event,xhr,opts){
  if(!allowed()||!opts||mutating)return;
@@ -434,9 +446,8 @@ function onNativeAjaxSuccess(event,xhr,opts){
  if(data?.status!=="sucesso")return;
  // Native LI AJAX already added the product; FWR only reads the actual cart.
  window.setTimeout(()=>{
-  closeNativeSuccess();
   open(document.activeElement);
-  window.setTimeout(closeNativeSuccess,130);
+  watchNativeSuccess();
  },220);
 }
 function register(){
@@ -448,7 +459,7 @@ function register(){
  window.addEventListener("nichelle:cart-updated",()=>{if(opened&&!mutating){const t=Date.now();if(t-lastRefresh>800){lastRefresh=t;loadCart();}}});
  document.addEventListener("nichelle27:cart:open",()=>open());
  document.addEventListener("nichelle27:cart:refresh",()=>{if(opened)loadCart();});
- window.NichelleCartDrawer={version:"1.0.0",open:()=>open(),close,refresh:loadCart,
+ window.NichelleCartDrawer={version:"1.1.0",open:()=>open(),close,refresh:loadCart,
   get state(){return{open:opened,quantity:cartState.quantity,subtotal:cartState.subtotal,
    items:cartState.items.map(x=>({id:x.id,quantity:x.quantity,price:x.price}))};}};
 }
