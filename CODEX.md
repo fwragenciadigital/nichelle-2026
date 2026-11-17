@@ -1,3 +1,28 @@
+## Instalação atual: cliente editável + motor fixo (17/11/2026)
+
+**Os dois arquivos são fontes independentes e o CSS só existe nos respectivos
+`public/*.css`. Nunca voltar a inserir CSS inline na Loja Integrada.**
+
+1. `integracao/nichelle-modulos-admin.html` = **CLIENTE**: cinco grupos
+   de configurações (`fullBanners`, `vantagens`, `miniBanners`,
+   `galeriaShorts`, `noticiasHome`). Não inclui inicialização, CSS,
+   integração, loaders ou hotfixes.
+2. `integracao/nichelle-core-fixo.html` = **FWR**: settings estruturais
+   e compatibilidade do tema, carregamento único `nichelle27.css/js`
+   apenas na prévia e ajustes de ícones/Mini Banner. Não inclui CSS inline.
+
+**Instalar no Cabeçalho/HEAD, com o EDITÁVEL primeiro e FIXO depois.**
+No mesmo campo HTML da LI, os dois blocos juntos devem ser menores que
+15.000 bytes UTF-8. Não manter o antigo HTML unificado instalado junto.
+O CSS preflight está em `public/nichelle-isolation.css`; o bloco fixo
+só adiciona `data-n27-preflight` na homepage em prévia.
+
+Os ajustes visuais novos de `public/nichelle-home-benefits.css`,
+`public/nichelle-pdp.css`, `public/nichelle-footer.css` e
+`public/nichelle-cart-drawer.css` estão exclusivamente em
+`@media(min-width:1025px)`. Nunca alterá-los no mobile.
+Atrasos de deploy da Vercel não autorizam embutir CSS no HTML do cliente.
+
 > **ESCOPO ATUAL (09/11/2026):** o pedido direto mais recente retoma dashboard FWR protegido para administrar somente a galeria customizada e publicar JSON sanitizado. Use `docs/04-DASHBOARD-SETTINGS-ARQUITETURA.md`, `docs/03-VIDEO-GALLERY-SPEC.md` e `docs/05-PLANO-DE-HOMOLOGACAO.md`. `docs/07-ARQUITETURA-SIMPLIFICADA-GIT-HTML.md` registra a decisão anterior sem painel e fica histórica nessa parte. O código Malheiro é referência técnica, NÃO executar na loja Nichelle.
 
 # Codex — Nichelle Imports 2026
@@ -67,7 +92,7 @@ Os Mini Banners continuam vindo SOMENTE do painel da LI.
 - **Shorts:** `Nichelle27Settings.galeriaShorts` editável no HTML da LI; URLs e código de iframe só podem gerar embeds seguros YouTube/Vimeo. Nunca inserir HTML de iframe recebido como `innerHTML`.
 - **Conteúdos para Você:** `Nichelle27Settings.noticiasHome` editável no HTML da LI; configuração atual prevalece sobre dados legados, sem criar links de artigos inexistentes.
 - **CSS fino:** ajustes aprovados do header e footer foram incorporados exclusivamente em `@media(min-width:1025px)` em `public/nichelle-header.css` e `public/nichelle-footer.css`. Nunca propagar essas regras para mobile.
-- Script fornecido para a edição: `integracao/nichelle-modulos-admin.html`. Instruções em `docs/NICHELLE-HOME-MODULOS-EDITAVEIS.md`.
+- **Blocos separados:** `integracao/nichelle-modulos-admin.html` (editável) e `integracao/nichelle-core-fixo.html` (fixo); instruções em `docs/NICHELLE-HOME-MODULOS-EDITAVEIS.md`.
 - Preservar o controle por `?nichelle_preview=1` e os recursos nativos de preços, compra, estoque, frete e checkout.
 
 
@@ -75,7 +100,7 @@ Os Mini Banners continuam vindo SOMENTE do painel da LI.
 
 - A posição **Mini Banner** deve ser identificada EXPLICITAMENTE no HTML nativo (classes `.mini-banner`, `.banner-mini`, metadados de posição `mini`, ou nome `Mini Banner` na imagem). **NUNCA ler `.banners-extras` isoladamente** — essa área pode conter Banner Vitrine e outras imagens, gerando cards errados.
 - Não confundir `Banner Vitrine` com Mini Banner; quando o tema não publicar elementos Mini, ocultar os cards, sem fallback para uma campanha de outra posição.
-- O código completo para o painel deve ser um **único HTML colocado no HEAD (Código no cabeçalho)**: `integracao/nichelle-modulos-admin.html`. A montagem exclusiva de prévia tem preflight anti-FOUC, condicionado a `nichelle_preview=1`, com recuperação automática em 8s. Carregar o mesmo bloco no rodapé causa flash do tema legado.
-- Compatibilidade inline deve sobrescrever cards errados de versões antigas do bundle e desconectar ao detectar `window.NichelleMiniBanners.version >= 1.2.0`.
+- O código completo exige **dois blocos colocados no HEAD (Código no cabeçalho)**: editável primeiro, fixo segundo. A montagem exclusiva de prévia tem preflight anti-FOUC em `public/nichelle-isolation.css` com classe/dataset no motor fixo e recuperação automática em 8s.
+- A compatibilidade JS do motor fixo deve sobrescrever cards errados de versões antigas do bundle e desconectar ao detectar `window.NichelleMiniBanners.version >= 1.2.0`; o CSS deve permanecer exclusivamente externo.
 - Não modificar visitantes sem prévia, preço, checkout, conta, carrinho ou a identidade visual mobile por causa desses ajustes.
 
