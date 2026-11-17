@@ -178,7 +178,9 @@
   function mount() {
     if (!active()) return;
     const admin=getSettings();
-    const url=safeString(admin.configUrl,500);
+    // Valores editados no HTML da loja vencem JSON remoto antigo.
+    const inlineItems=Array.isArray(admin.itens)&&admin.itens.length>0;
+    const url=inlineItems?"":safeString(admin.configUrl,500);
     const cfg=normalize(externalCache && externalCache.url===url ? externalCache.data : admin);
     mountConfig(cfg);
     if (url && requested !== url) {
@@ -198,5 +200,5 @@
   window.addEventListener("load",mount,{once:true});
   [250,850,2200].forEach(delay=>window.setTimeout(mount,delay));
   document.addEventListener("nichelle27:vantagens:update",function(){requested="";externalCache=null;scheduleMount();});
-  window.NichelleHomeBenefits={version:"1.0.0",refresh:scheduleMount,icons:Object.keys(ALLOWED_ICONS)};
+  window.NichelleHomeBenefits={version:"1.1.0",refresh:scheduleMount,icons:Object.keys(ALLOWED_ICONS)};
 })();
