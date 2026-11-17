@@ -298,51 +298,69 @@
   // Substitui somente o credito do DESENVOLVEDOR Groom pelo da FWR.
   // Preserva completamente a marca e o link "Plataforma: Loja Integrada".
   // A busca e limitada ao rodape nativo; nunca altera links em vitrine/checkout.
+  // A assinatura Groom pode estar dentro OU fora de #rodape, e pode ser
+  // um link, uma imagem sem link ou apenas um texto curto. Modificar somente
+  // a marca do desenvolvedor, preservando o crédito Loja Integrada.
   function syncAgencyCredit(){
-    const footer=document.getElementById("rodape");
-    if(!footer)return;
+    if(!document.getElementById("rodape"))return;
     const src="https://cdn.awsli.com.br/2550/2550587/arquivos/fwr-agencia-digital.svg";
     const agency="https://fwragenciadigital.com.br/";
-    let changed=false;
-    const nativeLinks=[...document.querySelectorAll("a[href]")].filter(link=>{
-      if(link.closest("#"+id))return false;
-      const footerContext=link.closest(
-        "#rodape,footer,[class*='rodape'],[class*='footer'],"+
-        "[class*='assinatura'],[class*='credito']"
-      );
-      const nearby=(link.parentElement?.parentElement?.textContent||"").slice(0,200);
-      if(!footerContext&&!/desenvolvimento/i.test(nearby))return false;
-      try{
-        const hostname=new URL(link.href,location.origin).hostname.toLowerCase();
-        return hostname==="groomb.com.br"||hostname.endsWith(".groomb.com.br");
-      }catch(_){return false;}
-    });
-    for(const link of nativeLinks){
-      // A assinatura nativa pode existir no DOM, mas estar oculta pelo
-      // tema; nesse caso manter o logo FWR do rodape personalizado.
-      const visible=typeof link.getClientRects==="function"?
-        link.getClientRects().length>0:true;
-      const img=node("img");
-      img.src=src;img.alt="FWR Agência Digital";
-      img.width=90;img.height=36;
-      img.loading="lazy";img.decoding="async";
-      link.replaceChildren(img);
+    const mark=/groom(?:b)?/i;
+    const creditContext=
+      "footer,#rodape,.rodape-inferior,[class*='rodape'],[class*='footer'],"+
+      "[class*='assinatura'],[class*='credito'],[class*='credit']";
+    const nodes=[
+      ...document.querySelectorAll("a[href],img[src],span,strong,small,b")
+    ];
+    const targets=new Set();
+    for(const element of nodes){
+      if(element.closest("#"+id))continue;
+      const relevantRegion=element.closest(creditContext);
+      const nearby=(element.parentElement?.parentElement?.textContent||"").slice(0,260);
+      if(!relevantRegion&&!/desenvolvimento\s*:/i.test(nearby))continue;
+      // Evitar qualquer troca na coluna Plataforma / Loja Integrada.
+      if(/plataforma/i.test(element.closest("a")?.getAttribute("aria-label")||""))continue;
+      let match=false;
+      if(element.matches("a[href]")){
+        const href=element.getAttribute("href")||"";
+        const image=element.querySelector("img");
+        match=mark.test(href)||mark.test(image?.getAttribute("src")||"")||
+          mark.test(image?.getAttribute("alt")||"")||
+          /^groom(?:b)?$/i.test((element.textContent||"").trim());
+      }else if(element.matches("img[src]")){
+        match=mark.test(element.getAttribute("src")||"")||
+          mark.test(element.getAttribute("alt")||"");
+      }else{
+        match=/^groom(?:b)?$/i.test((element.textContent||"").trim());
+      }
+      if(!match)continue;
+      const anchor=element.matches("a[href]")?element:element.closest("a[href]");
+      targets.add(anchor&&anchor!==document.querySelector("#"+id+" .n27-foot__agency")?
+        anchor:element);
+    }
+    for(const target of targets){
+      if(!target.isConnected)continue;
+      const alreadyAnchor=target.matches("a[href]");
+      const link=alreadyAnchor?target:node("a");
+      const logo=node("img");
+      logo.src=src;
+      logo.alt="FWR Agência Digital";
+      logo.width=95;logo.height=32;
+      logo.loading="lazy";logo.decoding="async";
+      link.replaceChildren(logo);
       link.href=agency;
       link.target="_blank";
       link.rel="noopener noreferrer";
       link.classList.add("n27-foot__agency--native-credit");
       link.setAttribute("aria-label","Desenvolvimento: FWR Agência Digital");
       link.title="FWR Agência Digital";
-      if(visible)changed=true;
+      if(!alreadyAnchor)target.replaceWith(link);
     }
-    const visibleStored=[...document.querySelectorAll("a.n27-foot__agency--native-credit")]
+    const visible=[...document.querySelectorAll("a.n27-foot__agency--native-credit")]
       .some(link=>typeof link.getClientRects==="function"?
         link.getClientRects().length>0:true);
-    if(changed||visibleStored){
-      document.documentElement.dataset.n27AgencyCredit="native";
-    }else{
-      delete document.documentElement.dataset.n27AgencyCredit;
-    }
+    if(visible)document.documentElement.dataset.n27AgencyCredit="native";
+    else delete document.documentElement.dataset.n27AgencyCredit;
   }
   function render(data,cfg){
     const root=document.getElementById("rodape");
