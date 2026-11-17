@@ -42,3 +42,15 @@ Sem controle de elementos nativos. Backend autenticado versiona configurações 
 ## Vídeos YouTube Shorts
 
 A galeria FWR aceita Shorts ou links YouTube normais. Imagem de capa automática derivada do próprio vídeo, com substituição opcional. Ver `docs/03-VIDEO-GALLERY-SPEC.md` e testes `tests/youtube-shorts.test.mjs`. Sem alterações em módulos nativos da Loja Integrada.
+
+
+## Home administrável — fonte oficial
+
+- **Mini Banner:** a fonte de verdade são exclusivamente os Mini Banners publicados no painel nativo da Loja Integrada e presentes no DOM público. A vitrine FWR deve ler imagem, link, status e ordem dos elementos nativos. NÃO reintroduzir `mini-1.webp` a `mini-4.webp` ou URLs artificiais como fallback. Uma imagem nativa = um card FWR; sem imagem nativa, ocultar a vitrine. A implementação está em `public/nichelle-mini-banners.js`.
+- **Benefícios/Vantagens:** `Nichelle27Settings.vantagens` editável no HTML da LI, com até quatro itens; se configurado manualmente, priorizar sobre JSON remoto.
+- **Shorts:** `Nichelle27Settings.galeriaShorts` editável no HTML da LI; URLs e código de iframe só podem gerar embeds seguros YouTube/Vimeo. Nunca inserir HTML de iframe recebido como `innerHTML`.
+- **Conteúdos para Você:** `Nichelle27Settings.noticiasHome` editável no HTML da LI; configuração atual prevalece sobre dados legados, sem criar links de artigos inexistentes.
+- **CSS fino:** ajustes aprovados do header e footer foram incorporados exclusivamente em `@media(min-width:1025px)` em `public/nichelle-header.css` e `public/nichelle-footer.css`. Nunca propagar essas regras para mobile.
+- Script fornecido para a edição: `integracao/nichelle-modulos-admin.html`. Instruções em `docs/NICHELLE-HOME-MODULOS-EDITAVEIS.md`.
+- Preservar o controle por `?nichelle_preview=1` e os recursos nativos de preços, compra, estoque, frete e checkout.
+
