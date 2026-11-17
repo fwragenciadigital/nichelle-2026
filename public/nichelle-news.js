@@ -86,7 +86,10 @@
       console.warn("[Nichelle Notícias] JSON inválido",e.message);
     }}
     const custom=inline&&typeof inline==="object"&&!Array.isArray(inline)?inline:s;
-    const useLegacy=old.ativo===true&&Array.isArray(old.itens)&&old.itens.length>0;
+    const customItems=Array.isArray(custom.itens)&&custom.itens.length>0;
+    const useLegacy=!customItems&&old.ativo===true&&
+      Array.isArray(old.itens)&&old.itens.length>0;
+    // Configuracao atual no painel tem prioridade sobre o legado.
     const src=useLegacy?old:custom;
     const active=custom.ativo!==false;
     const incoming=Array.isArray(src.itens)&&src.itens.length?src.itens:FALLBACK;
@@ -217,5 +220,5 @@
   [220,700,1700,3500].forEach(t=>setTimeout(schedule,t));
   ["fwr:nichelle:news-config","nichelle27:noticias:update","nichelle27:refresh"]
     .forEach(name=>document.addEventListener(name,()=>{lastSignature="";schedule();}));
-  window.NichelleNews={version:"1.0.0",refresh:schedule};
+  window.NichelleNews={version:"1.1.0",refresh:schedule};
 })();
