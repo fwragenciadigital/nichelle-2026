@@ -80,7 +80,7 @@ function extras(detailsCol){
  const price=line("payment","Pagamento e condições","As condições de parcelamento e pagamento são determinadas pela Loja Integrada.");
  const priceLink=e("button","n27-pdp__inline-link","Consultar formas de pagamento");priceLink.type="button";
  priceLink.addEventListener("click",()=>{
-  const native=[...detailsCol.querySelectorAll(".acoes-produto")].find(n=>!n.classList.contains("hide")&&n.getBoundingClientRect().height>0);
+  const native=[...detailsCol.querySelectorAll(".acoes-produto")].find(n=>n.getBoundingClientRect().height>0);
   const pay=native?.querySelector(".mais-formas");
   if(pay){pay.click();pay.scrollIntoView({behavior:"smooth",block:"center"});}
  });price.body.append(priceLink);
@@ -112,9 +112,12 @@ function setupPix(principal){
 }
 function visibleAction(principal){
  const list=[...principal.querySelectorAll(":scope > .acoes-produto")];
- return list.find(n=>!n.classList.contains("hide")&&!n.classList.contains("indisponivel") &&
-   n.getBoundingClientRect().height>0) ||
-   list.find(n=>!n.classList.contains("hide")&&n.getBoundingClientRect().height>0) ||null;
+ // LI keeps the CSS class "hide" on selected variants and toggles
+ // inline display:block. Visibility, not the class name, is authoritative.
+ return list.find(n=>n.getBoundingClientRect().height>0 &&
+   getComputedStyle(n).display!=="none" && !n.classList.contains("indisponivel")) ||
+   list.find(n=>n.getBoundingClientRect().height>0 &&
+   getComputedStyle(n).display!=="none") ||null;
 }
 function syncPix(){
  if(!container||!container.isConnected||!hero)return;
@@ -170,7 +173,7 @@ function mount(){
   if(evt.target.closest?.(".atributo-item,.wrapper-dropdown,.atributo-comum,.lista-atributos"))schedule();
  },true);
  document.addEventListener("change",schedule,true);
- window.NichelleProductFWR={version:"1.0.0",refresh:syncPix};
+ window.NichelleProductFWR={version:"1.0.1",refresh:syncPix};
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",mount,{once:true});else mount();
 window.addEventListener("load",mount,{once:true});
