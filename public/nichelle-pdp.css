@@ -11,8 +11,8 @@ html[data-n27-pdp="1"] body.n27-pdp-page #corpo .n27-pdp *::before,
 html[data-n27-pdp="1"] body.n27-pdp-page #corpo .n27-pdp *::after{box-sizing:border-box!important}
 html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp{width:100%!important;background:#fff!important;margin:0!important;padding:14px 0 34px!important;clear:both!important}
 html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp > .conteiner{
- width:min(calc(100% - 48px),1300px)!important;
- max-width:1300px!important;margin:0 auto!important;padding:0!important;
+ width:100%!important;
+ max-width:1540px!important;margin:0 auto!important;padding:0!important;
  background:transparent!important;float:none!important
 }
 html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .n27-pdp__layout{
@@ -307,7 +307,7 @@ html[data-n27-pdp="1"] #corpo .n27-pdp__recommendations{
 html[data-n27-pdp="1"] #corpo .n27-pdp__recommendations{background:#f9f6fa!important}
 html[data-n27-pdp="1"] #corpo .n27-pdp__description > .conteiner,
 html[data-n27-pdp="1"] #corpo .n27-pdp__recommendations > .conteiner{
- width:min(calc(100% - 48px),1300px)!important;max-width:1300px!important;margin:auto!important
+ width:100%!important;max-width:1540px!important;margin:auto!important
 }
 html[data-n27-pdp="1"] #corpo #n27-pdp-full-description{scroll-margin-top:210px!important}
 html[data-n27-pdp="1"] #corpo .n27-pdp__recommendations .titulo-categoria{
