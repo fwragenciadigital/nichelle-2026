@@ -306,14 +306,22 @@
     let changed=false;
     const nativeLinks=[...document.querySelectorAll("a[href]")].filter(link=>{
       if(link.closest("#"+id))return false;
-      const section=link.closest("#rodape,.rodape-inferior,.assinatura-rodape,.rodape-creditos,footer");
-      if(!section)return false;
+      const footerContext=link.closest(
+        "#rodape,footer,[class*='rodape'],[class*='footer'],"+
+        "[class*='assinatura'],[class*='credito']"
+      );
+      const nearby=(link.parentElement?.parentElement?.textContent||"").slice(0,200);
+      if(!footerContext&&!/desenvolvimento/i.test(nearby))return false;
       try{
         const hostname=new URL(link.href,location.origin).hostname.toLowerCase();
         return hostname==="groomb.com.br"||hostname.endsWith(".groomb.com.br");
       }catch(_){return false;}
     });
     for(const link of nativeLinks){
+      // A assinatura nativa pode existir no DOM, mas estar oculta pelo
+      // tema; nesse caso manter o logo FWR do rodape personalizado.
+      const visible=typeof link.getClientRects==="function"?
+        link.getClientRects().length>0:true;
       const img=node("img");
       img.src=src;img.alt="FWR Agência Digital";
       img.width=90;img.height=36;
@@ -325,9 +333,12 @@
       link.classList.add("n27-foot__agency--native-credit");
       link.setAttribute("aria-label","Desenvolvimento: FWR Agência Digital");
       link.title="FWR Agência Digital";
-      changed=true;
+      if(visible)changed=true;
     }
-    if(changed || document.querySelector("a.n27-foot__agency--native-credit")){
+    const visibleStored=[...document.querySelectorAll("a.n27-foot__agency--native-credit")]
+      .some(link=>typeof link.getClientRects==="function"?
+        link.getClientRects().length>0:true);
+    if(changed||visibleStored){
       document.documentElement.dataset.n27AgencyCredit="native";
     }else{
       delete document.documentElement.dataset.n27AgencyCredit;
