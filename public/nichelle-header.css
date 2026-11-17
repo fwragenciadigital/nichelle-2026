@@ -746,3 +746,146 @@ html[data-n27-independent-header="1"] .conteiner-principal > #n27-independent-he
     gap:0!important;
   }
 }
+
+/* NICHELLE v1.3 — MOBILE: categorias como barra inferior fixa,
+   substituindo integralmente a barra-mobile nativa do tema. */
+@media (max-width:767px) {
+  html[data-n27-independent-header="1"] body nav.barra-mobile,
+  html[data-n27-independent-header="1"] nav.barra-mobile {
+    display:none!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+  }
+  html[data-n27-independent-header="1"] body {
+    padding-bottom:calc(65px + env(safe-area-inset-bottom, 0px))!important;
+  }
+  html[data-n27-independent-header="1"] #n27-independent-header #n27-head-nav {
+    position:fixed!important;
+    top:auto!important;
+    left:0!important;
+    right:0!important;
+    bottom:0!important;
+    z-index:2602!important;
+    width:100%!important;
+    max-width:100%!important;
+    height:calc(65px + env(safe-area-inset-bottom, 0px))!important;
+    min-height:calc(65px + env(safe-area-inset-bottom, 0px))!important;
+    padding:0 0 env(safe-area-inset-bottom, 0px)!important;
+    background:#8000a5!important;
+    border-top:1px solid rgba(255,255,255,.18)!important;
+    box-shadow:0 -5px 20px rgba(35,9,46,.14)!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    overscroll-behavior-x:contain!important;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    scroll-snap-type:x proximity;
+  }
+  #n27-independent-header #n27-head-nav .n27-owned-nav__track {
+    min-width:100%!important;
+    width:max-content!important;
+    max-width:none!important;
+    height:65px!important;
+    min-height:65px!important;
+    padding:0 6px!important;
+    gap:0!important;
+    align-items:stretch!important;
+  }
+  #n27-independent-header #n27-head-nav .n27-owned-nav__item {
+    flex:0 0 116px!important;
+    width:116px!important;
+    height:65px!important;
+    scroll-snap-align:start;
+  }
+  #n27-independent-header #n27-head-nav .n27-owned-nav__main {
+    height:65px!important;
+    min-height:65px!important;
+    padding:6px 4px!important;
+    font-size:12px!important;
+    gap:3px!important;
+  }
+  #n27-independent-header #n27-head-nav .n27-owned-nav__main > img.n27-owned-icon {
+    width:26px!important;
+    height:26px!important;
+    min-width:26px!important;
+    min-height:26px!important;
+  }
+  #n27-independent-header #n27-head-nav .n27-owned-nav__main > svg {
+    width:26px!important;
+    height:26px!important;
+  }
+  #n27-independent-header #n27-head-nav .n27-owned-nav__toggle {
+    width:22px!important;
+    height:20px!important;
+    right:1px!important;
+    bottom:0!important;
+  }
+  #n27-independent-header #n27-head-nav .n27-owned-nav__item:focus-within {
+    background:rgba(255,255,255,.10)!important;
+  }
+  /* Drawer animado acima do cabeçalho fixo e da barra inferior. */
+  html[data-n27-independent-header="1"] #n27-independent-header > #n27-owned-drawer {
+    z-index:5200!important;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .24s ease,visibility 0s linear .29s;
+  }
+  html[data-n27-independent-header="1"] #n27-independent-header > #n27-owned-drawer.n27-owned-drawer--visible {
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    transition:opacity .24s ease,visibility 0s;
+  }
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__scrim {
+    background:rgba(21,8,27,.52)!important;
+    backdrop-filter:blur(3px);
+    -webkit-backdrop-filter:blur(3px);
+  }
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__panel {
+    width:min(88vw,390px)!important;
+    border-radius:0 18px 18px 0!important;
+    box-shadow:12px 0 40px rgba(24,5,32,.18)!important;
+    transform:translate3d(-105%,0,0);
+    transition:transform .29s cubic-bezier(.22,1,.36,1)!important;
+    will-change:transform;
+  }
+  #n27-independent-header #n27-owned-drawer.n27-owned-drawer--visible .n27-owned-drawer__panel {
+    transform:translate3d(0,0,0);
+  }
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__summary {
+    min-height:57px!important;
+    padding:12px!important;
+    border-radius:10px!important;
+    cursor:pointer;
+    transition:background .18s ease,color .18s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__summary:focus-visible,
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__item[open] > .n27-owned-drawer__summary {
+    color:#8000a5!important;
+    background:#f5edf8!important;
+  }
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__chevron {
+    transition:transform .23s ease!important;
+  }
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__links {
+    will-change:height;
+  }
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__links > a {
+    border-radius:7px!important;
+    transition:background .16s ease,color .16s ease!important;
+  }
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__links > a:focus-visible,
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__links > a:active {
+    background:#edddf2!important;
+    color:#750091!important;
+  }
+}
+@media (max-width:767px) and (prefers-reduced-motion:reduce) {
+  html[data-n27-independent-header="1"] #n27-independent-header > #n27-owned-drawer,
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__panel,
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__summary {
+    transition:none!important;
+  }
+}
