@@ -15,6 +15,8 @@
 
   const defaultPhoto="https://cdn.awsli.com.br/2550/2550587/arquivos/rodape.png";
   const defaultLogo="https://cdn.awsli.com.br/2550/2550587/arquivos/logo-footer.png";
+  // Fallback oficial ja utilizado no cabecalho da propria Nichelle.
+  const storefrontLogo="https://cdn.awsli.com.br/400x300/2550/2550587/logo/logo-nichelle-loja-integrada-600-13zuqalvp1.png";
   let lastKey="",retries=0,observer=null,pending=false;
 
   function text(value,max=1000){
@@ -320,8 +322,29 @@
     const topInner=node("div","n27-foot__top-inner");
     const logoLink=node("a","n27-foot__logo");
     logoLink.href=sourceLink(data.about.querySelector(".logo a"))?.href||"/";
-    const logoImg=node("img");logoImg.src=logo;logoImg.alt="Nichelle Imports";
+    const logoImg=node("img");
+    logoImg.alt="Nichelle Imports";
     logoImg.width=280;logoImg.height=66;
+    logoImg.decoding="async";
+    logoImg.loading="eager";
+    // A arte principal do rodape e mantida; caso nao exista mais no CDN,
+    // recupera o logotipo original da Loja Integrada ou o usado no topo FWR.
+    const logoSources=[logo,originalLogo,
+      document.querySelector("#n27-independent-header .n27-owned-logo img")?.src,
+      document.querySelector("#cabecalho .logo img")?.src,
+      storefrontLogo].map(secureImage).filter((url,index,items)=>url&&items.indexOf(url)===index);
+    let logoSourceIndex=0;
+    logoImg.addEventListener("error",()=>{
+      logoSourceIndex++;
+      if(logoSourceIndex<logoSources.length){
+        logoImg.src=logoSources[logoSourceIndex];
+      } else {
+        logoImg.remove();
+        const fallback=node("span","n27-foot__logo-label","NICHELLE IMPORTS");
+        logoLink.append(fallback);
+      }
+    });
+    logoImg.src=logoSources[0]||storefrontLogo;
     logoLink.append(logoImg);
     const about=node("div","n27-foot__about");
     about.append(node("p","n27-foot__about-main",desc));
