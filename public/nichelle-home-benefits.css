@@ -1,7 +1,7 @@
 /*
  * FWR • Nichelle Home Benefits v1.0
  * Desktop fidelity: supplied reference 2048×180 px;
- * content max 1402 px, grey label 100 px + grey panel, 4 items.
+ * shared container max 1540 px, grey label 100 px + grey panel, 4 items.
  * Scoped ONLY to FWR-created section #n27-approved-benefits.
  */
 html[data-n27-approved="1"] #n27-preview-stage > #n27-approved-benefits.n27-home-benefits {
