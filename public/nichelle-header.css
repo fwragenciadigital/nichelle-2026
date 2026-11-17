@@ -558,3 +558,63 @@ html.n27-owned-menu-open {overflow:hidden!important;}
     animation:none!important;transform:translate3d(0,0,0)!important;will-change:auto!important;
   }
 }
+
+
+/* v1.2 — Sticky approved header with no dependency on Groom.
+   Desktop retains the complete benefits/logo/nav region in viewport.
+   On mobile the full header initially renders normally, but the main bar
+   alone is fixed after scrolling down, so it occupies only 111px instead
+   of 209px of the smaller viewport. The placeholder avoids CLS. */
+html[data-n27-independent-header="1"] .conteiner-principal > #n27-independent-header {
+  position:sticky!important;
+  top:0!important;
+  z-index:2600!important;
+  overflow:visible!important;
+  isolation:isolate!important;
+  box-shadow:0 3px 18px rgba(32,4,44,.11)!important;
+}
+#n27-independent-header .n27-owned-sticky-placeholder {
+  display:none!important;
+  width:100%!important;
+  height:0!important;
+  min-height:0!important;
+  max-height:0!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  pointer-events:none!important;
+}
+@media(max-width:767px) {
+  /* Native header stays in normal document flow on mobile. */
+  html[data-n27-independent-header="1"] .conteiner-principal > #n27-independent-header {
+    position:relative!important;
+    top:auto!important;
+    box-shadow:none!important;
+  }
+  html[data-n27-independent-header="1"] #n27-independent-header[data-n27-mobile-sticky="1"]
+    > .n27-owned-sticky-placeholder {
+    display:block!important;
+    height:111px!important;
+    min-height:111px!important;
+    max-height:111px!important;
+  }
+  html[data-n27-independent-header="1"] #n27-independent-header[data-n27-mobile-sticky="1"]
+    > .n27-owned-main {
+    position:fixed!important;
+    top:0!important;
+    left:0!important;
+    right:0!important;
+    z-index:2601!important;
+    width:100%!important;
+    max-width:100%!important;
+    height:111px!important;
+    min-height:111px!important;
+    box-shadow:0 5px 22px rgba(45,3,59,.16)!important;
+    background:#fff!important;
+    border-bottom:1px solid #eadfec!important;
+  }
+  html[data-n27-independent-header="1"] #n27-independent-header[data-n27-mobile-sticky="1"]
+    .n27-owned-main__inner {
+    height:111px!important;
+  }
+}
