@@ -9,8 +9,9 @@
   const id="n27-fwr-footer";
   const preview=new URLSearchParams(location.search).get("nichelle_preview")==="1";
   const host=/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname);
-  const homepage=(location.pathname.replace(/\/+$/,"")||"/")==="/";
-  if(!host||!preview||!homepage)return;
+  const path=location.pathname.replace(/\/+$/,"")||"/";
+  const restricted=/^\/(?:checkout|finalizar-pedido)(?:\/|$)/i.test(path);
+  if(!host||!preview||restricted)return;
 
   const defaultPhoto="https://cdn.awsli.com.br/2550/2550587/arquivos/rodape.png";
   const defaultLogo="https://cdn.awsli.com.br/2550/2550587/arquivos/logo-footer.png";
@@ -297,6 +298,7 @@
     if(!cfg.ativo || !data.base || !data.about || !data.institution || !data.payment){
       current?.remove();
       root?.removeAttribute("data-n27-fwr-ready");
+      delete document.documentElement.dataset.n27FwrFooter;
       root?.querySelector(".rodape-inferior")?.style.removeProperty("display");
       lastKey="";return;
     }
@@ -356,6 +358,7 @@
     root.insertBefore(section,root.firstChild);
     current?.remove();
     root.dataset.n27FwrReady="1";
+    document.documentElement.dataset.n27FwrFooter="1";
     // Hide only the legacy copyright surface. Preserve its DOM and text;
     // Groom can force display:block so a scoped inline override is needed.
     root.querySelector(".rodape-inferior")?.style.setProperty("display","none","important");
