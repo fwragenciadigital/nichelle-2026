@@ -51,7 +51,7 @@ function benefits(media){
 function findDescription(){
  const src=document.querySelector(".produto-descricao .tab-content,.produto-descricao .conteudo,.produto-descricao .descricao-produto,.produto-descricao");
  if(!src)return"";
- const plain=safe(src.innerText||src.textContent,310);
+ const plain=safe(src.innerText||src.textContent,460);
  return plain.length>22?plain:"";
 }
 function line(name,title,content,kind){
@@ -106,10 +106,8 @@ function setupPix(principal){
  hero.append(over,value,desc,discount);
  const variant=principal.querySelector(":scope > .atributos");
  const first=principal.querySelector(":scope > .acoes-produto");
- // Price preview appears near the title, as in the approved minimal reference.
- // The underlying values are still read from the visible native action.
- if(variant)principal.insertBefore(hero,variant);
- else if(first)principal.insertBefore(hero,first);
+ if(first)principal.insertBefore(hero,first);
+ else if(variant)variant.after(hero);
  else principal.append(hero);
 }
 function visibleAction(principal){
@@ -162,8 +160,7 @@ function mount(){
  native.classList.add("n27-pdp__layout");
  media.classList.add("n27-pdp__media");
  details.classList.add("n27-pdp__details");
- // Trust information is supplementary and belongs below native purchase controls.
- setupPix(principal);extras(details);benefits(details);
+ benefits(media);setupPix(principal);extras(details);
  document.querySelector(".produto-descricao")?.classList.add("n27-pdp__description");
  document.querySelector(".produto-aproveite")?.classList.add("n27-pdp__recommendations");
  syncPix();
@@ -176,7 +173,7 @@ function mount(){
   if(evt.target.closest?.(".atributo-item,.wrapper-dropdown,.atributo-comum,.lista-atributos"))schedule();
  },true);
  document.addEventListener("change",schedule,true);
- window.NichelleProductFWR={version:"1.1.0",refresh:syncPix};
+ window.NichelleProductFWR={version:"1.0.1",refresh:syncPix};
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",mount,{once:true});else mount();
 window.addEventListener("load",mount,{once:true});
