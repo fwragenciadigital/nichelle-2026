@@ -8,8 +8,44 @@
 "use strict";
 if(!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname) ||
  !/^\/carrinho\/index\/?$/.test(location.pathname)||
- new URLSearchParams(location.search).get("nichelle_preview")!=="1"||
  window.NichelleCartPageFWR)return;
+// The native LI quantity/remove endpoints redirect to /carrinho/index without
+// the preview query param. Restore it only once in this SAME TAB immediately
+// after an explicitly previewed cart action. No checkout or public-user impact.
+const PREVIEW_RETURN_KEY="n27-cart-preview-native-return";
+let isPreview=new URLSearchParams(location.search).get("nichelle_preview")==="1";
+if(!isPreview){
+ try{
+  const issued=Number(sessionStorage.getItem(PREVIEW_RETURN_KEY)||0);
+  sessionStorage.removeItem(PREVIEW_RETURN_KEY);
+  if(issued>0&&Date.now()-issued>=0&&Date.now()-issued<18000){
+   const url=new URL(location.href);
+   url.searchParams.set("nichelle_preview","1");
+   history.replaceState(history.state,"",url.pathname+url.search+url.hash);
+   isPreview=true;
+  }
+ }catch(_){}
+}
+if(!isPreview)return;
+function rememberNativeCartPreview(){
+ try{sessionStorage.setItem(PREVIEW_RETURN_KEY,String(Date.now()));}catch(_){}
+}
+function preserveNativeActionPreview(table){
+ if(table.dataset.n27PreviewHooked==="1")return;
+ table.dataset.n27PreviewHooked="1";
+ table.addEventListener("click",evt=>{
+  const a=evt.target.closest?.('tr[data-produto-id] a[href]');
+  if(!a)return;
+  try{
+   const href=new URL(a.href,location.href);
+   if(href.origin===location.origin &&
+     /^\/carrinho\/produto\/\d+\/(?:atualizar|remover)(?:\/|$)/.test(href.pathname))
+     rememberNativeCartPreview();
+  }catch(_){}
+ },true);
+ table.querySelectorAll('#formCalcularFrete,form[action*="/carrinho/cupom/validar"]')
+   .forEach(form=>form.addEventListener("submit",rememberNativeCartPreview,true));
+}
 let ready=false,root=null,totalView,subtotalView,pixBlock,pixAmount,pixNote,observer;
 const $$=(s,n=document)=>n.querySelector(s);
 const el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
@@ -82,6 +118,7 @@ function mount(){
  summary.append(checkout);
  native.append(summary);
  setAttrControls(table);
+ preserveNativeActionPreview(table);
  sync();
  let pending=false;
  observer=new MutationObserver(records=>{
@@ -90,7 +127,7 @@ function mount(){
   requestAnimationFrame(()=>{pending=false;sync();});
  });
  observer.observe(table,{subtree:true,characterData:true,childList:true,attributes:true,attributeFilter:["data-total-valor","data-subtotal-valor"]});
- window.NichelleCartPageFWR={version:"1.0.0",refresh:sync};
+ window.NichelleCartPageFWR={version:"1.0.1",refresh:sync};
 }
 function sync(){
  if(!ready)return;
