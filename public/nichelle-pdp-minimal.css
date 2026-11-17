@@ -43,6 +43,8 @@ html[data-n27-pdp="1"] #corpo .n27-pdp__pix-label{font-size:11px!important;color
 
 html[data-n27-pdp="1"] #corpo .n27-pdp__pix-discount{margin:4px 0 0!important;padding:0!important;background:none!important;border-radius:0!important;color:var(--n27-pdp-m-accent)!important;font-size:11px!important;font-weight:600!important}
 
+html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto,
+html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto .comprar{width:100%!important;max-width:100%!important;min-width:0!important}
 html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto .preco-produto{margin:0 0 15px!important;padding:0!important}
 
 html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto .preco-venda{font-size:12px!important;color:#9b949f!important}
