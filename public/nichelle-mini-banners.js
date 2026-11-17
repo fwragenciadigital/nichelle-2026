@@ -1,6 +1,6 @@
-/* Nichelle Imports 2026 — Mini Banner nativo (LI) v1.2
- * Fonte única: banners publicados no painel em posição "Mini Banner".
- * Nenhuma imagem/link demonstrativo é incluído ou substituído.
+/* Nichelle Imports 2026 — Mini Banner nativo (LI) v1.3
+ * Prioriza Mini Banners nativos; opcionalmente aceita imagens manuais
+ * aprovadas no HTML do cliente quando o tema não as publica no DOM.
  * Somente home da loja sob ?nichelle_preview=1 e settings opt-in.
  */
 (function(){
@@ -38,7 +38,8 @@ function allowed(){
 }
 function config(){
  const s=window.Nichelle27Settings?.miniBanners||window.Nichelle27Settings?.miniBanner||{};
- return {ativo:s.ativo!==false,limite:Math.min(LIMIT,Math.max(1,Number(s.limite)||LIMIT))};
+ return {ativo:s.ativo!==false,limite:Math.min(LIMIT,Math.max(1,Number(s.limite)||LIMIT)),
+  itens:Array.isArray(s.itens)?s.itens:[]};
 }
 function safeURL(raw,image){
  if(typeof raw!=="string"||!raw.trim())return"";
@@ -164,12 +165,29 @@ function collect(){
  }
  return output;
 }
+function configuredBanners(items){
+ const output=[],seen=new Set();
+ for(const item of items){
+  if(!item||item.ativo===false)continue;
+  const src=safeURL(item.imagem||item.src||item.url||"",true);
+  if(!src||seen.has(src))continue;
+  seen.add(src);
+  const mobile=safeURL(item.imagemMobile||item.mobile||"",true);
+  const href=safeURL(item.link||item.href||"",false);
+  output.push({src,mobile,href,alt:text(item.alt||item.titulo||"Mini Banner Nichelle Imports"),
+   blank:item.novaAba===true||item.blank===true});
+  if(output.length>=LIMIT)break;
+ }
+ return output;
+}
 function render(){
  if(!allowed())return;
  const stage=document.getElementById("n27-preview-stage");
  let host=document.getElementById(ID);
  if(!stage||!host||host.parentElement!==stage)return;
- const cfg=config(),banners=cfg.ativo?collect().slice(0,cfg.limite):[];
+ const cfg=config(),native=cfg.ativo?collect().slice(0,cfg.limite):[];
+ const fallback=cfg.ativo&&!native.length?configuredBanners(cfg.itens).slice(0,cfg.limite):[];
+ const banners=native.length?native:fallback;
  const key=JSON.stringify([cfg,banners]);
  if(key===lastKey&&host.dataset.n27MiniReady==="1")return;
  lastKey=key;
@@ -201,7 +219,8 @@ function render(){
  host.hidden=banners.length===0;
  host.dataset.n27MiniReady="1";
  host.dataset.n27MiniCount=String(banners.length);
- document.documentElement.dataset.n27NativeMiniBanner=banners.length?"1":"0";
+ host.dataset.n27MiniSource=native.length?"nativo":fallback.length?"configuracao":"nenhum";
+ document.documentElement.dataset.n27NativeMiniBanner=native.length?"1":"0";
 }
 function schedule(){
  if(scheduled)return;
@@ -228,7 +247,7 @@ window.addEventListener("load",schedule,{once:true});
 ["nichelle27:refresh","nichelle27:mini-banners:update","nichelle27:home:reordered"]
  .forEach(evt=>document.addEventListener(evt,schedule));
 window.NichelleMiniBanners={
- version:"1.2.0",refresh:schedule,source:"Loja Integrada Mini Banner",
+ version:"1.3.0",refresh:schedule,source:"Mini Banner LI ou configuracao editavel",
  diagnostico:function(){
   const host=document.getElementById(ID);
   const candidates=roots();
@@ -240,8 +259,10 @@ window.NichelleMiniBanners={
    raizesEncontradas:candidates.length,
    candidatosPorNome:document.querySelectorAll(ALT_SOURCE).length,
    cardsVisiveis:Number(host?.dataset.n27MiniCount||0),
-   mensagem:published.length?"Banners encontrados no HTML da loja":
-    "O tema nao disponibilizou imagens de Mini Banner no HTML publico."
+   fonteExibida:host?.dataset.n27MiniSource||"nenhuma",
+   fallbackConfigurados:configuredBanners(config().itens).length,
+   mensagem:published.length?"Mini Banners nativos encontrados no HTML da loja":
+    "Tema sem Mini Banner no DOM: use URLs no bloco editavel, se desejar exibir os cards."
   };
  }
 };
