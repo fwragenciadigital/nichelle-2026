@@ -635,3 +635,53 @@ html[data-n27-independent-header="1"] .conteiner-principal > #n27-independent-he
     z-index:1!important;
   }
 }
+
+/* Ajustes finos aprovados pelo cliente — SOMENTE DESKTOP (>=1025px).
+   Seletores sem prefixo body de teste; o mobile permanece inalterado. */
+@media (min-width:1025px) {
+  #n27-independent-header .n27-owned-benefits__track {
+    animation:n27-owned-marquee 150s linear infinite;
+  }
+  #n27-independent-header .n27-owned-main__inner {
+    height:91px!important;
+    grid-template-columns:216px minmax(210px,1fr) auto!important;
+  }
+  #n27-independent-header .n27-owned-container {
+    max-width:1540px!important;
+    width:100%!important;
+  }
+  #n27-independent-header .n27-owned-logo {
+    width:100%!important;
+    height:80px!important;
+  }
+  #n27-independent-header .n27-owned-logo > img {
+    max-height:80px!important;
+    width:100%!important;
+  }
+  #n27-independent-header .n27-owned-search {
+    height:36px!important;
+    min-height:36px!important;
+  }
+  #n27-independent-header .n27-owned-search__field {
+    height:34px!important;
+    min-height:34px!important;
+  }
+  #n27-independent-header .n27-owned-actions__dropdown {
+    top:calc(100% + 0px)!important;
+  }
+  #n27-independent-header .n27-owned-nav__main {
+    font:400 14px/1.1 "Montserrat",Arial,Helvetica,sans-serif!important;
+  }
+  #n27-independent-header .n27-owned-main {
+    height:75px!important;
+    min-height:75px!important;
+  }
+  html[data-n27-independent-header="1"] body.fixed #n27-independent-header .n27-owned-benefits {
+    transition:.5s all;
+    opacity:0;
+    height:0!important;
+  }
+  #n27-independent-header .n27-owned-benefits {
+    transition:.5s all;
+  }
+}
