@@ -618,3 +618,20 @@ html[data-n27-independent-header="1"] .conteiner-principal > #n27-independent-he
     height:111px!important;
   }
 }
+
+
+/* v1.2.1 — Mobile sidebar must appear above the compact sticky bar.
+   Both elements share the same FWR header stacking context; ensure
+   menu panel and scrim receive taps instead of the pinned search bar. */
+@media(max-width:767px){
+  html[data-n27-independent-header="1"] #n27-independent-header > #n27-owned-drawer {
+    z-index:5200!important;
+    isolation:isolate!important;
+  }
+  html[data-n27-independent-header="1"] #n27-independent-header > #n27-owned-drawer .n27-owned-drawer__panel {
+    z-index:2!important;
+  }
+  html[data-n27-independent-header="1"] #n27-independent-header > #n27-owned-drawer .n27-owned-drawer__scrim {
+    z-index:1!important;
+  }
+}
