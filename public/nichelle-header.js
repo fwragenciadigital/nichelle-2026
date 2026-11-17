@@ -338,7 +338,11 @@
     const root=el("div","n27-owned-header");
     root.setAttribute("role","banner");
     root.id="n27-independent-header";
-    root.append(buildMarquee(),main.box,buildNav(items,key=>setDrawer(true,key)));
+    // A spacer reserves exactly the mobile main-bar height whenever that
+    // bar becomes fixed. Without it, scrolling would shift page content.
+    const mobileStickySpacer=el("div","n27-owned-sticky-placeholder");
+    mobileStickySpacer.setAttribute("aria-hidden","true");
+    root.append(buildMarquee(),mobileStickySpacer,main.box,buildNav(items,key=>setDrawer(true,key)));
     // Overlay is portaled outside the navigation scroll container.
     root.appendChild(drawer.overlay);
     host.insertBefore(root,host.firstChild);
@@ -349,7 +353,7 @@
       main.cartCount.setAttribute("aria-label",n+" itens no carrinho");
     }
     updateCart();
-    window.NichelleHeader={version:"1.1",categories:items,refreshCart:updateCart};
+    window.NichelleHeader={version:"1.2",categories:items,refreshCart:updateCart};
     window.addEventListener("nichelle:cart-updated",e=>updateCart(e.detail?.quantity));
     window.addEventListener("cart:updated",e=>updateCart(e.detail?.quantity));
     // Optional bridge for LI themes that expose a rendered cart quantity.
@@ -362,6 +366,26 @@
       }).observe(nativeBadge,{childList:true,characterData:true,subtree:true});
     }
     document.documentElement.dataset.n27IndependentHeader="1";
+    // Desktop: native CSS sticky keeps the complete approved header visible.
+    // Mobile: only logo/search/cart are pinned; marquee and category rail
+    // continue scrolling away. The placeholder prevents any layout jump.
+    const headerTop=window.scrollY+root.getBoundingClientRect().top;
+    let rafPending=false;
+    function updateSticky() {
+      rafPending=false;
+      if(!root.isConnected)return;
+      const compact=window.matchMedia("(max-width: 767px)").matches &&
+        window.scrollY>headerTop+145;
+      root.dataset.n27MobileSticky=compact?"1":"0";
+    }
+    function requestSticky() {
+      if(rafPending)return;
+      rafPending=true;
+      window.requestAnimationFrame(updateSticky);
+    }
+    window.addEventListener("scroll",requestSticky,{passive:true});
+    window.addEventListener("resize",requestSticky,{passive:true});
+    requestSticky();
   }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",mount,{once:true});
   else mount();
