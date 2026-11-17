@@ -7,7 +7,7 @@
   "use strict";
   const path = location.pathname.replace(/\/+$/, "") || "/";
   if (!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname) ||
-      path !== "/" ||
+      /^\/(?:checkout|finalizar-pedido)(?:\/|$)/i.test(path) ||
       new URLSearchParams(location.search).get("nichelle_preview") !== "1") return;
 
   function allowed() {
