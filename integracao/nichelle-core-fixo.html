@@ -1,0 +1,243 @@
+<!-- NICHELLE | 02 - MOTOR FIXO FWR (NAO EDITAR)
+     Cole APOS o bloco editavel na área Codigo no Cabecalho.
+     Javascript e CSS carregados pela Vercel apenas na prévia
+     ?nichelle_preview=1; nenhum CSS e inserido neste HTML. -->
+<script id="n27-preview-early-guard">
+(function(){
+"use strict";
+var active=/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname)&&
+(location.pathname.replace(/\/+$/,"")||"/")==="/"&&
+new URLSearchParams(location.search).get("nichelle_preview")==="1";
+if(!active)return;
+document.documentElement.dataset.n27Preflight="1";
+window.setTimeout(function(){delete document.documentElement.dataset.n27Preflight;},8000);
+})();
+</script>
+<script id="n27-home-fixed-loader">
+(function () {
+"use strict";
+var s=window.Nichelle27Settings=window.Nichelle27Settings||{};
+var defaults=function(value,old){
+return Object.assign({},value,old&&typeof old==="object"?old:{});
+};
+s.assetsBase=s.assetsBase||"https://cdn.awsli.com.br/2550/2550587/arquivos/";
+s.geral=defaults(
+{ativo:true,modoPreview:true,publicarNaLoja:false,debug:false,paginas:[]},
+s.geral
+);
+s.layout=defaults(
+{ativo:true,homologado:true,autocriarSlot:true,inserirDepois:".vitrine-produtos",
+seletor:"#n27-layout-root",paginas:["/"]},
+s.layout
+);
+s.visual=defaults({ativo:true,paginas:[]},s.visual);
+s.topo=defaults(
+{ativo:true,seletor:"#cabecalho",fixo:true,faixaAtiva:false,qualificadores:[]},
+s.topo
+);
+s.rodape=defaults({ativo:true,seletor:"#rodape"},s.rodape);
+s.qualificadores=defaults({ativo:false,rotulo:"VANTAGENS",itens:[]},s.qualificadores);
+s.maisVendidos=defaults(
+{ativo:false,titulo:"Produtos",destaque:"Mais Vendidos",seletorFonte:"",
+seletorItem:".listagem-item"},s.maisVendidos
+);
+s.lancamentos=defaults(
+{ativo:false,titulo:"Produtos",destaque:"Lançamentos",seletorFonte:"",
+seletorItem:".listagem-item"},s.lancamentos
+);
+s.marcas=defaults(
+{ativo:false,titulo:"Compre as",destaque:"Melhores Marcas",itens:[]},s.marcas
+);
+s.promocoes=defaults(
+{ativo:false,titulo:"Produtos",destaque:"Promocionais",seletorFonte:"",
+seletorItem:".listagem-item"},s.promocoes
+);
+s.newsletter=defaults(
+{ativo:false,seletorFormulario:"",titulo:"Novidades Nichelle",texto:""},s.newsletter
+);
+s.instagram=defaults(
+{ativo:false,perfil:"",usuario:"@nichelle_imports",itens:[]},s.instagram
+);
+s.empresa=defaults(
+{ativo:false,nome:"Nichelle Imports",logo:"logo-footer.png",
+imagem:"rodape.webp",texto:""},s.empresa
+);
+s.integracoes=defaults({banners:false,videos:true,noticias:false},s.integracoes);
+window.FWRNichelle=window.FWRNichelle||{};
+if(!window.FWRNichelle.galeriaVideos){
+window.FWRNichelle.galeriaVideos={
+ativo:true,
+configUrl:"https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app/galeria-publicada.json"
+};
+}
+var preview=/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname)&&
+new URLSearchParams(location.search).get("nichelle_preview")==="1";
+if(preview){
+var base="https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app";
+if(!document.querySelector('link[href*="/nichelle27.css"]')){
+var css=document.createElement("link");
+css.rel="stylesheet";css.href=base+"/nichelle27.css";
+document.head.appendChild(css);
+}
+if(!document.querySelector('script[src*="/nichelle27.js"]')){
+var js=document.createElement("script");
+js.src=base+"/nichelle27.js";
+js.async=false;
+(document.body||document.head).appendChild(js);
+}
+}
+if(preview){
+(function nativeMiniInlineCompatibility(){
+var started=false,watch=null;
+function updated(){
+var v=String(window.NichelleMiniBanners?.version||"").split(".").map(Number);
+return v[0]>1||(v[0]===1&&v[1]>=2);
+}
+function secure(raw){
+if(typeof raw!=="string"||!raw.trim())return "";
+var part=raw.trim().split(",")[0].trim().split(/\s+/)[0];
+try{
+var u=new URL(part,location.href);
+return u.protocol==="https:"&&!u.username&&!u.password?u.href:"";
+}catch(_){return "";}
+}
+function getImage(img){
+for(var key of ["data-src","data-original","data-lazy-src","data-srcset",
+"data-image","src","srcset"]){
+var url=secure(img.getAttribute(key));
+if(url&&!/blank\.gif|placeholder|data:image/i.test(url))return url;
+}
+return secure(img.currentSrc);
+}
+function collect(){
+var query=[
+".mini-banner img",".minibanner img",
+".banner-mini img",".banner.mini img",".mini-banners img",
+".banners-mini img",'img[alt*="mini banner" i]',
+'img[alt*="minibanner" i]'
+].join(",");
+var items=[],seen=new Set();
+for(var img of document.querySelectorAll(query)){
+if(img.closest("#n27-approved-categories,.n27-shorts,.n27-full__slide,"+
+".banner-cheio,.banner-full,.fullbanner,.banner-tarja,"+
+".banner-vitrine,.banners-vitrine,.vitrine-banner,.banner-lateral,"+
+"[data-banner-posicao*='vitrine' i],[data-banner-position*='vitrine' i],.slick-cloned"))continue;
+var src=getImage(img);if(!src)continue;
+var link=img.closest("a[href]");
+var href=link?secure(link.getAttribute("href")):"";
+var key=src+"|"+href;
+if(seen.has(key))continue;seen.add(key);
+items.push({src:src,href:href,alt:img.getAttribute("alt")||
+"Mini banner Nichelle Imports",blank:link?.getAttribute("target")==="_blank"});
+if(items.length>=4)break;
+}
+return items;
+}
+function apply(){
+if(updated()){watch?.disconnect();return;}
+var host=document.getElementById("n27-approved-categories");
+var stage=document.getElementById("n27-preview-stage");
+if(!host||!stage||host.parentElement!==stage)return;
+var banners=collect();
+var rendered=Array.from(host.querySelectorAll(".n27-approved-category"));
+var same=rendered.length===banners.length&&rendered.every(function(item,i){
+var img=item.querySelector("img");
+var a=item.matches("a[href]")?item:null;
+return img?.src===banners[i].src&&(a?.href||"")===(banners[i].href||"");
+});
+if(same&&host.hidden===(banners.length===0))return;
+var grid=document.createElement("div");
+grid.className="n27-approved-container n27-approved-categories__grid";
+grid.setAttribute("role","list");
+grid.dataset.n27Count=String(banners.length);
+banners.forEach(function(b){
+var item=document.createElement(b.href?"a":"div");
+item.className="n27-approved-category";
+item.setAttribute("role","listitem");
+if(b.href){item.href=b.href;if(b.blank){
+item.target="_blank";item.rel="noopener noreferrer";
+}}
+var image=document.createElement("img");
+image.src=b.src;image.alt=b.alt;
+image.width=405;image.height=710;
+image.loading="lazy";image.decoding="async";
+item.appendChild(image);grid.appendChild(item);
+});
+host.replaceChildren(grid);
+host.hidden=banners.length===0;
+host.dataset.n27MiniReady="1";
+host.dataset.n27MiniCount=String(banners.length);
+document.documentElement.dataset.n27NativeMiniBanner=banners.length?"1":"0";
+}
+function start(){
+if(started||updated())return;
+var host=document.getElementById("n27-approved-categories");
+if(!host)return;
+started=true;
+if(window.MutationObserver){
+watch=new MutationObserver(function(){
+if(!updated())requestAnimationFrame(apply);
+});
+watch.observe(host,{childList:true,subtree:true,attributes:true,
+attributeFilter:["hidden","src","href"]});
+}
+apply();
+}
+document.addEventListener("DOMContentLoaded",start,{once:true});
+window.addEventListener("load",start,{once:true});
+[800,1900,3600,5900,7200].forEach(function(ms){
+setTimeout(function(){start();apply();},ms);
+});
+})();
+}
+if(preview){
+(function n27OfficialHeaderIconsFallback(){
+var rootId="n27-independent-header";
+var base="https://cdn.awsli.com.br/2550/2550587/arquivos/";
+var files={account:"userrr.svg",support:"chattt.svg",cart:"carttt.svg"};
+var observer=null,finished=false;
+function apply(){
+var header=document.getElementById(rootId);
+if(!header)return;
+var located=0;
+Object.keys(files).forEach(function(key){
+var nodes=header.querySelectorAll("img.n27-owned-icon--"+key);
+if(!nodes.length)return;
+located++;
+var url=base+files[key];
+nodes.forEach(function(image){
+if(image.getAttribute("src")!==url)image.setAttribute("src",url);
+});
+});
+if(located===3){
+finished=true;
+if(observer)observer.disconnect();
+}
+}
+function start(){
+apply();
+if(!finished&&window.MutationObserver&&!observer){
+observer=new MutationObserver(apply);
+observer.observe(document.documentElement,{subtree:true,childList:true});
+setTimeout(function(){if(observer)observer.disconnect();},12000);
+}
+}
+if(document.readyState==="loading")
+document.addEventListener("DOMContentLoaded",start,{once:true});
+else start();
+window.addEventListener("load",apply,{once:true});
+})();
+}
+function refresh(){
+["nichelle27:full-banners:update","nichelle27:vantagens:update",
+"nichelle27:mini-banners:update","nichelle27:shorts:update",
+"nichelle27:noticias:update"].forEach(function(name){
+document.dispatchEvent(new Event(name));
+});
+}
+if(document.readyState==="loading")
+document.addEventListener("DOMContentLoaded",refresh,{once:true});
+else refresh();
+window.addEventListener("load",refresh,{once:true});
+})();
+</script>
