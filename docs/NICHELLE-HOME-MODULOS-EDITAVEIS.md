@@ -24,6 +24,7 @@ Na Loja Integrada, usar **Visual → Incluir código HTML → Modo avançado →
 | Mini Banner | `s.miniBanners`: ativo, limite e `itens` opcionais | Prioriza a posição Mini Banner nativa; se ausente no DOM do tema, permite informar URL de imagem/link no HTML editável |
 | Link Vídeo / Iframe Shorts | `s.galeriaShorts.itens`: `videoUrl`, `iframe`, `capa`, `titulo` | URLs reais Vimeo/YouTube; capas na CDN LI |
 | Conteúdo para Você | `s.noticiasHome.itens`: foto, título, texto, data, link | Campos editoriais no HTML do cliente |
+| Parcelamento do carrinho | `s.paginaCarrinhoFWR.parcelasMaximasSemJuros` | Máximo de parcelas apresentado no resumo; atualmente 6 conforme vitrine da Nichelle. Valor é simulado pelo total nativo, sujeito ao checkout. |
 
 Não criar links falsos para artigos ou vídeos. Shorts sem URL real permanecem sem conteúdo publicado. A vitrine Mini Banner **não** deve usar `.banners-extras` como fonte genérica, porque essa estrutura também pode conter Banner Vitrine. O tema LI precisa publicar os elementos Mini Banner no DOM; ter um banner ativo no painel não garante, por si só, sua presença no HTML.
 
@@ -53,6 +54,22 @@ administrar exclusivamente no painel de Banners, a alternativa é
 habilitar essa posição no tema da LI, de forma que apareça no DOM
 público; a API oficial exige autenticação e não deve expor chaves no
 código HTML da loja.
+
+### Carrinho e página de produto — revisão do resumo
+
+O resumo visual do carrinho FWR `public/nichelle-cart-page.js` não duplica
+mais a linha **Subtotal dos produtos**. Logo abaixo do Total do pedido,
+exibe `até Nx de R$ valor sem juros`, calculado a partir do total
+nativo atualizado. O máximo `N` é editável no arquivo 01, atualmente
+6. Essa linha é uma estimativa comercial, **não é uma promessa de
+aprovação de parcelamento**. Condições definitivas continuam no checkout
+da Loja Integrada; a FWR não cria novos pagamentos, fretes ou cupons.
+
+A tipografia do título do carrinho, total, Pix e nome dos produtos fica
+em `public/nichelle-cart-page.css`. A borda do campo CEP e o valor Pix
+na página de produto ficam em `public/nichelle-pdp.css`. Os novos
+ajustes de fontes são exclusivos do desktop (`min-width:1025px`).
+Não adicionar CSS nos arquivos HTML editável e fixo.
 
 ## O que fica fixo (arquivo 02)
 
