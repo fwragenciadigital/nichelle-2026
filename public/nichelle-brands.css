@@ -34,7 +34,7 @@ html[data-n27-brands="1"] #n27-approved-brands .n27-brands__heading {
   margin:0 0 44px!important;padding:0!important;
   border:0!important;
   color:#77727a!important;background:none!important;
-  font:400 clamp(17px,1.12vw,21px)/1.3 Arial,Helvetica,sans-serif!important;
+  font:400 clamp(17px,1.12vw,21px)/1.3 "Montserrat", Arial, Helvetica, sans-serif!important;
   text-align:center!important;text-transform:none!important;
   white-space:normal!important;letter-spacing:-.025em!important;
 }
@@ -86,7 +86,7 @@ html[data-n27-brands="1"] #n27-approved-brands .n27-brands__logo[hidden] {
 }
 html[data-n27-brands="1"] #n27-approved-brands .n27-brands__fallback {
   display:block!important;color:#28242a!important;
-  font:700 13px/1.15 Arial,Helvetica,sans-serif!important;
+  font:700 13px/1.15 "Montserrat", Arial, Helvetica, sans-serif!important;
   text-align:center!important;
 }
 html[data-n27-brands="1"] #n27-approved-brands .n27-brands__card:hover {
