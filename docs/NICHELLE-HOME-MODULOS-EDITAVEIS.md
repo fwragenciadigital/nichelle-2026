@@ -22,6 +22,27 @@ com o bundle existente, não duplicar sua instalação. Instalar em
 **Visual > Incluir código HTML > Modo avançado > Rodapé**, de preferência
 para todas as páginas, para manter cabeçalho, rodapé e PDP compartilhados.
 
+## Substituição segura do loader antigo
+
+O HTML unificado `integracao/nichelle-modulos-admin.html` **substitui por
+inteiro** o bloco antigo que começava com `<link
+rel="stylesheet" .../nichelle27.css>` e terminava com `<script defer
+src=".../nichelle27.js"></script>`.
+
+A partir da revisão de 17/11/2026, ele inclui também as definições
+compatíveis que estavam somente no loader antigo: `assetsBase`,
+`geral`, `layout.ativo`, `layout.homologado:true`, `visual`,
+`topo`, `rodape`, os módulos legados desativados,
+`integracoes` e `FWRNichelle.galeriaVideos`. Mantém os Mini Banners
+como fonte de dados **nativa da LI** e não inclui as quatro imagens fixas.
+
+Procedimento: fazer backup do HTML anterior, apagar o bloco antigo inteiro,
+inserir o HTML unificado **uma vez** no mesmo local e salvar.
+Não deixar o `nichelle27.js` e o `nichelle27.css` separados se usar
+o loader automático do novo bloco: ele os carrega uma única vez quando
+`?nichelle_preview=1`. Verificar a home, uma PDP e o carrinho em prévia.
+A configuração `publicarNaLoja:false` continua protegendo os visitantes comuns.
+
 ## Onde editar
 
 | Módulo | Edição | Fonte consumida pela vitrine |
