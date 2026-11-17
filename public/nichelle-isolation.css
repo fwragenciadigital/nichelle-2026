@@ -136,3 +136,11 @@ html[data-n27-isolated="1"] #n27-preview-stage .listagem .listagem-item > .produ
     scroll-behavior:auto!important;animation:none!important;transition:none!important;
   }
 }
+
+/* Preflight anti-FOUC: ativo apenas durante a montagem da home em prévia.
+   O script do cabeçalho adiciona e retira data-n27-preflight.
+   Todo CSS pertence ao asset compilado; nada fica inline no editor LI. */
+html[data-n27-preflight="1"]:not([data-n27-approved="1"]) body.pagina-inicial #corpo,
+html[data-n27-preflight="1"]:not([data-n27-independent-header="1"]) body.pagina-inicial #cabecalho {
+  visibility:hidden!important;
+}
