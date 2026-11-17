@@ -139,16 +139,8 @@
       order.forEach(function (section) {stage.appendChild(section);});
       document.dispatchEvent(new Event("nichelle27:home:reordered"));
     }
-    const footer = document.getElementById("rodape");
-    if (footer && !document.getElementById("n27-approved-footer-band")) {
-      const band = node("div", "n27-approved-footer-band");
-      band.id = "n27-approved-footer-band";
-      const inner = node("div", "n27-approved-container n27-approved-footer-band__inner");
-      inner.appendChild(img(CDN + "logo-footer.png", "Nichelle Imports", 323, 78));
-      inner.appendChild(node("p", "", "Beleza, skincare e marcas para você descobrir."));
-      band.appendChild(inner);
-      footer.insertBefore(band, footer.firstChild);
-    }
+    // O rodapé é renderizado pelo módulo FWR separado. Os elementos
+    // originais da LI permanecem no DOM para modais, links e integrações.
     document.documentElement.dataset.n27Approved = "1";
   }
   function mount() {
