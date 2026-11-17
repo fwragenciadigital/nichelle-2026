@@ -77,8 +77,8 @@ html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__top-inner {
   align-items:center!important;
   gap:0!important;
   position:relative!important;
-  width:min(calc(100% - 70px),1470px)!important;
-  max-width:1470px!important;
+  width:100%!important;
+  max-width:1540px!important;
   margin:0 auto!important;
   padding:0!important;
   min-height:98px!important;
