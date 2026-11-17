@@ -199,7 +199,31 @@
     // Keep available voice/telephone number if not already in WhatsApp.
     if(!info.querySelector('a[href^="https://wa.me/"]'))
       add("phone",data.atendimento?.querySelector('a[href^="tel:"]'));
-    n.append(info);return n;
+    if(data.address){
+      const li=node("li","n27-foot__contact-item n27-foot__contact-address");
+      li.append(icon("address"));
+      const wrapper=node("span","n27-foot__contact-copy");
+      const button=node("button","n27-foot__address-button","Onde estamos");
+      button.type="button";
+      button.addEventListener("click",()=>{if(data.address.isConnected)data.address.click();});
+      wrapper.append(button);
+      const addressText=text(data.address.querySelector(".onde-estamos .b")?.textContent||"",130);
+      if(addressText)wrapper.append(node("small","",addressText));
+      li.append(wrapper);info.append(li);
+    }
+    n.append(info);
+    const socialLinks=[...(document.querySelectorAll("#rodape-social .lista-redes a[href]")||[])];
+    if(socialLinks.length){
+      const social=node("div","n27-foot__social");
+      social.append(node("span","n27-foot__social-title","Redes sociais"));
+      for(const a of socialLinks){
+        const label=/instagram/i.test(a.href)?"Instagram":/facebook/i.test(a.href)?"Facebook":"Rede social";
+        const link=copyLink(sourceLink(a),"n27-foot__social-link",label);
+        if(link)social.append(link);
+      }
+      n.append(social);
+    }
+    return n;
   }
   function security(cfg,data){
     const n=labeledColumn(cfg.tituloSeguranca,"n27-foot__security");
@@ -273,15 +297,17 @@
     if(!cfg.ativo || !data.base || !data.about || !data.institution || !data.payment){
       current?.remove();
       root?.removeAttribute("data-n27-fwr-ready");
+      root?.querySelector(".rodape-inferior")?.style.removeProperty("display");
       lastKey="";return;
     }
     const originalLogo=secureImage(data.logo?.getAttribute("src")||"");
     const logo=cfg.logo||originalLogo||defaultLogo;
     const desc=text(data.aboutText?.textContent||"",800);
-    const legal=text(data.copy?.textContent||"",260);
+    const legal=text(data.copy?.textContent||data.copy?.parentElement?.textContent||"",260);
     const sig=JSON.stringify([cfg,logo,desc,legal,
       [...data.institution.querySelectorAll("a[href]")].map(a=>[a.textContent,a.href]),
-      data.cards.length,data.gateways.length,data.shields.length]);
+      data.cards.length,data.gateways.length,data.shields.length,
+      [...document.querySelectorAll("#rodape-social a[href]")].map(a=>a.href)]);
     if(current?.parentElement===root&&sig===lastKey)return;
 
     const section=node("div","n27-foot");
@@ -319,6 +345,9 @@
     root.insertBefore(section,root.firstChild);
     current?.remove();
     root.dataset.n27FwrReady="1";
+    // Hide only the legacy copyright surface. Preserve its DOM and text;
+    // Groom can force display:block so a scoped inline override is needed.
+    root.querySelector(".rodape-inferior")?.style.setProperty("display","none","important");
     lastKey=sig;
     document.dispatchEvent(new Event("nichelle27:motion:refresh"));
   }
@@ -333,7 +362,8 @@
       observer=new MutationObserver(schedule);
       // Watch only the original footer sources; FWR panel is isolated.
       ["#rodape-sobre","#rodape-atendimento","#rodape-institucional",
-       "#rodape-pagamento","#rodape-selos","#rodape-envios"].forEach(selector=>{
+       "#rodape-pagamento","#rodape-selos","#rodape-envios",
+       ".rodape-inferior","#rodape-social"].forEach(selector=>{
         const target=root.querySelector(selector);
         if(target)observer.observe(target,{childList:true,subtree:true,characterData:true});
       });
@@ -350,5 +380,5 @@
   ["nichelle27:refresh","nichelle27:rodape:update"].forEach(evt=>document.addEventListener(evt,()=>{
     lastKey="";schedule();
   }));
-  window.NichelleFooter={version:"1.0.0",refresh:schedule,source:"loja-integrada-native"};
+  window.NichelleFooter={version:"1.1.0",refresh:schedule,source:"loja-integrada-native"};
 })();
