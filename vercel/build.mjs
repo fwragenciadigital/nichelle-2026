@@ -56,6 +56,8 @@ const combinedJS = (await readFile(resolve("public/nichelle27.js"), "utf8")) +
   (await readFile(resolve("public/nichelle-header.js"), "utf8")) +
   "\n\n/* Vantagens FWR, independente do tema ativo */\n" +
   (await readFile(resolve("public/nichelle-home-benefits.js"), "utf8")) +
+  "\n\n/* Mini banners vindos da posicao Mini Banner no painel da Loja Integrada */\n" +
+  (await readFile(resolve("public/nichelle-mini-banners.js"), "utf8")) +
   "\n\n/* Mais Vendidos FWR: cards próprios, dados reais da Loja Integrada */\n" +
   (await readFile(resolve("public/nichelle-best-sellers.js"), "utf8")) +
   "\n\n/* Marcas: logos, links e ordenação nativos da Loja Integrada */\n" +
