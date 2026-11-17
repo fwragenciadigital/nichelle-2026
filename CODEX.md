@@ -44,6 +44,22 @@ Sem controle de elementos nativos. Backend autenticado versiona configurações 
 A galeria FWR aceita Shorts ou links YouTube normais. Imagem de capa automática derivada do próprio vídeo, com substituição opcional. Ver `docs/03-VIDEO-GALLERY-SPEC.md` e testes `tests/youtube-shorts.test.mjs`. Sem alterações em módulos nativos da Loja Integrada.
 
 
+## FULLBANNER nativo — contrato de administracao
+
+O hero `#n27-approved-hero` usa exclusivamente imagens e links publicados
+na posicao **FULLBANNER** do painel da Loja Integrada. A implementacao
+`public/nichelle-fullbanners.js` le o DOM nativo do tema, monta slider
+com suporte a imagem mobile (`<picture>` e source) e respeita links e
+ordem dos banners. O CSS e `public/nichelle-fullbanners.css`.
+**Nao reintroduzir imagem fixa `hero-medicube.webp` como fallback.**
+Sem Full Banner nativo, preservar a exposicao do proprio tema quando disponivel;
+nao publicar banner ficticio.
+
+O modulo unificado para colar no HTML/Rodape da loja esta em
+`integracao/nichelle-modulos-admin.html`, com dados existentes das Vantagens
+e do editorial e campos de Shorts vazios enquanto nao houver URLs reais.
+Os Mini Banners continuam vindo SOMENTE do painel da LI.
+
 ## Home administrável — fonte oficial
 
 - **Mini Banner:** a fonte de verdade são exclusivamente os Mini Banners publicados no painel nativo da Loja Integrada e presentes no DOM público. A vitrine FWR deve ler imagem, link, status e ordem dos elementos nativos. NÃO reintroduzir `mini-1.webp` a `mini-4.webp` ou URLs artificiais como fallback. Uma imagem nativa = um card FWR; sem imagem nativa, ocultar a vitrine. A implementação está em `public/nichelle-mini-banners.js`.
