@@ -728,3 +728,10 @@ html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__logo-label {
     grid-template-columns:25% minmax(0,75%)!important;
   }
 }
+
+/* Ajuste fino do texto institucional no rodapé — somente desktop >=1025px. */
+@media (min-width:1025px) {
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__top-inner .n27-foot__about {
+    padding:0 30px!important;
+  }
+}
