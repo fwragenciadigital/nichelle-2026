@@ -57,17 +57,17 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page__header .titulo{
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page__eyebrow{
  display:block!important;color:var(--n27-cart-purple)!important;
- font:800 11px/1.25 Arial,Helvetica,sans-serif!important;
+ font:800 11px/1.25 "Montserrat", Arial, Helvetica, sans-serif!important;
  letter-spacing:.17em!important;margin:0 0 2px!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page__header h1{
  display:block!important;color:#241f27!important;
- font:900 clamp(29px,3vw,42px)/1.15 Arial,Helvetica,sans-serif!important;
+ font:900 clamp(29px,3vw,42px)/1.15 "Montserrat", Arial, Helvetica, sans-serif!important;
  letter-spacing:-.035em!important;text-transform:uppercase!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page__header p{
  color:var(--n27-cart-muted)!important;
- font:400 12px/1.5 Arial,Helvetica,sans-serif!important;
+ font:400 12px/1.5 "Montserrat", Arial, Helvetica, sans-serif!important;
  margin:5px 0 0!important;padding:0!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page > .caixa-sombreada{
@@ -88,7 +88,7 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page__bar{
  background:#241c28!important;
  color:#fff!important;
  border-bottom:3px solid var(--n27-cart-purple)!important;
- font:800 13px/1.25 Arial,Helvetica,sans-serif!important;
+ font:800 13px/1.25 "Montserrat", Arial, Helvetica, sans-serif!important;
  letter-spacing:.055em!important;
  text-align:center!important
 }
@@ -101,7 +101,7 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho{
  background:#fff!important;
  border:0!important;
  color:var(--n27-cart-text)!important;
- font-family:Arial,Helvetica,sans-serif!important;
+ font-family:"Montserrat", Arial, Helvetica, sans-serif!important;
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho > thead{
  display:none!important;
@@ -117,7 +117,7 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho tr[data-prod
  padding:17px 8px!important;
  background:#fff!important;
  box-shadow:none!important;
- font:500 12px/1.4 Arial,Helvetica,sans-serif!important;
+ font:500 12px/1.4 "Montserrat", Arial, Helvetica, sans-serif!important;
  color:var(--n27-cart-text)!important;
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho tr[data-produto-id] > td:first-child{
@@ -153,14 +153,14 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .produto-inf
  gap:6px!important;min-width:0!important;margin:0!important;padding:0!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .produto-info > a{
- display:block!important;color:#28212d!important;font:800 12px/1.35 Arial,Helvetica,sans-serif!important;
+ display:block!important;color:#28212d!important;font:800 12px/1.35 "Montserrat", Arial, Helvetica, sans-serif!important;
  text-decoration:none!important;margin:0!important;padding:0!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .produto-info > a:hover{
  color:var(--n27-cart-purple)!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .produto-info :is(li,small,span){
- color:#87818a!important;font:400 10px/1.35 Arial,Helvetica,sans-serif!important
+ color:#87818a!important;font:400 10px/1.35 "Montserrat", Arial, Helvetica, sans-serif!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .produto-info ul{
  margin:0!important;padding:0!important;list-style:none!important
@@ -180,14 +180,14 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .quantidade 
  min-width:29px!important;margin:0!important;padding:0!important;
  border:0!important;border-radius:0!important;background:none!important;
  color:var(--n27-cart-purple)!important;
- font:800 19px/1 Arial,Helvetica,sans-serif!important;
+ font:800 19px/1 "Montserrat", Arial, Helvetica, sans-serif!important;
  text-decoration:none!important;float:none!important;
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .quantidade .icon-minus::before{
- content:"−"!important;font-family:Arial,Helvetica,sans-serif!important
+ content:"−"!important;font-family:"Montserrat", Arial, Helvetica, sans-serif!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .quantidade .icon-plus::before{
- content:"+"!important;font-family:Arial,Helvetica,sans-serif!important
+ content:"+"!important;font-family:"Montserrat", Arial, Helvetica, sans-serif!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .quantidade input{
  display:block!important;flex:0 0 28px!important;width:28px!important;max-width:28px!important;
@@ -195,18 +195,18 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .quantidade 
  margin:0!important;padding:0!important;border:0!important;
  border-radius:0!important;background:none!important;
  color:#2d1e35!important;text-align:center!important;
- font:700 12px/1 Arial,Helvetica,sans-serif!important;
+ font:700 12px/1 "Montserrat", Arial, Helvetica, sans-serif!important;
  box-shadow:none!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .preco-produto{
  width:auto!important;margin:0!important;padding:0!important;text-align:right!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .preco-promocional{
- font:800 16px/1.2 Arial,Helvetica,sans-serif!important;
+ font:800 16px/1.2 "Montserrat", Arial, Helvetica, sans-serif!important;
  color:#2a2030!important;white-space:nowrap!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .preco-venda{
- font:400 10px/1.25 Arial,Helvetica,sans-serif!important;
+ font:400 10px/1.25 "Montserrat", Arial, Helvetica, sans-serif!important;
  color:#bbb3bd!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .excluir{
@@ -234,10 +234,10 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .subtotal,
 html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .total{
  display:flex!important;justify-content:space-between!important;align-items:center!important;gap:16px!important;
  padding:0!important;margin:0!important;
- color:#5d5460!important;font:500 12px/1.3 Arial,Helvetica,sans-serif!important
+ color:#5d5460!important;font:500 12px/1.3 "Montserrat", Arial, Helvetica, sans-serif!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho :is(.valor-subtotal,.valor-total){
- color:#231c27!important;font:800 17px/1.2 Arial,Helvetica,sans-serif!important
+ color:#231c27!important;font:800 17px/1.2 "Montserrat", Arial, Helvetica, sans-serif!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .total{
  margin:0 0 7px!important
@@ -245,7 +245,7 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .total{
 html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .valores-descontos{
  max-width:100%!important;margin:5px 0 0!important;padding:8px 12px!important;
  background:#f3e8f7!important;border-radius:7px!important;
- text-align:right!important;color:#8c229f!important;font:600 11px/1.4 Arial,Helvetica,sans-serif!important
+ text-align:right!important;color:#8c229f!important;font:600 11px/1.4 "Montserrat", Arial, Helvetica, sans-serif!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .control-group{
  display:flex!important;align-items:center!important;flex-wrap:wrap!important;
@@ -254,7 +254,7 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .control-gro
 html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .control-label{
  display:block!important;float:none!important;width:auto!important;
  min-width:115px!important;margin:0!important;padding:0!important;
- color:#403743!important;font:700 11px/1.35 Arial,Helvetica,sans-serif!important;
+ color:#403743!important;font:700 11px/1.35 "Montserrat", Arial, Helvetica, sans-serif!important;
  text-align:left!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .controls{
@@ -270,14 +270,14 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .input-appen
  width:100%!important;min-height:39px!important;height:39px!important;
  margin:0!important;padding:7px 10px!important;
  background:#fff!important;border:1px solid #e5dde7!important;border-radius:7px!important;
- box-shadow:none!important;font:500 12px/1.2 Arial,Helvetica,sans-serif!important
+ box-shadow:none!important;font:500 12px/1.2 "Montserrat", Arial, Helvetica, sans-serif!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .input-append button,
 html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .input-append .botao{
  display:inline-flex!important;flex:0 0 auto!important;align-items:center!important;justify-content:center!important;
  width:auto!important;min-height:39px!important;margin:0!important;padding:8px 12px!important;
  border:0!important;border-radius:7px!important;background:#921daa!important;color:#fff!important;
- text-decoration:none!important;font:700 11px/1.2 Arial,Helvetica,sans-serif!important;
+ text-decoration:none!important;font:700 11px/1.2 "Montserrat", Arial, Helvetica, sans-serif!important;
  box-shadow:none!important;cursor:pointer!important
 }
 /* Summary card follows TractorBel layout but uses Nichelle identity. */
@@ -293,12 +293,12 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary{
 html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary-eyebrow{
  display:block!important;margin:0 0 7px!important;
  color:var(--n27-cart-purple)!important;letter-spacing:.16em!important;
- font:800 10px/1.25 Arial,Helvetica,sans-serif!important
+ font:800 10px/1.25 "Montserrat", Arial, Helvetica, sans-serif!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary-title{
  display:block!important;margin:0 0 24px!important;padding:0!important;
  border:0!important;color:#272129!important;
- font:800 21px/1.17 Arial,Helvetica,sans-serif!important;letter-spacing:-.02em!important
+ font:800 21px/1.17 "Montserrat", Arial, Helvetica, sans-serif!important;letter-spacing:-.02em!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary-line{
  display:flex!important;justify-content:space-between!important;align-items:center!important;
@@ -306,21 +306,21 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary-line{
  border-bottom:1px solid #eee8ee!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary-line span{
- color:#7a737d!important;font:500 11px/1.4 Arial,Helvetica,sans-serif!important
+ color:#7a737d!important;font:500 11px/1.4 "Montserrat", Arial, Helvetica, sans-serif!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary-subtotal{
  color:#29222d!important;white-space:nowrap!important;
- font:800 12px/1.2 Arial,Helvetica,sans-serif!important
+ font:800 12px/1.2 "Montserrat", Arial, Helvetica, sans-serif!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary-total{
  display:flex!important;flex-direction:column!important;align-items:flex-start!important;
  gap:6px!important;margin:17px 0!important;padding:0!important;
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary-total span{
- color:#5b5260!important;font:500 12px/1.2 Arial,Helvetica,sans-serif!important
+ color:#5b5260!important;font:500 12px/1.2 "Montserrat", Arial, Helvetica, sans-serif!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary-total-number{
- color:#1e1821!important;font:900 clamp(25px,2vw,35px)/1.15 Arial,Helvetica,sans-serif!important;
+ color:#1e1821!important;font:900 clamp(25px,2vw,35px)/1.15 "Montserrat", Arial, Helvetica, sans-serif!important;
  letter-spacing:-.04em!important;white-space:nowrap!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page__pix[hidden]{display:none!important}
@@ -331,19 +331,19 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page__pix{
  border-radius:11px!important;border-left:4px solid #ae3ac8!important;
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page__pix-eyebrow{
- color:#e8c2ef!important;font:800 10px/1.3 Arial,Helvetica,sans-serif!important;letter-spacing:.08em!important
+ color:#e8c2ef!important;font:800 10px/1.3 "Montserrat", Arial, Helvetica, sans-serif!important;letter-spacing:.08em!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page__pix-amount{
- color:#fff!important;font:900 28px/1.12 Arial,Helvetica,sans-serif!important;
+ color:#fff!important;font:900 28px/1.12 "Montserrat", Arial, Helvetica, sans-serif!important;
  letter-spacing:-.035em!important;white-space:nowrap!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page__pix-note{
- color:#ebdfed!important;font:400 11px/1.3 Arial,Helvetica,sans-serif!important
+ color:#ebdfed!important;font:400 11px/1.3 "Montserrat", Arial, Helvetica, sans-serif!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page__note{
  display:block!important;margin:0 0 17px!important;
  padding:0!important;color:#8b818e!important;
- font:400 11px/1.5 Arial,Helvetica,sans-serif!important;
+ font:400 11px/1.5 "Montserrat", Arial, Helvetica, sans-serif!important;
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page__checkout-form{
  display:block!important;width:100%!important;max-width:100%!important;
@@ -362,7 +362,7 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page__checkout-form .botao.princip
  margin:0!important;padding:10px 12px!important;border:0!important;
  border-radius:9px!important;background:linear-gradient(95deg,#860da2,#af3bc1)!important;
  color:#fff!important;text-decoration:none!important;box-shadow:none!important;
- font:800 12px/1.3 Arial,Helvetica,sans-serif!important;
+ font:800 12px/1.3 "Montserrat", Arial, Helvetica, sans-serif!important;
  text-transform:uppercase!important;cursor:pointer!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page__checkout-form a.botao:not(.principal){
@@ -372,7 +372,7 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page__checkout-form a.botao:not(.p
  border:1px solid #dcd2df!important;border-radius:8px!important;
  color:#5f5363!important;background:#fff!important;text-align:center!important;
  box-shadow:none!important;text-decoration:none!important;
- font:700 11px/1.3 Arial,Helvetica,sans-serif!important
+ font:700 11px/1.3 "Montserrat", Arial, Helvetica, sans-serif!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page__checkout-form .selo-ssl{
  display:none!important
