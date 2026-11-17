@@ -15,7 +15,7 @@ html[data-n27-cart-page="1"] body.pagina-carrinho #corpo .conteiner{
  box-sizing:border-box!important;
 }
 html[data-n27-cart-page="1"] #corpo .secao-principal{
- width:min(calc(100% - 40px),1300px)!important;max-width:1300px!important;
+ width:100%!important;max-width:1540px!important;
  margin:0 auto!important;padding:0!important;display:block!important;float:none!important
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page,
