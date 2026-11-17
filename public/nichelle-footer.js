@@ -14,9 +14,10 @@
   if(!host||!preview||restricted)return;
 
   const defaultPhoto="https://cdn.awsli.com.br/2550/2550587/arquivos/rodape.png";
-  const defaultLogo="https://cdn.awsli.com.br/2550/2550587/arquivos/logo-footer.png";
-  // Fallback oficial ja utilizado no cabecalho da propria Nichelle.
+  // A marca do topo e a fonte oficial primaria para o espaco marcado.
   const storefrontLogo="https://cdn.awsli.com.br/400x300/2550/2550587/logo/logo-nichelle-loja-integrada-600-13zuqalvp1.png";
+  const defaultLogo=storefrontLogo;
+  const legacyFooterLogo="https://cdn.awsli.com.br/2550/2550587/arquivos/logo-footer.png";
   let lastKey="",retries=0,observer=null,pending=false;
 
   function text(value,max=1000){
@@ -332,7 +333,7 @@
     const logoSources=[logo,originalLogo,
       document.querySelector("#n27-independent-header .n27-owned-logo img")?.src,
       document.querySelector("#cabecalho .logo img")?.src,
-      storefrontLogo].map(secureImage).filter((url,index,items)=>url&&items.indexOf(url)===index);
+      storefrontLogo,legacyFooterLogo].map(secureImage).filter((url,index,items)=>url&&items.indexOf(url)===index);
     let logoSourceIndex=0;
     logoImg.addEventListener("error",()=>{
       logoSourceIndex++;
