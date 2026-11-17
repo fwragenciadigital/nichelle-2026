@@ -70,3 +70,12 @@ Os Mini Banners continuam vindo SOMENTE do painel da LI.
 - Script fornecido para a edição: `integracao/nichelle-modulos-admin.html`. Instruções em `docs/NICHELLE-HOME-MODULOS-EDITAVEIS.md`.
 - Preservar o controle por `?nichelle_preview=1` e os recursos nativos de preços, compra, estoque, frete e checkout.
 
+
+## Mini Banner versus Banner Vitrine e FOUC (17/11/2026)
+
+- A posição **Mini Banner** deve ser identificada EXPLICITAMENTE no HTML nativo (classes `.mini-banner`, `.banner-mini`, metadados de posição `mini`, ou nome `Mini Banner` na imagem). **NUNCA ler `.banners-extras` isoladamente** — essa área pode conter Banner Vitrine e outras imagens, gerando cards errados.
+- Não confundir `Banner Vitrine` com Mini Banner; quando o tema não publicar elementos Mini, ocultar os cards, sem fallback para uma campanha de outra posição.
+- O código completo para o painel deve ser um **único HTML colocado no HEAD (Código no cabeçalho)**: `integracao/nichelle-modulos-admin.html`. A montagem exclusiva de prévia tem preflight anti-FOUC, condicionado a `nichelle_preview=1`, com recuperação automática em 8s. Carregar o mesmo bloco no rodapé causa flash do tema legado.
+- Compatibilidade inline deve sobrescrever cards errados de versões antigas do bundle e desconectar ao detectar `window.NichelleMiniBanners.version >= 1.2.0`.
+- Não modificar visitantes sem prévia, preço, checkout, conta, carrinho ou a identidade visual mobile por causa desses ajustes.
+
