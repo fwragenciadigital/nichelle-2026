@@ -658,3 +658,37 @@ html[data-n27-approved="1"] #rodape #n27-fwr-footer .n27-foot__social-link {
   text-decoration:underline!important;
   text-underline-offset:2px!important;
 }
+
+
+/* FWR official SVG signature replaces non-brand plain text. */
+html[data-n27-approved="1"] #rodape #n27-fwr-footer a.n27-foot__agency {
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex:0 0 96px!important;
+  width:96px!important;
+  height:47px!important;
+  max-width:96px!important;
+  padding:1px!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:5px!important;
+  background:none!important;
+  text-decoration:none!important;
+  opacity:1!important;
+  box-shadow:none!important;
+  letter-spacing:normal!important;
+}
+html[data-n27-approved="1"] #rodape #n27-fwr-footer a.n27-foot__agency img {
+  display:block!important;
+  width:94px!important;
+  max-width:94px!important;
+  height:44px!important;
+  max-height:44px!important;
+  padding:0!important;
+  margin:0!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  filter:none!important;
+  background:none!important;
+}

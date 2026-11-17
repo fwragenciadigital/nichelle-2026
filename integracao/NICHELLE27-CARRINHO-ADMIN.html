@@ -1,0 +1,38 @@
+<!-- NICHELLE IMPORTS 2026 | CARRINHO LATERAL FWR
+  Cole no HTML/Rodapé do painel se quiser alterar textos/limites.
+  JS e CSS já são entregues pelo nichelle27.js e nichelle27.css.
+
+  IMPORTANTE:
+  - O carrinho lateral usa o carrinho REAL da Loja Integrada.
+  - Alterações de quantidade e remoção usam as URLs nativas da plataforma.
+  - Checkout/pagamentos, variações e descontos são geridos na LI.
+  - Recomendações vêm de produtos REAIS aleatórios nas vitrines da loja.
+  - A funcionalidade só aparece com ?nichelle_preview=1 na homologação.
+  - Não instalar novamente scripts separados do carrinho.
+-->
+<script>
+window.Nichelle27Settings = window.Nichelle27Settings || {};
+window.Nichelle27Settings.carrinhoFWR = {
+  ativo: true,
+  orderBump: true,        // false desliga sugestões
+  maxOfertas: 3,         // 1 a 4 produtos reais sugeridos
+  titulo: "Meu carrinho",
+  subtitulo: "Confira os produtos antes de finalizar.",
+  ofertasTitulo: "Aproveite e leve também",
+  finalizar: "VER CARRINHO E FINALIZAR",
+  continuar: "Continuar comprando"
+};
+</script>
+
+<!--
+URLs oficiais já utilizadas pelo módulo:
+  LEITURA: GET /carrinho/index (HTML nativo, sem executar scripts)
+  ADICIONAR: link /carrinho/produto/{ID}/adicionar fornecido pela LI
+  QUANTIDADE: links /carrinho/produto/{ID}/atualizar/{NOVA}/{ANTIGA}
+  REMOVER: link /carrinho/produto/{ID}/remover
+  FINALIZAR: /carrinho/index -> checkout oficial da plataforma
+
+Não inventar produtos ou preços. A plataforma decide estoque,
+variações obrigatórias, desconto, frete e formas de pagamento.
+A interface não cria pedidos nem faz pagamentos.
+-->

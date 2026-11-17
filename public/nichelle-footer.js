@@ -338,7 +338,18 @@
     const ship=shipping(cfg,data);if(ship)paymentWrap.append(ship);
     const bottom=node("div","n27-foot__bottom");
     bottom.append(node("small","n27-foot__legal",legal));
-    if(cfg.mostrarFWR)bottom.append(node("span","n27-foot__agency","fwr"));
+    if(cfg.mostrarFWR){
+      const link=node("a","n27-foot__agency");
+      link.href="https://fwragenciadigital.com.br/";
+      link.target="_blank";link.rel="noopener noreferrer";
+      link.setAttribute("aria-label","Desenvolvimento: FWR Agência Digital");
+      link.title="FWR Agência Digital";
+      const img=node("img");
+      img.src="https://cdn.awsli.com.br/2550/2550587/arquivos/fwr-agencia-digital.svg";
+      img.alt="FWR Agência Digital";
+      img.width=92;img.height=44;img.loading="lazy";img.decoding="async";
+      link.append(img);bottom.append(link);
+    }
     content.append(columns,paymentWrap,bottom);
     panel.append(image,content);
     section.append(top,panel);
@@ -380,5 +391,5 @@
   ["nichelle27:refresh","nichelle27:rodape:update"].forEach(evt=>document.addEventListener(evt,()=>{
     lastKey="";schedule();
   }));
-  window.NichelleFooter={version:"1.1.0",refresh:schedule,source:"loja-integrada-native"};
+  window.NichelleFooter={version:"1.2.0",refresh:schedule,source:"loja-integrada-native"};
 })();

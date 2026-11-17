@@ -181,8 +181,10 @@
       {label:"Lista de Desejos",url:"/conta/favorito/listar"}
     ]);
     const cart=el("a","n27-owned-cart");
-    cart.href="/carrinho/index";cart.title="Abrir carrinho de compras";
-    cart.setAttribute("aria-label","Abrir carrinho de compras");
+    cart.href="/carrinho/index";cart.title="Ver resumo do carrinho";
+    cart.setAttribute("aria-label","Abrir resumo do carrinho");
+    cart.setAttribute("aria-haspopup","dialog");
+    cart.setAttribute("aria-controls","n27-cart-drawer");
     cart.appendChild(svg("cart"));
     const count=el("span","n27-owned-cart__badge","0");
     count.id="n27-owned-cart-count";cart.appendChild(count);

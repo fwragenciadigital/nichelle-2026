@@ -69,7 +69,9 @@ const combinedJS = (await readFile(resolve("public/nichelle27.js"), "utf8")) +
   "\n\n/* Newsletter compacta + Instagram LightWidget real */\n" +
   (await readFile(resolve("public/nichelle-endcap.js"), "utf8")) +
   "\n\n/* Rodapé FWR com dados/links/selos nativos da Loja Integrada */\n" +
-  (await readFile(resolve("public/nichelle-footer.js"), "utf8"));
+  (await readFile(resolve("public/nichelle-footer.js"), "utf8")) +
+  "\n\n/* Drawer carrinho FWR com dados oficiais Loja Integrada */\n" +
+  (await readFile(resolve("public/nichelle-cart-drawer.js"), "utf8"));
 new Script(combinedJS, { filename: "nichelle27.js" });
 await writeFile(join(target, "nichelle27.js"), combinedJS);
 const combinedCSS = (await readFile(resolve("public/nichelle27.css"), "utf8")) +
@@ -96,7 +98,9 @@ const combinedCSS = (await readFile(resolve("public/nichelle27.css"), "utf8")) +
   "\n\n/* Newsletter aprovada e Instagram com posts LightWidget */\n" +
   (await readFile(resolve("public/nichelle-endcap.css"), "utf8")) +
   "\n\n/* Rodapé institucional aprovado, sem dependência visual Groom */\n" +
-  (await readFile(resolve("public/nichelle-footer.css"), "utf8"));
+  (await readFile(resolve("public/nichelle-footer.css"), "utf8")) +
+  "\n\n/* Drawer carrinho FWR */\n" +
+  (await readFile(resolve("public/nichelle-cart-drawer.css"), "utf8"));
 await writeFile(join(target, "nichelle27.css"), combinedCSS);
 for (const file of ["galeria-videos.js", "galeria-videos.css",
   "galeria-preview.json", "galeria-publicada.json", "nichelle-vantagens.json"]) {
