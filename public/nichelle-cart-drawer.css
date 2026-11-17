@@ -591,3 +591,16 @@ html.n27-cart-open,html.n27-cart-open body{overscroll-behavior:contain!important
     font:500 12px/1.35 "Montserrat",Arial,Helvetica,sans-serif!important;
   }
 }
+
+/* Refinamentos adicionais aprovados do drawer — desktop >=1025px. */
+@media (min-width:1025px) {
+  #n27-cart-drawer .n27-cart__head {
+    border-bottom:1px solid #ebebeb!important;
+  }
+  #n27-cart-drawer button.n27-cart__close {
+    border:1px solid #e7e7e7!important;
+  }
+  #n27-cart-drawer .n27-cart__feedback {
+    display:none!important;
+  }
+}
