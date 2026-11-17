@@ -449,3 +449,14 @@ html[data-n27-pdp="1"] #corpo .n27-pdp__recommendations img{object-fit:contain!i
     font-size:12px!important;
   }
 }
+
+/* Ajustes finos do produto solicitados — apenas desktop >=1025px. */
+@media (min-width:1025px) {
+  html[data-n27-pdp="1"] #corpo .produto-detalhes .cep #formCalcularCep .input-append {
+    box-shadow:none!important;
+  }
+  html[data-n27-pdp="1"] #corpo .n27-pdp__pix-value {
+    color:#9e24b8!important;
+    font:700 clamp(28px,2.9vw,32px)/1.06 "Montserrat",Arial,Helvetica,sans-serif!important;
+  }
+}
