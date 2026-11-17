@@ -735,3 +735,64 @@ html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__logo-label {
     padding:0 30px!important;
   }
 }
+
+/* Nichelle — rodape: formas de pagamento e envio abaixo de Compra Segura.
+   O agrupamento e feito no JS. Desktop mantém as quatro colunas originais. */
+@media (min-width:1025px) {
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer
+  .n27-foot__column.n27-foot__security > .n27-foot__details {
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:flex-start!important;
+    justify-content:flex-start!important;
+    gap:22px!important;
+    width:100%!important;
+    max-width:100%!important;
+    margin:27px 0 0!important;
+    padding:0!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer
+  .n27-foot__security > .n27-foot__details :is(.n27-foot__payments,.n27-foot__shipping) {
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    margin:0!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer
+  .n27-foot__security > .n27-foot__details .n27-foot__title {
+    margin:0 0 12px!important;
+    font-size:clamp(13px,.9vw,16px)!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer
+  .n27-foot__security > .n27-foot__details .n27-foot__shipping-logos {
+    flex-wrap:wrap!important;
+  }
+}
+/* Exibir a FWR no credito nativo "Desenvolvimento", na faixa branca.
+   Atribuicao "Plataforma: Loja Integrada" permanece intacta. */
+html[data-n27-fwr-footer="1"] a.n27-foot__agency--native-credit {
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  width:auto!important;
+  max-width:120px!important;
+  min-width:0!important;
+  height:auto!important;
+  margin:0!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  text-decoration:none!important;
+}
+html[data-n27-fwr-footer="1"] a.n27-foot__agency--native-credit img {
+  display:block!important;
+  width:auto!important;
+  max-width:100%!important;
+  height:31px!important;
+  max-height:31px!important;
+  object-fit:contain!important;
+  object-position:left center!important;
+}
+html[data-n27-fwr-footer="1"][data-n27-agency-credit="native"] #rodape #n27-fwr-footer a.n27-foot__agency {
+  display:none!important;
+}
