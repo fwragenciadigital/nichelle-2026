@@ -710,3 +710,21 @@ html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__logo-label {
   letter-spacing:-.035em!important;
   white-space:nowrap!important;
 }
+
+/* Ajustes finos aprovados pelo cliente — SOMENTE DESKTOP (>=1025px).
+   Nao alterar os estilos de rodape em tablets compactos ou mobile. */
+@media (min-width:1025px) {
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__art::before {
+    height:calc(100% + 54px)!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__details {
+    display:flex!important;
+    flex-direction:row!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__logo {
+    margin:0 0 0 8vw!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__top-inner {
+    grid-template-columns:25% minmax(0,75%)!important;
+  }
+}
