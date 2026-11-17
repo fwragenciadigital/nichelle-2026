@@ -59,18 +59,10 @@
     let category = document.getElementById("n27-approved-categories");
     if (!category) {
       category = make("n27-approved-categories", "n27-approved-categories");
-      const frame = node("div", "n27-approved-container n27-approved-categories__grid");
-      [
-        ["mini-1.webp", "Peles sensíveis ou irritadas"],
-        ["mini-2.webp", "Hidratação profunda"],
-        ["mini-3.webp", "Controle de oleosidade e acne"],
-        ["mini-4.webp", "Clareamento de manchas escuras"]
-      ].forEach(function (item) {
-        const art = node("div", "n27-approved-category");
-        art.appendChild(img(HOST + "/assets/" + item[0], item[1], 405, 710));
-        frame.appendChild(art);
-      });
-      category.appendChild(frame);
+      // Os cards são gerados SOMENTE de banners nativos do painel da LI.
+      // Sem os banners publicados, este slot permanece invisível.
+      category.hidden=true;
+      category.dataset.n27MiniReady="0";
     }
     let editorial = document.getElementById("n27-approved-editorial");
     if (!editorial) {
