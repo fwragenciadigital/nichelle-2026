@@ -47,7 +47,7 @@ html[data-n27-isolated="1"] #n27-preview-stage .listagem .titulo-categoria {
   padding:0!important;color:#5d286c!important;background:transparent!important;
 }
 html[data-n27-isolated="1"] #n27-preview-stage .listagem .titulo-categoria strong {
-  font:800 clamp(19px,1.8vw,25px)/1.3 Arial,sans-serif!important;
+  font:800 clamp(19px,1.8vw,25px)/1.3 "Montserrat", Arial, Helvetica, sans-serif!important;
   color:#660080!important;
 }
 html[data-n27-isolated="1"] #n27-preview-stage .listagem .titulo-categoria:after {
