@@ -1,22 +1,34 @@
 <!--
-  NICHELLE IMPORTS 2026 | CONFIGURAÇÃO EDITÁVEL NO PAINEL DA LOJA INTEGRADA
-  Instalar em: Visual > Incluir código HTML > Modo avançado
-  Tipo: HTML | Página: Página Inicial | Posição: Rodapé
-  Este bloco deve carregar ANTES do JS /nichelle27.js, que usa defer.
-  NÃO edite as chaves "geral" nem os scripts de checkout.
-  Mini Banner: imagens, links, datas, ordem e status são editados em Banners > Mini Banner.
+NICHELLE IMPORTS 2026 | MODULO ADMINISTRAVEL (FWR)
+Instalar em Visual > Incluir codigo HTML > Modo avancado > Rodape.
+Preferir TODAS AS PAGINAS para compartilhar o topo/rodape/PDP.
+Nao duplicar este bloco nem os loaders globais da loja.
+FULLBANNER e MINI BANNER: editar imagens, links, agendamento e ordem
+somente no painel nativo da Loja Integrada em Banners.
+Visual FWR habilitado somente com ?nichelle_preview=1.
 -->
-<script>
+<script id="n27-home-modules-settings">
 (function () {
   "use strict";
-  var config = window.Nichelle27Settings = window.Nichelle27Settings || {};
+  var s=window.Nichelle27Settings=window.Nichelle27Settings||{};
+  if(!s.geral){
+    s.geral={ativo:true,modoPreview:true,publicarNaLoja:false};
+  }
 
-  /* 1. VANTAGENS — edite título, descrição, ícone e link.
-     Ícones aceitos: package, seal, headset, medal, truck, card, shield, pix. */
-  config.vantagens = {
-    ativo: true,
-    etiqueta: "+VANTAGENS",
-    itens: [
+  // 1. FULLBANNER — vinculado a Banners > Full Banner no painel LI.
+  s.fullBanners={
+    ativo:true,
+    autoplay:true,
+    intervalo:6500,
+    limite:12
+  };
+
+  // 2. BENEFICIOS / VANTAGENS — textos editados neste mesmo HTML.
+  // Icones aceitos: package, seal, headset, medal, truck, card, shield, pix.
+  s.vantagens={
+    ativo:true,
+    etiqueta:"+VANTAGENS",
+    itens:[
       {icone:"package",titulo:"COSMÉTICOS IMPORTADOS",descricao:"À PRONTA ENTREGA",link:""},
       {icone:"seal",titulo:"PRODUTOS 100% ORIGINAIS",descricao:"COM NOTA FISCAL",link:""},
       {icone:"headset",titulo:"ATENDIMENTO PERSONALIZADO",descricao:"COM EQUIPE ESPECIALISTA",link:""},
@@ -24,61 +36,88 @@
     ]
   };
 
-  /* 2. MINI BANNER — imagens e links vêm SEMPRE do painel nativo LI.
-     "limite" significa quantidade máxima exibida, não cria artes.
-     Um banner ativo no painel = um card visível. */
-  config.miniBanners = {
-    ativo: true,
-    limite: 4
-  };
+  // 3. MINI BANNER — vinculado a Banners > Mini Banner no painel LI.
+  // So 1 banner publicado -> somente 1 card visivel.
+  s.miniBanners={ativo:true,limite:4};
 
-  /* 3. SHORTS — administrador pode preencher config.galeriaShorts.itens.
-     Aceita YouTube Shorts/watch/embed, Vimeo ou HTML de <iframe>
-     dessas duas plataformas, sempre com capa hospedada no CDN da loja.
-     Não inserir scripts arbitrários nem iframes de domínios desconhecidos. */
-  config.galeriaShorts = config.galeriaShorts || {};
-  if (typeof config.galeriaShorts.ativo !== "boolean") config.galeriaShorts.ativo = true;
-
-  // Exemplo: substitua os dados fictícios por URLs REAIS antes de ativar:
-  /*
-  config.galeriaShorts = {
-    ativo: true,
-    titulo: "Vídeos da Nichelle",
-    exibirPrevia: false,
-    configUrl: "",
-    itens: [
-      {titulo:"Conheça o produto",videoUrl:"https://www.youtube.com/shorts/COLOQUE_ID",
-       capa:"https://cdn.awsli.com.br/SEU_CAMINHO/CAPA.jpg"},
-      {titulo:"Vídeo vertical",iframe:'<iframe src="https://player.vimeo.com/video/COLOQUE_ID"></iframe>',
-       capa:"https://cdn.awsli.com.br/SEU_CAMINHO/CAPA2.jpg"}
+  // 4. SHORTS — preencha as URLs reais de YouTube, Vimeo ou iframe.
+  // Capa no Gerenciador de Arquivos; Vimeo precisa capa cadastrada.
+  // Nao ha video real no galeria-publicada.json atual.
+  s.galeriaShorts={
+    ativo:true,
+    titulo:"Shorts",
+    exibirPrevia:false,
+    configUrl:"",
+    itens:[
+      {titulo:"Short 01",videoUrl:"",iframe:"",capa:""},
+      {titulo:"Short 02",videoUrl:"",iframe:"",capa:""},
+      {titulo:"Short 03",videoUrl:"",iframe:"",capa:""},
+      {titulo:"Short 04",videoUrl:"",iframe:"",capa:""}
     ]
   };
-  */
+  // Exemplo: videoUrl:"https://www.youtube.com/shorts/ID_REAL"
+  // Exemplo: iframe:'<iframe src="https://player.vimeo.com/video/ID_REAL"></iframe>'
 
-  /* 4. CONTEÚDOS PARA VOCÊ — edite cards de notícias/artigos.
-     Links devem ser caminhos existentes da própria loja, como /pagina-do-artigo.
-     Imagens podem ser do Gerenciamento de Arquivos (CDN AWSLI). */
-  config.noticiasHome = config.noticiasHome || {};
-  if (typeof config.noticiasHome.ativo !== "boolean") config.noticiasHome.ativo = true;
-
-  // Exemplo: preencha links e fotos REAIS e só então descomente:
-  /*
-  config.noticiasHome = {
+  // 5. CONTEUDOS PARA VOCE — os 3 textos/imagens do projeto original.
+  // Preencha link SOMENTE apos a publicacao da pagina real do artigo.
+  s.noticiasHome={
     ativo:true,
     titulo:"Conteúdos",
     destaque:"para você",
     itens:[
-      {foto:"https://cdn.awsli.com.br/SEU_CAMINHO/ARTIGO-1.jpg",
-       titulo:"Título do primeiro artigo",
-       breveTexto:"Resumo do primeiro artigo",
-       data:"2026-11-17",link:"/pagina-do-primeiro-artigo"}
+      {
+        foto:"https://cdn.awsli.com.br/2550/2550587/arquivos/coreana.jpg",
+        titulo:"SKINCARE COREANO: A ROTINA DE BELEZA K-BEAUTY EM 10 PASSOS",
+        breveTexto:"Descubra os 10 passos da rotina de skincare coreana para uma pele radiante e saudável.",
+        data:"2026-10-01",
+        link:""
+      },
+      {
+        foto:"https://cdn.awsli.com.br/2550/2550587/arquivos/coreana1.jpg",
+        titulo:"NAD+ NO SKINCARE: O QUE É E POR QUE ESTÁ GANHANDO DESTAQUE?",
+        breveTexto:"O skincare coreano está cada vez mais conectado à biotecnologia. Entre os ingredientes que vêm despertando curiosidade está o NAD...",
+        data:"2026-09-25",
+        link:""
+      },
+      {
+        foto:"https://cdn.awsli.com.br/300x300/2550/2550587/produto/398845857/centella-water-fit-sun-01-j0900wdoft.jpg",
+        titulo:"PROTETOR SOLAR NO INVERNO: POR QUE ELE CONTINUA SENDO O ÚLTIMO PASSO DA ROTINA K-BEAUTY",
+        breveTexto:"No inverno, a rotina de skincare costuma mudar: a pele pede texturas mais confortáveis, limpeza mais gentil e hidratação reforçada. Mas existe um passo que não...",
+        data:"2026-08-11",
+        link:""
+      }
     ]
   };
-  */
 
-  ["nichelle27:vantagens:update","nichelle27:mini-banners:update",
-   "nichelle27:shorts:update","nichelle27:noticias:update"].forEach(function(name){
-     document.dispatchEvent(new Event(name));
-   });
+  // Loader de protecao: se nichelle27.js/css ja estiverem na loja,
+  // nao cria requisicoes ou execucoes duplicadas.
+  var preview=/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname)&&
+    new URLSearchParams(location.search).get("nichelle_preview")==="1";
+  if(preview){
+    var base="https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app";
+    if(!document.querySelector('link[href*="/nichelle27.css"]')){
+      var css=document.createElement("link");
+      css.rel="stylesheet";css.href=base+"/nichelle27.css";
+      document.head.appendChild(css);
+    }
+    if(!document.querySelector('script[src*="/nichelle27.js"]')){
+      var js=document.createElement("script");
+      js.src=base+"/nichelle27.js";
+      js.async=false;
+      (document.body||document.head).appendChild(js);
+    }
+  }
+
+  function refresh(){
+    ["nichelle27:full-banners:update","nichelle27:vantagens:update",
+     "nichelle27:mini-banners:update","nichelle27:shorts:update",
+     "nichelle27:noticias:update"].forEach(function(name){
+       document.dispatchEvent(new Event(name));
+     });
+  }
+  if(document.readyState==="loading")
+    document.addEventListener("DOMContentLoaded",refresh,{once:true});
+  else refresh();
+  window.addEventListener("load",refresh,{once:true});
 })();
 </script>
