@@ -851,3 +851,47 @@ html[data-n27-fwr-footer="1"] a.n27-foot__agency--native-credit img {
   object-fit:contain!important;
   filter:none!important;
 }
+
+/* NICHELLE — refinamentos do rodapé aprovados — SOMENTE DESKTOP >= 1025px.
+   Ajustes de hierarquia, logo e enquadramento solicitados pelo cliente. */
+@media (min-width:1025px) {
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__bottom {
+    display:flex!important;
+    align-items:flex-start!important;
+    justify-content:space-between!important;
+    gap:0!important;
+    flex-direction:column!important;
+    margin:30px 0 0!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer a.n27-foot__agency {
+    display:inline-flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    flex:0 0 47px!important;
+    width:96px!important;
+    height:47px!important;
+    max-width:96px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer a.n27-foot__agency img {
+    display:block!important;
+    width:84px!important;
+    max-width:84px!important;
+    height:34px!important;
+    max-height:34px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__art {
+    position:relative!important;
+    min-height:575px!important;
+    overflow:hidden!important;
+    background-size:contain!important;
+    background-position:center bottom!important;
+    background-repeat:no-repeat!important;
+    background-color:transparent!important;
+    margin-top:-120px!important;
+    z-index:1;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__content {
+    min-height:445px!important;
+    padding:35px clamp(30px,6vw,105px) 24px clamp(38px,4.1vw,80px)!important;
+  }
+}
