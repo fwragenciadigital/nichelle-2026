@@ -69,6 +69,27 @@ O código não abre nem acessa a sessão privada do painel administrativo. Os da
 - Até 4 banners. Desktop: grade de quatro posições. Mobile: mantém a rolagem horizontal já aprovada.
 - Datas, visibilidade e ordem seguem o que a LI efetivamente publica, não uma segunda lista administrada pela FWR.
 
+## Diagnóstico do Mini Banner (tema nativo)
+
+A partir de `public/nichelle-mini-banners.js` v1.1.0, o leitor captura
+`.mini-banner`, `.minibanner`, `.banner-mini`, `.banner.mini`,
+`.banners-extras`, imagens cujo texto alternativo inclua
+**Mini Banner** (como **Mini Banner - One**, nome usado no cadastro)
+e imagens publicadas como `background-image`. Também lê `data-src`,
+`srcset` e `<picture>` para a versão mobile.
+
+Na home `?nichelle_preview=1`, usar o console do navegador:
+
+```js
+window.NichelleMiniBanners?.diagnostico()
+```
+
+- `imagensNativas: 1` e `cardsVisiveis: 1`: imagem obtida do HTML da plataforma e card montado
+- `raizesEncontradas: 0` e `candidatosPorNome: 0`: o tema **não publica o banner no HTML acessível ao navegador**, mesmo que apareça ativo no painel. É necessário conferir se o tema/disposição da loja oferece a posição Mini Banner e se a publicação é para a página inicial
+- `slotExiste: false`: o layout principal da home não inicializou; conferir instalação única do HTML unificado e `?nichelle_preview=1`
+
+O leitor não possui credenciais da API administrativa e não inventa a URL de banners ausentes. Não reintroduzir `mini1.webp` etc. como fallback; a fonte de verdade permanece o banner publicado no painel.
+
 ## Shorts e segurança
 
 Vídeos Vimeo ou YouTube são transformados em iframe de domínios controlados, a partir de link ou iframe HTML fornecido. O HTML recebido **nunca é injetado diretamente**; outros hosts/JS não são aceitos. Para Vimeo, cadastre uma capa pelo Gerenciamento de Arquivos da Loja Integrada; o serviço não oferece imagem pública previsível para todos os vídeos privados.
