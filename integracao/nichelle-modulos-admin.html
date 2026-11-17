@@ -274,13 +274,16 @@ html[data-n27-preflight="1"]:not([data-n27-independent-header="1"]) body.pagina-
       }
       function start(){
         if(started||updated())return;
+        var host=document.getElementById("n27-approved-categories");
+        // O bloco e injetado no HEAD. Aguardar o slot real antes de
+        // marcar como iniciado, para evitar perder o MutationObserver.
+        if(!host)return;
         started=true;
         if(window.MutationObserver){
           watch=new MutationObserver(function(){
             if(!updated())requestAnimationFrame(apply);
           });
-          var host=document.getElementById("n27-approved-categories");
-          if(host)watch.observe(host,{childList:true,subtree:true,attributes:true,
+          watch.observe(host,{childList:true,subtree:true,attributes:true,
             attributeFilter:["hidden","src","href"]});
         }
         apply();
