@@ -1,3 +1,25 @@
+## Correção Mini Banner e carregamento antecipado (17/11/2026)
+
+O componente Mini Banner não deve ler `.banners-extras` como fonte genérica:
+essa estrutura pode conter **Banner Vitrine**, e causou a reprodução de
+imagens erradas na posição Mini Banner. O leitor em
+`public/nichelle-mini-banners.js` v1.2 passa a exigir posição/classe
+explicitamente Mini Banner ou imagem com nome "Mini Banner". A compatibilidade
+inline do HTML unificado usa o mesmo critério, incluindo quando o bundle
+antigo estiver em cache.
+
+**Instalação: substituir o bloco antigo por um único HTML atualizado,
+na posição Código no Cabeçalho (HEAD)**. Deixar o script no Rodapé
+causa flash do tema antigo antes de aplicar a prévia. O HTML contém
+`n27-preview-early-guard` e um CSS crítico que oculta o tema antigo
+apenas enquanto a HOME em `?nichelle_preview=1` está em montagem.
+A proteção é desarmada quando `data-n27-approved=1` e possui fallback
+automático em 8 segundos caso o JS não complete a inicialização.
+
+No painel, um banner "Ativo" não garante que a posição seja exposta
+pelo tema ativo no HTML público. Quando não houver nenhuma fonte Mini
+válida, manter a seção oculta, sem roubar imagens de Banner Vitrine.
+
 # Nichelle 2026 — módulos administráveis da home
 
 ## FULLBANNER — fonte de verdade
@@ -56,7 +78,7 @@ A configuração `publicarNaLoja:false` continua protegendo os visitantes comuns
 ### Script de configuração
 Use o arquivo [integracao/nichelle-modulos-admin.html](../integracao/nichelle-modulos-admin.html) como ponto de edição único — configura Full Banner, Benefícios/Vantagens, Mini Banner, Shorts e Conteúdos para Você.
 
-**Instalação:** incluir como código HTML na posição Rodapé, preferencialmente em todas as páginas. O snippet preserva a configuração geral existente, insere o CSS/JS apenas se não estiverem carregados e exige `?nichelle_preview=1` para executar o visual da Nichelle. Evitar qualquer duplicação de blocos existentes.
+**Instalação:** incluir como código HTML na posição Cabeçalho (HEAD), preferencialmente em todas as páginas. O snippet preserva a configuração geral existente, insere o CSS/JS apenas se não estiverem carregados e exige `?nichelle_preview=1` para executar o visual da Nichelle. Evitar qualquer duplicação de blocos existentes.
 
 ## Comportamento dos Mini Banners
 
@@ -86,7 +108,7 @@ checkout, preços, estoque ou visitantes sem a flag.
 
 Para usar enquanto a Vercel não publicar o novo bundle, o lojista deve
 **substituir o bloco HTML unificado anteriormente colado pelo arquivo atual**
-na mesma posição de Rodapé. **Não duplicar os dois HTMLs.**
+na mesma posição de Cabeçalho (HEAD). **Não duplicar os dois HTMLs.**
 Quando o `nichelle27.js` novo estiver disponível na Vercel, o recurso
 inline detecta a versão `1.1+` e deixa de executar.
 
