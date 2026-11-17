@@ -36,11 +36,13 @@
   }
   function observe(el,delay){
     if(!el||tracked.has(el)||el.closest('[hidden],.slick-cloned,[data-n27-clone="1"]'))return;
-    tracked.add(el);
     if(reduced.matches||!io)return;
     const cs=getComputedStyle(el),rect=el.getBoundingClientRect();
     if(cs.display==="none"||cs.visibility==="hidden"||rect.height<25||rect.width<60)return;
-    if(visible(el))return; // don't hide hero, header, visible widgets.
+    // DOM can initially measure all cards at y=0 before theme CSS settles.
+    // Don't mark above-fold/unstable nodes as seen: retry after layout.
+    if(visible(el)||rect.bottom<=0)return;
+    tracked.add(el);
     el.style.setProperty("--n27-motion-delay",delay+"ms");
     el.style.willChange="opacity,transform";
     el.classList.add("n27-motion-target","n27-motion-pending");
@@ -122,7 +124,7 @@
   window.addEventListener("load",schedule,{once:true});
   [400,1200,2400].forEach(t=>setTimeout(()=>{init();schedule();},t));
   window.NichelleMotion={
-    version:"1.1.0",refresh:schedule,
+    version:"1.2.0",refresh:schedule,
     get stats(){return{
       pending:document.querySelectorAll(".n27-motion-pending").length,
       visible:document.querySelectorAll(".n27-motion-visible").length,
