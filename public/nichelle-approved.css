@@ -81,6 +81,20 @@ html[data-n27-approved="1"] #n27-preview-stage .listagem .preco-produto strong {
 html[data-n27-approved="1"] #n27-preview-stage > #n27-approved-categories {
   width:100%!important;margin:2px 0 8px!important;padding:0!important;background:#fff!important;
 }
+html[data-n27-approved="1"] #n27-preview-stage > #n27-approved-categories[hidden] {
+  display:none!important;
+}
+html[data-n27-approved="1"] #n27-approved-categories .n27-approved-category[href] {
+  cursor:pointer;text-decoration:none;
+}
+html[data-n27-approved="1"] #n27-approved-categories .n27-approved-category[href]:focus-visible {
+  outline:3px solid #8200a4;outline-offset:4px;
+}
+/* O tema nativo segue no DOM como fonte das imagens e links.
+   O bloco original some visualmente apenas apos renderizacao FWR valida. */
+html[data-n27-native-mini-banner="1"] body.pagina-inicial #corpo .secao-banners .mini-banner {
+  display:none!important;
+}
 html[data-n27-approved="1"] #n27-approved-categories .n27-approved-categories__grid {
   display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
   gap:24px;align-items:stretch;padding-block:4px 26px;
