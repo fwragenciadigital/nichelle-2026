@@ -401,8 +401,9 @@
     const main=buildMain();
     const items=menuData();
     const drawer=buildDrawer(items);
-    let drawerCloseTimer=0;
+    let drawerCloseTimer=0,drawerTransitionToken=0;
     function setDrawer(open,key) {
+      const token=++drawerTransitionToken;
       clearTimeout(drawerCloseTimer);
       main.mobileBtn.setAttribute("aria-expanded",String(open));
       document.documentElement.classList.toggle("n27-owned-menu-open",open);
@@ -410,7 +411,7 @@
       if(open){
         drawer.overlay.hidden=false;
         window.requestAnimationFrame(()=>{
-          if(!drawer.overlay.hidden)
+          if(token===drawerTransitionToken&&!drawer.overlay.hidden)
             drawer.overlay.classList.add("n27-owned-drawer--visible");
         });
         if(key!==undefined){
@@ -429,7 +430,8 @@
         drawer.overlay.classList.remove("n27-owned-drawer--visible");
         const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         drawerCloseTimer=window.setTimeout(()=>{
-          if(!drawer.overlay.classList.contains("n27-owned-drawer--visible"))
+          if(token===drawerTransitionToken&&
+             !drawer.overlay.classList.contains("n27-owned-drawer--visible"))
             drawer.overlay.hidden=true;
         },reduced?0:290);
         main.mobileBtn.focus({preventScroll:true});
