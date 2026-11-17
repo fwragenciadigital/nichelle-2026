@@ -21,7 +21,46 @@
     if (text !== undefined) n.textContent = text;
     return n;
   }
+  // Iconografia oficial publicada na CDN da Loja Integrada.
+  // Ordem conforme a navegacao aprovada: Mais Vendidos, Skincare,
+  // Tipos de Pele, Necessidades da Pele, Cuidados Pessoais, Kits e Marcas.
+  const ICON_CDN = "https://cdn.awsli.com.br/2550/2550587/arquivos/";
+  const ICON_ASSETS = Object.freeze({
+    star: ICON_CDN + "icon_03.png",
+    skincare: ICON_CDN + "icon_05.png",
+    type: ICON_CDN + "icon_07.png",
+    needs: ICON_CDN + "icon_09.png",
+    heart: ICON_CDN + "icon_11.png",
+    kits: ICON_CDN + "icon_13.png",
+    brands: ICON_CDN + "icon_15.png",
+    account: ICON_CDN + "user.svg",
+    support: ICON_CDN + "chat.svg",
+    cart: ICON_CDN + "cart.svg"
+  });
+  // Mantem as mesmas chamadas SVG existentes sem alterar links, eventos
+  // dos dropdowns, acessibilidade, drawer mobile ou contador de carrinho.
+  // Fallback para o SVG antigo se algum arquivo CDN nao carregar.
   function svg(name, cls) {
+    const url = ICON_ASSETS[name];
+    if (url) {
+      const image = document.createElement("img");
+      image.className = (cls ? cls + " " : "") +
+        "n27-owned-icon n27-owned-icon--" + name;
+      image.src = url;
+      image.alt = "";
+      image.setAttribute("aria-hidden", "true");
+      image.width = 24;
+      image.height = 24;
+      image.loading = "eager";
+      image.decoding = "async";
+      image.addEventListener("error", function () {
+        image.replaceWith(inlineSvg(name, cls));
+      }, { once: true });
+      return image;
+    }
+    return inlineSvg(name, cls);
+  }
+  function inlineSvg(name, cls) {
     const paths = {
       safe:'<path d="M7 10V7a5 5 0 0 1 10 0v3"/><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M12 14v3"/>',
       truck:'<path d="M3 6h11v11H3zM14 10h4l3 4v3h-7M5 17a2 2 0 1 0 4 0M16 17a2 2 0 1 0 4 0"/>',
@@ -353,7 +392,7 @@
       main.cartCount.setAttribute("aria-label",n+" itens no carrinho");
     }
     updateCart();
-    window.NichelleHeader={version:"1.2.1",categories:items,refreshCart:updateCart};
+    window.NichelleHeader={version:"1.2.2",categories:items,refreshCart:updateCart,icons:ICON_ASSETS};
     window.addEventListener("nichelle:cart-updated",e=>updateCart(e.detail?.quantity));
     window.addEventListener("cart:updated",e=>updateCart(e.detail?.quantity));
     // Optional bridge for LI themes that expose a rendered cart quantity.
