@@ -386,6 +386,48 @@ html[data-n27-preflight="1"]:not([data-n27-independent-header="1"]) body.pagina-
     })();
   }
 
+  // Correção imediata dos URLs oficiais do cabeçalho durante a prévia.
+  // O bundle da Vercel ainda pode estar usando os ícones antigos.
+  // Quando o novo header 1.2.3 for publicado, esta correção não fará mudanças.
+  if(preview){
+    (function n27OfficialHeaderIconsFallback(){
+      var rootId="n27-independent-header";
+      var base="https://cdn.awsli.com.br/2550/2550587/arquivos/";
+      var files={account:"userrr.svg",support:"chattt.svg",cart:"carttt.svg"};
+      var observer=null,finished=false;
+      function apply(){
+        var header=document.getElementById(rootId);
+        if(!header)return;
+        var located=0;
+        Object.keys(files).forEach(function(key){
+          var nodes=header.querySelectorAll("img.n27-owned-icon--"+key);
+          if(!nodes.length)return;
+          located++;
+          var url=base+files[key];
+          nodes.forEach(function(image){
+            if(image.getAttribute("src")!==url)image.setAttribute("src",url);
+          });
+        });
+        if(located===3){
+          finished=true;
+          if(observer)observer.disconnect();
+        }
+      }
+      function start(){
+        apply();
+        if(!finished&&window.MutationObserver&&!observer){
+          observer=new MutationObserver(apply);
+          observer.observe(document.documentElement,{subtree:true,childList:true});
+          setTimeout(function(){if(observer)observer.disconnect();},12000);
+        }
+      }
+      if(document.readyState==="loading")
+        document.addEventListener("DOMContentLoaded",start,{once:true});
+      else start();
+      window.addEventListener("load",apply,{once:true});
+    })();
+  }
+
   function refresh(){
     ["nichelle27:full-banners:update","nichelle27:vantagens:update",
      "nichelle27:mini-banners:update","nichelle27:shorts:update",
