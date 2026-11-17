@@ -80,6 +80,20 @@ window.Nichelle27Settings = {
   movimento: { ativo:true, duracao:690, deslocamento:22, stagger:70 },
   promocoes: { ativo:false, titulo:"Produtos", destaque:"Promocionais",
     seletorFonte:"", seletorItem:".listagem-item" },
+  // FWR: apresentação horizontal usando o FORMULÁRIO NATIVO da LI.
+  // Preserva o botão .newsletter-assinar e seu endpoint sem duplicar cadastro.
+  newsletterFWR: {
+    ativo:true, titulo:"Fique por dentro das novidades",
+    subtitulo:"Receba lançamentos, dicas e ofertas exclusivas.",
+    placeholder:"Insira seu e-mail", botao:"QUERO RECEBER"
+  },
+  // Instagram: usar publicações reais do LightWidget, não cards do catálogo.
+  instagramWidget: {
+    ativo:true, usuario:"@nichelle_imports", legenda:"ÚLTIMAS POSTAGENS",
+    urlPerfil:"https://www.instagram.com/nichelle_imports/",
+    capa:"https://cdn.awsli.com.br/2550/2550587/arquivos/coreana1.jpg",
+    widgetUrl:"https://cdn.lightwidget.com/widgets/ae2ac001588f5eba997f9106957c5d8e.html"
+  },
   newsletter: { ativo:false, seletorFormulario:"", titulo:"Novidades Nichelle", texto:"" },
   instagram: { ativo:false, perfil:"", usuario:"@nichelle_imports", itens:[] },
   empresa: { ativo:false, nome:"Nichelle Imports", logo:"logo-footer.png",

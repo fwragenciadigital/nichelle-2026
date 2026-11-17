@@ -65,7 +65,9 @@ const combinedJS = (await readFile(resolve("public/nichelle27.js"), "utf8")) +
   "\n\n/* Conteúdos para você: editorial no padrão aprovado */\n" +
   (await readFile(resolve("public/nichelle-news.js"), "utf8")) +
   "\n\n/* Fade-in suave em todas as seções da home FWR */\n" +
-  (await readFile(resolve("public/nichelle-scroll-motion.js"), "utf8"));
+  (await readFile(resolve("public/nichelle-scroll-motion.js"), "utf8")) +
+  "\n\n/* Newsletter compacta + Instagram LightWidget real */\n" +
+  (await readFile(resolve("public/nichelle-endcap.js"), "utf8"));
 new Script(combinedJS, { filename: "nichelle27.js" });
 await writeFile(join(target, "nichelle27.js"), combinedJS);
 const combinedCSS = (await readFile(resolve("public/nichelle27.css"), "utf8")) +
@@ -88,7 +90,9 @@ const combinedCSS = (await readFile(resolve("public/nichelle27.css"), "utf8")) +
   "\n\n/* Notícias em três cards conforme aprovação */\n" +
   (await readFile(resolve("public/nichelle-news.css"), "utf8")) +
   "\n\n/* Animação progressiva sem alterações de layout */\n" +
-  (await readFile(resolve("public/nichelle-scroll-motion.css"), "utf8"));
+  (await readFile(resolve("public/nichelle-scroll-motion.css"), "utf8")) +
+  "\n\n/* Newsletter aprovada e Instagram com posts LightWidget */\n" +
+  (await readFile(resolve("public/nichelle-endcap.css"), "utf8"));
 await writeFile(join(target, "nichelle27.css"), combinedCSS);
 for (const file of ["galeria-videos.js", "galeria-videos.css",
   "galeria-preview.json", "galeria-publicada.json", "nichelle-vantagens.json"]) {

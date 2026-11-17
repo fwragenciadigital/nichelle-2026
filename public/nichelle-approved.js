@@ -103,24 +103,10 @@
     if (!social) {
       social = make("n27-approved-instagram", "n27-approved-instagram");
       const container = node("div", "n27-approved-container");
-      const heading = node("div", "n27-approved-section-title");
-      heading.appendChild(node("h2", "", "Acompanhe a Nichelle"));
+      // O Instagram é composto e mantido pelo módulo FWR, usando o
+      // LightWidget oficial do cliente. Não gerar cards de produtos falsos.
       const grid = node("div", "n27-approved-instagram__grid");
-      grid.appendChild(node("div", "n27-approved-instagram__brand", "Nichelle Imports"));
-      const nativeImages = Array.from(document.querySelectorAll(".listagem-item .imagem-produto img")).slice(0, 28);
-      let used = 0;
-      for (const image of nativeImages) {
-        if (used === 4) break;
-        const src = image.currentSrc || image.src;
-        if (!src || !/^https:\/\//.test(src)) continue;
-        const link = image.closest(".listagem-item")?.querySelector("a[href]");
-        const wrapper = node("a", "n27-approved-instagram__tile");
-        wrapper.href = link?.href || "/";
-        wrapper.appendChild(img(src, image.alt || "Produto Nichelle", 300, 300));
-        grid.appendChild(wrapper);
-        used++;
-      }
-      container.append(heading, grid);
+      container.appendChild(grid);
       social.appendChild(container);
     }
     const featured = one("#n27-approved-best-sellers", stage);
