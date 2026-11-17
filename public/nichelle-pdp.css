@@ -408,3 +408,44 @@ html[data-n27-pdp="1"] #corpo .n27-pdp__recommendations img{object-fit:contain!i
   grid-column:1!important;grid-row:2!important;order:0!important
  }
 }
+
+/* Ajustes finos PDP aprovados — DESKTOP >=1025px somente.
+   Preserve intactos os breakpoints tablet/mobile e os controles nativos LI. */
+@media (min-width:1025px) {
+  html[data-n27-pdp="1"] #corpo .n27-pdp__media .produto-share {
+    display:flex!important;
+    flex-direction:row!important;
+  }
+  html[data-n27-pdp="1"] #corpo .n27-pdp__media .galeria-produtos {
+    background:transparent!important;
+  }
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp h1.nome-produto {
+    font:400 clamp(26px,2vw,26px)/1.15 "Montserrat",Arial,Helvetica,sans-serif!important;
+  }
+  html[data-n27-pdp="1"] #corpo .n27-pdp__pix-overline {
+    font:400 10px/1.25 "Montserrat",Arial,Helvetica,sans-serif!important;
+  }
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto .mais-formas {
+    display:none!important;
+  }
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto .comprar {
+    display:flex!important;
+  }
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto .botao-whatsapp {
+    display:none!important;
+  }
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .comprar .botao {
+    margin:0!important;
+  }
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto .preco-promocional {
+    font:400 clamp(24px,2vw,29px)/1.2 "Montserrat",Arial,Helvetica,sans-serif!important;
+    color:#000!important;
+  }
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .cep #formCalcularCep label {
+    font-size:12px!important;
+  }
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .share-desejos span,
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .produto-share span {
+    font-size:12px!important;
+  }
+}
