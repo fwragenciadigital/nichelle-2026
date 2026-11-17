@@ -91,7 +91,7 @@ if(preview){
 var started=false,watch=null;
 function updated(){
 var v=String(window.NichelleMiniBanners?.version||"").split(".").map(Number);
-return v[0]>1||(v[0]===1&&v[1]>=2);
+return v[0]>1||(v[0]===1&&v[1]>=3);
 }
 function secure(raw){
 if(typeof raw!=="string"||!raw.trim())return "";
@@ -128,8 +128,24 @@ var href=link?secure(link.getAttribute("href")):"";
 var key=src+"|"+href;
 if(seen.has(key))continue;seen.add(key);
 items.push({src:src,href:href,alt:img.getAttribute("alt")||
-"Mini banner Nichelle Imports",blank:link?.getAttribute("target")==="_blank"});
+"Mini banner Nichelle Imports",blank:link?.getAttribute("target")==="_blank",fonte:"nativo"});
 if(items.length>=4)break;
+}
+if(!items.length){
+var settings=window.Nichelle27Settings?.miniBanners||{};
+if(settings.ativo!==false&&Array.isArray(settings.itens)){
+for(var banner of settings.itens){
+if(!banner||banner.ativo===false)continue;
+var src=secure(banner.imagem||banner.src||banner.url);
+if(!src||seen.has(src))continue;
+seen.add(src);
+items.push({src:src,mobile:secure(banner.imagemMobile||banner.mobile||""),
+href:secure(banner.link||banner.href||""),
+alt:banner.alt||banner.titulo||"Mini Banner Nichelle Imports",
+blank:banner.novaAba===true||banner.blank===true,fonte:"configuracao"});
+if(items.length>=Math.min(4,Math.max(1,Number(settings.limite)||4)))break;
+}
+}
 }
 return items;
 }
@@ -157,17 +173,24 @@ item.setAttribute("role","listitem");
 if(b.href){item.href=b.href;if(b.blank){
 item.target="_blank";item.rel="noopener noreferrer";
 }}
+var picture=document.createElement("picture");
+if(b.mobile){
+var source=document.createElement("source");
+source.media="(max-width: 767px)";source.srcset=b.mobile;
+picture.appendChild(source);
+}
 var image=document.createElement("img");
 image.src=b.src;image.alt=b.alt;
 image.width=405;image.height=710;
 image.loading="lazy";image.decoding="async";
-item.appendChild(image);grid.appendChild(item);
+picture.appendChild(image);item.appendChild(picture);grid.appendChild(item);
 });
 host.replaceChildren(grid);
 host.hidden=banners.length===0;
 host.dataset.n27MiniReady="1";
 host.dataset.n27MiniCount=String(banners.length);
-document.documentElement.dataset.n27NativeMiniBanner=banners.length?"1":"0";
+host.dataset.n27MiniSource=banners[0]?.fonte||"nenhum";
+document.documentElement.dataset.n27NativeMiniBanner=banners[0]?.fonte==="nativo"?"1":"0";
 }
 function start(){
 if(started||updated())return;
