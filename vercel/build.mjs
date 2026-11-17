@@ -50,6 +50,8 @@ const combinedJS = (await readFile(resolve("public/nichelle27.js"), "utf8")) +
   "\n\n/* Isolamento visual exclusivo da home em preview */\n" + isolationJS +
   "\n\n/* Reconstrução da home a partir da arte aprovada */\n" +
   (await readFile(resolve("public/nichelle-approved.js"), "utf8")) +
+  "\n\n/* FULLBANNER vinculado aos banners nativos publicados na Loja Integrada */\n" +
+  (await readFile(resolve("public/nichelle-fullbanners.js"), "utf8")) +
   "\n\n/* Catálogo de categorias publicado na LI */\n" +
   "window.N27CategoryCatalog = " + JSON.stringify(JSON.parse(await readFile(resolve("public/nichelle-category-catalog.json"), "utf8"))) + ";\n" +
   "\n\n/* Topo 100% FWR, sem dependências de apresentação do Groom */\n" +
@@ -87,6 +89,8 @@ const combinedCSS = (await readFile(resolve("public/nichelle27.css"), "utf8")) +
   (await readFile(resolve("public/nichelle-isolation.css"), "utf8")) +
   "\n\n/* Reconstrução visual da home aprovada */\n" +
   (await readFile(resolve("public/nichelle-approved.css"), "utf8")) +
+  "\n\n/* FULLBANNER adaptativo com imagens/links do painel nativo */\n" +
+  (await readFile(resolve("public/nichelle-fullbanners.css"), "utf8")) +
   "\n\n/* Cabeçalho FWR independente do Groom */\n" +
   (await readFile(resolve("public/nichelle-header.css"), "utf8")) +
   "\n\n/* Vantagens aprovadas da Nichelle - componente FWR */\n" +
