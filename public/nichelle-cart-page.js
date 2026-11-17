@@ -46,7 +46,7 @@ function preserveNativeActionPreview(table){
  table.querySelectorAll('#formCalcularFrete,form[action*="/carrinho/cupom/validar"]')
    .forEach(form=>form.addEventListener("submit",rememberNativeCartPreview,true));
 }
-let ready=false,root=null,totalView,subtotalView,pixBlock,pixAmount,pixNote,observer;
+let ready=false,root=null,totalView,installmentsView,pixBlock,pixAmount,pixNote,observer;
 const $$=(s,n=document)=>n.querySelector(s);
 const el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
 const safe=(x,l=150)=>String(x||"").replace(/\s+/g," ").trim().slice(0,l);
@@ -57,7 +57,23 @@ function allowed(){
    settings().ativo!==false;
 }
 function readMoney(node){
- return safe(node?.textContent,70)||"R$ 0,00";
+ return safe(node?.textContent,70)||"";
+}
+// As condicoes do checkout sao a fonte definitiva; a loja anuncia ate
+// 6 parcelas sem juros. Esta vitrine apenas simula valores, sem criar
+// uma modalidade de pagamento e sem modificar o formulario oficial.
+function maxInstallments(){
+ const value=Number(settings().parcelasMaximasSemJuros ?? 6);
+ return Number.isInteger(value)&&value>=2&&value<=12?value:0;
+}
+function totalCents(raw){
+ const value=String(raw||"").match(/R\$\s*([\d.,]+)/)?.[1];
+ if(!value)return 0;
+ const n=Number(value.replace(/\./g,"").replace(",","."));
+ return Number.isFinite(n)&&n>0?Math.round(n*100):0;
+}
+function formatBRL(value){
+ return (value/100).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 }
 function setAttrControls(table){
  for(const tr of table.querySelectorAll('tr[data-produto-id]')){
@@ -98,12 +114,15 @@ function mount(){
  summary.setAttribute("aria-label","Resumo do seu pedido");
  const eyebrow=el("span","n27-cart-page__summary-eyebrow","FINALIZAÇÃO");
  summary.append(eyebrow,el("h2","n27-cart-page__summary-title","Resumo do pedido"));
- const line=el("div","n27-cart-page__summary-line");
- line.append(el("span","","Subtotal dos produtos"));
- subtotalView=el("strong","n27-cart-page__summary-subtotal");line.append(subtotalView);summary.append(line);
+ // O subtotal redundante foi removido apenas do painel visual da FWR.
+ // O subtotal/total nativos da Loja Integrada permanecem intactos.
  const total=el("div","n27-cart-page__summary-total");
  total.append(el("span","", "Total do pedido"));
  totalView=el("strong","n27-cart-page__summary-total-number");total.append(totalView);summary.append(total);
+ installmentsView=el("p","n27-cart-page__installments");
+ installmentsView.hidden=true;
+ installmentsView.setAttribute("aria-label","Parcelamento estimado do pedido");
+ summary.append(installmentsView);
  pixBlock=el("div","n27-cart-page__pix");
  pixBlock.append(el("span","n27-cart-page__pix-eyebrow","PREÇO ESPECIAL NO PIX"));
  pixAmount=el("strong","n27-cart-page__pix-amount");
@@ -127,7 +146,7 @@ function mount(){
   requestAnimationFrame(()=>{pending=false;sync();});
  });
  observer.observe(table,{subtree:true,characterData:true,childList:true,attributes:true,attributeFilter:["data-total-valor","data-subtotal-valor"]});
- window.NichelleCartPageFWR={version:"1.0.1",refresh:sync};
+ window.NichelleCartPageFWR={version:"1.1.0",refresh:sync};
 }
 function sync(){
  if(!ready)return;
@@ -135,8 +154,17 @@ function sync(){
  if(!table)return;
  const subtotal=table.querySelector(".valor-subtotal");
  const total=table.querySelector(".valor-total");
- subtotalView.textContent=readMoney(subtotal);
- totalView.textContent=readMoney(total)||readMoney(subtotal);
+ const totalText=readMoney(total)||readMoney(subtotal);
+ totalView.textContent=totalText||"R$ 0,00";
+ const cents=totalCents(totalText),max=maxInstallments();
+ if(max>0&&cents>0){
+  installmentsView.textContent="ou até "+max+"x de "+
+   formatBRL(Math.round(cents/max))+" sem juros";
+  installmentsView.hidden=false;
+ }else{
+  installmentsView.textContent="";
+  installmentsView.hidden=true;
+ }
  const pix=table.querySelector(".valores-descontos .descontos.avista");
  const pixText=safe(pix?.textContent,200);
  const matches=pixText.match(/R\$\s*[\d.,]+/g);
