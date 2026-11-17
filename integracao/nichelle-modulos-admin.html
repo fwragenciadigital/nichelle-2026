@@ -1,12 +1,31 @@
 <!--
 NICHELLE IMPORTS 2026 | MODULO ADMINISTRAVEL (FWR)
-Instalar em Visual > Incluir codigo HTML > Modo avancado > Rodape.
-Preferir TODAS AS PAGINAS para compartilhar o topo/rodape/PDP.
+Instalar em Visual > Incluir codigo HTML > Modo avancado > CABECALHO (HEAD).
+Selecionar TODAS AS PAGINAS; o bloqueio visual atua apenas na home em preview.
 Nao duplicar este bloco nem os loaders globais da loja.
 FULLBANNER e MINI BANNER: editar imagens, links, agendamento e ordem
 somente no painel nativo da Loja Integrada em Banners.
 Visual FWR habilitado somente com ?nichelle_preview=1.
 -->
+<!-- Anti-FOUC da home: instalar este bloco no CABECALHO/HEAD, antes da pagina. -->
+<script id="n27-preview-early-guard">
+(function(){
+ "use strict";
+ var active=/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname)&&
+   (location.pathname.replace(/\/+$/,"")||"/")==="/"&&
+   new URLSearchParams(location.search).get("nichelle_preview")==="1";
+ if(!active)return;
+ document.documentElement.dataset.n27Preflight="1";
+ // Garantia de recuperacao se CDN ou JS falhar.
+ window.setTimeout(function(){delete document.documentElement.dataset.n27Preflight;},8000);
+})();
+</script>
+<style id="n27-preview-early-style">
+html[data-n27-preflight="1"]:not([data-n27-approved="1"]) body.pagina-inicial #corpo,
+html[data-n27-preflight="1"]:not([data-n27-independent-header="1"]) body.pagina-inicial #cabecalho {
+  visibility:hidden!important;
+}
+</style>
 <script id="n27-home-modules-settings">
 (function () {
   "use strict";
@@ -167,13 +186,13 @@ Visual FWR habilitado somente com ?nichelle_preview=1.
 
   // Compatibilidade Mini Banner enquanto o bundle da Vercel nao atualizar.
   // Fonte: somente banners publicados no DOM nativo da Loja Integrada.
-  // Desliga automaticamente quando o JS externo estiver na versao 1.1+.
+  // Desliga automaticamente quando o JS externo estiver na versao 1.2+.
   if(preview){
     (function nativeMiniInlineCompatibility(){
       var started=false,watch=null;
       function updated(){
         var v=String(window.NichelleMiniBanners?.version||"").split(".").map(Number);
-        return v[0]>1||(v[0]===1&&v[1]>=1);
+        return v[0]>1||(v[0]===1&&v[1]>=2);
       }
       function secure(raw){
         if(typeof raw!=="string"||!raw.trim())return "";
@@ -193,7 +212,7 @@ Visual FWR habilitado somente com ?nichelle_preview=1.
       }
       function collect(){
         var query=[
-          ".banners-extras img",".mini-banner img",".minibanner img",
+          ".mini-banner img",".minibanner img",
           ".banner-mini img",".banner.mini img",".mini-banners img",
           ".banners-mini img",'img[alt*="mini banner" i]',
           'img[alt*="minibanner" i]'
@@ -202,7 +221,8 @@ Visual FWR habilitado somente com ?nichelle_preview=1.
         for(var img of document.querySelectorAll(query)){
           if(img.closest("#n27-approved-categories,.n27-shorts,.n27-full__slide,"+
             ".banner-cheio,.banner-full,.fullbanner,.banner-tarja,"+
-            ".banner-vitrine,.banner-lateral,.slick-cloned"))continue;
+            ".banner-vitrine,.banners-vitrine,.vitrine-banner,.banner-lateral,"+
+            "[data-banner-posicao*='vitrine' i],[data-banner-position*='vitrine' i],.slick-cloned"))continue;
           var src=getImage(img);if(!src)continue;
           var link=img.closest("a[href]");
           var href=link?secure(link.getAttribute("href")):"";
@@ -219,10 +239,16 @@ Visual FWR habilitado somente com ?nichelle_preview=1.
         var host=document.getElementById("n27-approved-categories");
         var stage=document.getElementById("n27-preview-stage");
         if(!host||!stage||host.parentElement!==stage)return;
-        // Nao disputar uma vitrine FWR que ja foi montada corretamente.
-        if(!host.hidden&&host.querySelector(".n27-approved-category img"))return;
         var banners=collect();
-        if(!banners.length)return;
+        // O bundle antigo pode inserir banners Vitrine na grade. Comparar
+        // imagens exatas e corrigir a grade mesmo que ja esteja preenchida.
+        var rendered=Array.from(host.querySelectorAll(".n27-approved-category"));
+        var same=rendered.length===banners.length&&rendered.every(function(item,i){
+          var img=item.querySelector("img");
+          var a=item.matches("a[href]")?item:null;
+          return img?.src===banners[i].src&&(a?.href||"")===(banners[i].href||"");
+        });
+        if(same&&host.hidden===(banners.length===0))return;
         var grid=document.createElement("div");
         grid.className="n27-approved-container n27-approved-categories__grid";
         grid.setAttribute("role","list");
@@ -241,10 +267,10 @@ Visual FWR habilitado somente com ?nichelle_preview=1.
           item.appendChild(image);grid.appendChild(item);
         });
         host.replaceChildren(grid);
-        host.hidden=false;
+        host.hidden=banners.length===0;
         host.dataset.n27MiniReady="1";
         host.dataset.n27MiniCount=String(banners.length);
-        document.documentElement.dataset.n27NativeMiniBanner="1";
+        document.documentElement.dataset.n27NativeMiniBanner=banners.length?"1":"0";
       }
       function start(){
         if(started||updated())return;
@@ -254,8 +280,8 @@ Visual FWR habilitado somente com ?nichelle_preview=1.
             if(!updated())requestAnimationFrame(apply);
           });
           var host=document.getElementById("n27-approved-categories");
-          if(host)watch.observe(host,{childList:true,attributes:true,
-            attributeFilter:["hidden"]});
+          if(host)watch.observe(host,{childList:true,subtree:true,attributes:true,
+            attributeFilter:["hidden","src","href"]});
         }
         apply();
       }
