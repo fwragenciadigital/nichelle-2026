@@ -295,6 +295,44 @@
     if(!wrap.children.length)return null;
     n.append(wrap);return n;
   }
+  // Substitui somente o credito do DESENVOLVEDOR Groom pelo da FWR.
+  // Preserva completamente a marca e o link "Plataforma: Loja Integrada".
+  // A busca e limitada ao rodape nativo; nunca altera links em vitrine/checkout.
+  function syncAgencyCredit(){
+    const footer=document.getElementById("rodape");
+    if(!footer)return;
+    const src="https://cdn.awsli.com.br/2550/2550587/arquivos/fwr-agencia-digital.svg";
+    const agency="https://fwragenciadigital.com.br/";
+    let changed=false;
+    const nativeLinks=[...document.querySelectorAll("a[href]")].filter(link=>{
+      if(link.closest("#"+id))return false;
+      const section=link.closest("#rodape,.rodape-inferior,.assinatura-rodape,.rodape-creditos,footer");
+      if(!section)return false;
+      try{
+        const hostname=new URL(link.href,location.origin).hostname.toLowerCase();
+        return hostname==="groomb.com.br"||hostname.endsWith(".groomb.com.br");
+      }catch(_){return false;}
+    });
+    for(const link of nativeLinks){
+      const img=node("img");
+      img.src=src;img.alt="FWR Agência Digital";
+      img.width=90;img.height=36;
+      img.loading="lazy";img.decoding="async";
+      link.replaceChildren(img);
+      link.href=agency;
+      link.target="_blank";
+      link.rel="noopener noreferrer";
+      link.classList.add("n27-foot__agency--native-credit");
+      link.setAttribute("aria-label","Desenvolvimento: FWR Agência Digital");
+      link.title="FWR Agência Digital";
+      changed=true;
+    }
+    if(changed || document.querySelector("a.n27-foot__agency--native-credit")){
+      document.documentElement.dataset.n27AgencyCredit="native";
+    }else{
+      delete document.documentElement.dataset.n27AgencyCredit;
+    }
+  }
   function render(data,cfg){
     const root=document.getElementById("rodape");
     const current=document.getElementById(id);
@@ -313,10 +351,13 @@
       [...data.institution.querySelectorAll("a[href]")].map(a=>[a.textContent,a.href]),
       data.cards.length,data.gateways.length,data.shields.length,
       [...document.querySelectorAll("#rodape-social a[href]")].map(a=>a.href)]);
-    if(current?.parentElement===root&&sig===lastKey)return;
+    if(current?.parentElement===root&&sig===lastKey){
+      syncAgencyCredit();
+      return;
+    }
 
     const section=node("div","n27-foot");
-    section.id=id;section.dataset.n27Version="1.0.0";
+    section.id=id;section.dataset.n27Version="1.1.0";
     section.setAttribute("role","contentinfo");
     // The original #rodape stays mounted and its source DOM is not deleted.
     const top=node("div","n27-foot__top");
@@ -357,11 +398,15 @@
     if(cfg.imagem)image.style.backgroundImage='url("'+cfg.imagem.replace(/["\\]/g,"")+'")';
     const content=node("div","n27-foot__content");
     const columns=node("div","n27-foot__columns");
-    columns.append(institutional(data,cfg),account(cfg,data),
-      contact(cfg,data),security(cfg,data));
+    // Pagamentos e transportadoras pertencem à mesma coluna da
+    // segurança, sem alterar a origem nativa dos selos e das imagens.
+    const securityColumn=security(cfg,data);
     const paymentWrap=node("div","n27-foot__details");
     paymentWrap.append(payments(cfg,data));
     const ship=shipping(cfg,data);if(ship)paymentWrap.append(ship);
+    securityColumn.append(paymentWrap);
+    columns.append(institutional(data,cfg),account(cfg,data),
+      contact(cfg,data),securityColumn);
     const bottom=node("div","n27-foot__bottom");
     bottom.append(node("small","n27-foot__legal",legal));
     if(cfg.mostrarFWR){
@@ -376,7 +421,7 @@
       img.width=92;img.height=44;img.loading="lazy";img.decoding="async";
       link.append(img);bottom.append(link);
     }
-    content.append(columns,paymentWrap,bottom);
+    content.append(columns,bottom);
     panel.append(image,content);
     section.append(top,panel);
     root.insertBefore(section,root.firstChild);
@@ -386,6 +431,7 @@
     // Hide only the legacy copyright surface. Preserve its DOM and text;
     // Groom can force display:block so a scoped inline override is needed.
     root.querySelector(".rodape-inferior")?.style.setProperty("display","none","important");
+    syncAgencyCredit();
     lastKey=sig;
     document.dispatchEvent(new Event("nichelle27:motion:refresh"));
   }
