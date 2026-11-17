@@ -134,7 +134,8 @@ html[data-n27-pdp="1"] #corpo .n27-pdp[data-n27-pix-ready="1"] .acoes-produto .d
 html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto{
  width:100%!important;max-width:100%!important;margin:0!important;padding:0!important;float:none!important
 }
-html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto.hide,
+/* Native LI sets style="display: block" on the chosen variation while
+   retaining class="hide". Never use .hide with !important here. */
 html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto[style*="display: none"]{display:none!important}
 html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto .precos-wrap,
 html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto .preco-produto{
