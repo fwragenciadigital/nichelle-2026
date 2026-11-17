@@ -575,3 +575,86 @@ html[data-n27-approved="1"] #rodape #n27-fwr-footer .n27-foot__agency {
     transition:none!important;
   }
 }
+
+
+/* v1.1: keep white logo outside the product bottle foreground.
+   Match approved coordinates ~19vw for logo, 39vw for description. */
+@media(min-width:651px){
+  html[data-n27-approved="1"] #rodape #n27-fwr-footer .n27-foot__top-inner {
+    width:100%!important;
+    max-width:100%!important;
+    grid-template-columns:35% minmax(0,65%)!important;
+    gap:0!important;
+  }
+  html[data-n27-approved="1"] #rodape #n27-fwr-footer .n27-foot__logo {
+    margin:0 0 0 19vw!important;
+    width:min(280px,20vw)!important;
+    max-width:280px!important;
+    min-width:0!important;
+  }
+  html[data-n27-approved="1"] #rodape #n27-fwr-footer .n27-foot__about {
+    width:100%!important;
+    max-width:100%!important;
+    padding:0 clamp(24px,5.2vw,115px) 0 clamp(20px,4vw,90px)!important;
+  }
+}
+/* The original Groom copyright can have an independent block display rule.
+   It remains in the DOM as platform data, but it must not be duplicated. */
+html[data-n27-approved="1"] #rodape[data-n27-fwr-ready="1"] > .rodape-inferior {
+  display:none!important;
+  position:absolute!important;
+  height:0!important;
+  visibility:hidden!important;
+  overflow:hidden!important;
+}
+html[data-n27-approved="1"] #rodape #n27-fwr-footer .n27-foot__contact-address {
+  margin:0!important;
+}
+html[data-n27-approved="1"] #rodape #n27-fwr-footer .n27-foot__address-button {
+  display:inline-block!important;
+  width:fit-content!important;
+  max-width:100%!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0!important;
+  color:#7d7580!important;
+  font:600 12px/1.25 Arial,Helvetica,sans-serif!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  text-align:left!important;
+  cursor:pointer!important;
+  text-decoration:underline!important;
+  text-decoration-thickness:1px!important;
+  text-underline-offset:2px!important;
+}
+html[data-n27-approved="1"] #rodape #n27-fwr-footer .n27-foot__contact-copy small {
+  color:#8b818c!important;
+  font:400 10px/1.3 Arial,Helvetica,sans-serif!important;
+  white-space:normal!important;
+}
+html[data-n27-approved="1"] #rodape #n27-fwr-footer .n27-foot__social {
+  display:flex!important;
+  flex-wrap:wrap!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  gap:5px 11px!important;
+  width:100%!important;
+  margin:15px 0 0!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+}
+html[data-n27-approved="1"] #rodape #n27-fwr-footer .n27-foot__social-title {
+  display:block!important;
+  flex:1 0 100%!important;
+  color:#8a189d!important;
+  font:700 11px/1.3 Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-approved="1"] #rodape #n27-fwr-footer .n27-foot__social-link {
+  display:inline-block!important;
+  color:#807483!important;
+  font:500 10px/1.2 Arial,Helvetica,sans-serif!important;
+  text-decoration:underline!important;
+  text-underline-offset:2px!important;
+}
