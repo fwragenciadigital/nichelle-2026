@@ -21,11 +21,38 @@ Na Loja Integrada, usar **Visual → Incluir código HTML → Modo avançado →
 |---|---|---|
 | FULLBANNER | `s.fullBanners`: ativo, autoplay, intervalo, limite | Imagens, links e agenda no **painel nativo > Banners > Full Banner** |
 | Benefícios / Vantagens | `s.vantagens`: etiqueta, ícone, título, descrição, link (4 itens) | Editável no HTML do cliente |
-| Mini Banner | `s.miniBanners`: ativo, limite | Imagens, links e agenda no **painel nativo > Banners > Mini Banner** |
+| Mini Banner | `s.miniBanners`: ativo, limite e `itens` opcionais | Prioriza a posição Mini Banner nativa; se ausente no DOM do tema, permite informar URL de imagem/link no HTML editável |
 | Link Vídeo / Iframe Shorts | `s.galeriaShorts.itens`: `videoUrl`, `iframe`, `capa`, `titulo` | URLs reais Vimeo/YouTube; capas na CDN LI |
 | Conteúdo para Você | `s.noticiasHome.itens`: foto, título, texto, data, link | Campos editoriais no HTML do cliente |
 
 Não criar links falsos para artigos ou vídeos. Shorts sem URL real permanecem sem conteúdo publicado. A vitrine Mini Banner **não** deve usar `.banners-extras` como fonte genérica, porque essa estrutura também pode conter Banner Vitrine. O tema LI precisa publicar os elementos Mini Banner no DOM; ter um banner ativo no painel não garante, por si só, sua presença no HTML.
+
+### Mini Banner não disponível no HTML do tema
+
+O diagnóstico informado em 17/11/2026 retornou `imagensNativas:0`,
+`raizesEncontradas:0`, `candidatosPorNome:0` e `cardsVisiveis:0`,
+embora o Mini Banner esteja ativo no painel. **Isso não prova que o
+banner esteja desativado**: mostra que o tema publicado não entregou a
+imagem nas estruturas públicas identificáveis pelo navegador.
+
+A partir de `public/nichelle-mini-banners.js` 1.3.0, o cliente pode
+preencher no bloco 01, em `s.miniBanners.itens`, a URL HTTPS real da
+imagem (`imagem`), a imagem mobile opcional (`imagemMobile`), o
+destino (`link`), o texto alternativo (`alt`) e `novaAba`.
+
+* Fonte prioritária: Mini Banner **nativo** reconhecido no DOM da LI
+* Se nativo não existe: itens reais explicitamente cadastrados no HTML
+* Se ambos ausentes: seção oculta
+* **Nunca** substituir por Banner Vitrine ou inventar imagem/link
+
+O bloco 02 contém compatibilidade para o bundle 1.2.0 que já estava
+publicado na Vercel; desativa-se ao detectar o leitor 1.3.0 ou superior.
+Instalar os dois blocos atualizados na mesma ordem (cliente antes de
+motor). Juntos estão abaixo de 15 mil bytes UTF-8. Se a prioridade é
+administrar exclusivamente no painel de Banners, a alternativa é
+habilitar essa posição no tema da LI, de forma que apareça no DOM
+público; a API oficial exige autenticação e não deve expor chaves no
+código HTML da loja.
 
 ## O que fica fixo (arquivo 02)
 
