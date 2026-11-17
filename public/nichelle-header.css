@@ -732,3 +732,17 @@ html[data-n27-independent-header="1"] .conteiner-principal > #n27-independent-he
     min-height:21px!important;
   }
 }
+
+/* Nichelle — ajustes refinados de menu desktop, icones 33px */
+@media (min-width:1025px) {
+  #n27-independent-header .n27-owned-nav__main > img.n27-owned-icon {
+    width:33px!important;
+    height:33px!important;
+    min-width:33px!important;
+    min-height:33px!important;
+  }
+  #n27-independent-header .n27-owned-nav__main {
+    font:400 12px/1.1 "Montserrat",Arial,Helvetica,sans-serif!important;
+    gap:0!important;
+  }
+}
