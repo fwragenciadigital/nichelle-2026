@@ -252,3 +252,11 @@ html[data-n27-approved="1"] #n27-approved-benefits a.n27-home-benefits__item:hov
     line-height:1.13!important;
   }
 }
+
+/* Tipografia aprovada das vantagens — somente desktop >=1025px. */
+@media (min-width:1025px) {
+  html[data-n27-approved="1"] #n27-approved-benefits .n27-home-benefits__text > span {
+    font:700 clamp(10px,.81vw,13.5px)/1.12 "Montserrat",Arial,Helvetica,sans-serif!important;
+    color:#565656!important;
+  }
+}
