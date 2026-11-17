@@ -1,5 +1,6 @@
 /*
  * Nichelle 2026 — progressive scroll reveal v1.0
+ * Runs on storefront home, category, product and content-page previews.
  * Only ?nichelle_preview=1 until layout is published. Keeps native LI
  * commerce and navigation fully interactive. No CLS: opacity/transform only.
  * Opts out when prefers-reduced-motion is enabled.
@@ -8,7 +9,8 @@
   "use strict";
   const isHome=(location.pathname.replace(/\/+$/,"")||"/")==="/";
   if(!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname)||
-     !isHome||new URLSearchParams(location.search).get("nichelle_preview")!=="1")return;
+     new URLSearchParams(location.search).get("nichelle_preview")!=="1" ||
+     /^(\/carrinho|\/checkout|\/finalizar-pedido|\/login)(\/|$)/.test(location.pathname))return;
   const STAGE="n27-preview-stage";
   let io=null,changes=null,pending=false,initialized=false;
   const tracked=new WeakSet();
@@ -45,26 +47,41 @@
     io.observe(el);
   }
   function collect(){
-    const stage=document.getElementById(STAGE);
-    if(!stage)return;
-    const children=[...stage.children];
-    let idx=0;
-    const stagger=clamp(config().stagger,0,180,70);
-    for(const child of children){
-      if(child.id==="n27-approved-hero"||child.id==="n27-approved-benefits")continue;
-      observe(child,Math.min(190,(idx++%3)*stagger));
+    if(!allowed()){
+      document.querySelectorAll(".n27-motion-pending").forEach(reveal);
+      document.documentElement.removeAttribute("data-n27-motion");
+      return;
     }
-    // Give the editorial cards a subtle independent motion, without
-    // changing sizes, layouts or the individual card hover transforms.
-    const news=document.getElementById("n27-approved-news");
-    if(news){
-      const cards=[...news.querySelectorAll(".n27-news__featured,.n27-news__item")];
-      cards.forEach((card,i)=>observe(card,Math.min(180,i*stagger)));
+    const stage=document.getElementById(STAGE);
+    const stagger=clamp(config().stagger,0,180,70);
+    if(stage){
+      let idx=0;
+      for(const child of stage.children){
+        if(child.id==="n27-approved-hero"||child.id==="n27-approved-benefits")continue;
+        observe(child,Math.min(190,(idx++%3)*stagger));
+      }
+      const news=document.getElementById("n27-approved-news");
+      if(news){
+        [...news.querySelectorAll(".n27-news__featured,.n27-news__item")]
+          .forEach((card,i)=>observe(card,Math.min(180,i*stagger)));
+      }
+    }else{
+      // Safe category / product / content-page support: never animate
+      // buy buttons, quantity inputs, variation selectors, cart, or
+      // Slick-controlled carousel nodes.
+      const cards=[...document.querySelectorAll("#corpo .listagem-item")]
+        .filter(n=>!n.closest(".slick-cloned,.slick-track,.slick-slider"));
+      cards.slice(0,140).forEach((card,i)=>observe(card,Math.min(150,(i%3)*stagger)));
+      const sections=[...document.querySelectorAll(
+        "#corpo .produto .abas-custom, #corpo .produto .tab-content,"+
+        "#corpo .produto-descricao, #corpo .produtos-relacionados,"+
+        "#corpo .listagem > .titulo, #corpo .pagina-conteudo,"+
+        "#corpo .secao-principal > .row-fluid"
+      )];
+      sections.slice(0,30).forEach((section,i)=>observe(section,Math.min(100,(i%2)*stagger)));
     }
     const footer=document.querySelector("#rodape");
-    if(footer && footer.getBoundingClientRect().height>120){
-      observe(footer,0);
-    }
+    if(footer && footer.getBoundingClientRect().height>120)observe(footer,0);
   }
   function schedule(){
     if(pending)return;
@@ -89,7 +106,7 @@
     }
     collect();
     changes=new MutationObserver(schedule);
-    const root=document.getElementById(STAGE);
+    const root=document.getElementById(STAGE)||document.getElementById("corpo");
     if(root)changes.observe(root,{childList:true,subtree:true});
     document.addEventListener("nichelle27:motion:refresh",schedule);
     document.addEventListener("nichelle27:refresh",schedule);
