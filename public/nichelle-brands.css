@@ -25,8 +25,8 @@ html[data-n27-brands="1"] #n27-approved-brands *::after {
 html[data-n27-brands="1"] #n27-approved-brands .n27-brands__inner {
   position:relative!important;display:flex!important;flex-direction:column!important;
   align-items:center!important;justify-content:center!important;
-  width:min(calc(100% - 44px),1402px)!important;
-  max-width:1402px!important;min-width:0!important;
+  width:100%!important;
+  max-width:1540px!important;min-width:0!important;
   margin:0 auto!important;padding:0!important;
 }
 html[data-n27-brands="1"] #n27-approved-brands .n27-brands__heading {
