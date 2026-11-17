@@ -1,4 +1,4 @@
-/* Nichelle Imports 2026 — Mini Banner nativo (LI) v1.1
+/* Nichelle Imports 2026 — Mini Banner nativo (LI) v1.2
  * Fonte única: banners publicados no painel em posição "Mini Banner".
  * Nenhuma imagem/link demonstrativo é incluído ou substituído.
  * Somente home da loja sob ?nichelle_preview=1 e settings opt-in.
@@ -11,19 +11,24 @@ if(!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname)||pathname!=="/
 const ID="n27-approved-categories";
 // O tema Groom e variantes da LI podem renderizar o mesmo tipo em locais diferentes.
 // "banners-extras" tambem fica oculto visualmente na home FWR, mas permanece no DOM.
+// A fonte de verdade deve ser uma posicao EXPLICITAMENTE Mini Banner.
+// NUNCA ler o container generico .banners-extras: ele hospeda Banner Vitrine.
 const SOURCE=[
  ".row-fluid.banner.mini-banner",".banner.mini-banner",".banner.mini",
  ".mini-banner",".minibanner",".mini-banners",".minibanners",
  ".banner-mini",".banners-mini","#banner-mini","#mini-banner","#mini-banners",
- ".banners-extras",
- "[data-banner-posicao*='mini' i]","[data-banner-position*='mini' i]",
- "[data-banner-tipo*='mini' i]","[data-banner-type*='mini' i]"
+ "[data-banner-posicao='mini' i]","[data-banner-position='mini' i]",
+ "[data-banner-posicao='minibanner' i]","[data-banner-position='minibanner' i]",
+ "[data-banner-tipo='mini' i]","[data-banner-type='mini' i]",
+ "[data-banner-category='mini' i]"
 ].join(",");
 const ALT_SOURCE='img[alt*="mini banner" i],img[alt*="minibanner" i],img[title*="mini banner" i]';
 const EXCLUDED=".slick-cloned,.owl-item.cloned,.swiper-slide-duplicate,"+
  ".banner-full,.banner.cheio,.banner.full,.banner-principal,.banner-slider,"+
  ".banner-tarja,.banner-vitrine,.banner-lateral,.fullbanner,.full-banner,"+
- ".n27-approved-category,.n27-full__slide,[data-n27-mini-clone]";
+ ".vitrine-banner,.banners-vitrine,[data-banner-posicao*='vitrine' i],"+
+ "[data-banner-position*='vitrine' i],.n27-approved-category,"+
+ ".n27-full__slide,[data-n27-mini-clone]";
 const LIMIT=4;
 let lastKey="",scheduled=false,watcher=null;
 const text=(val,max=180)=>String(val||"").replace(/\s+/g," ").trim().slice(0,max);
@@ -58,8 +63,8 @@ function imageURL(img){
  return"";
 }
 function roots(){
- // Busca banners existentes no HTML publicado pela LI, inclusive layouts com
- // .banners-extras oculto pelo tema. Nunca usa o painel administrativo privado.
+ // Captura somente containers Mini identificados no HTML da LI.
+ // O tema pode colocar tambem Vitrines em .banners-extras: jamais usa-lo sozinho.
  const found=[...document.querySelectorAll(SOURCE)].filter(root=>
    !root.closest("#"+ID+",.n27-shorts,.n27-best-shelf") &&
    !root.matches(EXCLUDED) && !root.closest(EXCLUDED));
@@ -208,7 +213,7 @@ function observe(){
  watcher=new MutationObserver(records=>{
   if(records.some(r=>{
    const target=r.target.nodeType===1?r.target:r.target.parentElement;
-   return target?.closest?.(".secao-banners,.banners-extras,.mini-banner,.minibanner,.banner-mini,.banners-mini,[data-banner-posicao*='mini' i],[data-banner-position*='mini' i]") ||
+   return target?.closest?.(".mini-banner,.minibanner,.banner-mini,.banners-mini,[data-banner-posicao='mini' i],[data-banner-position='mini' i]") ||
      [...r.addedNodes].some(n=>n.nodeType===1&&
        (n.matches?.(SOURCE)||n.querySelector?.(SOURCE)));
   }))schedule();
@@ -223,7 +228,7 @@ window.addEventListener("load",schedule,{once:true});
 ["nichelle27:refresh","nichelle27:mini-banners:update","nichelle27:home:reordered"]
  .forEach(evt=>document.addEventListener(evt,schedule));
 window.NichelleMiniBanners={
- version:"1.1.0",refresh:schedule,source:"Loja Integrada Mini Banner",
+ version:"1.2.0",refresh:schedule,source:"Loja Integrada Mini Banner",
  diagnostico:function(){
   const host=document.getElementById(ID);
   const candidates=roots();
