@@ -460,3 +460,47 @@ html[data-n27-pdp="1"] #corpo .n27-pdp__recommendations img{object-fit:contain!i
     font:700 clamp(28px,2.9vw,32px)/1.06 "Montserrat",Arial,Helvetica,sans-serif!important;
   }
 }
+
+/* NICHELLE PDP v1.1 — Ajustes solicitados exclusivamente no MOBILE.
+   Somente composicao; galeria, variacoes, frete, compra e checkout
+   continuam sob controle da Loja Integrada. */
+@media (max-width:767px) {
+  html[data-n27-pdp="1"] #corpo .n27-pdp__media .produto-compartilhar,
+  html[data-n27-pdp="1"] #corpo .n27-pdp__benefits {
+    display:none!important;
+  }
+  html[data-n27-pdp="1"] #corpo .n27-pdp__media .galeria-produtos {
+    background:transparent!important;
+  }
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp > .conteiner {
+    padding:14px!important;
+  }
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp h1.nome-produto {
+    font-size:22px!important;
+    font-weight:400!important;
+  }
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .produto-detalhes-detalhes,
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .n27-pdp__details {
+    text-align:left!important;
+  }
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .preco-produto > * {
+    justify-content:flex-start!important;
+  }
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .parcelamento-full {
+    display:none!important;
+  }
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .botao-whatsapp {
+    display:none!important;
+  }
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto .comprar {
+    display:flex!important;
+  }
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .botao-comprar,
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .botao-comprar-ajax,
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .comprar .botao {
+    margin:0!important;
+  }
+  html[data-n27-pdp="1"] #corpo #descricao {
+    line-height:30px!important;
+  }
+}
