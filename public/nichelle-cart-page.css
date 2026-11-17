@@ -300,18 +300,6 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary-title{
  border:0!important;color:#272129!important;
  font:800 21px/1.17 "Montserrat", Arial, Helvetica, sans-serif!important;letter-spacing:-.02em!important
 }
-html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary-line{
- display:flex!important;justify-content:space-between!important;align-items:center!important;
- gap:12px!important;margin:0!important;padding:0 0 19px!important;
- border-bottom:1px solid #eee8ee!important
-}
-html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary-line span{
- color:#7a737d!important;font:500 11px/1.4 "Montserrat", Arial, Helvetica, sans-serif!important
-}
-html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary-subtotal{
- color:#29222d!important;white-space:nowrap!important;
- font:800 12px/1.2 "Montserrat", Arial, Helvetica, sans-serif!important
-}
 html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary-total{
  display:flex!important;flex-direction:column!important;align-items:flex-start!important;
  gap:6px!important;margin:17px 0!important;padding:0!important;
@@ -504,4 +492,41 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page input:focus-visible{
  html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho{
   max-width:100%!important;width:100%!important
  }
+}
+
+/* Resumo do carrinho aprovado: subtotal duplicado removido da interface;
+   valor parcelado sempre atualizado a partir do total nativo da LI. */
+html[data-n27-cart-page="1"] #corpo .n27-cart-page__installments {
+  display:block!important;
+  width:100%!important;
+  margin:-9px 0 18px!important;
+  padding:0!important;
+  color:#6a566f!important;
+  font:400 13px/1.45 "Montserrat",Arial,Helvetica,sans-serif!important;
+  text-align:left!important;
+}
+html[data-n27-cart-page="1"] #corpo .n27-cart-page__installments[hidden] {
+  display:none!important;
+}
+/* Tipografia solicitada para o desktop; mobile preserva breakpoints próprios. */
+@media (min-width:1025px) {
+  html[data-n27-cart-page="1"] #corpo .n27-cart-page__header .span12,
+  html[data-n27-cart-page="1"] #corpo .n27-cart-page__header .titulo,
+  html[data-n27-cart-page="1"] #corpo .n27-cart-page__header h1 {
+    color:#241f27!important;
+    font:300 clamp(29px,3vw,29px)/1.15 "Montserrat",Arial,Helvetica,sans-serif!important;
+  }
+  html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary-total-number {
+    color:#1e1821!important;
+    font:400 clamp(29px,3vw,29px)/1.15 "Montserrat",Arial,Helvetica,sans-serif!important;
+    letter-spacing:-.04em!important;
+    white-space:nowrap!important;
+  }
+  html[data-n27-cart-page="1"] #corpo .n27-cart-page__pix-amount {
+    color:#fff!important;
+    font:700 28px/1.12 "Montserrat",Arial,Helvetica,sans-serif!important;
+  }
+  html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .produto-info > a {
+    font:500 12px/1.35 "Montserrat",Arial,Helvetica,sans-serif!important;
+  }
 }
