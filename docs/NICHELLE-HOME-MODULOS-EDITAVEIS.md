@@ -69,6 +69,27 @@ O código não abre nem acessa a sessão privada do painel administrativo. Os da
 - Até 4 banners. Desktop: grade de quatro posições. Mobile: mantém a rolagem horizontal já aprovada.
 - Datas, visibilidade e ordem seguem o que a LI efetivamente publica, não uma segunda lista administrada pela FWR.
 
+### Compatibilidade temporária no HTML unificado
+
+Em 17/11/2026, o limite de deploys por API da Vercel impediu publicar
+imediatamente o novo bundle `nichelle27.js`. O arquivo
+`integracao/nichelle-modulos-admin.html` recebeu uma **compatibilidade
+inline autodesativável**, que é executada somente em
+`?nichelle_preview=1` e somente quando o módulo carregado da Vercel ainda
+não for a versão **1.1.0 ou superior**.
+
+Essa compatibilidade suporta Mini Banners publicados como `<img>` na
+estrutura nativa `banners-extras`, classes Mini Banner ou atributo `alt`
+(como **Mini Banner - One**). Ela também refaz a montagem quando o módulo
+antigo substitui o slot durante os próprios retries. Não altera o
+checkout, preços, estoque ou visitantes sem a flag.
+
+Para usar enquanto a Vercel não publicar o novo bundle, o lojista deve
+**substituir o bloco HTML unificado anteriormente colado pelo arquivo atual**
+na mesma posição de Rodapé. **Não duplicar os dois HTMLs.**
+Quando o `nichelle27.js` novo estiver disponível na Vercel, o recurso
+inline detecta a versão `1.1+` e deixa de executar.
+
 ## Diagnóstico do Mini Banner (tema nativo)
 
 A partir de `public/nichelle-mini-banners.js` v1.1.0, o leitor captura
