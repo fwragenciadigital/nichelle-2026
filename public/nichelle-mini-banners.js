@@ -77,7 +77,7 @@ function mobileSource(img){
  const source=picture?.querySelector('source[media*="max-width"],source[media*="max-device-width"]');
  const raw=source?.getAttribute("data-srcset")||source?.getAttribute("srcset")||
    img?.getAttribute("data-mobile-src")||img?.getAttribute("data-src-mobile")||"";
- const part=typeof raw==="string"?raw.trim().split(",")[0].trim().split(/\\s+/)[0]:"";
+ const part=typeof raw==="string"?raw.trim().split(",")[0].trim().split(/\s+/)[0]:"";
  return safeURL(part,true);
 }
 function collect(){
