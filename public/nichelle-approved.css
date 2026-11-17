@@ -103,6 +103,11 @@ html[data-n27-approved="1"] #n27-approved-categories .n27-approved-category {
   display:block;min-width:0;aspect-ratio:405/710;border-radius:13px;
   overflow:hidden;background:#ece6e8;
 }
+/* O picture deve preencher o card para imagens Mini Banner da LI,
+   inclusive quando a plataforma disponibiliza uma arte mobile separada. */
+html[data-n27-approved="1"] #n27-approved-categories .n27-approved-category > picture {
+  display:block;width:100%;height:100%;overflow:hidden;
+}
 html[data-n27-approved="1"] #n27-approved-categories .n27-approved-category img {
   display:block;width:100%;height:100%;object-fit:cover;
 }
