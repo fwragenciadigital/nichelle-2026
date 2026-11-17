@@ -1,4 +1,4 @@
-#fwr-nichelle-video-slot{box-sizing:border-box;width:100%;max-width:1440px;margin-inline:auto}
+#fwr-nichelle-video-slot{box-sizing:border-box;width:100%;max-width:1540px;margin-inline:auto}
 #fwr-nichelle-video-slot[data-fwr-active="1"]{min-height:clamp(440px,calc(135.12vw + 84px),650px)}
 #fwr-nichelle-video-slot .fwr-nichelle-videos{padding:20px 18px 38px}
 #fwr-nichelle-video-slot .fwr-nichelle-videos *{box-sizing:border-box}
