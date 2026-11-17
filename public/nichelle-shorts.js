@@ -67,17 +67,52 @@
       exibirPrevia:chosen.exibirPrevia!==false
     };
   }
+  /* Aceita URL do YouTube/Vimeo ou iframe HTML colado pelo lojista.
+     Nunca injeta HTML recebido. Extrai somente src e usa embed allowlist. */
+  function iframeSource(raw){
+    if(typeof raw!=="string")return "";
+    const value=raw.trim();
+    const match=value.match(/<iframe\b[^>]*\bsrc\s*=\s*(?:"([^"]+)"|'([^']+)'|([^\s>]+))/i);
+    return match?(match[1]||match[2]||match[3]||""):value;
+  }
+  function videoInfo(raw){
+    const url=secureUrl(iframeSource(raw));
+    if(!url)return null;
+    const yt=youtubeId(url);
+    if(yt)return{
+      provider:"youtube",id:yt,
+      embed:"https://www.youtube-nocookie.com/embed/"+yt+"?autoplay=1&playsinline=1&rel=0"
+    };
+    try{
+      const u=new URL(url),host=u.hostname.toLowerCase();
+      if(!["vimeo.com","www.vimeo.com","player.vimeo.com"].includes(host))return null;
+      const m=host==="player.vimeo.com"?
+        u.pathname.match(/^\/video\/(\d+)(?:\/|$)/):
+        u.pathname.match(/^\/(\d+)(?:\/([a-f0-9]+))?(?:\/|$)/i);
+      if(!m)return null;
+      const videoId=m[1],hash=(u.searchParams.get("h")||m[2]||"");
+      if(!/^\d{5,15}$/.test(videoId)||hash&&!/^[a-f0-9]{5,64}$/i.test(hash))return null;
+      const embed=new URL("https://player.vimeo.com/video/"+videoId);
+      embed.searchParams.set("autoplay","1");
+      embed.searchParams.set("title","0");
+      embed.searchParams.set("byline","0");
+      embed.searchParams.set("portrait","0");
+      if(hash)embed.searchParams.set("h",hash);
+      return{provider:"vimeo",id:videoId,embed:embed.href};
+    }catch(_){return null;}
+  }
   function normalizeItem(raw,base,index){
     const o=typeof raw==="string"?{videoUrl:raw}:raw;
-    if(!o||typeof o!=="object"||o.enabled===false)return null;
-    const videoUrl=o.videoUrl||o.url||"";
-    const id=youtubeId(videoUrl);
-    if(!id)return null;
-    const cover=secureUrl(o.posterUrl||o.capa||"",base);
+    if(!o||typeof o!=="object"||o.enabled===false||o.ativo===false)return null;
+    const media=videoInfo(o.videoUrl||o.url||o.iframeUrl||o.embedUrl||
+      o.iframe||o.embed||o.src||"");
+    if(!media)return null;
+    const cover=secureUrl(o.posterUrl||o.capa||o.poster||"",base);
     return{
-      id,alt:safeText(o.alt||o.descricao||"Vídeo de produto "+(index+1),170),
-      poster:cover || "https://i.ytimg.com/vi/"+id+"/oar2.jpg",
-      autoPoster:!cover
+      ...media,alt:safeText(o.alt||o.titulo||o.descricao||"Vídeo de produto "+(index+1),170),
+      poster:cover || (media.provider==="youtube"?
+        "https://i.ytimg.com/vi/"+media.id+"/oar2.jpg":""),
+      autoPoster:!cover&&media.provider==="youtube"
     };
   }
   function itemsFromPayload(payload,base){
@@ -112,7 +147,7 @@
     path.setAttribute("fill","currentColor");svg.append(path);return svg;
   }
   function imageFallback(img,item){
-    if(!item.autoPoster)return;
+    if(!item.autoPoster||item.provider!=="youtube")return;
     let index=0;
     const options=["oardefault.jpg","hqdefault.jpg"];
     const next=()=>{
@@ -145,7 +180,7 @@
     if(modalCleanup){modalCleanup();modalCleanup=null;}
   }
   function showVideo(item,trigger){
-    if(!item?.id||activeDialog)return;
+    if(!item?.embed||activeDialog)return;
     const overlay=el("div","n27-shorts-modal");
     const dialog=el("div","n27-shorts-modal__dialog");
     dialog.setAttribute("role","dialog");
@@ -177,12 +212,11 @@
       });
       if(trigger.isConnected)trigger.focus();
     };
-    frame.src="https://www.youtube-nocookie.com/embed/"+item.id+
-      "?autoplay=1&playsinline=1&rel=0";
+    frame.src=item.embed;
     close.focus();
   }
   function createCard(item,index,previewArt){
-    const playable=!!item?.id;
+    const playable=!!item?.embed;
     const card=el(playable?"button":"div",
       "n27-shorts__card n27-shorts__card--"+shades[index]+
       (playable?"":" n27-shorts__card--demo"));
@@ -214,7 +248,7 @@
     return card;
   }
   function signature(items,cfg){
-    return JSON.stringify([items.map(i=>[i.id,i.poster,i.alt]),
+    return JSON.stringify([items.map(i=>[i.provider,i.id,i.embed,i.poster,i.alt]),
       cfg.ativo,cfg.titulo,cfg.exibirPrevia]);
   }
   function render(items,cfg){
@@ -238,7 +272,8 @@
     rail.setAttribute("role","group");
     rail.setAttribute("aria-label",items.length?"Galeria de Shorts":"Prévia da galeria de Shorts");
     const demos=placeholderPictures();
-    for(let i=0;i<LIMIT;i++)rail.append(createCard(items[i]||null,i,demos[i]));
+    const count=items.length?Math.min(LIMIT,items.length):(cfg.exibirPrevia?LIMIT:0);
+    for(let i=0;i<count;i++)rail.append(createCard(items[i]||null,i,demos[i]));
     wrap.append(rail);section.append(wrap);
     native.before(section);existing?.remove();
     document.documentElement.dataset.n27Shorts="1";
@@ -297,7 +332,7 @@
     lastSignature="";lastFetch="";lastRemote=null;schedule();
   });
   window.NichelleShorts={
-    version:"1.0.0",refresh:schedule,
+    version:"1.1.0",refresh:schedule,
     source:"galeria-publicada.json ou painel Loja Integrada"
   };
 })();
