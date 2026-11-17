@@ -33,9 +33,9 @@
     heart: ICON_CDN + "icon_11.png",
     kits: ICON_CDN + "icon_13.png",
     brands: ICON_CDN + "icon_15.png",
-    account: ICON_CDN + "user.svg",
-    support: ICON_CDN + "chat.svg",
-    cart: ICON_CDN + "cart.svg"
+    account: ICON_CDN + "userrr.svg",
+    support: ICON_CDN + "chattt.svg",
+    cart: ICON_CDN + "carttt.svg"
   });
   // Mantem as mesmas chamadas SVG existentes sem alterar links, eventos
   // dos dropdowns, acessibilidade, drawer mobile ou contador de carrinho.
@@ -392,7 +392,7 @@
       main.cartCount.setAttribute("aria-label",n+" itens no carrinho");
     }
     updateCart();
-    window.NichelleHeader={version:"1.2.2",categories:items,refreshCart:updateCart,icons:ICON_ASSETS};
+    window.NichelleHeader={version:"1.2.3",categories:items,refreshCart:updateCart,icons:ICON_ASSETS};
     window.addEventListener("nichelle:cart-updated",e=>updateCart(e.detail?.quantity));
     window.addEventListener("cart:updated",e=>updateCart(e.detail?.quantity));
     // Optional bridge for LI themes that expose a rendered cart quantity.
