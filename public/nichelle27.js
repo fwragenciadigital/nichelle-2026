@@ -420,6 +420,33 @@
     return outer;
   }
 
+  // Montserrat variable 100–900: ativa apenas apos o gate de preview/publicacao.
+  // Uma instalacao antecipada no HTML/Cabecalho e preferivel para evitar FOUT.
+  function installMontserrat() {
+    if (!document.head || document.documentElement.dataset.n27Fonts === "1") return;
+    const links = [
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "anonymous" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" }
+    ];
+    for (const spec of links) {
+      const present = Array.from(document.head.querySelectorAll("link")).some(link =>
+        link.rel === spec.rel && (
+          spec.rel === "stylesheet" ?
+            link.href.startsWith("https://fonts.googleapis.com/css2?family=Montserrat") :
+            link.href === spec.href || link.href === spec.href + "/"
+        )
+      );
+      if (present) continue;
+      const link = document.createElement("link");
+      link.rel = spec.rel;
+      link.href = spec.href;
+      if (spec.crossorigin) link.crossOrigin = spec.crossorigin;
+      document.head.appendChild(link);
+    }
+    document.documentElement.dataset.n27Fonts = "1";
+  }
+
   function mount() {
     const cfg = settings();
     if (!enabled(cfg.geral)) return { ativo: false, montados: Array.from(mounted) };
@@ -429,6 +456,8 @@
       log("Bloqueado: exige modo privado ou publicarNaLoja:true no domínio oficial.");
       return { ativo: false, bloqueado: true, montados: Array.from(mounted) };
     }
+
+    installMontserrat();
 
     if (officialStoreMode() && !(cfg.layout && cfg.layout.homologado === true)) {
       // Sem homologação explícita, só deixa os slots FWR existentes intactos.
