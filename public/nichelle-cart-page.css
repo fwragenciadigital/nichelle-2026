@@ -482,3 +482,26 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page input:focus-visible{
 @media(prefers-reduced-motion:reduce){
  html[data-n27-cart-page="1"] #corpo .n27-cart-page *{transition:none!important;animation:none!important}
 }
+
+
+/* v1.0.1 — 768–1100px: avoid the price/quantity table colliding with
+   the checkout aside. The official table requires >500px to fit. */
+@media(min-width:768px) and (max-width:1100px){
+ html[data-n27-cart-page="1"] #corpo .n27-cart-page{
+  display:flex!important;flex-direction:column!important;
+  gap:18px!important;align-items:stretch!important;
+ }
+ html[data-n27-cart-page="1"] #corpo .n27-cart-page__header{
+  width:100%!important;margin:0!important
+ }
+ html[data-n27-cart-page="1"] #corpo .n27-cart-page > .caixa-sombreada{
+  width:100%!important;max-width:100%!important;margin:0!important
+ }
+ html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary{
+  width:100%!important;max-width:100%!important;
+  margin:0!important;align-self:stretch!important
+ }
+ html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho{
+  max-width:100%!important;width:100%!important
+ }
+}
