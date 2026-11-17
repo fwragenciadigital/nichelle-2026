@@ -265,3 +265,11 @@ GATE PREVIEW: ?nichelle_preview=1 e flags geral.ativo/modoPreview; não interfer
 - Menus desktop/tablet: submenu permanece visível logo abaixo do cabeçalho sticky em 1440 e 768px, após scroll de 800px.
 - Rotas externas à home: PDP e categoria checadas em 390px sem erros JS ou overflow; nelas o cabeçalho nativo é deliberadamente preservado. O cabeçalho FWR está homologado apenas na home e não foi ativado no checkout.
 - Loja pública sem parâmetro nichelle_preview=1 continua usando o tema existente. Nenhum arquivo precisa ser substituído manualmente; bundle versionado no Git/Vercel.
+
+
+## v0.21.0 — Produto e carrinho FWR, padrão TractorBel (17/11/2026)
+
+- PDP TIRTIR: arquivos public/nichelle-pdp.js/css, somente com nichelle_preview=1 na rota de produto. Grid em duas colunas: galeria nativa Splide + galeria de miniaturas e zoom à esquerda, título, marca, SKU, variações de cor, preços, PIX, parcelamento e comprar originais à direita. Três benefícios sob a imagem; quatro acordeões com descrição real, frete, pagamentos e atendimento. A caixa PIX apenas reflete o valor da variação visível, usando classes hide/indisponivel da Loja Integrada; a compra e estoque permanecem oficiais. Mobile coluna única.
+- Cart: arquivos public/nichelle-cart-page.js/css, somente com nichelle_preview=1 em /carrinho/index. Duas colunas desktop: tabela nativa à esquerda e resumo à direita. O formulário real POST /checkout/redirect/ é movido para o card de resumo SEM clonagem. Preços, subtotal, total, Pix, frete, cupom, quantidade e remoção continuam sob controle da Loja Integrada. Mobile a tabela adapta para cards e o resumo aparece abaixo.
+- Degradês e detalhes da Nichelle substituem amarelo/preto da referência TractorBel, preservando a composição e UX. Os formulários oficiais não são recriados nem substituídos. Layout somente em homologação, não na loja pública.
+- Configurações paginaProdutoFWR.ativo e paginaCarrinhoFWR.ativo no HTML principal. Documento de configuração independente: integracao/NICHELLE27-PRODUTO-CARRINHO-ADMIN.html.
