@@ -80,6 +80,22 @@ function mobileSource(img){
  const part=typeof raw==="string"?raw.trim().split(",")[0].trim().split(/\s+/)[0]:"";
  return safeURL(part,true);
 }
+function backgroundURL(element){
+ const values=[
+  element?.getAttribute?.("data-background"),
+  element?.getAttribute?.("data-bg"),
+  element?.getAttribute?.("data-background-image"),
+  element?.getAttribute?.("style")
+ ];
+ for(const raw of values){
+  if(typeof raw!=="string"||!raw.trim())continue;
+  const m=raw.match(/url\(\s*["']?([^"')]+)["']?\s*\)/i);
+  const image=m?.[1]||(!raw.includes(";")&&!raw.includes(":")?raw.trim():"");
+  const url=safeURL(image,true);
+  if(url)return url;
+ }
+ return"";
+}
 function collect(){
  const output=[],seen=new Set();
  const groups=roots();
@@ -102,6 +118,26 @@ function collect(){
      a?.getAttribute("title")||img.getAttribute("title")||"Mini banner Nichelle Imports"),
      blank:a?.getAttribute("target")==="_blank"});
    if(output.length>=LIMIT)return output;
+  }
+ }
+ // Algunos temas desenham banners como background-image em vez de <img>.
+ // Ler apenas os elementos dentro dos containers identificados como banners.
+ if(!output.length&&groups.length){
+  for(const root of groups){
+   const nodes=[root,...root.querySelectorAll('[style*="background-image"],[data-background],[data-bg],[data-background-image]')];
+   for(const element of nodes){
+    if(element.closest(EXCLUDED)||element.closest("#"+ID))continue;
+    const src=backgroundURL(element);if(!src)continue;
+    const a=element.closest("a[href]")||root.closest("a[href]")||
+      (root.matches("a[href]")?root:null);
+    const href=a?safeURL(a.getAttribute("href"),false):"";
+    const key=src+"|"+href+"|";
+    if(seen.has(key))continue;seen.add(key);
+    output.push({src,mobile:"",href,alt:text(element.getAttribute("aria-label")||
+      a?.getAttribute("title")||element.getAttribute("title")||
+      "Mini banner Nichelle Imports"),blank:a?.getAttribute("target")==="_blank"});
+    if(output.length>=LIMIT)return output;
+   }
   }
  }
  // Em alguns temas o container nao recebe o nome 'mini' e
