@@ -32,8 +32,8 @@ html[data-n27-best-shelf="1"] .n27-best-shelf *:after {
 }
 html[data-n27-best-shelf="1"] .n27-best-shelf .n27-best-shelf__inner {
   display:block!important;
-  width:min(100% - 48px,1402px)!important;
-  max-width:1402px!important;
+  width:100%!important;
+  max-width:1540px!important;
   height:auto!important;
   min-width:0!important;
   margin:0 auto!important;
