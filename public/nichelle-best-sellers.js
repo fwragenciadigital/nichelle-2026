@@ -1,5 +1,5 @@
 /*
- * FWR • Nichelle Imports 2026 • Mais Vendidos v1.1
+ * FWR • Nichelle Imports 2026 • Mais Vendidos v1.3
  *
  * Component visuals and events are FWR-owned. Product facts are sourced
  * read-only from Loja Integrada's existing product-list HTML, not from
@@ -54,6 +54,19 @@
       const u = new URL(raw, location.href);
       return /^https?:$/.test(u.protocol) && !u.username && !u.password ? u.href : "";
     } catch (_) {return "";}
+  }
+  // Loja Integrada returns 300x300 thumbnails to the native listagem.
+  // FWR cards are much larger; use the verified CDN resize endpoint.
+  // Only rewrite Nichelle's product images, never uploaded banners or
+  // third-party URLs. Native theme source stays untouched.
+  function productArtAt(raw,size) {
+    try {
+      const u=new URL(raw,location.href);
+      if(u.protocol!=="https:"||u.hostname!=="cdn.awsli.com.br"||
+        !/^\/\d+x\d+\/\d+\/\d+\/produto\//.test(u.pathname))return raw;
+      u.pathname=u.pathname.replace(/^\/\d+x\d+\//,"/"+size+"x"+size+"/");
+      return u.href;
+    } catch (_) {return raw;}
   }
   function parseMoney(text) {
     const m = safeText(text,150).match(/R\$\s*([\d.]+,\d{2})/i);
@@ -161,7 +174,11 @@
     media.href=product.href;
     media.setAttribute("aria-label","Ver produto: "+product.name);
     const pic=el("img");
-    pic.src=product.img;
+    pic.src=productArtAt(product.img,800);
+    if(pic.src!==product.img) {
+      pic.srcset=[500,800,1000].map(w=>productArtAt(product.img,w)+" "+w+"w").join(", ");
+      pic.sizes="(max-width: 520px) 78vw, (max-width: 900px) 45vw, (max-width: 1280px) 28vw, 300px";
+    }
     pic.alt=product.alt;
     pic.width=300;pic.height=300;pic.loading="lazy";pic.decoding="async";
     media.appendChild(pic);
@@ -435,7 +452,7 @@
   document.addEventListener("nichelle27:vitrine:update",()=>{signatures.clear();schedule();});
   document.addEventListener("nichelle27:vitrines:update",()=>{signatures.clear();schedule();});
   window.NichelleBestSellers={
-    version:"1.2.0",refresh:schedule,
+    version:"1.3.0",refresh:schedule,
     sections:SHELVES.map(def=>({key:def.key,selector:def.selector,id:def.id}))
   };
 })();
