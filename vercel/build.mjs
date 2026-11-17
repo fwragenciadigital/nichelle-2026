@@ -107,8 +107,6 @@ const combinedCSS = (await readFile(resolve("public/nichelle27.css"), "utf8")) +
   (await readFile(resolve("public/nichelle-cart-drawer.css"), "utf8")) +
   "\n\n/* PDP FWR responsive */\n" +
   (await readFile(resolve("public/nichelle-pdp.css"), "utf8")) +
-  "\n\n/* PDP minimalista, responsiva e nao destrutiva */\n" +
-  (await readFile(resolve("public/nichelle-pdp-minimal.css"), "utf8")) +
   "\n\n/* Carrinho FWR com checkout nativo */\n" +
   (await readFile(resolve("public/nichelle-cart-page.css"), "utf8")) +
   "\n\n/* Tipografia Montserrat em todas as paginas e componentes aprovados */\n" +
