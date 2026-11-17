@@ -411,8 +411,10 @@
       if(open){
         drawer.overlay.hidden=false;
         window.requestAnimationFrame(()=>{
-          if(token===drawerTransitionToken&&!drawer.overlay.hidden)
+          if(token===drawerTransitionToken&&!drawer.overlay.hidden){
             drawer.overlay.classList.add("n27-owned-drawer--visible");
+            drawer.close.focus({preventScroll:true});
+          }
         });
         if(key!==undefined){
           const selected=[...drawer.list.querySelectorAll("details")].find(n=>n.dataset.key===key);
@@ -425,7 +427,6 @@
             window.requestAnimationFrame(()=>selected.scrollIntoView({block:"nearest"}));
           }
         }
-        drawer.close.focus();
       }else{
         drawer.overlay.classList.remove("n27-owned-drawer--visible");
         const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
