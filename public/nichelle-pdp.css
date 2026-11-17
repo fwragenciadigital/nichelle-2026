@@ -385,3 +385,25 @@ html[data-n27-pdp="1"] #corpo .n27-pdp__recommendations img{object-fit:contain!i
 @media(prefers-reduced-motion:reduce){
  html[data-n27-pdp="1"] #corpo .n27-pdp *{scroll-behavior:auto!important;transition:none!important;animation:none!important}
 }
+
+
+/* v1.0.1 — explicit grid placement overrides the old Groom order rules.
+   We do not move or clone any native media/variant/price DOM nodes. */
+@media(min-width:768px){
+ html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .n27-pdp__layout > .n27-pdp__media{
+  grid-column:1!important;grid-row:1!important;order:0!important;
+  justify-self:stretch!important;align-self:start!important;
+ }
+ html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .n27-pdp__layout > .n27-pdp__details{
+  grid-column:2!important;grid-row:1!important;order:0!important;
+  justify-self:stretch!important;align-self:start!important;
+ }
+}
+@media(max-width:767px){
+ html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .n27-pdp__layout > .n27-pdp__media{
+  grid-column:1!important;grid-row:1!important;order:0!important
+ }
+ html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .n27-pdp__layout > .n27-pdp__details{
+  grid-column:1!important;grid-row:2!important;order:0!important
+ }
+}
