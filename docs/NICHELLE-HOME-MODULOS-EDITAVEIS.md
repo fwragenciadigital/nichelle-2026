@@ -1,18 +1,41 @@
 # Nichelle 2026 — módulos administráveis da home
 
+## FULLBANNER — fonte de verdade
+
+O módulo `public/nichelle-fullbanners.js` não contém a antiga arte fixa Medicube.
+Na home de prévia, ele lê os elementos dos **Full Banners publicados** que o
+tema da Loja Integrada coloca no DOM, normalmente em
+`.secao-banners .banner.cheio`. O slider FWR usa as imagens, links,
+ordem e variantes mobile encontradas ali. Com mais de um banner, exibe
+navegação, indicadores e autoplay configurável (`fullBanners.intervalo`).
+Com nenhum Full Banner válido, não cria publicidade fictícia e deixa
+o banner nativo disponível como fallback, quando o tema o oferece.
+
+O comportamento é exclusivo de `?nichelle_preview=1`. Não faz requisição
+ao painel autenticado ou a endpoints privados da LI e não substitui
+nenhum cadastro nativo.
+
+**HTML completo:** `integracao/nichelle-modulos-admin.html` — bloco
+editável que contém configurações dos cinco elementos (incluindo Full Banner)
+e carrega o bundle CSS/JS somente se ainda não estiver instalado. Em uma loja
+com o bundle existente, não duplicar sua instalação. Instalar em
+**Visual > Incluir código HTML > Modo avançado > Rodapé**, de preferência
+para todas as páginas, para manter cabeçalho, rodapé e PDP compartilhados.
+
 ## Onde editar
 
 | Módulo | Edição | Fonte consumida pela vitrine |
 |---|---|---|
+| Full Banner | **Painel > Banners > Full Banner** | Somente banners publicados e imagens mobile disponíveis na saída HTML nativa do tema |
 | Benefícios / Vantagens | **Visual > Incluir código HTML** da Loja Integrada, na seção `Nichelle27Settings.vantagens` | Até 4 títulos, descrições, ícones permitidos e links configurados no HTML da loja; JSON externo é alternativa |
 | Mini Banner | **Painel > Banners > Mini Banner** | Somente mini banners publicados e efetivamente renderizados no HTML nativo da loja; imagem, link, status, datas e ordem são controlados pelo painel |
 | Link Vídeo / Iframe Shorts | **Visual > Incluir código HTML**, seção `Nichelle27Settings.galeriaShorts`, ou galeria-publicada.json | Links YouTube/Vimeo ou src de iframe de um desses provedores; capa e título editáveis |
 | Conteúdo para Você | **Visual > Incluir código HTML**, seção `Nichelle27Settings.noticiasHome` | Até 3 artigos com título, resumo, foto, data e URL publicada na mesma loja |
 
 ### Script de configuração
-Use o arquivo [integracao/nichelle-modulos-admin.html](../integracao/nichelle-modulos-admin.html) como ponto de edição único.
+Use o arquivo [integracao/nichelle-modulos-admin.html](../integracao/nichelle-modulos-admin.html) como ponto de edição único — configura Full Banner, Benefícios/Vantagens, Mini Banner, Shorts e Conteúdos para Você.
 
-**Instalação:** Incluir código HTML, do tipo HTML, na página inicial e na posição Rodapé; garantir que seja executado antes do bundle deferido `nichelle27.js`. Não substituir `Nichelle27Settings.geral` nem duplicar loaders existentes. Após editar, recarregar a página `?nichelle_preview=1`.
+**Instalação:** incluir como código HTML na posição Rodapé, preferencialmente em todas as páginas. O snippet preserva a configuração geral existente, insere o CSS/JS apenas se não estiverem carregados e exige `?nichelle_preview=1` para executar o visual da Nichelle. Evitar qualquer duplicação de blocos existentes.
 
 ## Comportamento dos Mini Banners
 
