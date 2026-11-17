@@ -4,11 +4,11 @@
   Carregar no <head> ANTES dos JS para reduzir CLS.
   Todos os blocos só recebem as classes abaixo com Nichelle27Settings.geral.ativo=true.
 */
-:root{--n27-purple:#8300aa;--n27-purple-dark:#5f007d;--n27-accent:#a63fbb;--n27-lavender:#f0eaf3;--n27-ink:#414047;--n27-muted:#757078;--n27-width:1440px;--n27-gutter:clamp(16px,2.4vw,32px);--n27-radius:16px}
+:root{--n27-purple:#8300aa;--n27-purple-dark:#5f007d;--n27-accent:#a63fbb;--n27-lavender:#f0eaf3;--n27-ink:#414047;--n27-muted:#757078;--n27-width:1540px;--n27-gutter:clamp(16px,2.4vw,32px);--n27-radius:16px}
 [data-n27-root], [data-n27-root] *{box-sizing:border-box}
 [data-n27-root]{width:100%;color:var(--n27-ink);font-family:inherit}
 [data-n27-root] [hidden]{display:none!important}
-.n27-container{width:min(100%,calc(var(--n27-width) + var(--n27-gutter)*2));padding-inline:var(--n27-gutter);margin-inline:auto}
+.n27-container{box-sizing:border-box;width:100%!important;max-width:var(--n27-width)!important;padding-inline:var(--n27-gutter);margin-inline:auto}
 .n27-section{margin-block:clamp(34px,4vw,66px)}
 .n27-section--beneficios{margin-block:clamp(22px,3.2vw,52px)}
 .n27-section--banners,.n27-section--videos{margin-block:clamp(28px,4vw,64px)}
