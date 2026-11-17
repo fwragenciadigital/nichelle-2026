@@ -31,7 +31,7 @@ html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .wrapper-dropdown .dropd
 
 html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .wrapper-dropdown .dropdown a.atributo-item{min-height:44px!important;display:flex!important;align-items:center!important}
 
-html[data-n27-pdp="1"] #corpo .n27-pdp__pix-hero{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:5px!important;min-height:0!important;margin:0 0 19px!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+html[data-n27-pdp="1"] #corpo .n27-pdp__pix-hero{display:flex!important;flex-direction:row!important;align-items:center!important;gap:9px!important;min-height:0!important;margin:0 0 19px!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
 
 html[data-n27-pdp="1"] #corpo .n27-pdp__pix-hero[hidden]{display:none!important}
 
@@ -125,10 +125,10 @@ html[data-n27-pdp="1"] #corpo .n27-pdp__media .thumbs-img,
 html[data-n27-pdp="1"] #corpo .n27-pdp__media .produto-thumbs{width:100%!important;max-width:100%!important;min-height:0!important;max-height:90px!important}
 html[data-n27-pdp="1"] #corpo .n27-pdp__media .produto-thumbs .miniaturas img{max-height:66px!important;min-width:0!important}
 html[data-n27-pdp="1"] #corpo .n27-pdp__benefits{margin-top:15px!important}
-html[data-n27-pdp="1"] #corpo .n27-pdp__benefits-row{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:7px!important}
+html[data-n27-pdp="1"] #corpo .n27-pdp__benefits-row{grid-template-columns:minmax(0,1fr)!important;gap:9px!important}
 html[data-n27-pdp="1"] #corpo .n27-pdp__benefit{flex-direction:column!important;align-items:flex-start!important;gap:5px!important}
 html[data-n27-pdp="1"] #corpo .n27-pdp__benefit-icon{width:18px!important;height:18px!important;flex-basis:18px!important}
-html[data-n27-pdp="1"] #corpo .n27-pdp__benefit-text strong{font-size:9px!important}
+html[data-n27-pdp="1"] #corpo .n27-pdp__benefit-text strong{font-size:10px!important}
 html[data-n27-pdp="1"] #corpo .n27-pdp__benefit-text small{font-size:8px!important}
 html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp h1.nome-produto{font-size:clamp(20px,4.9vw,25px)!important;line-height:1.27!important}
 html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .info-principal-produto{padding-bottom:16px!important}
