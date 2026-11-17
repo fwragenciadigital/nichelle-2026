@@ -111,7 +111,7 @@ html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter .
   padding:0!important;
   margin:0!important;
   color:#fff!important;
-  font:800 clamp(17px,1.35vw,23px)/1.18 Arial,Helvetica,sans-serif!important;
+  font:800 clamp(17px,1.35vw,23px)/1.18 "Montserrat", Arial, Helvetica, sans-serif!important;
   text-shadow:0 1px 3px rgba(40,4,45,.08)!important;
   text-transform:none!important;
   white-space:normal!important;
@@ -122,7 +122,7 @@ html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter .
   margin:0!important;
   padding:0!important;
   color:rgba(255,255,255,.86)!important;
-  font:400 clamp(10px,.78vw,13px)/1.2 Arial,Helvetica,sans-serif!important;
+  font:400 clamp(10px,.78vw,13px)/1.2 "Montserrat", Arial, Helvetica, sans-serif!important;
   white-space:normal!important;
   text-align:left!important;
 }
@@ -173,7 +173,7 @@ html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter .
   border-radius:0!important;
   outline:none!important;
   box-shadow:none!important;
-  font:400 12px/1.2 Arial,Helvetica,sans-serif!important;
+  font:400 12px/1.2 "Montserrat", Arial, Helvetica, sans-serif!important;
   color:#35243b!important;
   text-align:left!important;
 }
@@ -198,7 +198,7 @@ html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter b
   border-radius:99px!important;
   background:#9e37b3!important;
   color:#fff!important;
-  font:800 10px/1.15 Arial,Helvetica,sans-serif!important;
+  font:800 10px/1.15 "Montserrat", Arial, Helvetica, sans-serif!important;
   text-transform:uppercase!important;
   letter-spacing:.012em!important;
   box-shadow:none!important;
@@ -215,7 +215,7 @@ html[data-n27-endcap-instagram="1"] #n27-approved-instagram a:focus-visible {
 }
 html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter .newsletter-confirmacao:not(.hide) {
   color:#fff!important;
-  font:600 13px/1.4 Arial,Helvetica,sans-serif!important;
+  font:600 13px/1.4 "Montserrat", Arial, Helvetica, sans-serif!important;
   margin:0!important;
   padding:0!important;
 }
@@ -307,7 +307,7 @@ html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-instag
   width:100%!important;height:100%!important;
   z-index:2!important;
   color:#fff!important;
-  font:600 15px/1.2 Arial,Helvetica,sans-serif!important;
+  font:600 15px/1.2 "Montserrat", Arial, Helvetica, sans-serif!important;
   text-align:center!important;
 }
 html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-instagram__brand-copy svg {
@@ -318,7 +318,7 @@ html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-instag
 }
 html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-instagram__handle {
   display:block!important;
-  font:800 clamp(12px,1.11vw,18px)/1.2 Arial,Helvetica,sans-serif!important;
+  font:800 clamp(12px,1.11vw,18px)/1.2 "Montserrat", Arial, Helvetica, sans-serif!important;
   color:#fff!important;
   letter-spacing:-.015em!important;
   text-align:center!important;
@@ -327,7 +327,7 @@ html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-instag
 html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-instagram__caption {
   display:block!important;
   color:#fff!important;
-  font:400 clamp(9px,.62vw,11px)/1.2 Arial,Helvetica,sans-serif!important;
+  font:400 clamp(9px,.62vw,11px)/1.2 "Montserrat", Arial, Helvetica, sans-serif!important;
   text-transform:uppercase!important;
 }
 html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-instagram__brand:hover .n27-approved-instagram__brand-image {
