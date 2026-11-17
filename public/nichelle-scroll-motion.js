@@ -122,7 +122,7 @@
   window.addEventListener("load",schedule,{once:true});
   [400,1200,2400].forEach(t=>setTimeout(()=>{init();schedule();},t));
   window.NichelleMotion={
-    version:"1.0.0",refresh:schedule,
+    version:"1.1.0",refresh:schedule,
     get stats(){return{
       pending:document.querySelectorAll(".n27-motion-pending").length,
       visible:document.querySelectorAll(".n27-motion-visible").length,
