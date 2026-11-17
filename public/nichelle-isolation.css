@@ -33,7 +33,7 @@ html[data-n27-isolated="1"] #n27-preview-stage > .listagem.vitrine-produtos:nth-
   background:#fcf9fd!important;
 }
 html[data-n27-isolated="1"] #n27-preview-stage .listagem.vitrine-produtos > .conteiner {
-  display:block!important;max-width:1300px!important;width:100%!important;
+  display:block!important;max-width:1540px!important;width:100%!important;
   margin:0 auto!important;box-sizing:border-box!important;
   padding:0 clamp(16px,2.5vw,30px)!important;
 }
