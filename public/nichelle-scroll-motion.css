@@ -1,0 +1,46 @@
+/*
+ * Nichelle FWR 2026 — global home scroll effects
+ * Compositor-only animation (opacity/transform), no offsets/heights.
+ * Preview-only, prefers-reduced-motion safe, progressive enhancement.
+ */
+@media(prefers-reduced-motion:no-preference){
+  html[data-n27-motion="1"] .n27-motion-target {
+    transition:
+      opacity var(--n27-motion-duration,690ms) cubic-bezier(.22,.75,.2,1),
+      transform var(--n27-motion-duration,690ms) cubic-bezier(.22,.75,.2,1)!important;
+    transition-delay:var(--n27-motion-delay,0ms)!important;
+  }
+  html[data-n27-motion="1"] .n27-motion-pending {
+    opacity:0!important;
+    transform:translate3d(0,var(--n27-motion-distance,22px),0)!important;
+    pointer-events:none!important;
+  }
+  html[data-n27-motion="1"] .n27-motion-visible {
+    opacity:1!important;
+    transform:translate3d(0,0,0)!important;
+    pointer-events:auto!important;
+  }
+  /* Subtle image movement and interaction feedback, only on FWR cards. */
+  html[data-n27-approved="1"] #n27-preview-stage
+    :is(.n27-best-card__media,.n27-brands__card,.n27-shorts__card,
+        .n27-approved-category,.n27-approved-instagram__tile) {
+    transition:box-shadow .25s ease,filter .25s ease!important;
+  }
+  html[data-n27-approved="1"] #n27-preview-stage
+    :is(.n27-brands__card,.n27-best-card__media,.n27-shorts__card):hover {
+    filter:brightness(1.025)!important;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  html[data-n27-motion="1"] .n27-motion-target,
+  html[data-n27-motion="1"] .n27-motion-pending,
+  html[data-n27-motion="1"] .n27-motion-visible {
+    opacity:1!important;transform:none!important;
+    transition:none!important;animation:none!important;
+    pointer-events:auto!important;
+  }
+}
+/* Keyboard focus must remain clear even on elements with subtle movement. */
+html[data-n27-motion="1"] #n27-preview-stage :focus-visible {
+  outline-offset:3px;
+}

@@ -68,6 +68,16 @@ window.Nichelle27Settings = {
     configUrl:"https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app/galeria-publicada.json",
     itens:[]
   },
+  // Notícias: o cadastro antigo window.FWRNichelle.noticias (HTML/Rodapé)
+  // permanece compatível. Sem artigos cadastrados, o preview usa
+  // textos/datas do mockup, SEM links fictícios.
+  noticiasHome: {
+    ativo:true, titulo:"Conteúdos", destaque:"para você",
+    ocultarLinksRodape:true, itens:[]
+  },
+  // Movimentos suaves aplicados às seções da home; respeito a movimento
+  // reduzido e animação apenas em opacity/transform, sem CLS.
+  movimento: { ativo:true, duracao:690, deslocamento:22, stagger:70 },
   promocoes: { ativo:false, titulo:"Produtos", destaque:"Promocionais",
     seletorFonte:"", seletorItem:".listagem-item" },
   newsletter: { ativo:false, seletorFormulario:"", titulo:"Novidades Nichelle", texto:"" },

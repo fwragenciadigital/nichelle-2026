@@ -1,0 +1,64 @@
+<!-- NICHELLE | CONTEÚDOS PARA VOCÊ — NOTÍCIAS FWR 2026
+LOCAL: Visual > Incluir código HTML > HTML/Rodapé (todas as páginas).
+Cole somente este bloco: o JS/CSS principal já vem do bundle Nichelle27.
+O código também reconhece o cadastro anterior window.FWRNichelle.noticias.
+
+IMPORTANTE
+- Estes 3 títulos/datas são do MOCKUP APROVADO, não comprovam artigos publicados.
+- Para ativar "Ler mais", crie as páginas de conteúdo na Loja Integrada
+  e preencha os campos link com a URL verdadeira da própria loja.
+- A terceira foto é temporária, do catálogo da Nichelle, pois o arquivo
+  original da imagem da arte aprovada não veio separadamente.
+- NÃO inserir novamente <div id="fwr-nichelle-noticias-slot"> na home FWR.
+-->
+<script>
+window.Nichelle27Settings = window.Nichelle27Settings || {};
+window.Nichelle27Settings.noticiasHome = {
+  ativo: true,
+  titulo: "Conteúdos",
+  destaque: "para você",
+  ocultarLinksRodape: true,
+
+  itens: [
+    {
+      foto: "https://cdn.awsli.com.br/2550/2550587/arquivos/coreana.jpg",
+      titulo: "SKINCARE COREANO: A ROTINA DE BELEZA K-BEAUTY EM 10 PASSOS",
+      breveTexto: "Descubra os 10 passos da rotina de skincare coreana para uma pele radiante e saudável.",
+      data: "2026-10-01",
+      link: "" // Adicionar a URL real da página de conteúdo
+    },
+    {
+      foto: "https://cdn.awsli.com.br/2550/2550587/arquivos/coreana1.jpg",
+      titulo: "NAD+ NO SKINCARE: O QUE É E POR QUE ESTÁ GANHANDO DESTAQUE?",
+      breveTexto: "O skincare coreano está cada vez mais conectado à biotecnologia. Entre os ingredientes que vêm despertando curiosidade está o NAD...",
+      data: "2026-09-25",
+      link: ""
+    },
+    {
+      foto: "https://cdn.awsli.com.br/300x300/2550/2550587/produto/398845857/centella-water-fit-sun-01-j0900wdoft.jpg",
+      titulo: "PROTETOR SOLAR NO INVERNO: POR QUE ELE CONTINUA SENDO O ÚLTIMO PASSO DA ROTINA K-BEAUTY",
+      breveTexto: "No inverno, a rotina de skincare costuma mudar: a pele pede texturas mais confortáveis, limpeza mais gentil e hidratação reforçada. Mas existe um passo que não...",
+      data: "2026-08-11",
+      link: ""
+    }
+  ]
+};
+// É possível atualizar a prévia sem atualizar a página:
+document.dispatchEvent(new Event("nichelle27:noticias:update"));
+</script>
+
+<!--
+ALTERNATIVA JSON no painel:
+<script type="application/json" id="n27-noticias-home-json">
+{
+  "ativo": true,
+  "titulo": "Conteúdos",
+  "destaque": "para você",
+  "ocultarLinksRodape": true,
+  "itens": []
+}
+</script>
+OBS: Se itens estiver vazio, aparecem os 3 registros ilustrativos do mockup.
+Se window.FWRNichelle.noticias estiver ativo:true com itens cadastrados,
+esse cadastro original tem prioridade como fonte de notícias.
+-->
