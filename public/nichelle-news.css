@@ -57,7 +57,7 @@ html[data-n27-news="1"] #n27-approved-news .n27-news__heading {
   color:#737079!important;
   background:transparent!important;
   border:0!important;
-  font:400 clamp(19px,1.26vw,22px)/1.25 Arial,Helvetica,sans-serif!important;
+  font:400 clamp(19px,1.26vw,22px)/1.25 "Montserrat", Arial, Helvetica, sans-serif!important;
   letter-spacing:-.025em!important;
   text-align:left!important;
   text-transform:none!important;
@@ -161,7 +161,7 @@ html[data-n27-news="1"] #n27-approved-news .n27-news__featured-title {
   margin:0 0 16px!important;
   padding:0!important;
   color:#fff!important;
-  font:800 clamp(16px,1.07vw,19px)/1.2 Arial,Helvetica,sans-serif!important;
+  font:800 clamp(16px,1.07vw,19px)/1.2 "Montserrat", Arial, Helvetica, sans-serif!important;
   letter-spacing:-.012em!important;
   line-height:1.19!important;
   text-transform:uppercase!important;
@@ -177,7 +177,7 @@ html[data-n27-news="1"] #n27-approved-news .n27-news__featured-summary {
   margin:0 0 30px!important;
   padding:0!important;
   color:#fff!important;
-  font:400 clamp(12px,.84vw,15px)/1.48 Arial,Helvetica,sans-serif!important;
+  font:400 clamp(12px,.84vw,15px)/1.48 "Montserrat", Arial, Helvetica, sans-serif!important;
   text-align:left!important;
 }
 html[data-n27-news="1"] #n27-approved-news .n27-news__meta {
@@ -199,7 +199,7 @@ html[data-n27-news="1"] #n27-approved-news .n27-news__published {
   margin:0!important;
   padding:0!important;
   color:inherit!important;
-  font:400 clamp(11px,.78vw,14px)/1.35 Arial,Helvetica,sans-serif!important;
+  font:400 clamp(11px,.78vw,14px)/1.35 "Montserrat", Arial, Helvetica, sans-serif!important;
   white-space:normal!important;
 }
 html[data-n27-news="1"] #n27-approved-news .n27-news__read {
@@ -207,7 +207,7 @@ html[data-n27-news="1"] #n27-approved-news .n27-news__read {
   margin:0!important;
   padding:0!important;
   color:inherit!important;
-  font:800 clamp(10px,.75vw,13px)/1.2 Arial,Helvetica,sans-serif!important;
+  font:800 clamp(10px,.75vw,13px)/1.2 "Montserrat", Arial, Helvetica, sans-serif!important;
   text-decoration:underline!important;
   text-underline-offset:2px!important;
   white-space:nowrap!important;
@@ -301,7 +301,7 @@ html[data-n27-news="1"] #n27-approved-news .n27-news__item-title {
   margin:0 0 clamp(13px,1.5vw,26px)!important;
   padding:0!important;
   color:#a339b2!important;
-  font:800 clamp(13px,.93vw,17px)/1.05 Arial,Helvetica,sans-serif!important;
+  font:800 clamp(13px,.93vw,17px)/1.05 "Montserrat", Arial, Helvetica, sans-serif!important;
   text-transform:uppercase!important;
   text-align:left!important;
   letter-spacing:-.017em!important;
@@ -315,7 +315,7 @@ html[data-n27-news="1"] #n27-approved-news .n27-news__summary {
   margin:0!important;
   padding:0!important;
   color:#706a76!important;
-  font:400 clamp(11px,.75vw,14px)/1.26 Arial,Helvetica,sans-serif!important;
+  font:400 clamp(11px,.75vw,14px)/1.26 "Montserrat", Arial, Helvetica, sans-serif!important;
   text-align:left!important;
 }
 html[data-n27-news="1"] #n27-approved-news .n27-news__details .n27-news__meta {
