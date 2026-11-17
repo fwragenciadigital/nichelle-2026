@@ -1,3 +1,28 @@
+## Navegação e PDP mobile (17/11/2026)
+
+- O tema LI injeta `<nav class="barra-mobile" aria-label="Menu inferior">`.
+  **Somente na prévia e viewport <=767px**, `public/nichelle-header.js`
+  remove essa barra (incluindo reinserções via MutationObserver). O
+  `public/nichelle-header.css` também a esconde por segurança. Nunca tocar
+  nela sem `nichelle_preview=1`.
+- `#n27-head-nav` é a **única navegação inferior mobile**, fixa ao fundo
+  com safe area, trilho horizontal e elementos de 65px. Ícones são 26px,
+  tipografia 12px, gap 3px. A página reserva espaço inferior para evitar
+  sobreposição do último conteúdo.
+- `#n27-owned-drawer` abre e fecha com classe
+  `n27-owned-drawer--visible`, painel deslizante e fundo em fade.
+  `details/summary` são preservados, com acordeão animado por JS, foco
+  e tecla Esc. Respeitar `prefers-reduced-motion`. Não quebrar links
+  e destinos de categorias.
+- A PDP mobile usa regras de `public/nichelle-pdp.css` dentro de
+  `@media (max-width:767px)`: compartilhar/benefícios ocultos, galeria
+  transparente, padding 14px, título 22px/400, preço alinhado à
+  esquerda, parcelamento-full/WhatsApp ocultos, comprar em flex e
+  `#descricao` com 30px de line-height.
+- Nenhum novo CSS foi inserido nos HTMLs editável/fixo da LI. Os
+  scripts/estilos continuam compondo o bundle Vercel. Validar mobile
+  em home e PDP e o retorno de foco/estado da barra lateral.
+
 ## Instalação atual: cliente editável + motor fixo (17/11/2026)
 
 **Os dois arquivos são fontes independentes e o CSS só existe nos respectivos
