@@ -42,7 +42,7 @@ html[data-n27-shorts="1"] #n27-approved-shorts .n27-shorts__heading {
   margin:0 auto 24px!important;
   padding:0!important;
   text-align:center!important;
-  font:800 clamp(18px,1.5vw,25px)/1.2 Arial,Helvetica,sans-serif!important;
+  font:800 clamp(18px,1.5vw,25px)/1.2 "Montserrat", Arial, Helvetica, sans-serif!important;
   color:#84259a!important;
 }
 html[data-n27-shorts="1"] #n27-approved-shorts .n27-shorts__inner {
@@ -164,7 +164,7 @@ html[data-n27-shorts="1"] #n27-approved-shorts .n27-shorts__pending {
   border-radius:8px!important;
   background:rgba(20,13,19,.53)!important;
   color:#fff!important;
-  font:600 11px/1.25 Arial,Helvetica,sans-serif!important;
+  font:600 11px/1.25 "Montserrat", Arial, Helvetica, sans-serif!important;
   letter-spacing:.03em!important;
   text-align:center!important;
   text-transform:uppercase!important;
@@ -227,7 +227,7 @@ html[data-n27-shorts="1"] #n27-approved-shorts button.n27-shorts__card:focus-vis
   border-radius:50%!important;
   background:#fff!important;
   color:#2d2030!important;
-  font:400 31px/1 Arial,Helvetica,sans-serif!important;
+  font:400 31px/1 "Montserrat", Arial, Helvetica, sans-serif!important;
   cursor:pointer!important;
 }
 .n27-shorts-modal__close:focus-visible {
