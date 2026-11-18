@@ -6,7 +6,7 @@
   "use strict";
   const HOST = "https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app";
   const CDN = "https://cdn.awsli.com.br/2550/2550587/arquivos/";
-  if (!/^(www\.)?nichelleimports\.com\.br$/.test(location.hostname) ||
+  if (!window.Nichelle27Activation?.onStore() ||
       location.pathname.replace(/\/+$/, "") !== "" ||
       !window.Nichelle27Activation?.active()) return;
   function allowed() {
