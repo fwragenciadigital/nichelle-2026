@@ -1,0 +1,46 @@
+/*
+ * NICHELLE IMPORTS 2026 | CSS GERAL - EDICAO MANUAL
+ * ------------------------------------------------
+ * Arquivo exclusivo para ajustes visuais feitos manualmente.
+ * O build da Vercel adiciona este conteudo NO FINAL do nichelle27.css,
+ * apos todos os modulos FWR, sem requisicao extra de CSS.
+ *
+ * Como usar:
+ * 1) Edite este arquivo na branch develop e faca commit.
+ * 2) Aguarde o deploy READY da Vercel para o mesmo commit.
+ * 3) Confira o resultado com ?nichelle_preview=1.
+ *
+ * Recomendacao: limite os seletores a componentes FWR (ex.: #n27-independent-header,
+ * #n27-welcome-coupon, html[data-n27-cart-page="1"]) para nao afetar
+ * funcionalidades nativas da Loja Integrada.
+ *
+ * ATENCAO: as regras abaixo sao apenas espacos para sua edicao.
+ * Nenhuma alteracao visual e aplicada enquanto nao adicionar declaracoes.
+ */
+
+/* ============================================================
+   01. GERAL - DESKTOP, TABLET E MOBILE
+   Adicione ajustes compartilhados aqui.
+   ============================================================ */
+
+
+/* ============================================================
+   02. DESKTOP (1025px ou mais)
+   ============================================================ */
+@media (min-width: 1025px) {
+  /* Seus ajustes desktop aqui. */
+}
+
+/* ============================================================
+   03. TABLET (768px a 1024px)
+   ============================================================ */
+@media (min-width: 768px) and (max-width: 1024px) {
+  /* Seus ajustes tablet aqui. */
+}
+
+/* ============================================================
+   04. MOBILE (ate 767px)
+   ============================================================ */
+@media (max-width: 767px) {
+  /* Seus ajustes mobile aqui. */
+}
