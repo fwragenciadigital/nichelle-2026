@@ -61,7 +61,7 @@ body html[data-n27-approved="1"] #n27-independent-header .n27-owned-logo > img {
     max-height: 70px !important;
 }
 
-body html[data-n27-approved="1"] #n27-welcome-coupon .n27-welcome-coupon__trigger {
+body #n27-welcome-coupon .n27-welcome-coupon__trigger {
     width: 70px !important;
     min-height: 68px !important;
     border-radius: 13px !important;
@@ -79,7 +79,7 @@ body html[data-n27-approved="1"] #n27-welcome-coupon .n27-welcome-coupon__panel 
     top: -230% !important;
 }
 
-body html[data-n27-approved="1"] .conteiner-principal > #n27-independent-header #n27-head-nav {
+html[data-n27-independent-header="1"] #n27-independent-header #n27-head-nav {
     height: calc(75px + env(safe-area-inset-bottom, 0px)) !important;
     min-height: calc(75px + env(safe-area-inset-bottom, 0px)) !important;
     align-items: center;
