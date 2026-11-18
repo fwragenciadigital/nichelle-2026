@@ -12,7 +12,7 @@
   "use strict";
   if (!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname) ||
       (location.pathname.replace(/\/+$/, "") || "/") !== "/" ||
-      new URLSearchParams(location.search).get("nichelle_preview") !== "1") return;
+      !window.Nichelle27Activation?.active()) return;
 
   const SHELVES = [
     {key:"maisVendidos", selector:".vitrine-mas-vendido", id:"n27-approved-best-sellers",
@@ -28,11 +28,9 @@
   const observedSources = new WeakSet();
   let pending = false;
 
-  function enabled() {
-    const s = window.Nichelle27Settings;
-    return !!(s && s.geral?.ativo === true && s.geral?.modoPreview === true &&
-      s.geral?.publicarNaLoja !== true);
-  }
+  function enabled(){
+  return window.Nichelle27Activation?.active()===true;
+ }
   function el(type, cls, text) {
     const n = document.createElement(type);
     if (cls) n.className = cls;
