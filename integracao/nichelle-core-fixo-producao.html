@@ -82,9 +82,16 @@ catch(_){return false;}
 }
 // Somente a origem oficial qualifica como arquivo ja instalado.
 // Um arquivo jsDelivr com mesmo nome nao pode bloquear o carregamento.
+function oldCdnAsset(raw,extension){
+try{
+var u=new URL(raw,location.href);
+return u.hostname==="cdn.jsdelivr.net" &&
+u.pathname.indexOf("/gh/fwragenciadigital/nichelle-2026@")===0 &&
+u.pathname.endsWith("/nichelle27."+extension);
+}catch(_){return false;}
+}
 var oldCss=[].slice.call(document.querySelectorAll('link[rel="stylesheet"][href]'))
-.filter(function(el){return /cdn\\.jsdelivr\\.net\\/gh\\/fwragenciadigital\\/nichelle-2026@/.test(el.href)&&
-/\\/nichelle27\\.css(?:[?#]|$)/.test(el.href);});
+.filter(function(el){return oldCdnAsset(el.href,"css");});
 oldCss.forEach(function(el){el.remove();});
 if(![].some.call(document.querySelectorAll('link[rel="stylesheet"][href]'),function(el){return sameAsset(el.href,cssURL);})){
 var css=document.createElement("link");
@@ -93,8 +100,7 @@ css.onerror=function(){console.error("[Nichelle] CSS oficial indisponivel:",cssU
 document.head.appendChild(css);
 }
 var staleJs=[].some.call(document.querySelectorAll('script[src]'),function(el){
-return /cdn\\.jsdelivr\\.net\\/gh\\/fwragenciadigital\\/nichelle-2026@/.test(el.src)&&
-/\\/nichelle27\\.js(?:[?#]|$)/.test(el.src);
+return oldCdnAsset(el.src,"js");
 });
 if(staleJs){console.warn("[Nichelle] Remova o script jsDelivr antigo do HTML da LI para evitar dois motores.");}
 if(![].some.call(document.querySelectorAll('script[src]'),function(el){return sameAsset(el.src,jsURL);})){
