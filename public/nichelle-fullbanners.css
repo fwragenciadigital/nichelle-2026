@@ -145,3 +145,38 @@ html[data-n27-approved="1"] #n27-approved-hero :is(.n27-full__arrow,.n27-full__d
   animation:none!important;transition:none!important;
  }
 }
+
+/* NICHELLE banner hover v1.1 — hover sem deslocar a área do banner.
+   Nunca roda em touch ou reduced motion. */
+@media (min-width:768px) and (hover:hover) and (pointer:fine) {
+  html[data-n27-approved="1"] #n27-approved-hero .n27-full__image {
+    transition:transform .8s cubic-bezier(.2,.8,.2,1),filter .65s ease!important;
+    transform-origin:center!important;
+    will-change:transform;
+  }
+  html[data-n27-approved="1"] #n27-approved-hero .n27-full__slide:hover .n27-full__image {
+    transform:scale(1.045)!important;
+    filter:saturate(1.07) contrast(1.015)!important;
+  }
+  html[data-n27-approved="1"] #n27-approved-hero a.n27-full__slide::after {
+    content:""!important;
+    position:absolute!important;
+    z-index:2!important;
+    inset:0!important;
+    pointer-events:none!important;
+    opacity:0;
+    background:linear-gradient(120deg,transparent 20%,rgba(255,255,255,.12) 49%,transparent 75%);
+    transform:translateX(-90%);
+    transition:transform 1s ease,opacity .5s ease;
+  }
+  html[data-n27-approved="1"] #n27-approved-hero a.n27-full__slide:hover::after {
+    opacity:1;
+    transform:translateX(90%);
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  html[data-n27-approved="1"] #n27-approved-hero .n27-full__image {
+    will-change:auto!important;
+    transform:none!important;
+  }
+}
