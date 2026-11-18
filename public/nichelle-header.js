@@ -6,7 +6,7 @@
 (function () {
   "use strict";
   const path = location.pathname.replace(/\/+$/, "") || "/";
-  if (!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname) ||
+  if (!window.Nichelle27Activation?.onStore() ||
       /^\/(?:checkout|finalizar-pedido)(?:\/|$)/i.test(path) ||
       !window.Nichelle27Activation?.active()) return;
 
