@@ -389,9 +389,20 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page input:focus-visible{
   display:flex!important;flex-direction:column!important;gap:13px!important
  }
  html[data-n27-cart-page="1"] #corpo .n27-cart-page__header{
-  margin:0 0 7px!important;width:100%!important
+  margin:0 auto!important;
+  width:100%!important;
+  text-align:center!important;
+  justify-content:center!important;
+  display:flex!important;
+  align-items:center!important;
  }
  html[data-n27-cart-page="1"] #corpo .n27-cart-page__header h1{font-size:31px!important}
+ html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary-total-number{
+  font:500 clamp(25px,2vw,35px)/1.15 "Montserrat",Arial,Helvetica,sans-serif!important;
+ }
+ html[data-n27-cart-page="1"] #corpo .n27-cart-page__pix-amount{
+  font:800 28px/1.12 "Montserrat",Arial,Helvetica,sans-serif!important;
+ }
  html[data-n27-cart-page="1"] #corpo .n27-cart-page > .caixa-sombreada,
  html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary{
   width:100%!important;min-width:0!important;max-width:100%!important;float:none!important
@@ -551,22 +562,4 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page__pix-amount {
 }
 html[data-n27-cart-page="1"] #corpo .n27-cart-page__pix-note {
   color:#685b6b!important;
-}
-
-/* Nichelle 3 — ajustes finais do carrinho mobile (somente até 767px). */
-@media(max-width:767px) {
-  html[data-n27-cart-page="1"] #corpo .n27-cart-page__header {
-    margin:0 auto!important;
-    width:100%!important;
-    text-align:center!important;
-    justify-content:center!important;
-    display:flex!important;
-    align-items:center!important;
-  }
-  html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary-total-number {
-    font:500 clamp(25px,2vw,35px)/1.15 "Montserrat",Arial,Helvetica,sans-serif!important;
-  }
-  html[data-n27-cart-page="1"] #corpo .n27-cart-page__pix-amount {
-    font:800 28px/1.12 "Montserrat",Arial,Helvetica,sans-serif!important;
-  }
 }
