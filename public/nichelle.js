@@ -6,7 +6,9 @@
   window.__FWR_NICHELLE_RUNTIME__ = true;
   function isOfficialStoreHost() {
     const host = String(window.location.hostname || "").toLowerCase();
-    return host === "www.nichelleimports.com.br" || host === "nichelleimports.com.br";
+    return host === "www.nichelleimports.com.br" ||
+      host === "nichelleimports.com.br" ||
+      host === "nichelle-imports-manutencao.lojaintegrada.com.br";
   }
 
   // Carrega o CSS oficial ao lado do JS. Pode ser sobrescrito no editor LI.
