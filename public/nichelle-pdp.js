@@ -7,7 +7,7 @@
 (function(){
 "use strict";
 if(!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname) ||
-   new URLSearchParams(location.search).get("nichelle_preview")!=="1" ||
+   !window.Nichelle27Activation?.active() ||
    window.NichelleProductFWR)return;
 let container=null,hero=null,observer=null,timer=0,init=false;
 const SELECTOR=".produto-detalhes > .conteiner > .row-fluid";
@@ -15,10 +15,8 @@ const safe=(x,n=190)=>String(x||"").replace(/\s+/g," ").trim().slice(0,n);
 const e=(tag,cls,txt)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(txt!==undefined)n.textContent=txt;return n;};
 function settings(){return window.Nichelle27Settings?.paginaProdutoFWR||{};}
 function enabled(){
- const g=window.Nichelle27Settings?.geral;
- return g?.ativo===true&&g.modoPreview===true&&g.publicarNaLoja!==true &&
-   settings().ativo!==false;
-}
+  return window.Nichelle27Activation?.active()===true && settings().ativo!==false;
+ }
 function icon(name){
  const paths={truck:"M3 5h11v12H3V5Zm11 4h4l3 4v4h-7V9ZM7 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm11 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z",
  shield:"M12 2 4 6v6c0 5 3 8 8 10 5-2 8-5 8-10V6l-8-4Zm-3 10 2 2 4-4",
