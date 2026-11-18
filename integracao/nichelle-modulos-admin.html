@@ -82,5 +82,9 @@ var s=window.Nichelle27Settings=window.Nichelle27Settings||{};
   // O valor final das parcelas é sempre confirmado no checkout.
   s.paginaCarrinhoFWR=s.paginaCarrinhoFWR||{};
   s.paginaCarrinhoFWR.parcelasMaximasSemJuros=6;
+  // 7. PRIMEIRA COMPRA — o cupom precisa existir e estar ATIVO no
+  // painel Loja Integrada > Marketing > Cupons de desconto.
+  // O JS aplica o codigo via carrinho nativo, nunca inventa desconto.
+  s.primeiraCompra={ativo:true,codigo:"PRIMEIRACOMPRA",percentual:10};
 })();
 </script>
