@@ -7,7 +7,7 @@
 "use strict";
 const pathname=location.pathname.replace(/\/+$/,"")||"/";
 if(!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname)||pathname!=="/"||
- new URLSearchParams(location.search).get("nichelle_preview")!=="1")return;
+ !window.Nichelle27Activation?.active())return;
 const ID="n27-approved-categories";
 // O tema Groom e variantes da LI podem renderizar o mesmo tipo em locais diferentes.
 // "banners-extras" tambem fica oculto visualmente na home FWR, mas permanece no DOM.
@@ -32,10 +32,9 @@ const EXCLUDED=".slick-cloned,.owl-item.cloned,.swiper-slide-duplicate,"+
 const LIMIT=4;
 let lastKey="",scheduled=false,watcher=null;
 const text=(val,max=180)=>String(val||"").replace(/\s+/g," ").trim().slice(0,max);
-function allowed(){
- const s=window.Nichelle27Settings?.geral;
- return !!(s&&s.ativo===true&&s.modoPreview===true&&s.publicarNaLoja!==true);
-}
+function allowed() {
+    return window.Nichelle27Activation?.active() === true;
+  }
 function config(){
  const s=window.Nichelle27Settings?.miniBanners||window.Nichelle27Settings?.miniBanner||{};
  return {ativo:s.ativo!==false,limite:Math.min(LIMIT,Math.max(1,Number(s.limite)||LIMIT)),
