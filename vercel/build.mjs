@@ -45,7 +45,11 @@ if (legacyRuntime.includes("  installStyles();")) {
 }
 const isolationJS = await readFile(resolve("public/nichelle-isolation.js"), "utf8");
 new Script(isolationJS, { filename: "nichelle-isolation.js" });
-const combinedJS = (await readFile(resolve("public/nichelle27.js"), "utf8")) +
+const activationJS = await readFile(resolve("public/nichelle-activation.js"), "utf8");
+new Script(activationJS, { filename: "nichelle-activation.js" });
+const combinedJS = activationJS +
+  "\n\n/* Framework Nichelle27 */\n" +
+  (await readFile(resolve("public/nichelle27.js"), "utf8")) +
   "\n\n/* Runtime FWR legado integrado ao bundle Nichelle27 */\n" + legacyRuntime +
   "\n\n/* Isolamento visual exclusivo da home em preview */\n" + isolationJS +
   "\n\n/* Reconstrução da home a partir da arte aprovada */\n" +
