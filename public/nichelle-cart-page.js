@@ -13,8 +13,10 @@ if(!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname) ||
 // the preview query param. Restore it only once in this SAME TAB immediately
 // after an explicitly previewed cart action. No checkout or public-user impact.
 const PREVIEW_RETURN_KEY="n27-cart-preview-native-return";
-let isPreview=new URLSearchParams(location.search).get("nichelle_preview")==="1";
-if(!isPreview){
+const isPublished=window.Nichelle27Activation?.published()===true;
+let isPreview=window.Nichelle27Activation?.preview()===true;
+if(!isPreview&&!isPublished&&
+   window.Nichelle27Settings?.geral?.modoPreview===true){
  try{
   const issued=Number(sessionStorage.getItem(PREVIEW_RETURN_KEY)||0);
   sessionStorage.removeItem(PREVIEW_RETURN_KEY);
@@ -26,7 +28,7 @@ if(!isPreview){
   }
  }catch(_){}
 }
-if(!isPreview)return;
+if(!isPreview&&!isPublished)return;
 function rememberNativeCartPreview(){
  try{sessionStorage.setItem(PREVIEW_RETURN_KEY,String(Date.now()));}catch(_){}
 }
@@ -52,9 +54,7 @@ const el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className
 const safe=(x,l=150)=>String(x||"").replace(/\s+/g," ").trim().slice(0,l);
 function settings(){return window.Nichelle27Settings?.paginaCarrinhoFWR||{};}
 function allowed(){
- const g=window.Nichelle27Settings?.geral;
- return g?.ativo===true&&g.modoPreview===true&&g.publicarNaLoja!==true &&
-   settings().ativo!==false;
+ return window.Nichelle27Activation?.active()===true&&settings().ativo!==false;
 }
 function readMoney(node){
  return safe(node?.textContent,70)||"";
@@ -137,7 +137,7 @@ function mount(){
  summary.append(checkout);
  native.append(summary);
  setAttrControls(table);
- preserveNativeActionPreview(table);
+ if(isPreview)preserveNativeActionPreview(table);
  sync();
  let pending=false;
  observer=new MutationObserver(records=>{
