@@ -7,7 +7,7 @@
 (function () {
   "use strict";
   const id="n27-fwr-footer";
-  const preview=new URLSearchParams(location.search).get("nichelle_preview")==="1";
+  const preview=window.Nichelle27Activation?.active()===true;
   const host=/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname);
   const path=location.pathname.replace(/\/+$/,"")||"/";
   const restricted=/^\/(?:checkout|finalizar-pedido)(?:\/|$)/i.test(path);
@@ -51,9 +51,8 @@
     };
   }
   function enabled(){
-    const g=window.Nichelle27Settings?.geral;
-    return g?.ativo===true&&g.modoPreview===true&&g.publicarNaLoja!==true;
-  }
+  return window.Nichelle27Activation?.active()===true;
+ }
   function secureImage(raw){
     try{
       const u=new URL(raw,location.href);
