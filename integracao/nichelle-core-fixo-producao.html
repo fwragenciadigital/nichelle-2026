@@ -71,8 +71,9 @@ ativo:true,
 configUrl:"https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app/galeria-publicada.json"
 };
 }
+var blocked=/^\/(?:checkout|finalizar-pedido|login|conta|pedido|meus-pedidos|carrinho\/(?:produto|cupom|frete|checkout))(?:\/|$)/i.test(location.pathname);
 var published=/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname)&&
-s.geral.ativo===true&&s.geral.publicarNaLoja===true;
+s.geral.ativo===true&&!blocked&&s.geral.publicarNaLoja===true;
 if(published){
 var base="https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app";
 if(!document.querySelector('link[href*="/nichelle27.css"]')){
