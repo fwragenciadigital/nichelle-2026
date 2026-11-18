@@ -6,7 +6,7 @@
 (function(){
 "use strict";
 const pathname=location.pathname.replace(/\/+$/,"")||"/";
-if(!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname)||pathname!=="/"||
+if(!window.Nichelle27Activation?.onStore()||pathname!=="/"||
  !window.Nichelle27Activation?.active())return;
 const ID="n27-approved-categories";
 // O tema Groom e variantes da LI podem renderizar o mesmo tipo em locais diferentes.
