@@ -9,7 +9,7 @@
   "use strict";
   const PATH=(location.pathname.replace(/\/+$/,"")||"/");
   if(!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname) ||
-    PATH!=="/" || new URLSearchParams(location.search).get("nichelle_preview")!=="1")return;
+    PATH!=="/" || !window.Nichelle27Activation?.active())return;
   const WIDGET="https://cdn.lightwidget.com/widgets/ae2ac001588f5eba997f9106957c5d8e.html";
   const SCRIPT="https://cdn.lightwidget.com/widgets/lightwidget.js";
   let mountQueued=false,scriptRequested=false,originalTitle=null,originalSubtitle=null,originalButton=null;
@@ -60,9 +60,8 @@
     }catch(_){return"";}
   }
   function allowed(){
-    const g=window.Nichelle27Settings?.geral;
-    return g?.ativo===true && g.modoPreview===true && g.publicarNaLoja!==true;
-  }
+  return window.Nichelle27Activation?.active()===true;
+ }
   function node(tag,cls,content){
     const n=document.createElement(tag);if(cls)n.className=cls;
     if(content!==undefined)n.textContent=content;return n;
