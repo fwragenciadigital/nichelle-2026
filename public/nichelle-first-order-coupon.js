@@ -3,13 +3,12 @@
 (function(){
 "use strict";
 if(!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname)||
-   new URLSearchParams(location.search).get("nichelle_preview")!=="1"||
+   !window.Nichelle27Activation?.active()||
    /^\/(?:checkout|finalizar-pedido)(?:\/|$)/i.test(location.pathname)||
    window.NichelleWelcomeCoupon)return;
 const g=window.Nichelle27Settings?.geral;
 const opt=window.Nichelle27Settings?.primeiraCompra||{};
-if(g?.ativo!==true||g.modoPreview!==true||g.publicarNaLoja===true||
-   opt.ativo===false)return;
+if(!window.Nichelle27Activation?.active()||opt.ativo===false)return;
 const CODE=String(opt.codigo||"PRIMEIRACOMPRA").trim().toUpperCase();
 if(!/^[A-Z0-9_-]{3,40}$/.test(CODE))return;
 const pct=Number(opt.percentual)||10;
@@ -48,7 +47,7 @@ function attempt(){
  if(input?.value?.trim()&&input.value.trim().toUpperCase()!==CODE)return;
  // Uma tentativa por clique: evita refresh/redirect em loop.
  put(ATTEMPT,CODE);del(KEY);
- put(CART_RETURN,String(Date.now()));
+ if(window.Nichelle27Activation.preview())put(CART_RETURN,String(Date.now()));
  if(form&&input){
   input.value=CODE;
   input.dispatchEvent(new Event("input",{bubbles:true}));
@@ -87,7 +86,7 @@ function render(){
  const status=element("p","n27-welcome-coupon__status","");
  status.setAttribute("role","status");
  const link=element("a","n27-welcome-coupon__cart","Ver meu carrinho");
- link.href="/carrinho/index?nichelle_preview=1";
+ link.href=window.Nichelle27Activation.href("/carrinho/index");
  panel.append(close,title,desc,coupon,status,link);
  root.append(trigger,panel);document.body.append(root);
  function show(open){
