@@ -31,16 +31,16 @@ body .n27-welcome-coupon#n27-welcome-coupon {
    04. MOBILE (ate 767px)
    ============================================================ */
 @media (min-width:0px) and (max-width:767px) {
-  body html[data-n27-approved="1"] #n27-independent-header #n27-head-nav .n27-owned-nav__quick {
+  html[data-n27-independent-header="1"] #n27-independent-header #n27-head-nav .n27-owned-nav__quick {
     height: 65px !important;
 }
 
-  body html[data-n27-approved="1"] #n27-independent-header .n27-owned-logo {
+  html[data-n27-independent-header="1"] #n27-independent-header .n27-owned-logo {
       width: 170px !important;
       height: 60px !important;
   }
 
-body html[data-n27-approved="1"] #n27-independent-header .n27-owned-logo > img {
+html[data-n27-independent-header="1"] #n27-independent-header .n27-owned-logo > img {
     width: 100% !important;
     max-height: 70px !important;
 }
@@ -51,12 +51,12 @@ body #n27-welcome-coupon .n27-welcome-coupon__trigger {
     border-radius: 13px !important;
 }
 
-body html[data-n27-approved="1"] #n27-welcome-coupon {
+html[data-n27-independent-header="1"] #n27-welcome-coupon {
     top: auto !important;
     bottom: 60px !important;
 }
 
-body html[data-n27-approved="1"] #n27-welcome-coupon .n27-welcome-coupon__panel {
+html[data-n27-independent-header="1"] #n27-welcome-coupon .n27-welcome-coupon__panel {
     left: 50% !important;
     width: min(320px, calc(100vw)) !important;
     padding: 23px 16px 16px !important;
@@ -71,7 +71,7 @@ html[data-n27-independent-header="1"] #n27-independent-header #n27-head-nav {
     display: flex !important;
 }
 
-    body html[data-n27-approved="1"] #n27-independent-header #n27-head-nav .n27-owned-nav__quick-item--featured .n27-owned-nav__quick-link {
+    html[data-n27-independent-header="1"] #n27-independent-header #n27-head-nav .n27-owned-nav__quick-item--featured .n27-owned-nav__quick-link {
         width: calc(100% - 6px) !important;
         height: 66px !important;
         margin: 0 auto 0 !important;
@@ -83,12 +83,12 @@ html[data-n27-independent-header="1"] #n27-independent-header #n27-head-nav {
         font-weight: 700 !important;
     }
 
-body html[data-n27-approved="1"] #n27-independent-header #n27-head-nav .n27-owned-nav__quick-item--featured .n27-owned-nav__quick-link {
+html[data-n27-independent-header="1"] #n27-independent-header #n27-head-nav .n27-owned-nav__quick-item--featured .n27-owned-nav__quick-link {
     font-weight: 400 !important;
-    text-transform: uppercase !Im;
+    text-transform: uppercase !important;
 }
 
-body html[data-n27-approved="1"] #corpo .n27-cart-page__header {
+html[data-n27-cart-page="1"] #corpo .n27-cart-page__header {
         margin: 0 auto !important;
         width: 100% !important;
         text-align: center !important;
@@ -96,11 +96,11 @@ body html[data-n27-approved="1"] #corpo .n27-cart-page__header {
         display: flex !important;
         align-items: center !important;
     }
-body html[data-n27-approved="1"] #corpo .n27-cart-page__summary-total-number {
+html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary-total-number {
    font: 500 clamp(25px, 2vw, 35px) / 1.15 "Montserrat", Arial, Helvetica, sans-serif !important;
 }
 
-body html[data-n27-approved="1"] #corpo .n27-cart-page__pix-amount {
+html[data-n27-cart-page="1"] #corpo .n27-cart-page__pix-amount {
     font: 800 28px / 1.12 "Montserrat", Arial, Helvetica, sans-serif !important;
 }
 }
