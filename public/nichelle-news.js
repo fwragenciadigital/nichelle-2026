@@ -8,7 +8,7 @@
   "use strict";
   if(!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname) ||
     (location.pathname.replace(/\/+$/,"")||"/")!=="/" ||
-    new URLSearchParams(location.search).get("nichelle_preview")!=="1")return;
+    !window.Nichelle27Activation?.active())return;
 
   const ID="n27-approved-news";
   const CDN="https://cdn.awsli.com.br/2550/2550587/arquivos/";
@@ -39,9 +39,8 @@
   let queued=false;
 
   function allowed(){
-    const s=window.Nichelle27Settings?.geral;
-    return !!(s && s.ativo && s.modoPreview && !s.publicarNaLoja);
-  }
+  return window.Nichelle27Activation?.active()===true;
+ }
   function safePhoto(raw){
     try{
       const url=new URL(raw,location.href);
