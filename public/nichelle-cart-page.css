@@ -530,3 +530,25 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page__installments[hidden] {
     font:500 12px/1.35 "Montserrat",Arial,Helvetica,sans-serif!important;
   }
 }
+
+/* NICHELLE cart colors v1.2 — solicitado pelo cliente.
+   Texto do Pix acompanha fundo claro para manter contraste. */
+html[data-n27-cart-page="1"] #corpo .n27-cart-page__bar {
+  background:#8000a5!important;
+}
+html[data-n27-cart-page="1"] #corpo .n27-cart-page__pix {
+  background:linear-gradient(125deg,#faf2fc 0%,#fff 90%)!important;
+  box-shadow:0 4px 16px rgba(65,10,86,.03)!important;
+  color:#302137!important;
+  border:1px solid #f1e1f4!important;
+  border-left:4px solid #a927bc!important;
+}
+html[data-n27-cart-page="1"] #corpo .n27-cart-page__pix-eyebrow {
+  color:#8b239d!important;
+}
+html[data-n27-cart-page="1"] #corpo .n27-cart-page__pix-amount {
+  color:#291b30!important;
+}
+html[data-n27-cart-page="1"] #corpo .n27-cart-page__pix-note {
+  color:#685b6b!important;
+}
