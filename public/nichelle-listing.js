@@ -162,9 +162,19 @@ function findSource(){
       document.body.classList.contains("pagina-marca")||
       path==="/mais-vendidos"||path==="/buscar"))return null;
  const options=[...document.querySelectorAll("#corpo .listagem")].filter(el=>
-  !el.closest(".vitrine-produtos,.n27-best-shelf,.n27-approved")&&
+  !el.closest("#n27-preview-stage,.n27-best-shelf,.n27-approved,#"+ID)&&
   el.querySelectorAll(".listagem-item").length>0);
- return options.sort((a,b)=>b.querySelectorAll(".listagem-item").length-a.querySelectorAll(".listagem-item").length)[0]||null;
+ // .vitrine-produtos também é uma classe usada nos cards nativos de
+ // categoria de alguns temas LI. Excluí-la aqui ocultava toda a fonte.
+ // Prefira o bloco principal de produtos, nunca vitrines relacionadas.
+ return options.sort((a,b)=>{
+  const score=el=>(
+   (el.closest(".pagina-categoria,.pagina-busca,.pagina-marca")?10000:0)+
+   (el.closest(".secao-principal,.conteudo")?1000:0)+
+   el.querySelectorAll(".listagem-item").length
+  );
+  return score(b)-score(a);
+ })[0]||null;
 }
 function nativeLists(root){
  return [...root.querySelectorAll("ul.produtos-linha,ul[data-produtos-linha],ul[class*='produtos-linha']")]
@@ -186,10 +196,11 @@ function clearNativeFlag(){
  document.documentElement.removeAttribute("data-n27-listing");
  document.querySelectorAll("[data-n27-listing-native]").forEach(e=>delete e.dataset.n27ListingNative);
 }
+let lastDiagnosticReason="nao-inicializado";
 function mount(){
- if(!allowed())return;
+ if(!allowed()){lastDiagnosticReason="configuracoes-desativadas";return;}
  const found=findSource();
- if(!found)return;
+ if(!found){lastDiagnosticReason="listagem-nao-encontrada";return;}
  const native=originalCards(found);
  const products=[],seen=new Set();
  for(const li of native){
@@ -201,6 +212,7 @@ function mount(){
  // All genuine list items must have intact links, pricing and imagery,
  // otherwise leave the original LI cards visible rather than drop products.
  if(!products.length||products.length!==native.length){
+  lastDiagnosticReason="produtos-incompletos:"+products.length+"/"+native.length;
   root?.remove();root=null;signature="";clearNativeFlag();return;
  }
  const key=signatureOf(products);
@@ -219,6 +231,7 @@ function mount(){
  const rows=lists.map(list=>list.closest(".listagem-linha")||list);
  rows.forEach(row=>row.dataset.n27ListingNative="1");
  document.documentElement.dataset.n27Listing="1";
+ lastDiagnosticReason="cards-fwr-montados:"+products.length;
  if(!observer){
   observer=new MutationObserver(records=>{
    if(!records.some(r=>
@@ -240,5 +253,17 @@ else mount();
 window.addEventListener("load",mount,{once:true});
 [250,850,1800,3200].forEach(n=>setTimeout(mount,n));
 document.addEventListener("nichelle27:refresh",schedule);
-window.NichelleListingFWR={version:"1.0.0",refresh:schedule};
+window.NichelleListingFWR={
+ version:"1.1.0",
+ refresh:schedule,
+ diagnostico:()=>({
+  estado:lastDiagnosticReason,
+  pagina:location.pathname,
+  preview:new URLSearchParams(location.search).get("nichelle_preview")==="1",
+  fonte:!!findSource(),
+  nativos:findSource()?originalCards(findSource()).length:0,
+  exibidos:document.querySelectorAll("#"+ID+" .n27-listing__card").length,
+  cssAtivo:document.documentElement.dataset.n27Listing==="1"
+ })
+};
 })();
