@@ -140,7 +140,7 @@ await writeFile(join(target, "nichelle27.css"), combinedCSS);
 // Compatibilidade 4433 (SOMENTE PARA HOMOLOGACAO):
 // copia exata dos arquivos fornecidos pelo cliente, ANTES das sobrescritas FWR.
 // Nao muda as URLs oficiais nichelle27.js / nichelle27.css.
-const theme4433JS = await readFile(resolve("referencias/tema-4433/__theme_custom.js"), "utf8");
+const theme4433JS = await readFile(resolve("referencias/tema-4433/__theme_custom_sem_assinatura_groomb.js"), "utf8");
 const theme4433CSS = await readFile(resolve("referencias/tema-4433/__theme_custom.css"), "utf8");
 new Script(theme4433JS, { filename: "__theme_custom.js [4433]" });
 const compat4433JS = theme4433JS +
