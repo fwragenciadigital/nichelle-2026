@@ -9,7 +9,8 @@
  */
 (function () {
   "use strict";
-  const STORE = /^(www\.)?nichelleimports\.com\.br$/i;
+  // Dominios autorizados: oficial + manutencao desta mesma loja (nao aceitar outras lojas LI).
+  const STORE = /^(?:(?:www\.)?nichelleimports\.com\.br|nichelle-imports-manutencao\.lojaintegrada\.com\.br)$/i;
   // Nao aplica o layout em checkout, autenticacao ou endpoints transacionais.
   const BLOCKED = /^\/(?:checkout|finalizar-pedido|login|conta|pedido|meus-pedidos|carrinho\/(?:produto|cupom|frete|checkout))(?:\/|$)/i;
   function onStore() {
@@ -35,6 +36,6 @@
     return url.pathname + url.search + url.hash;
   }
   window.Nichelle27Activation = Object.freeze({
-    active, published, preview, href
+    onStore, active, published, preview, href
   });
 })();
