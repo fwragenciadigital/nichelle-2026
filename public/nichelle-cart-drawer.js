@@ -8,9 +8,8 @@
  */
 (function(){
 "use strict";
-const params=new URLSearchParams(location.search);
 if(!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname)||
-   params.get("nichelle_preview")!=="1"||
+   !window.Nichelle27Activation?.active()||
    /^\/(?:checkout|carrinho|finalizar-pedido)(?:\/|$)/i.test(location.pathname))return;
 if(window.NichelleCartDrawer?.version)return;
 const SID="n27-cart-drawer";
@@ -34,8 +33,7 @@ function settings(){
    mostrarParcelamento:o.mostrarParcelamento!==false};
 }
 function allowed(){
- const s=window.Nichelle27Settings?.geral;
- return s?.ativo===true&&s.modoPreview===true&&s.publicarNaLoja!==true&&settings().ativo;
+ return window.Nichelle27Activation?.active()===true&&settings().ativo;
 }
 function url(src,internalOnly=true){
  try{
@@ -394,7 +392,7 @@ async function addOffer(offer,btn){
   const path=url(native?.getAttribute("href")||"");
   if(!path||!path.includes("/carrinho/produto/"+offer.id+"/adicionar")){
    // Multi-variation and unavailable items must be selected on PDP.
-   location.href=offer.href+(offer.href.includes("?")?"&":"?")+"nichelle_preview=1";
+   location.href=window.Nichelle27Activation.href(offer.href);
    return;
   }
   const response=await fetch(path,{
@@ -412,7 +410,7 @@ async function addOffer(offer,btn){
   console.warn("[Nichelle order bump]",err);
   alertMessage("Este produto não pôde ser adicionado automaticamente. Confira sua página antes de comprar.","error");
   const link=el("a","n27-cart__offer-link","Ver produto");
-  link.href=offer.href+(offer.href.includes("?")?"&":"?")+"nichelle_preview=1";
+  link.href=window.Nichelle27Activation.href(offer.href);
   btn.replaceWith(link);
  }finally{mutating=false;btn.disabled=false;btn.textContent=original;}
 }
