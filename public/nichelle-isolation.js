@@ -5,7 +5,7 @@
  */
 (function () {
   "use strict";
-  if (!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname) ||
+  if (!window.Nichelle27Activation?.onStore() ||
       !window.Nichelle27Activation?.active() ||
       location.pathname.replace(/\/+$/, "") !== "") return;
 
