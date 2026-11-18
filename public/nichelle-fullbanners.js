@@ -7,7 +7,7 @@
 "use strict";
 const path=location.pathname.replace(/\/+$/,"")||"/";
 if(!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname)||
- path!=="/"||new URLSearchParams(location.search).get("nichelle_preview")!=="1")return;
+ path!=="/"||!window.Nichelle27Activation?.active())return;
 const ID="n27-approved-hero";
 const ROOTS=[
  ".secao-banners .banner.cheio",
@@ -28,10 +28,9 @@ const ROOTS=[
 const EXCLUDED=".mini-banner,.minibanner,.banner-tarja,.banner-lateral,.banner-vitrine,.slick-cloned,.owl-item.cloned,.swiper-slide-duplicate,[data-n27-full-clone]";
 const MAX=12;
 let signature="",observer=null,queued=false,rotateTimer=null,slideIndex=0,eventsController=null;
-function allowed(){
- const g=window.Nichelle27Settings?.geral;
- return !!(g&&g.ativo===true&&g.modoPreview===true&&g.publicarNaLoja!==true);
-}
+function allowed() {
+    return window.Nichelle27Activation?.active() === true;
+  }
 function config(){
  const s=window.Nichelle27Settings?.fullBanners||window.Nichelle27Settings?.fullBanner||{};
  return{
