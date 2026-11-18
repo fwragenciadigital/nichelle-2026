@@ -48,6 +48,8 @@ new Script(isolationJS, { filename: "nichelle-isolation.js" });
 const activationJS = await readFile(resolve("public/nichelle-activation.js"), "utf8");
 new Script(activationJS, { filename: "nichelle-activation.js" });
 const combinedJS = activationJS +
+  "\n\n/* Guardiao global da assinatura Groomb: inicializa antes dos modulos visuais */\n" +
+  (await readFile(resolve("public/nichelle-remove-groomb.js"), "utf8")) +
   "\n\n/* Framework Nichelle27 */\n" +
   (await readFile(resolve("public/nichelle27.js"), "utf8")) +
   "\n\n/* Runtime FWR legado integrado ao bundle Nichelle27 */\n" + legacyRuntime +
@@ -87,9 +89,7 @@ const combinedJS = activationJS +
   "\n\n/* Cupom flutuante de primeira compra, validado no carrinho LI */\n" +
   (await readFile(resolve("public/nichelle-first-order-coupon.js"), "utf8")) +
   "\n\n/* Grid de categoria e busca com produtos nativos Loja Integrada */\n" +
-  (await readFile(resolve("public/nichelle-listing.js"), "utf8")) +
-  "\n\n/* Remocao persistente da assinatura Groomb, mesmo se injetada depois */\n" +
-  (await readFile(resolve("public/nichelle-remove-groomb.js"), "utf8"));
+  (await readFile(resolve("public/nichelle-listing.js"), "utf8"));
 new Script(combinedJS, { filename: "nichelle27.js" });
 await writeFile(join(target, "nichelle27.js"), combinedJS);
 const combinedCSS = (await readFile(resolve("public/nichelle27.css"), "utf8")) +
