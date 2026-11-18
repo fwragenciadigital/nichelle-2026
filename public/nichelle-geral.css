@@ -104,10 +104,12 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page__pix-amount {
 }
 }
 
-/* FWR | Remocao da assinatura de desenvolvimento Groomb: independente do container do tema. */
-html body a[href*="groomb.com.br"],
-html body a:has(img[src*="groomb-logo.png"]),
-html body img[src*="groomb-logo.png"] {
+/* Nichelle 2026 | Oculta assinatura Groomb inclusive apos injecao no DOM. */
+html body a[href*="groomb.com.br" i],
+html body img[src*="groomb-logo.png" i] {
   display: none !important;
   visibility: hidden !important;
+}
+html body a:has(> img[src*="groomb-logo.png" i]) {
+  display: none !important;
 }
