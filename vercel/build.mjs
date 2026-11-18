@@ -79,7 +79,9 @@ const combinedJS = (await readFile(resolve("public/nichelle27.js"), "utf8")) +
   "\n\n/* PDP FWR: variações e ações nativas da Loja Integrada */\n" +
   (await readFile(resolve("public/nichelle-pdp.js"), "utf8")) +
   "\n\n/* Cart page FWR: resumo com checkout oficial */\n" +
-  (await readFile(resolve("public/nichelle-cart-page.js"), "utf8"));
+  (await readFile(resolve("public/nichelle-cart-page.js"), "utf8")) +
+  "\n\n/* Cupom flutuante de primeira compra, validado no carrinho LI */\n" +
+  (await readFile(resolve("public/nichelle-first-order-coupon.js"), "utf8"));
 new Script(combinedJS, { filename: "nichelle27.js" });
 await writeFile(join(target, "nichelle27.js"), combinedJS);
 const combinedCSS = (await readFile(resolve("public/nichelle27.css"), "utf8")) +
@@ -115,6 +117,8 @@ const combinedCSS = (await readFile(resolve("public/nichelle27.css"), "utf8")) +
   (await readFile(resolve("public/nichelle-pdp.css"), "utf8")) +
   "\n\n/* Carrinho FWR com checkout nativo */\n" +
   (await readFile(resolve("public/nichelle-cart-page.css"), "utf8")) +
+  "\n\n/* Cupom flutuante de primeira compra no layout preview */\n" +
+  (await readFile(resolve("public/nichelle-first-order-coupon.css"), "utf8")) +
   "\n\n/* Tipografia Montserrat em todas as paginas e componentes aprovados */\n" +
   (await readFile(resolve("public/nichelle-fonts.css"), "utf8")) +
   "\n\n/* Container 1540px em todo projeto, com padding responsivo sem alterar componentes internos */\n" +
