@@ -126,7 +126,9 @@ const combinedCSS = (await readFile(resolve("public/nichelle27.css"), "utf8")) +
   "\n\n/* Tipografia Montserrat em todas as paginas e componentes aprovados */\n" +
   (await readFile(resolve("public/nichelle-fonts.css"), "utf8")) +
   "\n\n/* Container 1540px em todo projeto, com padding responsivo sem alterar componentes internos */\n" +
-  (await readFile(resolve("public/nichelle-containers.css"), "utf8"));
+  (await readFile(resolve("public/nichelle-containers.css"), "utf8")) +
+  "\n\n/* CSS GERAL FWR — ajustes manuais carregados por ultimo */\n" +
+  (await readFile(resolve("public/nichelle-geral.css"), "utf8"));
 await writeFile(join(target, "nichelle27.css"), combinedCSS);
 for (const file of ["galeria-videos.js", "galeria-videos.css",
   "galeria-preview.json", "galeria-publicada.json", "nichelle-vantagens.json"]) {
