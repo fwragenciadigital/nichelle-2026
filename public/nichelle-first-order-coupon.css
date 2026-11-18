@@ -215,7 +215,7 @@ html[data-n27-independent-header="1"] #n27-welcome-coupon {
  #n27-welcome-coupon .n27-welcome-coupon__panel {
    left:50%!important;
    top:-230%!important;
-   width:min(320px,calc(100vw - 24px))!important;
+   width:min(320px,calc(100vw))!important;
    max-width:calc(100vw - 24px)!important;
    padding:23px 16px 16px!important;
    transform:translate(-8%,-50%);
