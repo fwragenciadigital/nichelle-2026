@@ -6,7 +6,7 @@
  */
 (function () {
   "use strict";
-  const preview = new URLSearchParams(location.search).get("nichelle_preview") === "1";
+  const preview = window.Nichelle27Activation?.active() === true;
   if (!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname) ||
       (location.pathname.replace(/\/+$/, "") || "/") !== "/" || !preview) return;
 
@@ -16,9 +16,8 @@
   const shades=["one","two","three","four"];
   let lastSignature="",activeDialog=null,modalCleanup=null,lastFetch="",lastRemote=null,queued=false;
   function allowed(){
-    const s=window.Nichelle27Settings?.geral;
-    return !!(s && s.ativo===true && s.modoPreview===true && s.publicarNaLoja!==true);
-  }
+  return window.Nichelle27Activation?.active()===true;
+ }
   function el(tag,klass,text){
     const n=document.createElement(tag);
     if(klass)n.className=klass;
