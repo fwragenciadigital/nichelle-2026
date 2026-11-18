@@ -18,8 +18,7 @@
 
   function settings() { return window.Nichelle27Settings || {}; }
   function isLiveStore() {
-    const host = String(window.location.hostname || "").toLowerCase();
-    return host === "www.nichelleimports.com.br" || host === "nichelleimports.com.br";
+    return window.Nichelle27Activation?.onStore() === true;
   }
   function previewOnStore() {
     // Prévia opt-in. Visita normal sem ?nichelle_preview=1 NÃO altera a loja.
