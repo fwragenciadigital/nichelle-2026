@@ -23,6 +23,87 @@
    Adicione ajustes compartilhados aqui.
    ============================================================ */
 
+body .n27-welcome-coupon#n27-welcome-coupon {
+  left: 6px !important;
+  top: auto !important;
+  width: 55px !important;
+}
+                                    
+@media (max-width: 767px) {
+body #n27-independent-header #n27-head-nav .n27-owned-nav__quick {
+    height: 65px !important;
+}
+
+  body #n27-independent-header .n27-owned-logo {
+      width: 170px !important;
+      height: 60px !important;
+  }
+
+body #n27-independent-header .n27-owned-logo > img {
+    width: 100% !important;
+    max-height: 70px !important;
+}
+
+body #n27-welcome-coupon .n27-welcome-coupon__trigger {
+    width: 70px !important;
+    min-height: 68px !important;
+    border-radius: 13px !important;
+}
+
+body #n27-welcome-coupon {
+    top: auto !important;
+    bottom: 60px !important;
+}
+
+body #n27-welcome-coupon .n27-welcome-coupon__panel {
+    left: 50% !important;
+    width: min(320px, calc(100vw)) !important;
+    padding: 23px 16px 16px !important;
+    top: -230% !important;
+}
+
+body .conteiner-principal > #n27-independent-header #n27-head-nav {
+    height: calc(75px + env(safe-area-inset-bottom, 0px)) !important;
+    min-height: calc(75px + env(safe-area-inset-bottom, 0px)) !important;
+    align-items: center;
+    justify-content: center;
+    display: flex !important;
+}
+
+    body #n27-independent-header #n27-head-nav .n27-owned-nav__quick-item--featured .n27-owned-nav__quick-link {
+        width: calc(100% - 6px) !important;
+        height: 66px !important;
+        margin: 0 auto 0 !important;
+        padding: 8px 10px 5px !important;
+        border: 2px solid #bc1bea !important;
+        border-radius: 20px !important;
+        background: linear-gradient(145deg, #a00fc4, #70109b) !important;
+        box-shadow: 0 5px 16px rgba(52, 0, 78, .2) !important;
+        font-weight: 700 !important;
+    }
+
+body #n27-independent-header #n27-head-nav .n27-owned-nav__quick-item--featured .n27-owned-nav__quick-link {
+    font-weight: 400 !important;
+    text-transform: uppercase !Im;
+}
+
+body #corpo .n27-cart-page__header {
+        margin: 0 auto !important;
+        width: 100% !important;
+        text-align: center !important;
+        justify-content: center !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+body #corpo .n27-cart-page__summary-total-number {
+   font: 500 clamp(25px, 2vw, 35px) / 1.15 "Montserrat", Arial, Helvetica, sans-serif !important;
+}
+
+body #corpo .n27-cart-page__pix-amount {
+    font: 800 28px / 1.12 "Montserrat", Arial, Helvetica, sans-serif !important;
+}
+}
+
 
 /* ============================================================
    02. DESKTOP (1025px ou mais)
