@@ -80,7 +80,17 @@
       menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',
       close:'<path d="M5 5l14 14M19 5 5 19"/>',
       chevron:'<path d="m6 9 6 6 6-6"/>',
-      phone:'<path d="M8 3H5a2 2 0 0 0-2 2c0 9 7 16 16 16a2 2 0 0 0 2-2v-3l-5-2-2 3a13 13 0 0 1-7-7l3-2-2-5Z"/>'
+      phone:'<path d="M8 3H5a2 2 0 0 0-2 2c0 9 7 16 16 16a2 2 0 0 0 2-2v-3l-5-2-2 3a13 13 0 0 1-7-7l3-2-2-5Z"/>',
+      mail:'<rect x="2" y="5" width="20" height="14" rx="3"/><path d="m3 7 9 7 9-7"/>',
+      contact:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/>',
+      login:'<path d="M10 4H5v16h5M13 7l5 5-5 5M7 12h11"/>',
+      orders:'<path d="M7 3h10v18H7V3Zm3 5h4m-4 4h4m-4 4h3"/>',
+      favorites:'<path d="M20.8 5.4a5.3 5.3 0 0 0-7.5 0L12 6.7l-1.3-1.3a5.3 5.3 0 0 0-7.5 7.5L12 21l8.8-8.1a5.3 5.3 0 0 0 0-7.5Z"/>',
+      grid:'<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>',
+      home:'<path d="m3 11 9-8 9 8v10h-7v-7h-4v7H3V11Z"/>',
+      sparkle:'<path d="m12 2 2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2L12 2Z"/>',
+      whatsapp:'<path d="M20 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-4.7A8.5 8.5 0 1 1 20 11.5Z"/><path d="M9 8c.4 2.6 2.4 4.7 5 5.3l1.1-1.2 2 1.1c-.2 1.8-1.1 2.5-2.5 2.3-4-.6-7.1-3.8-7.7-7.6-.2-1.2.6-2.3 1.6-2.3h.5l1.1 2-1.1 1.4"/>'
+
     };
     const s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     s.setAttribute("viewBox", "0 0 24 24");
@@ -168,12 +178,14 @@
     const summary=el("summary","n27-owned-actions__summary");
     const labels=el("span","n27-owned-actions__labels");
     labels.append(el("strong","",title),el("small","",subtitle));
-    summary.append(svg(iconName),labels);
+    summary.append(svg(iconName),labels,inlineSvg("chevron","n27-owned-actions__chevron"));
     root.appendChild(summary);
     const panel=el("div","n27-owned-actions__dropdown");
     menuItems.forEach(item=>{
       if(!item.url)return;
-      const a=el("a","n27-owned-actions__dropdown-link",item.label);
+      const a=el("a","n27-owned-actions__dropdown-link");
+      a.append(inlineSvg(item.icon||"contact","n27-owned-actions__link-icon"),
+        el("span","",item.label));
       a.href=item.url;
       if(item.external){a.target="_blank";a.rel="noopener noreferrer";}
       panel.appendChild(a);
@@ -208,16 +220,16 @@
     form.appendChild(searchBtn);
     const actions=el("div","n27-owned-actions");
     const support=buildDetails("n27-owned-actions__support","support","Atendimento","Fale com nossa equipe",[
-      {label:"Conversar pelo WhatsApp",url:"https://wa.me/5551994641695",external:true},
-      {label:"Ligar: (51) 99464-1695",url:"tel:51994641695"},
-      {label:"Enviar e-mail",url:"mailto:contato@nichelleimports.com.br"},
-      {label:"Formulário de contato",url:"/contato"}
+      {label:"Conversar pelo WhatsApp",icon:"whatsapp",url:"https://wa.me/5551994641695",external:true},
+      {label:"Ligar: (51) 99464-1695",icon:"phone",url:"tel:51994641695"},
+      {label:"Enviar e-mail",icon:"mail",url:"mailto:contato@nichelleimports.com.br"},
+      {label:"Formulário de contato",icon:"contact",url:"/contato"}
     ]);
     const account=buildDetails("n27-owned-actions__account","account","Meu Painel","Entrar ou Cadastrar-se",[
-      {label:"Entrar ou cadastrar",url:"/conta/login"},
-      {label:"Minha Conta",url:"/conta/index"},
-      {label:"Meus Pedidos",url:"/conta/pedido/listar"},
-      {label:"Lista de Desejos",url:"/conta/favorito/listar"}
+      {label:"Entrar ou cadastrar",icon:"login",url:"/conta/login"},
+      {label:"Minha Conta",icon:"account",url:"/conta/index"},
+      {label:"Meus Pedidos",icon:"orders",url:"/conta/pedido/listar"},
+      {label:"Lista de Desejos",icon:"favorites",url:"/conta/favorito/listar"}
     ]);
     const cart=el("a","n27-owned-cart");
     cart.href="/carrinho/index";cart.title="Ver resumo do carrinho";
@@ -280,6 +292,30 @@
       track.appendChild(li);
     });
     nav.appendChild(track);
+    // Cinco atalhos fixos mobile; todas as categorias continuam no drawer.
+    // A grade desktop original não é alterada.
+    const quick=el("ul","n27-owned-nav__quick");
+    const shortcut=(label,icon,url,action,featured=false)=>{
+      const li=el("li","n27-owned-nav__quick-item"+(featured?" n27-owned-nav__quick-item--featured":""));
+      const control=action?button("","n27-owned-nav__quick-link",action):
+        el("a","n27-owned-nav__quick-link");
+      if(!action)control.href=url;
+      control.setAttribute("aria-label",label);
+      control.append(inlineSvg(icon,"n27-owned-nav__quick-icon"),
+        el("span","",label));
+      li.appendChild(control);quick.appendChild(li);
+    };
+    shortcut("Início","home","/?nichelle_preview=1");
+    shortcut("Buscar","search","",()=>{
+      const input=document.getElementById("n27-owned-search-input");
+      document.getElementById("n27-independent-header")?.scrollIntoView({behavior:
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches?"instant":"smooth",block:"start"});
+      input?.focus({preventScroll:true});
+    });
+    shortcut("Categorias","grid","",()=>openMobile(),true);
+    shortcut("Ofertas","sparkle",items[0]?.url||"/mais-vendidos");
+    shortcut("Conta","account","/conta/index");
+    nav.appendChild(quick);
     document.addEventListener("click",ev=>{
       if(nav.contains(ev.target))return;
       track.querySelectorAll('.n27-owned-nav__item[data-open="true"]').forEach(n=>{
@@ -490,7 +526,7 @@
       main.cartCount.setAttribute("aria-label",n+" itens no carrinho");
     }
     updateCart();
-    window.NichelleHeader={version:"1.3.0",categories:items,refreshCart:updateCart,icons:ICON_ASSETS};
+    window.NichelleHeader={version:"1.4.0",categories:items,refreshCart:updateCart,icons:ICON_ASSETS};
     window.addEventListener("nichelle:cart-updated",e=>updateCart(e.detail?.quantity));
     window.addEventListener("cart:updated",e=>updateCart(e.detail?.quantity));
     // Optional bridge for LI themes that expose a rendered cart quantity.
