@@ -27,8 +27,8 @@
       new URLSearchParams(window.location.search).get("nichelle_preview") === "1";
   }
   function officialStoreMode() {
-    return isLiveStore() && !!(settings().geral && settings().geral.publicarNaLoja === true ||
-      previewOnStore());
+    // A publicacao respeita o gate central, inclusive a exclusao do checkout.
+    return isLiveStore() && window.Nichelle27Activation?.active() === true;
   }
   function previewFixtureAllowed() {
     const host = String(window.location.hostname || "").toLowerCase();
