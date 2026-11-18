@@ -502,11 +502,13 @@ html.n27-owned-menu-open {overflow:hidden!important;}
   }
   #n27-independent-header .n27-owned-logo {
     grid-area:brand!important;
-    width:154px!important;height:53px!important;
+    width:170px!important;height:60px!important;
+    max-width:100%!important;
     justify-self:center!important;
   }
   #n27-independent-header .n27-owned-logo > img {
-    width:154px!important;max-height:50px!important;
+    width:100%!important;max-height:70px!important;
+    height:auto!important;object-fit:contain!important;
   }
   #n27-independent-header .n27-owned-search {
     grid-area:search!important;width:100%!important;
@@ -768,8 +770,11 @@ html[data-n27-independent-header="1"] .conteiner-principal > #n27-independent-he
     z-index:2602!important;
     width:100%!important;
     max-width:100%!important;
-    height:calc(65px + env(safe-area-inset-bottom, 0px))!important;
-    min-height:calc(65px + env(safe-area-inset-bottom, 0px))!important;
+    height:calc(75px + env(safe-area-inset-bottom, 0px))!important;
+    min-height:calc(75px + env(safe-area-inset-bottom, 0px))!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
     padding:0 0 env(safe-area-inset-bottom, 0px)!important;
     background:#8000a5!important;
     border-top:1px solid rgba(255,255,255,.18)!important;
@@ -952,6 +957,7 @@ html[data-n27-independent-header="1"] .conteiner-principal > #n27-independent-he
     align-items:stretch!important;
     width:100%!important;
     height:65px!important;
+    min-height:65px!important;
     max-width:540px!important;
     margin:0 auto!important;
     padding:0 6px!important;
@@ -1017,13 +1023,14 @@ html[data-n27-independent-header="1"] .conteiner-principal > #n27-independent-he
     .n27-owned-nav__quick-link {
     width:calc(100% - 6px)!important;
     height:66px!important;
-    margin:-13px auto 0!important;
+    margin:0 auto!important;
     padding:8px 3px 5px!important;
-    border:3px solid #fff!important;
+    border:2px solid #bc1bea!important;
     border-radius:20px!important;
     background:linear-gradient(145deg,#a00fc4,#70109b)!important;
     box-shadow:0 5px 16px rgba(52,0,78,.2)!important;
-    font-weight:700!important;
+    font-weight:400!important;
+    text-transform:uppercase!important;
   }
   #n27-independent-header #n27-head-nav .n27-owned-nav__quick-item--featured
     .n27-owned-nav__quick-icon {
@@ -1041,43 +1048,4 @@ html[data-n27-independent-header="1"] .conteiner-principal > #n27-independent-he
     transition:none!important;
     transform:none!important;
   }
-}
-
-/* NICHELLE ajustes finais mobile 18-11 — logo e dock inferior. */
-@media(max-width:767px) {
- html[data-n27-independent-header="1"] #n27-independent-header #n27-head-nav {
-   display:flex!important;
-   align-items:center!important;
-   justify-content:center!important;
-   height:calc(75px + env(safe-area-inset-bottom,0px))!important;
-   min-height:calc(75px + env(safe-area-inset-bottom,0px))!important;
- }
- #n27-independent-header #n27-head-nav .n27-owned-nav__quick {
-   height:65px!important;
-   min-height:65px!important;
- }
- #n27-independent-header .n27-owned-logo {
-   width:170px!important;
-   height:60px!important;
-   max-width:100%!important;
- }
- #n27-independent-header .n27-owned-logo > img {
-   width:100%!important;
-   max-height:70px!important;
-   height:auto!important;
-   object-fit:contain!important;
- }
- #n27-independent-header #n27-head-nav .n27-owned-nav__quick-item--featured
-   .n27-owned-nav__quick-link {
-   width:calc(100% - 6px)!important;
-   height:66px!important;
-   margin:0 auto!important;
-   padding:8px 3px 5px!important;
-   border:2px solid #bc1bea!important;
-   border-radius:20px!important;
-   background:linear-gradient(145deg,#a00fc4,#70109b)!important;
-   box-shadow:0 5px 16px rgba(52,0,78,.2)!important;
-   font-weight:400!important;
-   text-transform:uppercase!important;
- }
 }
