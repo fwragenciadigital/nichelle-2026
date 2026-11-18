@@ -10,7 +10,11 @@
 (function () {
   "use strict";
   const STORE = /^(www\.)?nichelleimports\.com\.br$/i;
-  function onStore() { return STORE.test(location.hostname); }
+  // Nao aplica o layout em checkout, autenticacao ou endpoints transacionais.
+  const BLOCKED = /^\/(?:checkout|finalizar-pedido|login|conta|pedido|meus-pedidos|carrinho\/(?:produto|cupom|frete|checkout))(?:\/|$)/i;
+  function onStore() {
+    return STORE.test(location.hostname) && !BLOCKED.test(location.pathname);
+  }
   function settings() { return window.Nichelle27Settings?.geral || {}; }
   function published() {
     const g = settings();
