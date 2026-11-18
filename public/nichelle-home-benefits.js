@@ -11,7 +11,7 @@
 
   if (!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname) ||
       (location.pathname.replace(/\/+$/, "") || "/") !== "/" ||
-      new URLSearchParams(location.search).get("nichelle_preview") !== "1") return;
+      !window.Nichelle27Activation?.active()) return;
 
   const ID = "n27-approved-benefits";
   const FIELDS = Object.freeze([
@@ -32,11 +32,7 @@
   });
 
   function active() {
-    const settings = window.Nichelle27Settings;
-    return !!(settings && settings.geral &&
-      settings.geral.ativo === true &&
-      settings.geral.modoPreview === true &&
-      settings.geral.publicarNaLoja !== true);
+    return window.Nichelle27Activation?.active() === true;
   }
   function node(name, cls, text) {
     const el = document.createElement(name);
