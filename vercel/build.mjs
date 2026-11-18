@@ -134,6 +134,22 @@ const combinedCSS = (await readFile(resolve("public/nichelle27.css"), "utf8")) +
   "\n\n/* CSS GERAL FWR — ajustes manuais carregados por ultimo */\n" +
   (await readFile(resolve("public/nichelle-geral.css"), "utf8"));
 await writeFile(join(target, "nichelle27.css"), combinedCSS);
+
+// Compatibilidade 4433 (SOMENTE PARA HOMOLOGACAO):
+// copia exata dos arquivos fornecidos pelo cliente, ANTES das sobrescritas FWR.
+// Nao muda as URLs oficiais nichelle27.js / nichelle27.css.
+const theme4433JS = await readFile(resolve("referencias/tema-4433/__theme_custom.js"), "utf8");
+const theme4433CSS = await readFile(resolve("referencias/tema-4433/__theme_custom.css"), "utf8");
+new Script(theme4433JS, { filename: "__theme_custom.js [4433]" });
+const compat4433JS = theme4433JS +
+  "\n\n/* FWR Nichelle 2026 - loaded after legacy theme in compatibility test */\n" +
+  combinedJS +
+  "\n;window.__N27_COMPAT_4433_LOADED__ = true;\n";
+new Script(compat4433JS, { filename: "nichelle27-compat4433.js" });
+await writeFile(join(target, "nichelle27-compat4433.js"), compat4433JS);
+await writeFile(join(target, "nichelle27-compat4433.css"),
+  theme4433CSS + "\n\n/* FWR Nichelle 2026 - overrides after original theme */\n" + combinedCSS);
+console.log("Compat4433 test-only publicado: /nichelle27-compat4433.js e .css; oficial inalterado.");
 for (const file of ["galeria-videos.js", "galeria-videos.css",
   "galeria-preview.json", "galeria-publicada.json", "nichelle-vantagens.json"]) {
   await copyFile(resolve("public", file), join(target, file));
