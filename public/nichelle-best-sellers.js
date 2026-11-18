@@ -10,7 +10,7 @@
  */
 (function () {
   "use strict";
-  if (!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname) ||
+  if (!window.Nichelle27Activation?.onStore() ||
       (location.pathname.replace(/\/+$/, "") || "/") !== "/" ||
       !window.Nichelle27Activation?.active()) return;
 
