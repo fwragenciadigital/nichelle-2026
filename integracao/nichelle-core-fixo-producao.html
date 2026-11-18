@@ -8,8 +8,7 @@
 (function(){
 "use strict";
 var active=/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname)&&
-(location.pathname.replace(/\/+$/,"")||"/")==="/"&&
-true;
+(location.pathname.replace(/\/+$/,"")||"/")==="/";
 if(!active)return;
 document.documentElement.dataset.n27Preflight="1";
 window.setTimeout(function(){delete document.documentElement.dataset.n27Preflight;},8000);
@@ -72,7 +71,7 @@ ativo:true,
 configUrl:"https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app/galeria-publicada.json"
 };
 }
-var published=/^(www\\.)?nichelleimports\\.com\\.br$/i.test(location.hostname)&&
+var published=/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname)&&
 s.geral.ativo===true&&s.geral.publicarNaLoja===true;
 if(published){
 var base="https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app";
