@@ -110,6 +110,36 @@ o bloco fixo deve ser **republicado manualmente** no admin LI quando
 mudar a URL versionada da CDN, e depois revertido à versão Vercel
 somente após confirmar que o deploy `develop` está READY.
 
+### Categorias, busca e ajustes mobile — 18/11/2026
+
+A listagem das categorias, marcas e busca ganhou os módulos
+`public/nichelle-listing.js` e `public/nichelle-listing.css`,
+integrados ao `vercel/build.mjs`. O novo visual segue a vitrine
+`n27-best-card` aprovada: imagens em fundo branco, selo violeta,
+nome em duas linhas, preço original/promocional lado a lado, parcelas
+e bloco Pix com divisor. Lê apenas dados reais dos produtos nativos LI.
+
+- Desktop: cinco produtos por linha em largura grande, quatro entre
+  1150–1500px e três em tablet 768–1149px.
+- Mobile: duas colunas, preços/parcelas legíveis e área de toque dos
+  produtos preservada.
+- Filtros, busca, ordenação, paginação e formulários oficiais
+  permanecem no DOM original. A listagem visual própria só substitui
+  o bloco nativo quando **todos os produtos encontrados** têm imagem,
+  URL e preço válidos; caso contrário, mantém-se o layout nativo.
+- Ajustes CSS refinados mobile no header: logo 170x60, imagem a 100%,
+  barra fixa 75px (atalhos de 65px), botão central de 66px,
+  contorno #bc1bea e texto em caixa alta.
+- Cupom flutuante: bottom 5% no desktop; no mobile bottom 60px,
+  largura 70px e painel flutuante ajustado para caber na viewport.
+
+O projeto possui versão temporária independente da Vercel na branch
+`cdn-temporaria-nichelle-20261117`. O arquivo
+`integracao/cdn-temporaria/nichelle-core-fixo-jsdelivr.html`
+fixa o snapshot CDN que inclui as atualizações. Não transformar a
+prévia em produção sem homologação visual e teste real do carrinho
+e do cupom.
+
 ## O que fica fixo (arquivo 02)
 
 - Inicialização de `window.Nichelle27Settings`, com `geral.ativo:true`, `modoPreview:true`, `publicarNaLoja:false`, `layout.homologado:true` e configurações legadas compatíveis
