@@ -71,6 +71,45 @@ na página de produto ficam em `public/nichelle-pdp.css`. Os novos
 ajustes de fontes são exclusivos do desktop (`min-width:1025px`).
 Não adicionar CSS nos arquivos HTML editável e fixo.
 
+### Revisão da home e carrinho — 18/11/2026
+
+A implementação atual (branch `develop`) inclui:
+
+- Hover discreto em imagens do fullbanner, mini banners e editorial com
+  `transform` apenas em desktop (respeita `prefers-reduced-motion`),
+  em `public/nichelle-fullbanners.css` e `public/nichelle-approved.css`.
+- Barra inferior mobile do `#n27-head-nav` em cinco atalhos:
+  **Início, Buscar, Categorias, Ofertas e Conta**. O atalho **Categorias**
+  abre o drawer FWR original com todas as categorias e subcategorias.
+  A barra nativa `.barra-mobile` é removida exclusivamente no preview.
+- Ícones individuais em cada link dos dropdowns **Atendimento** e
+  **Meu Painel**, além do indicador de expansão dos respectivos resumos.
+- No carrinho, barra de título `#8000a5` e caixa Pix com gradiente
+  claro; os textos também ficam escuros para manter contraste.
+- Oferta flutuante à esquerda, configurada em
+  `s.primeiraCompra={ativo:true,codigo:"PRIMEIRACOMPRA",percentual:10}`.
+  Clique no código guarda a seleção nesta aba. Ao abrir um carrinho com
+  produtos, o JS envia **uma vez** o código ao formulário nativo LI de
+  validação ou ao endpoint nativo `/carrinho/cupom/validar`.
+  Não modifica preços, frete ou cupons manualmente, e não substitui
+  promoção já aplicada. O desconto está sujeito ao cupom existir, estar
+  ativo e respeitar as condições cadastradas em **Marketing > Cupons de
+  desconto**; a efetivação precisa ser verificada no carrinho real.
+- O novo módulo está separado em
+  `public/nichelle-first-order-coupon.js` e
+  `public/nichelle-first-order-coupon.css`, ambos incorporados pelo
+  `vercel/build.mjs`.
+
+**Deploy temporário sem Vercel:** a branch
+`cdn-temporaria-nichelle-20261117` armazena JS/CSS compilados em
+`integracao/cdn-temporaria` e o arquivo
+`nichelle-core-fixo-jsdelivr.html`, com os assets congelados no commit
+da mesma branch que continha ambos os bundles atualizados.
+Não é necessário trocar os dois blocos HTML para atualizar o GitHub:
+o bloco fixo deve ser **republicado manualmente** no admin LI quando
+mudar a URL versionada da CDN, e depois revertido à versão Vercel
+somente após confirmar que o deploy `develop` está READY.
+
 ## O que fica fixo (arquivo 02)
 
 - Inicialização de `window.Nichelle27Settings`, com `geral.ativo:true`, `modoPreview:true`, `publicarNaLoja:false`, `layout.homologado:true` e configurações legadas compatíveis
