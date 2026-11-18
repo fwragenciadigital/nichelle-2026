@@ -8,11 +8,9 @@
   const CDN = "https://cdn.awsli.com.br/2550/2550587/arquivos/";
   if (!/^(www\.)?nichelleimports\.com\.br$/.test(location.hostname) ||
       location.pathname.replace(/\/+$/, "") !== "" ||
-      new URLSearchParams(location.search).get("nichelle_preview") !== "1") return;
+      !window.Nichelle27Activation?.active()) return;
   function allowed() {
-    const s = window.Nichelle27Settings;
-    return !!(s && s.geral && s.geral.ativo === true &&
-      s.geral.modoPreview === true && s.geral.publicarNaLoja !== true);
+    return window.Nichelle27Activation?.active() === true;
   }
   function one(s, root) { return (root || document).querySelector(s); }
   function node(tag, cls, txt) {
