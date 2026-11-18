@@ -152,6 +152,14 @@ Nenhum dos módulos de configuração cria ou altera preços, estoque, variaçõ
 
 ## CSS: somente arquivos-fonte externos
 
+### CSS geral para ajustes manuais (sem criar outro link na Loja Integrada)
+
+O arquivo **[`public/nichelle-geral.css`](../public/nichelle-geral.css)** é a camada de ajustes manuais da FWR. Edite-o diretamente no GitHub (branch `develop`) e faça commit. Seu conteúdo é adicionado **por último** pelo `vercel/build.mjs` dentro do mesmo `/nichelle27.css` que já é carregado pelo motor fixo. Não insira outra tag `<link>` nem CSS inline no editor da Loja Integrada.
+
+As três seções propostas são geral, desktop (`min-width:1025px`), tablet (`768px` a `1024px`) e mobile (`max-width:767px`). O arquivo é inicialmente neutro, com apenas comentários e media queries vazias. Ao editar, use seletores restritos aos componentes FWR; regras globais podem afetar o tema e o checkout nativos.
+
+Depois do commit, confirme que o deploy da branch `develop` ficou **READY** com o mesmo SHA e confira a loja via `?nichelle_preview=1`. Se a loja estiver usando o snapshot temporário do jsDelivr em vez da Vercel, essa alteração do Git **não** será entregue automaticamente pelo loader atual: será necessário atualizar o snapshot/loader com segurança.
+
 **Não inserir `<style>`, atributos `style=` ou hotfixes CSS no editor HTML da LI.** Todos os estilos são versionados e concatenados pelo `vercel/build.mjs` em `/nichelle27.css`.
 
 | Arquivo CSS | Responsabilidade |
