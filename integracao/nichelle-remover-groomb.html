@@ -1,0 +1,42 @@
+<!--
+  Nichelle Imports | Remocao independente da assinatura Groomb.
+  Colar no Codigo no cabecalho da Loja Integrada.
+  Funciona mesmo quando o layout FWR nao esta ativo.
+-->
+<style id="fwr-remover-assinatura-groomb">
+html body a[href*="groomb.com.br"],
+html body a:has(img[src*="groomb-logo.png"]),
+html body img[src*="groomb-logo.png"] {
+  display: none !important;
+  visibility: hidden !important;
+}
+</style>
+<script id="fwr-remover-assinatura-groomb-script">
+(function () {
+  "use strict";
+  if (window.__FWR_GROOMB_REMOVER__) return;
+  window.__FWR_GROOMB_REMOVER__ = true;
+
+  function removerAssinatura() {
+    document.querySelectorAll(
+      'a[href*="groomb.com.br"], img[src*="groomb-logo.png"]'
+    ).forEach(function (elemento) {
+      const link = elemento.closest("a");
+      (link || elemento).remove();
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", removerAssinatura);
+  } else {
+    removerAssinatura();
+  }
+  window.addEventListener("load", removerAssinatura);
+
+  const observer = new MutationObserver(removerAssinatura);
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true
+  });
+})();
+</script>
