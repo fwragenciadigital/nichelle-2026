@@ -4,16 +4,9 @@
      Checkout nativo da Loja Integrada continua independente.
      Para reverter: substitua pelo integracao/nichelle-core-fixo.html (preview).
      Nao cole os dois loaders simultaneamente. -->
-<script id="n27-preview-early-guard">
-(function(){
-"use strict";
-var active=/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname)&&
-(location.pathname.replace(/\/+$/,"")||"/")==="/";
-if(!active)return;
-document.documentElement.dataset.n27Preflight="1";
-window.setTimeout(function(){delete document.documentElement.dataset.n27Preflight;},8000);
-})();
-</script>
+<!-- Publicacao segura: sem preflight que oculte #cabecalho ou #corpo
+     antes da validacao do JS/DOM. -->
+
 <script id="n27-home-fixed-loader">
 (function () {
 "use strict";
@@ -26,6 +19,11 @@ s.geral=defaults(
 {ativo:true,modoPreview:false,publicarNaLoja:true,debug:false,paginas:[]},
 s.geral
 );
+// As flags de publicacao NAO sao defaults: sobrescrevem configuracoes de
+// um loader temporario remanescente. Nunca depender da ordem dos blocos.
+s.geral.ativo=true;
+s.geral.modoPreview=false;
+s.geral.publicarNaLoja=true;
 s.layout=defaults(
 {ativo:true,homologado:true,autocriarSlot:true,inserirDepois:".vitrine-produtos",
 seletor:"#n27-layout-root",paginas:["/"]},
@@ -72,19 +70,37 @@ configUrl:"https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.
 };
 }
 var blocked=/^\/(?:checkout|finalizar-pedido|login|conta|pedido|meus-pedidos|carrinho\/(?:produto|cupom|frete|checkout))(?:\/|$)/i.test(location.pathname);
-var published=/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname)&&
+var published=/^(?:(?:www\.)?nichelleimports\.com\.br|nichelle-imports-manutencao\.lojaintegrada\.com\.br)$/i.test(location.hostname)&&
 s.geral.ativo===true&&!blocked&&s.geral.publicarNaLoja===true;
 if(published){
 var base="https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app";
-if(!document.querySelector('link[href*="/nichelle27.css"]')){
+var cssURL=base+"/nichelle27.css";
+var jsURL=base+"/nichelle27.js";
+function sameAsset(raw,expected){
+try{var x=new URL(raw,location.href),y=new URL(expected);return x.origin===y.origin&&x.pathname===y.pathname;}
+catch(_){return false;}
+}
+// Somente a origem oficial qualifica como arquivo ja instalado.
+// Um arquivo jsDelivr com mesmo nome nao pode bloquear o carregamento.
+var oldCss=[].slice.call(document.querySelectorAll('link[rel="stylesheet"][href]'))
+.filter(function(el){return /cdn\\.jsdelivr\\.net\\/gh\\/fwragenciadigital\\/nichelle-2026@/.test(el.href)&&
+/\\/nichelle27\\.css(?:[?#]|$)/.test(el.href);});
+oldCss.forEach(function(el){el.remove();});
+if(![].some.call(document.querySelectorAll('link[rel="stylesheet"][href]'),function(el){return sameAsset(el.href,cssURL);})){
 var css=document.createElement("link");
-css.rel="stylesheet";css.href=base+"/nichelle27.css";
+css.rel="stylesheet";css.href=cssURL;
+css.onerror=function(){console.error("[Nichelle] CSS oficial indisponivel:",cssURL);};
 document.head.appendChild(css);
 }
-if(!document.querySelector('script[src*="/nichelle27.js"]')){
+var staleJs=[].some.call(document.querySelectorAll('script[src]'),function(el){
+return /cdn\\.jsdelivr\\.net\\/gh\\/fwragenciadigital\\/nichelle-2026@/.test(el.src)&&
+/\\/nichelle27\\.js(?:[?#]|$)/.test(el.src);
+});
+if(staleJs){console.warn("[Nichelle] Remova o script jsDelivr antigo do HTML da LI para evitar dois motores.");}
+if(![].some.call(document.querySelectorAll('script[src]'),function(el){return sameAsset(el.src,jsURL);})){
 var js=document.createElement("script");
-js.src=base+"/nichelle27.js";
-js.async=false;
+js.src=jsURL;js.async=false;
+js.onerror=function(){console.error("[Nichelle] JS oficial indisponivel:",jsURL);};
 (document.body||document.head).appendChild(js);
 }
 }
