@@ -8,16 +8,13 @@
 "use strict";
 const path=location.pathname.replace(/\/+$/,"")||"/";
 if(!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname)||
- new URLSearchParams(location.search).get("nichelle_preview")!=="1"||
+ !window.Nichelle27Activation?.active()||
  /^\/(?:checkout|carrinho|conta|finalizar-pedido)(?:\/|$)/i.test(path)||
  window.NichelleListingFWR)return;
 const ID="n27-listing-fwr";
 let source=null,root=null,observer=null,scheduled=false,signature="";
-const allowed=()=>{
- const g=window.Nichelle27Settings?.geral;
- return !!(g?.ativo===true&&g?.modoPreview===true&&g?.publicarNaLoja!==true&&
-   window.Nichelle27Settings?.listagemFWR?.ativo!==false);
-};
+const allowed=()=>window.Nichelle27Activation?.active()===true &&
+  window.Nichelle27Settings?.listagemFWR?.ativo!==false;
 const node=(tag,cls,txt)=>{
  const n=document.createElement(tag);
  if(cls)n.className=cls;
