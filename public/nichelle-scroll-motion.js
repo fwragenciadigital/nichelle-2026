@@ -9,17 +9,14 @@
   "use strict";
   const isHome=(location.pathname.replace(/\/+$/,"")||"/")==="/";
   if(!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname)||
-     new URLSearchParams(location.search).get("nichelle_preview")!=="1" ||
+     !window.Nichelle27Activation?.active() ||
      /^(\/carrinho|\/checkout|\/finalizar-pedido|\/login)(\/|$)/.test(location.pathname))return;
   const STAGE="n27-preview-stage";
   let io=null,changes=null,pending=false,initialized=false;
   const tracked=new WeakSet();
   const reduced=window.matchMedia("(prefers-reduced-motion: reduce)");
   const config=()=>window.Nichelle27Settings?.movimento||{};
-  const allowed=()=>{
-    const g=window.Nichelle27Settings?.geral,c=config();
-    return !!(g?.ativo===true&&g.modoPreview===true&&g.publicarNaLoja!==true&&c.ativo!==false);
-  };
+  const allowed=()=>window.Nichelle27Activation?.active()===true&&config().ativo!==false;
   const clamp=(v,min,max,defaultVal)=>{
     const n=Number(v);return Number.isFinite(n)?Math.max(min,Math.min(max,n)):defaultVal;
   };
