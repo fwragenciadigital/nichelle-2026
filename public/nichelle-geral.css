@@ -53,7 +53,6 @@ body #n27-welcome-coupon .n27-welcome-coupon__trigger {
 
 html[data-n27-independent-header="1"] #n27-welcome-coupon {
     top: auto !important;
-    bottom: 60px !important;
 }
 
 html[data-n27-independent-header="1"] #n27-welcome-coupon .n27-welcome-coupon__panel {
