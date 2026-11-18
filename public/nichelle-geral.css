@@ -103,3 +103,11 @@ html[data-n27-cart-page="1"] #corpo .n27-cart-page__pix-amount {
     font: 800 28px / 1.12 "Montserrat", Arial, Helvetica, sans-serif !important;
 }
 }
+
+/* FWR | Remocao da assinatura de desenvolvimento Groomb: independente do container do tema. */
+html body a[href*="groomb.com.br"],
+html body a:has(img[src*="groomb-logo.png"]),
+html body img[src*="groomb-logo.png"] {
+  display: none !important;
+  visibility: hidden !important;
+}
