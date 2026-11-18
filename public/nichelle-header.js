@@ -8,12 +8,10 @@
   const path = location.pathname.replace(/\/+$/, "") || "/";
   if (!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname) ||
       /^\/(?:checkout|finalizar-pedido)(?:\/|$)/i.test(path) ||
-      new URLSearchParams(location.search).get("nichelle_preview") !== "1") return;
+      !window.Nichelle27Activation?.active()) return;
 
   function allowed() {
-    const s = window.Nichelle27Settings;
-    return !!(s && s.geral?.ativo === true && s.geral?.modoPreview === true &&
-      s.geral?.publicarNaLoja !== true);
+    return window.Nichelle27Activation?.active() === true;
   }
   function el(tag, cls, text) {
     const n = document.createElement(tag);
@@ -305,7 +303,7 @@
         el("span","",label));
       li.appendChild(control);quick.appendChild(li);
     };
-    shortcut("Início","home","/?nichelle_preview=1");
+    shortcut("Início","home",window.Nichelle27Activation.href("/"));
     shortcut("Buscar","search","",()=>{
       const input=document.getElementById("n27-owned-search-input");
       document.getElementById("n27-independent-header")?.scrollIntoView({behavior:
