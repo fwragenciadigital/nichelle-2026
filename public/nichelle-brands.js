@@ -8,18 +8,16 @@
  */
 (function(){
   "use strict";
-  const PARAM = new URLSearchParams(location.search);
   if(!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname) ||
      (location.pathname.replace(/\/+$/, "") || "/") !== "/" ||
-     PARAM.get("nichelle_preview") !== "1") return;
+     !window.Nichelle27Activation?.active()) return;
 
   const ID="n27-approved-brands", SOURCE=".vitrine-marcas";
   let observer=null, sourceNode=null, queued=false, signature="";
   const txt=(s,max)=>typeof s==="string"?s.replace(/\s+/g," ").trim().slice(0,max):"";
   function allowed(){
-    const s=window.Nichelle27Settings?.geral;
-    return s?.ativo===true && s.modoPreview===true && s.publicarNaLoja!==true;
-  }
+  return window.Nichelle27Activation?.active()===true;
+ }
   function el(tag,cls,t){
     const n=document.createElement(tag);if(cls)n.className=cls;
     if(t!==undefined)n.textContent=t;return n;
