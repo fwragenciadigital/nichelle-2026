@@ -46,7 +46,7 @@ body .n27-welcome-coupon#n27-welcome-coupon {
 /* ============================================================
    04. MOBILE (ate 767px)
    ============================================================ */
-@media (max-width: 767px) {
+@media (min-width:0px) and (max-width:767px) {
   body html[data-n27-approved="1"] #n27-independent-header #n27-head-nav .n27-owned-nav__quick {
     height: 65px !important;
 }
