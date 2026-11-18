@@ -26,7 +26,8 @@
     if (!stage) {
       stage = document.createElement("div");
       stage.id = "n27-preview-stage";
-      stage.setAttribute("aria-label", "Layout Nichelle Imports 2026 em homologação");
+      stage.setAttribute("aria-label", window.Nichelle27Activation?.published() ?
+        "Conteúdo da Nichelle Imports" : "Layout Nichelle Imports 2026 em homologação");
       corpo.insertBefore(stage, corpo.firstChild);
     }
 
