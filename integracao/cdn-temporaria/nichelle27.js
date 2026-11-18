@@ -6054,6 +6054,7 @@ function money(raw){
 }
 const brl=n=>new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"}).format(n);
 function url(raw,img=false){
+ if(typeof raw!=="string"||!raw.trim())return "";
  try{
   const u=new URL(raw,location.href);
   if(!/^https?:$/.test(u.protocol)||u.username||u.password)return "";
