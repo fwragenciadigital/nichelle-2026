@@ -6,13 +6,11 @@
 (function () {
   "use strict";
   if (!/^(www\.)?nichelleimports\.com\.br$/i.test(location.hostname) ||
-      new URLSearchParams(location.search).get("nichelle_preview") !== "1" ||
+      !window.Nichelle27Activation?.active() ||
       location.pathname.replace(/\/+$/, "") !== "") return;
 
   function active() {
-    const s = window.Nichelle27Settings;
-    return !!(s && s.geral && s.geral.ativo === true &&
-      s.geral.modoPreview === true && s.geral.publicarNaLoja !== true);
+    return window.Nichelle27Activation?.active() === true;
   }
   function direct(parent, selector) {
     if (!parent) return null;
