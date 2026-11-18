@@ -266,3 +266,33 @@ html[data-n27-approved="1"] #rodape :is(.institucional,.pagamento-selos,.rodape-
  html[data-n27-approved="1"] * {scroll-behavior:auto!important;}
 }
 
+/* NICHELLE approved-container hover v1.1 — mini banners e editorial.
+   Transform só na imagem; o layout e os links permanecem estáveis. */
+@media (min-width:768px) and (hover:hover) and (pointer:fine) {
+  html[data-n27-approved="1"] #n27-approved-categories .n27-approved-category,
+  html[data-n27-approved="1"] #n27-approved-editorial .n27-approved-editorial__portrait {
+    overflow:hidden!important;
+    transition:box-shadow .4s ease!important;
+  }
+  html[data-n27-approved="1"] #n27-approved-categories .n27-approved-category img,
+  html[data-n27-approved="1"] #n27-approved-editorial .n27-approved-editorial__portrait img {
+    transition:transform .6s cubic-bezier(.2,.8,.2,1),filter .6s ease!important;
+    transform-origin:center center;
+    will-change:transform;
+  }
+  html[data-n27-approved="1"] #n27-approved-categories .n27-approved-category:hover img,
+  html[data-n27-approved="1"] #n27-approved-editorial .n27-approved-editorial__portrait:hover img {
+    transform:scale(1.055)!important;
+    filter:saturate(1.08)!important;
+  }
+  html[data-n27-approved="1"] #n27-approved-categories .n27-approved-category:hover {
+    box-shadow:0 15px 35px rgba(75,12,85,.12)!important;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  html[data-n27-approved="1"] #n27-approved-categories .n27-approved-category img,
+  html[data-n27-approved="1"] #n27-approved-editorial .n27-approved-editorial__portrait img {
+    will-change:auto!important;
+    transform:none!important;
+  }
+}
