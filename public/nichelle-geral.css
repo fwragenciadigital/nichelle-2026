@@ -1,39 +1,23 @@
-/*
- * NICHELLE IMPORTS 2026 | CSS GERAL - EDICAO MANUAL
- * ------------------------------------------------
- * Arquivo exclusivo para ajustes visuais feitos manualmente.
- * O build da Vercel adiciona este conteudo NO FINAL do nichelle27.css,
- * apos todos os modulos FWR, sem requisicao extra de CSS.
- *
- * Como usar:
- * 1) Edite este arquivo na branch develop e faca commit.
- * 2) Aguarde o deploy READY da Vercel para o mesmo commit.
- * 3) Confira o resultado com ?nichelle_preview=1.
- *
- * Recomendacao: limite os seletores a componentes FWR (ex.: #n27-independent-header,
- * #n27-welcome-coupon, html[data-n27-cart-page="1"]) para nao afetar
- * funcionalidades nativas da Loja Integrada.
- *
- * ATENCAO: as regras abaixo sao apenas espacos para sua edicao.
- * Nenhuma alteracao visual e aplicada enquanto nao adicionar declaracoes.
- */
-
-/* ============================================================
-   01. GERAL - DESKTOP, TABLET E MOBILE
-   Adicione ajustes compartilhados aqui.
-   ============================================================ */
-
 body .n27-welcome-coupon#n27-welcome-coupon {
   left: 6px !important;
   top: auto !important;
   width: 55px !important;
+  bottom: 10% !important;
 }
                                     
 /* ============================================================
    02. DESKTOP (1025px ou mais)
    ============================================================ */
 @media (min-width: 1025px) {
-  /* Seus ajustes desktop aqui. */
+  body #n27-welcome-coupon .n27-welcome-coupon__trigger {
+    width: 85px !important;
+}
+  #n27-independent-header .n27-owned-actions__dropdown-link > .n27-owned-actions__link-icon {
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 22px !important;
+    min-height: 24px !important;
+}
 }
 
 /* ============================================================
