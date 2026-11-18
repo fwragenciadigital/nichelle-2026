@@ -7,7 +7,7 @@
   "use strict";
   if (window.__N27_GROOMB_CREDIT_GUARD__) return;
 
-  const selector = 'a[href*="groomb.com.br" i], a:has(img[src*="groomb-logo.png" i]), img[src*="groomb-logo.png" i]';
+  const selector = 'a[href*="groomb.com.br" i], img[src*="groomb-logo.png" i]';
   const guard = window.__N27_GROOMB_CREDIT_GUARD__ = { version: "1.1.0", hidden: 0 };
 
   function hide(element) {
