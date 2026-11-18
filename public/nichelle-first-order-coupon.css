@@ -1,7 +1,7 @@
 /* Nichelle | Cupom de boas-vindas - apenas com JS de preview ativo */
 html[data-n27-independent-header="1"] #n27-welcome-coupon {
   position:fixed!important;
-  z-index:2650!important;
+  z-index:2400!important;
   left:9px!important;
   top:49%!important;
   width:62px!important;
