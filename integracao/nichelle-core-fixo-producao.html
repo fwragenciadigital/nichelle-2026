@@ -108,8 +108,7 @@ function finish(reason){
 function check(){
   if(ended)return;
   var css=[].some.call(document.querySelectorAll('link[rel="stylesheet"][href]'),function(el){
-    try{return new URL(el.href,location.href).pathname==="/nichelle27.css"&&!!el.sheet;}
-    catch(_){return false;}
+    return /\/nichelle27\.css(?:[?#]|$)/.test(el.href||"")&&!!el.sheet;
   });
   var header=html.dataset.n27IndependentHeader==="1";
   var pageReady=path!=="/"||html.dataset.n27Approved==="1";
