@@ -268,9 +268,10 @@ html[data-n27-shorts="1"] #n27-approved-shorts button.n27-shorts__card:focus-vis
     display:none!important;
   }
   html[data-n27-shorts="1"] #n27-approved-shorts .n27-shorts__card {
-    flex:0 0 min(76vw,300px)!important;
-    width:min(76vw,300px)!important;
-    min-width:min(76vw,300px)!important;
+    /* Reducao uniforme de 30% para todos os cards Shorts no mobile. */
+    flex:0 0 min(53.2vw,210px)!important;
+    width:min(53.2vw,210px)!important;
+    min-width:min(53.2vw,210px)!important;
     scroll-snap-align:start!important;
     border-radius:18px!important;
   }
