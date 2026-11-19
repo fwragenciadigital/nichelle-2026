@@ -120,3 +120,140 @@ html body a:has(> img[src*="groomb-logo.png" i]) {
     height:clamp(260px,32vw,713px)!important;
   }
 }
+
+/* NICHELLE | AJUSTES CSS 19-11-2026 | FWR */
+html[data-n27-best-shelf="1"] .n27-best-shelf .n27-best-card__title {
+  font:500 14px/1.55 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-best-shelf="1"] .n27-best-shelf .n27-best-card__installments {
+  font:500 12px/1.25 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-fwr-footer="1"] #rodape[data-n27-fwr-ready="1"] {
+  margin-bottom:-70px!important;
+}
+html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__shipping-logos {
+  flex-direction:row!important;
+  flex-wrap:nowrap!important;
+}
+html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__contact-copy {
+  font:400 clamp(12px,.72vw,12px)/1.3 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__bottom {
+  margin:20px 0 0!important;
+}
+
+/* Desktop 1100-1280px */
+@media (min-width:1100px) and (max-width:1280px) {
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__panel {
+    grid-template-columns:minmax(0,38%) minmax(0,62%)!important;
+    max-width:99%!important;
+    min-height:385px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__art {
+    min-height:441px!important;
+    margin-top:-103px!important;
+    margin-left:-30px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__logo {
+    margin:0 0 0 6vw!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__top-inner {
+    max-width:1390px!important;
+    padding-left:12%!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__contact-copy small {
+    color:#8b818c!important;
+    font:400 12px/1.3 "Montserrat",Arial,Helvetica,sans-serif!important;
+    white-space:normal!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__column.n27-foot__account {
+    margin-right:-7%!important;
+    margin-left:-70px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__content {
+    min-height:335px!important;
+    padding:20px 0 0 0!important;
+    gap:0!important;
+    justify-content:flex-start!important;
+  }
+}
+
+/* Desktop 1281-1366px */
+@media (min-width:1281px) and (max-width:1366px) {
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__panel {
+    grid-template-columns:minmax(0,42%) minmax(0,58%)!important;
+    max-width:99%!important;
+    min-height:385px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__art {
+    min-height:464px!important;
+    margin-top:-103px!important;
+    margin-left:-40px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__logo {
+    margin:0 0 0 8vw!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__top-inner {
+    max-width:1390px!important;
+    padding-left:12%!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__contact-copy small {
+    color:#8b818c!important;
+    font:400 12px/1.3 "Montserrat",Arial,Helvetica,sans-serif!important;
+    white-space:normal!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__column.n27-foot__account {
+    margin-right:-7%!important;
+    margin-left:-70px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__content {
+    min-height:335px!important;
+    padding:20px 0 0 0!important;
+    gap:0!important;
+    justify-content:flex-start!important;
+  }
+}
+
+/* Desktop 1367-1600px */
+@media (min-width:1367px) and (max-width:1600px) {
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__panel {
+    grid-template-columns:minmax(0,40%) minmax(0,60%)!important;
+    max-width:96%!important;
+    min-height:375px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__art {
+    min-height:494px!important;
+    margin-top:-121px!important;
+    margin-left:-50px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__logo {
+    margin:0 0 0 8vw!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__top-inner {
+    max-width:1440px!important;
+    padding-left:10%!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__contact-copy small {
+    color:#8b818c!important;
+    font:400 12px/1.3 "Montserrat",Arial,Helvetica,sans-serif!important;
+    white-space:normal!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__column.n27-foot__account {
+    margin-right:-7%!important;
+    margin-left:-70px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__content {
+    min-height:335px!important;
+    padding:20px 0 20px 0!important;
+    gap:0!important;
+    justify-content:flex-start!important;
+  }
+}
+
+/* Telas grandes >=1600px: declarado por ultimo para prioridade em 1600px. */
+@media (min-width:1600px) and (max-width:9999px) {
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__panel {
+    grid-template-columns:minmax(0,32.5%) minmax(0,65%)!important;
+    max-width:86%!important;
+  }
+}
