@@ -369,7 +369,11 @@
       const url=secureImage(original.getAttribute("src"));
       if(!url)return;
       const im=node("img");im.src=url;im.alt=text(original.alt,65)||"Transportadora";
-      im.loading="lazy";wrap.append(im);
+      im.loading="lazy";
+      // O tema legado pode trazer transportadoras com imagem quebrada.
+      // Mantem Sedex/PAC e remove somente o selo que falhar ao carregar.
+      im.addEventListener("error",()=>im.remove(),{once:true});
+      wrap.append(im);
     });
     if(!wrap.children.length)return null;
     n.append(wrap);return n;
