@@ -84,3 +84,28 @@ html[data-n27-auth] body #corpo :is(.alert,.alerta,.mensagem-erro,.error,.erro,.
     max-width:100%!important;
   }
 }
+
+/* Seletores do tema 4433 encontrados no CSS original: login e cadastro. */
+html[data-n27-auth] body:is(.pagina-login,.pagina-cadastro) #corpo .caixa-sombreada {
+  background:#fff!important;
+  padding:clamp(20px,3vw,35px)!important;
+  border:1px solid #ece0ef!important;
+  border-radius:15px!important;
+  box-shadow:0 8px 26px rgba(78,29,101,.05)!important;
+}
+html[data-n27-auth] body.pagina-cadastro #corpo .cadastro legend {
+  color:#85159b!important;
+  font:700 clamp(15px,1.3vw,19px)/1.3 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-auth] body:is(.pagina-login,.pagina-cadastro) #corpo .botao.principal {
+  line-height:1.35!important;
+}
+html[data-n27-auth] body:is(.pagina-login,.pagina-cadastro) #corpo :is(.tipo-cadastro input[type="radio"],.tipo-cadastro input[type="checkbox"]) {
+  width:auto!important;min-height:0!important;height:auto!important;
+}
+@media(max-width:767px){
+  html[data-n27-auth] body:is(.pagina-login,.pagina-cadastro) #corpo .caixa-sombreada {
+    padding:20px 15px!important;
+    border-radius:12px!important;
+  }
+}
