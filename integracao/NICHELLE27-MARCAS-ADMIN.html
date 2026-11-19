@@ -1,0 +1,41 @@
+<!-- NICHELLE IMPORTS | MARCAS FWR — ADMINISTRAÇÃO DO BLOCO
+Cole este código na área Incluir código HTML > Rodapé da Loja Integrada,
+ou configure vitrineMarcas no objeto window.Nichelle27Settings do Cabeçalho.
+
+IMPORTANTE: logos, nomes, links e ordem vêm AUTOMATICAMENTE do cadastro
+de marcas apresentado pela Loja Integrada na vitrine de marcas da home.
+Não cadastre marcas neste HTML: altere-as no painel da plataforma.
+
+Só estes campos visuais são administrados por este bloco.
+-->
+<script>
+window.Nichelle27Settings = window.Nichelle27Settings || {};
+window.Nichelle27Settings.vitrineMarcas = {
+  ativo: true,
+  prefixo: "Compre as",
+  titulo: "Melhores Marcas",
+  maxMarcas: 60
+};
+document.dispatchEvent(new Event("nichelle27:marcas:update"));
+</script>
+
+<!-- Alternativa: cole JSON diretamente na loja, SEM o <script> JS acima,
+utilizando a estrutura abaixo (não use as duas alternativas ao mesmo tempo).
+
+<script type="application/json" id="n27-vitrine-marcas-json">
+{
+  "ativo": true,
+  "prefixo": "Compre as",
+  "titulo": "Melhores Marcas",
+  "maxMarcas": 60
+}
+</script>
+
+O campo maxMarcas é um limite de leitura, não cria marcas.
+Se só existem 5 marcas publicadas no painel, a vitrine mostra as 5.
+O componente combina 5 logotipos publicados na vitrine da home com as
+43 marcas registradas no menu da Loja Integrada. As marcas sem logotipo
+publicado aparecem em cards com nome em texto, sem inventar imagens.
+Para utilizar 8 cards com logos, disponibilize logos reais no cadastro
+de marcas da loja; o conteúdo acompanha o cadastro após recarregar.
+-->

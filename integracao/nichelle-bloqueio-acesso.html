@@ -1,0 +1,272 @@
+<!--
+  NICHELLE IMPORTS | BLOQUEIO TEMPORARIO DE ACESSO
+  Cole este bloco PRIMEIRO em Visual > Incluir codigo HTML > Codigo no cabecalho.
+  Funciona independente do layout FWR e dos arquivos da Vercel.
+  Para remover a tela, altere ativo para false ou apague apenas este bloco.
+  IMPORTANTE: bloqueio visual no navegador; nao equivale a autenticacao de servidor.
+-->
+<style id="n27-acesso-estilos">
+  html[data-n27-acesso="bloqueado"] body {
+    visibility:hidden !important;
+    overflow:hidden !important;
+  }
+  html[data-n27-acesso="bloqueado"] #n27-acesso-tela {
+    visibility:visible !important;
+  }
+  #n27-acesso-tela, #n27-acesso-tela * { box-sizing:border-box; }
+  #n27-acesso-tela {
+    position:fixed !important; z-index:2147483647 !important;
+    inset:0 !important; width:100% !important; height:100% !important;
+    min-height:100dvh !important; overflow-y:auto !important;
+    background:
+      radial-gradient(ellipse at 14% 13%,rgba(166,68,192,.16),transparent 44%),
+      radial-gradient(ellipse at 88% 92%,rgba(111,20,149,.11),transparent 48%),
+      #faf8fb !important;
+    color:#24172e !important;
+    font-family:Montserrat,Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif !important;
+    -webkit-font-smoothing:antialiased;
+    padding:clamp(22px,5vw,66px) !important;
+    display:flex !important; align-items:center !important; justify-content:center !important;
+  }
+  #n27-acesso-tela .n27-acesso-card {
+    width:min(100%,940px) !important; display:grid !important;
+    grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr) !important;
+    align-items:stretch !important; overflow:hidden !important;
+    background:#fff !important; border:1px solid #eee4f0 !important;
+    border-radius:28px !important; box-shadow:0 24px 90px rgba(70,28,83,.11) !important;
+  }
+  #n27-acesso-tela .n27-acesso-info {
+    position:relative; overflow:hidden;
+    background:linear-gradient(147deg,#7d139e 0%,#680c8a 58%,#4f106f 100%) !important;
+    padding:clamp(30px,5vw,66px) clamp(27px,4.2vw,55px) !important;
+    display:flex !important; flex-direction:column !important;
+    justify-content:space-between !important; gap:68px !important;
+    color:#fff !important;
+  }
+  #n27-acesso-tela .n27-acesso-info::after {
+    content:""; position:absolute; pointer-events:none;
+    width:380px; height:380px; border:1px solid rgba(255,255,255,.22);
+    border-radius:50%; right:-160px; bottom:-200px;
+    box-shadow:0 0 0 68px rgba(255,255,255,.035),0 0 0 138px rgba(255,255,255,.025);
+  }
+  #n27-acesso-tela .n27-acesso-marca {
+    position:relative; z-index:1; display:flex !important; flex-direction:column !important;
+    align-items:flex-start !important; gap:1px !important; line-height:1.02 !important;
+    font-size:clamp(26px,3.5vw,37px) !important; font-weight:850 !important;
+    letter-spacing:.11em !important;
+  }
+  #n27-acesso-tela .n27-acesso-marca small {
+    font-size:10px !important; font-weight:650 !important;
+    letter-spacing:.57em !important; margin-left:2px !important;
+  }
+  #n27-acesso-tela .n27-acesso-info-text {position:relative;z-index:1}
+  #n27-acesso-tela .n27-acesso-etiqueta {
+    display:inline-flex !important; align-items:center !important; gap:8px !important;
+    font-size:10px !important; letter-spacing:.17em !important; text-transform:uppercase !important;
+    font-weight:750 !important; opacity:.9 !important; margin-bottom:20px !important;
+  }
+  #n27-acesso-tela .n27-acesso-etiqueta::before {
+    content:""; width:7px; height:7px; border-radius:50%; background:#eec7ff;
+  }
+  #n27-acesso-tela h2 {
+    font-size:clamp(28px,3.4vw,43px) !important; line-height:1.12 !important;
+    letter-spacing:-.05em !important; font-weight:800 !important;
+    color:#fff !important; margin:0 0 18px !important;
+  }
+  #n27-acesso-tela .n27-acesso-descricao {
+    max-width:320px !important; font-size:14px !important; line-height:1.7 !important;
+    color:rgba(255,255,255,.87) !important; margin:0 !important;
+  }
+  #n27-acesso-tela .n27-acesso-form-area {
+    display:flex !important; justify-content:center !important; flex-direction:column !important;
+    padding:clamp(30px,5vw,68px) clamp(26px,4vw,58px) !important;
+  }
+  #n27-acesso-tela .n27-acesso-icon {
+    display:grid !important; place-items:center !important; width:53px !important; height:53px !important;
+    border-radius:16px !important; background:#f6eaf9 !important;
+    color:#7d139e !important; margin-bottom:26px !important;
+  }
+  #n27-acesso-tela .n27-acesso-form-area h3 {
+    margin:0 0 9px !important; color:#291831 !important; font-size:25px !important;
+    letter-spacing:-.04em !important; font-weight:800 !important; line-height:1.2 !important;
+  }
+  #n27-acesso-tela .n27-acesso-ajuda {
+    font-size:13px !important; line-height:1.55 !important; color:#776b7b !important;
+    margin:0 0 29px !important;
+  }
+  #n27-acesso-tela .n27-acesso-label {
+    display:block !important; font-size:11px !important; text-transform:uppercase !important;
+    font-weight:800 !important; letter-spacing:.09em !important; margin-bottom:10px !important;
+    color:#53475a !important;
+  }
+  #n27-acesso-tela #n27-acesso-codigo {
+    display:block !important; width:100% !important; height:52px !important; min-height:52px !important;
+    margin:0 0 14px !important; padding:0 17px !important; border-radius:11px !important;
+    border:1px solid #dcd2e1 !important; outline:0 !important; box-shadow:none !important;
+    background:#fff !important; color:#301939 !important; font-size:15px !important;
+    letter-spacing:.05em !important; font-family:inherit !important;
+  }
+  #n27-acesso-tela #n27-acesso-codigo:focus {
+    border-color:#8f2aad !important; box-shadow:0 0 0 3px rgba(143,42,173,.13) !important;
+  }
+  #n27-acesso-tela #n27-acesso-enviar {
+    display:flex !important; align-items:center !important; justify-content:center !important;
+    width:100% !important; min-height:52px !important; padding:14px 18px !important;
+    border:0 !important; border-radius:11px !important; cursor:pointer !important;
+    color:#fff !important; background:#7d139e !important; box-shadow:0 8px 18px rgba(112,16,155,.14) !important;
+    font:750 13px/1.3 Montserrat,Inter,system-ui,sans-serif !important;
+    letter-spacing:.06em !important; text-transform:uppercase !important;
+  }
+  #n27-acesso-tela #n27-acesso-enviar:hover {background:#630c81 !important;}
+  #n27-acesso-tela #n27-acesso-enviar:focus-visible {
+    outline:3px solid #c47bde !important;outline-offset:3px !important;
+  }
+  #n27-acesso-tela #n27-acesso-erro {
+    min-height:19px !important; margin:12px 0 0 !important; font-size:12px !important;
+    line-height:1.4 !important; color:#b12747 !important; font-weight:600 !important;
+  }
+  #n27-acesso-tela .n27-acesso-rodape {
+    font-size:11px !important; line-height:1.5 !important; color:#958999 !important;
+    margin-top:27px !important;
+  }
+  @media(max-width:720px) {
+    #n27-acesso-tela {padding:14px !important;align-items:flex-start !important;}
+    #n27-acesso-tela .n27-acesso-card {
+      grid-template-columns:minmax(0,1fr) !important; border-radius:20px !important;
+      margin:auto 0 !important;
+    }
+    #n27-acesso-tela .n27-acesso-info {
+      gap:30px !important; padding:30px 27px 32px !important;
+    }
+    #n27-acesso-tela .n27-acesso-marca {font-size:27px !important;}
+    #n27-acesso-tela .n27-acesso-marca small {font-size:9px !important;}
+    #n27-acesso-tela h2 {font-size:30px !important;max-width:330px !important;}
+    #n27-acesso-tela .n27-acesso-form-area {padding:30px 27px 33px !important;}
+    #n27-acesso-tela .n27-acesso-icon {display:none !important;}
+    #n27-acesso-tela .n27-acesso-ajuda {margin-bottom:23px !important;}
+  }
+  @media(prefers-reduced-motion:reduce) {
+    #n27-acesso-tela * {animation:none !important;transition:none !important;}
+  }
+</style>
+<script id="n27-acesso-controle">
+(function(){
+  "use strict";
+  if(window.__N27AcessoControleInstalado)return;
+  window.__N27AcessoControleInstalado=true;
+
+  /* ===========================================================
+     VARIAVEIS EDITAVEIS: ALTERE SOMENTE ESTES VALORES
+     =========================================================== */
+  var BLOQUEIO_ATIVO = true;
+  var CODIGO_ACESSO = "ALTERE-ESTE-CODIGO";
+  var TEMPO_LIBERADO_HORAS = 12;
+  /* =========================================================== */
+
+  // Somente os dois enderecos autorizados da Nichelle.
+  var DOMINIOS = [
+    "nichelleimports.com.br",
+    "www.nichelleimports.com.br",
+    "nichelle-imports-manutencao.lojaintegrada.com.br"
+  ];
+  // Nao bloquear pagamento/autenticacao e endpoints de operacoes da LI.
+  var ROTAS_LIVRES = [
+    "/checkout", "/finalizar-pedido", "/login", "/conta",
+    "/pedido", "/meus-pedidos", "/carrinho/produto",
+    "/carrinho/cupom", "/carrinho/frete", "/carrinho/checkout"
+  ];
+
+  var host=location.hostname.toLowerCase();
+  var path=location.pathname.toLowerCase().replace(/\/+$/,"")||"/";
+  var liberada=ROTAS_LIVRES.some(function(route){
+    return path===route||path.indexOf(route+"/")===0;
+  });
+  var codigo=String(CODIGO_ACESSO||"").trim().toUpperCase();
+  if(!BLOQUEIO_ATIVO||DOMINIOS.indexOf(host)<0||liberada||!codigo)return;
+
+  // Identificador so para invalidar acessos antigos ao alterar a variavel.
+  // Nao e um mecanismo criptografico de seguranca.
+  function assinatura(value){
+    var h=2166136261;
+    for(var i=0;i<value.length;i++){
+      h^=value.charCodeAt(i);
+      h=Math.imul(h,16777619);
+    }
+    return (h>>>0).toString(36);
+  }
+  var versao=assinatura(codigo),chave="n27-nichelle-acesso-v1-"+host;
+  function persistido(){
+    try{
+      var dado=JSON.parse(localStorage.getItem(chave)||"null");
+      return !!(dado&&dado.versao===versao&&
+        Number.isFinite(dado.expira)&&dado.expira>Date.now());
+    }catch(_){return false;}
+  }
+  if(persistido())return;
+
+  document.documentElement.setAttribute("data-n27-acesso","bloqueado");
+  function montar(){
+    if(document.getElementById("n27-acesso-tela"))return;
+    if(!document.body)return;
+    var root=document.createElement("div");
+    root.id="n27-acesso-tela";
+    root.innerHTML=
+      '<main class="n27-acesso-card" role="dialog" aria-modal="true" aria-labelledby="n27-acesso-titulo">'+
+        '<section class="n27-acesso-info">'+
+          '<div class="n27-acesso-marca" aria-label="Nichelle Imports">NICHELLE <small>IMPORTS</small></div>'+
+          '<div class="n27-acesso-info-text">'+
+            '<span class="n27-acesso-etiqueta">Novidades em breve</span>'+
+            '<h2 id="n27-acesso-titulo">Estamos preparando uma nova experiência.</h2>'+
+            '<p class="n27-acesso-descricao">Nossa loja está recebendo melhorias. O acesso temporário está disponível para quem possui o código autorizado.</p>'+
+          '</div>'+
+        '</section>'+
+        '<section class="n27-acesso-form-area">'+
+          '<div class="n27-acesso-icon" aria-hidden="true">'+
+            '<svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+
+              '<rect x="4" y="10" width="16" height="11" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path>'+
+            '</svg>'+
+          '</div>'+
+          '<h3>Acesso autorizado</h3>'+
+          '<p class="n27-acesso-ajuda">Insira o seu código para explorar a loja.</p>'+
+          '<form id="n27-acesso-form" autocomplete="off" novalidate>'+
+            '<label for="n27-acesso-codigo" class="n27-acesso-label">Código de acesso</label>'+
+            '<input id="n27-acesso-codigo" type="password" autocomplete="off" placeholder="Digite o seu código" required aria-describedby="n27-acesso-erro" />'+
+            '<button id="n27-acesso-enviar" type="submit">Entrar na loja</button>'+
+            '<p id="n27-acesso-erro" role="status" aria-live="polite"></p>'+
+          '</form>'+
+          '<p class="n27-acesso-rodape">Acesso temporário · Nichelle Imports</p>'+
+        '</section>'+
+      '</main>';
+    document.body.appendChild(root);
+    var form=root.querySelector("#n27-acesso-form");
+    var input=root.querySelector("#n27-acesso-codigo");
+    var erro=root.querySelector("#n27-acesso-erro");
+    form.addEventListener("submit",function(ev){
+      ev.preventDefault();
+      var recebido=String(input.value||"").trim().toUpperCase();
+      if(recebido!==codigo){
+        erro.textContent="Código incorreto. Confira e tente novamente.";
+        input.setAttribute("aria-invalid","true");
+        input.focus();input.select();
+        return;
+      }
+      try{
+        var horas=Math.min(168,Math.max(1,Number(TEMPO_LIBERADO_HORAS)||12));
+        localStorage.setItem(chave,JSON.stringify({
+          versao:versao,
+          expira:Date.now()+horas*60*60*1000
+        }));
+      }catch(_){}
+      document.documentElement.removeAttribute("data-n27-acesso");
+      root.remove();
+    });
+    input.addEventListener("input",function(){
+      erro.textContent="";
+      input.removeAttribute("aria-invalid");
+    });
+  }
+  if(document.body)montar();
+  else document.addEventListener("DOMContentLoaded",montar,{once:true});
+  window.addEventListener("load",montar,{once:true});
+})();
+</script>

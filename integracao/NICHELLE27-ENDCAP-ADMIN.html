@@ -1,0 +1,42 @@
+<!--
+NICHELLE IMPORTS 2026 — ADMINISTRAÇÃO DA NEWSLETTER + INSTAGRAM FWR
+
+LOCAL: Loja Integrada > Incluir código HTML > HTML/Rodapé.
+Cole uma única vez. O HTML/Cabeçalho já carrega nichelle27.js/css.
+
+AVISOS
+- Newsletter: somente o visual/texto são alterados. O cadastro de e-mails
+  continua sendo feito por .newsletter-assinar na Loja Integrada.
+- Instagram: o módulo FWR inclui automaticamente o SCRIPT e IFRAME oficiais
+  do LightWidget, fornecidos pelo cliente. NÃO colar o snippet LightWidget
+  em outro lugar para evitar dois widgets/duas cargas.
+- Os efeitos estão disponíveis somente em ?nichelle_preview=1 durante a
+  homologação; a loja pública permanece inalterada.
+-->
+<script>
+window.Nichelle27Settings = window.Nichelle27Settings || {};
+
+// NEWSLETTER: ajuste os textos sem modificar o formulário nativo.
+window.Nichelle27Settings.newsletterFWR = {
+  ativo: true,
+  titulo: "Fique por dentro das novidades",
+  subtitulo: "Receba lançamentos, dicas e ofertas exclusivas.",
+  placeholder: "Insira seu e-mail",
+  botao: "QUERO RECEBER"
+};
+
+// INSTAGRAM: dados do perfil e do LightWidget REAL.
+window.Nichelle27Settings.instagramWidget = {
+  ativo: true,
+  usuario: "@nichelle_imports",
+  legenda: "ÚLTIMAS POSTAGENS",
+  urlPerfil: "https://www.instagram.com/nichelle_imports/",
+  // Imagem de fundo do card de apresentação roxo:
+  capa: "https://cdn.awsli.com.br/2550/2550587/arquivos/coreana1.jpg",
+  // Widget aprovado. Edite seu conteúdo no painel LightWidget:
+  widgetUrl: "https://cdn.lightwidget.com/widgets/ae2ac001588f5eba997f9106957c5d8e.html"
+};
+
+// Reaplica os textos/layout se o código for injetado após o JS principal:
+document.dispatchEvent(new Event("nichelle27:endcap:update"));
+</script>

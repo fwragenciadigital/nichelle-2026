@@ -1,0 +1,90 @@
+<!-- NICHELLE | 01 - CONFIGURACOES EDITAVEIS PELO CLIENTE
+     Cole ANTES do bloco fixo na área Codigo no Cabecalho da Loja Integrada.
+     Banners: imagens e links sao administrados no painel nativo da LI.
+     Beneficios / Shorts / Conteudos: editar apenas valores deste bloco. -->
+<script id="n27-home-modules-settings">
+(function(){
+"use strict";
+var s=window.Nichelle27Settings=window.Nichelle27Settings||{};
+// 1. FULLBANNER — vinculado a Banners > Full Banner no painel LI.
+  s.fullBanners={
+    ativo:true,
+    autoplay:true,
+    intervalo:6500,
+    limite:12
+  };
+  // 2. BENEFICIOS / VANTAGENS — textos editados neste mesmo HTML.
+  s.vantagens={
+    ativo:true,
+    etiqueta:"+VANTAGENS",
+    itens:[
+      {icone:"package",titulo:"COSMÉTICOS IMPORTADOS",descricao:"À PRONTA ENTREGA",link:""},
+      {icone:"seal",titulo:"PRODUTOS 100% ORIGINAIS",descricao:"COM NOTA FISCAL",link:""},
+      {icone:"headset",titulo:"ATENDIMENTO PERSONALIZADO",descricao:"COM EQUIPE ESPECIALISTA",link:""},
+      {icone:"medal",titulo:"LOJA COM SELO DE VERIFICAÇÃO",descricao:"RECLAME AQUI",link:""}
+    ]
+  };
+  // 3. MINI BANNER — vinculado a Banners > Mini Banner no painel LI.
+  // O tema atual nao publica Mini Banner no HTML da home.
+  // Fallback opcional: cole a URL real da imagem da CDN da Loja Integrada.
+  // Se a LI voltar a publicar Mini Banner nativo, ele tera prioridade.
+  // O item vazio nao exibe nada; nunca usa imagens de Banner Vitrine.
+  s.miniBanners={
+    ativo:true,limite:4,
+    itens:[
+      {imagem:"",imagemMobile:"",link:"",alt:"Mini Banner - One",novaAba:false}
+    ]
+  };
+  // 4. SHORTS — preencha as URLs reais de YouTube, Vimeo ou iframe.
+  s.galeriaShorts={
+    ativo:true,
+    titulo:"Shorts",
+    exibirPrevia:false,
+    configUrl:"",
+    itens:[
+      {titulo:"Short 01",videoUrl:"",iframe:"",capa:""},
+      {titulo:"Short 02",videoUrl:"",iframe:"",capa:""},
+      {titulo:"Short 03",videoUrl:"",iframe:"",capa:""},
+      {titulo:"Short 04",videoUrl:"",iframe:"",capa:""}
+    ]
+  };
+  // 5. CONTEUDOS PARA VOCE — os 3 textos/imagens do projeto original.
+  s.noticiasHome={
+    ativo:true,
+    titulo:"Conteúdos",
+    destaque:"para você",
+    itens:[
+      {
+        foto:"https://cdn.awsli.com.br/2550/2550587/arquivos/coreana.jpg",
+        titulo:"SKINCARE COREANO: A ROTINA DE BELEZA K-BEAUTY EM 10 PASSOS",
+        breveTexto:"Descubra os 10 passos da rotina de skincare coreana para uma pele radiante e saudável.",
+        data:"2026-10-01",
+        link:""
+      },
+      {
+        foto:"https://cdn.awsli.com.br/2550/2550587/arquivos/coreana1.jpg",
+        titulo:"NAD+ NO SKINCARE: O QUE É E POR QUE ESTÁ GANHANDO DESTAQUE?",
+        breveTexto:"O skincare coreano está cada vez mais conectado à biotecnologia. Entre os ingredientes que vêm despertando curiosidade está o NAD...",
+        data:"2026-09-25",
+        link:""
+      },
+      {
+        foto:"https://cdn.awsli.com.br/300x300/2550/2550587/produto/398845857/centella-water-fit-sun-01-j0900wdoft.jpg",
+        titulo:"PROTETOR SOLAR NO INVERNO: POR QUE ELE CONTINUA SENDO O ÚLTIMO PASSO DA ROTINA K-BEAUTY",
+        breveTexto:"No inverno, a rotina de skincare costuma mudar: a pele pede texturas mais confortáveis, limpeza mais gentil e hidratação reforçada. Mas existe um passo que não...",
+        data:"2026-08-11",
+        link:""
+      }
+    ]
+  };
+  // 6. CARRINHO — limite de parcelamento SEM JUROS anunciado pela loja.
+  // Edite o número se as condições de pagamento da Loja Integrada mudarem.
+  // O valor final das parcelas é sempre confirmado no checkout.
+  s.paginaCarrinhoFWR=s.paginaCarrinhoFWR||{};
+  s.paginaCarrinhoFWR.parcelasMaximasSemJuros=6;
+  // 7. PRIMEIRA COMPRA — o cupom precisa existir e estar ATIVO no
+  // painel Loja Integrada > Marketing > Cupons de desconto.
+  // O JS aplica o codigo via carrinho nativo, nunca inventa desconto.
+  s.primeiraCompra={ativo:true,codigo:"PRIMEIRACOMPRA",percentual:10};
+})();
+</script>

@@ -1,0 +1,48 @@
+<!-- Nichelle | HTML editável da galeria: URL pública de configuração do dashboard.
+     CSS oficial fica em public/nichelle.css e é carregado pelo runtime public/nichelle.js.
+     A reserva de altura evita CLS enquanto a configuração publicada é carregada.
+     O carregador externo deve ser inserido UMA vez, normalmente em HTML/Rodapé. -->
+
+<div id="fwr-nichelle-video-slot" data-fwr-active="0"></div>
+
+<script>
+/* PREENCHER UMA ÚNICA VEZ após a homologação do host: URL HTTPS do JSON público
+   galeria-publicada.json. O dashboard atualizará os vídeos sem novas edições na LI.
+   Deixe vazio para modo local/manual, usando os quatro campos Shorts abaixo. */
+window.FWRNichelle = window.FWRNichelle || {};
+window.FWRNichelle.galeriaVideos = {
+  configUrl: "",
+  // Usado somente se configUrl estiver vazio (fixtures/homologação local).
+  ativo: false,
+  shorts: [
+    "",  /* Vídeo 1 */
+    "",  /* Vídeo 2 */
+    "",  /* Vídeo 3 */
+    ""   /* Vídeo 4 */
+  ]
+};
+
+/* Reserva visual criada durante o parsing do HTML, antes do JS do Git.
+   Com módulo inativo o espaço não é reservado. */
+(function () {
+  var cfg = window.FWRNichelle.galeriaVideos;
+  var slot = document.getElementById("fwr-nichelle-video-slot");
+  if (!slot) return;
+  var remoto = typeof cfg.configUrl === "string" && cfg.configUrl.trim() !== "";
+  var preenchidos = Array.isArray(cfg.shorts) && cfg.shorts.some(function (v) {
+    return typeof v === "string" ? v.trim() !== "" : v && typeof v.url === "string" && v.url.trim() !== "";
+  });
+  var ligado = remoto || (cfg.ativo === true && preenchidos);
+  slot.setAttribute("data-fwr-remote", remoto ? "1" : "0");
+  slot.setAttribute("data-fwr-active", ligado ? "1" : "0");
+  // Reserva crítica durante o parse do HTML. Todo o restante do CSS vem do Git.
+  function reservar() {
+    slot.style.minHeight = ligado ?
+      (window.matchMedia("(min-width: 768px)").matches ?
+        "clamp(420px, calc(42vw + 72px), 700px)" :
+        "clamp(440px, calc(135.12vw + 84px), 650px)") : "0";
+  }
+  reservar();
+  window.addEventListener("resize", reservar, {passive: true});
+})();
+</script>

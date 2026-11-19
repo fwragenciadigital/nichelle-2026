@@ -1,0 +1,53 @@
+<!-- NICHELLE | PRELOADER HEAD FWR v1.0
+   Opcao sem trocar o loader antigo: cole este bloco ANTES dele em
+   Visual > Incluir codigo HTML > Codigo no cabecalho.
+   Se o loader oficial ja contem o preloader, este bloco e redundante.
+   Sem interferencia nos formularios, carrinho e checkout.
+-->
+<script id="n27-preloader-head">
+(function () {
+"use strict";
+var host=/^(?:(?:www\.)?nichelleimports\.com\.br|nichelle-imports-manutencao\.lojaintegrada\.com\.br)$/i.test(location.hostname);
+var path=location.pathname.replace(/\/+$/,"")||"/";
+if(!host||/^\/(?:checkout|finalizar-pedido|carrinho|conta|login|pedido|meus-pedidos)(?:\/|$)/i.test(path))return;
+if(window.__N27_PRELOADER__)return;
+var html=document.documentElement;
+var style=document.createElement("style");
+style.id="n27-preloader-style";
+style.textContent=[
+"html[data-n27-loading='1']::before{content:'';position:fixed;inset:0;z-index:2147483000;background:#fff;}",
+"html[data-n27-loading='1']::after{content:'';position:fixed;left:calc(50% - 17px);top:calc(50% - 17px);width:34px;height:34px;border:3px solid #eee3f0;border-top-color:#8000a5;border-radius:50%;z-index:2147483001;animation:n27-boot-spin .68s linear infinite;pointer-events:none;}",
+"@keyframes n27-boot-spin{to{transform:rotate(360deg)}}",
+"@media(prefers-reduced-motion:reduce){html[data-n27-loading='1']::after{animation:none;border-top-color:#8000a5;border-right-color:#8000a5}}"
+].join("");
+(document.head||html).appendChild(style);
+html.dataset.n27Loading="1";
+var ended=false,timer,interval;
+var api=window.__N27_PRELOADER__={
+  version:"1.0.0",state:"loading",
+  finish:finish,check:check
+};
+function finish(reason){
+  if(ended)return;
+  ended=true;
+  clearInterval(interval);clearTimeout(timer);
+  html.removeAttribute("data-n27-loading");
+  api.state=reason;
+}
+function check(){
+  if(ended)return;
+  var css=[].some.call(document.querySelectorAll('link[rel="stylesheet"][href]'),function(el){
+    return /\/nichelle27\.css(?:[?#]|$)/.test(el.href||"")&&!!el.sheet;
+  });
+  var header=html.dataset.n27IndependentHeader==="1";
+  var pageReady=path!=="/"||html.dataset.n27Approved==="1";
+  if(css&&header&&pageReady)finish("ready");
+}
+interval=setInterval(check,65);
+timer=setTimeout(function(){finish("fallback-1800ms");},1800);
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",check,{once:true});
+else check();
+window.addEventListener("load",check,{once:true});
+window.addEventListener("pagehide",function(){finish("pagehide");},{once:true});
+})();
+</script>

@@ -1,0 +1,124 @@
+[
+  {
+    "url": "https://www.nichelleimports.com.br/cabelos",
+    "width": 1440,
+    "height": 900,
+    "documentWidth": 1425,
+    "pageHeight": 5484,
+    "readyState": "complete",
+    "imageCount": 43,
+    "imageFailures": 3,
+    "cls": 0.0014744996409151534,
+    "lcpMs": 1316,
+    "eventCount": 0,
+    "maxEventMs": 0,
+    "domContentLoadedMs": 1214.2000000011176,
+    "loadMs": 2018.300000000745,
+    "resourceCount": 87,
+    "transferBytes": 315215,
+    "screenshot": "capture-1440x900.png",
+    "consoleErrors": [
+      "Access to XMLHttpRequest at 'https://api.reclameaqui.com.br/embed-raverified/hash/[redacted]' from origin 'https://www.nichelleimports.com.br' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+      "Failed to load resource: net::ERR_FAILED",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()"
+    ],
+    "networkFailures": [
+      {
+        "url": "6A653996634659FFF0FE819214560162",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "url": "38480.131",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "url": "38480.171",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "url": "38480.195",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "url": "38480.254",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "url": "38480.256",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "url": "38480.253",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "url": "38480.255",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "url": "38480.275",
+        "error": "net::ERR_ABORTED"
+      }
+    ]
+  },
+  {
+    "url": "https://www.nichelleimports.com.br/cabelos",
+    "width": 390,
+    "height": 844,
+    "documentWidth": 390,
+    "pageHeight": 5362,
+    "readyState": "complete",
+    "imageCount": 39,
+    "imageFailures": 3,
+    "cls": 0,
+    "lcpMs": 1740,
+    "eventCount": 0,
+    "maxEventMs": 0,
+    "domContentLoadedMs": 1483.5,
+    "loadMs": 1807.0999999996275,
+    "resourceCount": 68,
+    "transferBytes": 314873,
+    "screenshot": "capture-390x844.png",
+    "consoleErrors": [
+      "Access to XMLHttpRequest at 'https://api.reclameaqui.com.br/embed-raverified/hash/[redacted]' from origin 'https://www.nichelleimports.com.br' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+      "Failed to load resource: net::ERR_FAILED",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()"
+    ],
+    "networkFailures": [
+      {
+        "url": "38480.404",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "url": "7CE9C5AB7F4EB72BA42B05624B316FF4",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "url": "38480.411",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "url": "38480.410",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "url": "38480.409",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "url": "38480.450",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "url": "38480.448",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "url": "38480.522",
+        "error": "net::ERR_ABORTED"
+      }
+    ]
+  }
+]

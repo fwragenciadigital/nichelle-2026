@@ -1,0 +1,460 @@
+/*
+ * Nichelle / FWR 2026 — Approved Newsletter + Instagram endcap v1.0
+ * Both gated by preview-only flags. Native LI subscription is preserved.
+ * Four live posts come from LightWidget, not product card placeholders.
+ */
+html[data-n27-endcap-newsletter="1"] #n27-preview-stage > #n27-approved-newsletter {
+  display:block!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:42px 0 19px!important;
+  background:#fff!important;
+  overflow:visible!important;
+}
+html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter .n27-approved-container {
+  width:100%!important;
+  max-width:1540px!important;
+  margin:0 auto!important;
+  padding:0!important;
+}
+html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter {
+  display:block!important;
+  position:relative!important;
+  isolation:isolate!important;
+  width:100%!important;
+  min-height:104px!important;
+  height:auto!important;
+  margin:0!important;
+  padding:20px clamp(25px,4.8vw,66px)!important;
+  border:0!important;
+  border-radius:14px!important;
+  color:#fff!important;
+  box-shadow:none!important;
+  background:linear-gradient(112deg,#4d0874 0%,#8223b2 27%,#a647d3 44%,#d53bd4 55%,#9206a6 77%,#730090 100%)!important;
+  overflow:hidden!important;
+}
+html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter::before {
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  inset:-120% 49% -70% -36%!important;
+  transform:rotate(30deg)!important;
+  background:linear-gradient(90deg,transparent 10%,rgba(255,255,255,.06) 38%,rgba(52,0,90,.35) 64%,transparent 85%)!important;
+  pointer-events:none!important;
+  z-index:-1!important;
+}
+html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter::after {
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  width:45%!important;
+  height:210%!important;
+  left:30%!important;
+  top:-45%!important;
+  transform:rotate(-33deg)!important;
+  background:linear-gradient(100deg,transparent,rgba(237,65,216,.26),rgba(67,0,142,.28),transparent)!important;
+  pointer-events:none!important;
+  z-index:-1!important;
+}
+html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter :is(.conteiner,.row-fluid,.span,.componente.newsletter) {
+  display:block!important;
+  position:relative!important;
+  float:none!important;
+  width:100%!important;
+  max-width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:#fff!important;
+}
+html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter .componente.newsletter .interno {
+  display:grid!important;
+  grid-template-columns:minmax(0,350px) minmax(0,1fr)!important;
+  gap:28px!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  width:100%!important;
+  min-height:64px!important;
+  height:auto!important;
+  padding:0!important;
+  margin:0!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  text-align:left!important;
+}
+html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter .newsletter-titulo {
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  align-items:flex-start!important;
+  gap:1px!important;
+  float:none!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  padding:0!important;
+  margin:0!important;
+  color:#fff!important;
+  text-align:left!important;
+  background:none!important;
+}
+html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter .newsletter-titulo .titulo {
+  display:block!important;
+  width:100%!important;
+  padding:0!important;
+  margin:0!important;
+  color:#fff!important;
+  font:800 clamp(17px,1.35vw,23px)/1.18 "Montserrat", Arial, Helvetica, sans-serif!important;
+  text-shadow:0 1px 3px rgba(40,4,45,.08)!important;
+  text-transform:none!important;
+  white-space:normal!important;
+  letter-spacing:-.02em!important;
+}
+html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter .newsletter-titulo .texto-newsletter {
+  display:block!important;
+  margin:0!important;
+  padding:0!important;
+  color:rgba(255,255,255,.86)!important;
+  font:400 clamp(10px,.78vw,13px)/1.2 "Montserrat", Arial, Helvetica, sans-serif!important;
+  white-space:normal!important;
+  text-align:left!important;
+}
+html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter .interno-conteudo {
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  float:none!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  margin:0!important;
+  padding:0!important;
+  background:transparent!important;
+  color:#fff!important;
+}
+html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter .newsletter-cadastro.input-conteiner {
+  display:flex!important;
+  flex:1 1 auto!important;
+  align-items:center!important;
+  gap:6px!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  height:37px!important;
+  min-height:37px!important;
+  max-height:37px!important;
+  padding:4px 5px 4px 16px!important;
+  margin:0!important;
+  background:#fff!important;
+  border-radius:999px!important;
+  border:0!important;
+  overflow:hidden!important;
+  box-shadow:none!important;
+}
+html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter .newsletter-cadastro.input-conteiner input[name="email"] {
+  display:block!important;
+  flex:1 1 auto!important;
+  width:100%!important;
+  min-width:0!important;
+  height:29px!important;
+  min-height:29px!important;
+  max-height:29px!important;
+  padding:0 6px!important;
+  margin:0!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  outline:none!important;
+  box-shadow:none!important;
+  font:400 12px/1.2 "Montserrat", Arial, Helvetica, sans-serif!important;
+  color:#35243b!important;
+  text-align:left!important;
+}
+html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter .newsletter-cadastro.input-conteiner input[name="email"]::placeholder {
+  color:#919098!important;
+  opacity:1!important;
+}
+html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter button.newsletter-assinar {
+  display:flex!important;
+  flex:0 0 auto!important;
+  align-items:center!important;
+  justify-content:center!important;
+  position:relative!important;
+  width:auto!important;
+  min-width:108px!important;
+  max-width:none!important;
+  height:27px!important;
+  min-height:27px!important;
+  padding:4px 13px!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:99px!important;
+  background:#9e37b3!important;
+  color:#fff!important;
+  font:800 10px/1.15 "Montserrat", Arial, Helvetica, sans-serif!important;
+  text-transform:uppercase!important;
+  letter-spacing:.012em!important;
+  box-shadow:none!important;
+  cursor:pointer!important;
+  white-space:nowrap!important;
+}
+html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter button.newsletter-assinar:hover {
+  background:#7a228e!important;
+}
+html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter button.newsletter-assinar:focus-visible,
+html[data-n27-endcap-instagram="1"] #n27-approved-instagram a:focus-visible {
+  outline:3px solid #fff!important;
+  outline-offset:3px!important;
+}
+html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter .newsletter-confirmacao:not(.hide) {
+  color:#fff!important;
+  font:600 13px/1.4 "Montserrat", Arial, Helvetica, sans-serif!important;
+  margin:0!important;
+  padding:0!important;
+}
+/* Instagram: one branded card + exactly four real LightWidget posts. */
+html[data-n27-endcap-instagram="1"] #n27-preview-stage > #n27-approved-instagram {
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  background:#fff!important;
+  margin:0!important;
+  padding:44px 0 76px!important;
+  overflow:hidden!important;
+}
+html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-container {
+  width:100%!important;
+  max-width:1540px!important;
+  min-width:0!important;
+  margin:0 auto!important;
+  padding:0!important;
+}
+html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-section-title {
+  display:none!important;
+}
+html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-instagram__grid {
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,4fr)!important;
+  align-items:stretch!important;
+  gap:10px!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+}
+html[data-n27-endcap-instagram="1"] #n27-approved-instagram
+  .n27-approved-instagram__grid > .n27-approved-instagram__brand {
+  position:relative!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  height:auto!important;
+  min-width:0!important;
+  min-height:0!important;
+  aspect-ratio:1 / 1!important;
+  margin:0!important;
+  padding:14px!important;
+  background:#8904ab!important;
+  border:0!important;
+  border-radius:11px!important;
+  box-shadow:none!important;
+  overflow:hidden!important;
+  text-align:center!important;
+  color:#fff!important;
+  text-decoration:none!important;
+  isolation:isolate;
+}
+html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-instagram__brand-image {
+  display:block!important;
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;height:100%!important;
+  background-position:center!important;
+  background-size:cover!important;
+  background-repeat:no-repeat!important;
+  filter:saturate(.78) contrast(.85)!important;
+  opacity:.49!important;
+  z-index:0!important;
+  transition:transform .5s ease!important;
+}
+html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-instagram__brand-shade {
+  display:block!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:1!important;
+  background:linear-gradient(135deg,rgba(95,0,125,.87),rgba(149,0,185,.82))!important;
+  mix-blend-mode:multiply!important;
+}
+html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-instagram__brand-copy {
+  display:flex!important;
+  position:relative!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:3px!important;
+  width:100%!important;height:100%!important;
+  z-index:2!important;
+  color:#fff!important;
+  font:600 15px/1.2 "Montserrat", Arial, Helvetica, sans-serif!important;
+  text-align:center!important;
+}
+html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-instagram__brand-copy svg {
+  display:block!important;
+  width:30px!important;height:30px!important;
+  margin:0 0 8px!important;
+  stroke:#fff!important;
+}
+html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-instagram__handle {
+  display:block!important;
+  font:800 clamp(12px,1.11vw,18px)/1.2 "Montserrat", Arial, Helvetica, sans-serif!important;
+  color:#fff!important;
+  letter-spacing:-.015em!important;
+  text-align:center!important;
+  overflow-wrap:anywhere!important;
+}
+html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-instagram__caption {
+  display:block!important;
+  color:#fff!important;
+  font:400 clamp(9px,.62vw,11px)/1.2 "Montserrat", Arial, Helvetica, sans-serif!important;
+  text-transform:uppercase!important;
+}
+html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-instagram__brand:hover .n27-approved-instagram__brand-image {
+  transform:scale(1.045)!important;
+}
+html[data-n27-endcap-instagram="1"] #n27-approved-instagram
+  .n27-approved-instagram__grid > .n27-approved-instagram__embed {
+  position:relative!important;
+  display:block!important;
+  width:100%!important;
+  height:auto!important;
+  min-width:0!important;
+  min-height:0!important;
+  aspect-ratio:4 / 1!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:10px!important;
+  box-shadow:none!important;
+  overflow:hidden!important;
+  background:#f3edf4!important;
+}
+html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-instagram__embed iframe.lightwidget-widget {
+  display:block!important;
+  width:100%!important;
+  min-width:100%!important;
+  height:100%!important;
+  min-height:100%!important;
+  max-height:100%!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  overflow:hidden!important;
+}
+@media(max-width:1000px){
+  html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter {
+    padding:18px 30px!important;
+  }
+  html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter .componente.newsletter .interno {
+    grid-template-columns:minmax(0,280px) minmax(0,1fr)!important;
+    gap:20px!important;
+  }
+}
+@media(max-width:767px){
+  html[data-n27-endcap-newsletter="1"] #n27-preview-stage > #n27-approved-newsletter {
+    padding:25px 0 12px!important;
+  }
+  html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter .n27-approved-container,
+  html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-container {
+    width:calc(100% - 28px)!important;
+  }
+  html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter {
+    min-height:0!important;
+    padding:23px 19px!important;
+    border-radius:13px!important;
+  }
+  html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter .componente.newsletter .interno {
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:stretch!important;
+    gap:17px!important;
+    min-height:0!important;
+  }
+  html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter .newsletter-titulo .titulo {
+    font-size:20px!important;
+    max-width:100%!important;
+  }
+  html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter .newsletter-titulo .texto-newsletter {
+    font-size:12px!important;
+  }
+  html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter .newsletter-cadastro.input-conteiner {
+    height:42px!important;max-height:42px!important;min-height:42px!important;
+  }
+  html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter #barraNewsletter button.newsletter-assinar {
+    min-width:104px!important;
+    font-size:9px!important;
+    height:30px!important;
+  }
+  html[data-n27-endcap-instagram="1"] #n27-preview-stage > #n27-approved-instagram {
+    padding:29px 0 40px!important;
+  }
+  html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-container {
+    width:100%!important;
+  }
+  html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-instagram__grid {
+    display:flex!important;
+    flex-flow:row nowrap!important;
+    align-items:stretch!important;
+    width:100%!important;
+    gap:10px!important;
+    padding:0 14px 8px!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    scroll-snap-type:x mandatory!important;
+    overscroll-behavior-x:contain!important;
+    scrollbar-width:none!important;
+    -webkit-overflow-scrolling:touch;
+  }
+  html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-instagram__grid::-webkit-scrollbar {
+    display:none!important;
+  }
+  html[data-n27-endcap-instagram="1"] #n27-approved-instagram
+    .n27-approved-instagram__grid > .n27-approved-instagram__brand {
+    flex:0 0 180px!important;
+    width:180px!important;
+    height:180px!important;
+    min-width:180px!important;
+    max-width:180px!important;
+    aspect-ratio:1 / 1!important;
+    scroll-snap-align:start!important;
+  }
+  html[data-n27-endcap-instagram="1"] #n27-approved-instagram
+    .n27-approved-instagram__grid > .n27-approved-instagram__embed {
+    flex:0 0 734px!important;
+    width:734px!important;
+    min-width:734px!important;
+    height:180px!important;
+    max-height:180px!important;
+    aspect-ratio:4 / 1!important;
+    scroll-snap-align:start!important;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-instagram__brand-image {
+    transition:none!important;
+    transform:none!important;
+  }
+}

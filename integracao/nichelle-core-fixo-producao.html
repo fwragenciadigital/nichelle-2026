@@ -1,0 +1,338 @@
+<!-- NICHELLE | 02 - MOTOR FIXO FWR | PUBLICACAO OFICIAL
+     Cole APOS o bloco 01 editavel, substituindo o loader antigo.
+     Carrega o JS/CSS da Vercel em todo o site publico, sem ?nichelle_preview=1.
+     Checkout nativo da Loja Integrada continua independente.
+     Para reverter: substitua pelo integracao/nichelle-core-fixo.html (preview).
+     Nao cole os dois loaders simultaneamente. -->
+<!-- Publicacao segura: sem preflight que oculte #cabecalho ou #corpo
+     antes da validacao do JS/DOM. -->
+
+<script id="n27-home-fixed-loader">
+(function () {
+"use strict";
+var s=window.Nichelle27Settings=window.Nichelle27Settings||{};
+var defaults=function(value,old){
+return Object.assign({},value,old&&typeof old==="object"?old:{});
+};
+s.assetsBase=s.assetsBase||"https://cdn.awsli.com.br/2550/2550587/arquivos/";
+s.geral=defaults(
+{ativo:true,modoPreview:false,publicarNaLoja:true,debug:false,paginas:[]},
+s.geral
+);
+// As flags de publicacao NAO sao defaults: sobrescrevem configuracoes de
+// um loader temporario remanescente. Nunca depender da ordem dos blocos.
+s.geral.ativo=true;
+s.geral.modoPreview=false;
+s.geral.publicarNaLoja=true;
+s.layout=defaults(
+{ativo:true,homologado:true,autocriarSlot:true,inserirDepois:".vitrine-produtos",
+seletor:"#n27-layout-root",paginas:["/"]},
+s.layout
+);
+s.visual=defaults({ativo:true,paginas:[]},s.visual);
+s.topo=defaults(
+{ativo:true,seletor:"#cabecalho",fixo:true,faixaAtiva:false,qualificadores:[]},
+s.topo
+);
+s.rodape=defaults({ativo:true,seletor:"#rodape"},s.rodape);
+s.qualificadores=defaults({ativo:false,rotulo:"VANTAGENS",itens:[]},s.qualificadores);
+s.maisVendidos=defaults(
+{ativo:false,titulo:"Produtos",destaque:"Mais Vendidos",seletorFonte:"",
+seletorItem:".listagem-item"},s.maisVendidos
+);
+s.lancamentos=defaults(
+{ativo:false,titulo:"Produtos",destaque:"Lançamentos",seletorFonte:"",
+seletorItem:".listagem-item"},s.lancamentos
+);
+s.marcas=defaults(
+{ativo:false,titulo:"Compre as",destaque:"Melhores Marcas",itens:[]},s.marcas
+);
+s.promocoes=defaults(
+{ativo:false,titulo:"Produtos",destaque:"Promocionais",seletorFonte:"",
+seletorItem:".listagem-item"},s.promocoes
+);
+s.newsletter=defaults(
+{ativo:false,seletorFormulario:"",titulo:"Novidades Nichelle",texto:""},s.newsletter
+);
+s.instagram=defaults(
+{ativo:false,perfil:"",usuario:"@nichelle_imports",itens:[]},s.instagram
+);
+s.empresa=defaults(
+{ativo:false,nome:"Nichelle Imports",logo:"logo-footer.png",
+imagem:"rodape.webp",texto:""},s.empresa
+);
+s.integracoes=defaults({banners:false,videos:true,noticias:false},s.integracoes);
+window.FWRNichelle=window.FWRNichelle||{};
+if(!window.FWRNichelle.galeriaVideos){
+window.FWRNichelle.galeriaVideos={
+ativo:true,
+configUrl:"https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app/galeria-publicada.json"
+};
+}
+// Login/cadastro recebem o visual FWR mantendo formulários e ações nativas LI.
+var accountVisual=/^\/conta\/(?:login|criar)\/?$/i.test(location.pathname);
+var blocked=!accountVisual&&/^\/(?:checkout|finalizar-pedido|login|conta|pedido|meus-pedidos|carrinho\/(?:produto|cupom|frete|checkout))(?:\/|$)/i.test(location.pathname);
+var published=/^(?:(?:www\.)?nichelleimports\.com\.br|nichelle-imports-manutencao\.lojaintegrada\.com\.br)$/i.test(location.hostname)&&
+s.geral.ativo===true&&!blocked&&s.geral.publicarNaLoja===true;
+if(published){
+// Preloader visual nao transacional, com fallback. Deve rodar no HEAD.
+(function () {
+"use strict";
+var host=/^(?:(?:www\.)?nichelleimports\.com\.br|nichelle-imports-manutencao\.lojaintegrada\.com\.br)$/i.test(location.hostname);
+var path=location.pathname.replace(/\/+$/,"")||"/";
+if(!host||/^\/(?:checkout|finalizar-pedido|carrinho|conta|login|pedido|meus-pedidos)(?:\/|$)/i.test(path))return;
+if(window.__N27_PRELOADER__)return;
+var html=document.documentElement;
+var style=document.createElement("style");
+style.id="n27-preloader-style";
+style.textContent=[
+"html[data-n27-loading='1']::before{content:'';position:fixed;inset:0;z-index:2147483000;background:#fff;}",
+"html[data-n27-loading='1']::after{content:'';position:fixed;left:calc(50% - 17px);top:calc(50% - 17px);width:34px;height:34px;border:3px solid #eee3f0;border-top-color:#8000a5;border-radius:50%;z-index:2147483001;animation:n27-boot-spin .68s linear infinite;pointer-events:none;}",
+"@keyframes n27-boot-spin{to{transform:rotate(360deg)}}",
+"@media(prefers-reduced-motion:reduce){html[data-n27-loading='1']::after{animation:none;border-top-color:#8000a5;border-right-color:#8000a5}}"
+].join("");
+(document.head||html).appendChild(style);
+html.dataset.n27Loading="1";
+var ended=false,timer,interval;
+var api=window.__N27_PRELOADER__={
+  version:"1.0.0",state:"loading",
+  finish:finish,check:check
+};
+function finish(reason){
+  if(ended)return;
+  ended=true;
+  clearInterval(interval);clearTimeout(timer);
+  html.removeAttribute("data-n27-loading");
+  api.state=reason;
+}
+function check(){
+  if(ended)return;
+  var css=[].some.call(document.querySelectorAll('link[rel="stylesheet"][href]'),function(el){
+    return /\/nichelle27\.css(?:[?#]|$)/.test(el.href||"")&&!!el.sheet;
+  });
+  var header=html.dataset.n27IndependentHeader==="1";
+  var pageReady=path!=="/"||html.dataset.n27Approved==="1";
+  if(css&&header&&pageReady)finish("ready");
+}
+interval=setInterval(check,65);
+timer=setTimeout(function(){finish("fallback-1800ms");},1800);
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",check,{once:true});
+else check();
+window.addEventListener("load",check,{once:true});
+window.addEventListener("pagehide",function(){finish("pagehide");},{once:true});
+})();
+var base="https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app";
+var cssURL=base+"/nichelle27.css";
+var jsURL=base+"/nichelle27.js";
+function sameAsset(raw,expected){
+try{var x=new URL(raw,location.href),y=new URL(expected);return x.origin===y.origin&&x.pathname===y.pathname;}
+catch(_){return false;}
+}
+// Somente a origem oficial qualifica como arquivo ja instalado.
+// Um arquivo jsDelivr com mesmo nome nao pode bloquear o carregamento.
+function oldCdnAsset(raw,extension){
+try{
+var u=new URL(raw,location.href);
+return u.hostname==="cdn.jsdelivr.net" &&
+u.pathname.indexOf("/gh/fwragenciadigital/nichelle-2026@")===0 &&
+u.pathname.endsWith("/nichelle27."+extension);
+}catch(_){return false;}
+}
+var oldCss=[].slice.call(document.querySelectorAll('link[rel="stylesheet"][href]'))
+.filter(function(el){return oldCdnAsset(el.href,"css");});
+oldCss.forEach(function(el){el.remove();});
+if(![].some.call(document.querySelectorAll('link[rel="stylesheet"][href]'),function(el){return sameAsset(el.href,cssURL);})){
+var css=document.createElement("link");
+css.rel="stylesheet";css.href=cssURL;
+css.onerror=function(){console.error("[Nichelle] CSS oficial indisponivel:",cssURL);};
+document.head.appendChild(css);
+}
+var staleJs=[].some.call(document.querySelectorAll('script[src]'),function(el){
+return oldCdnAsset(el.src,"js");
+});
+if(staleJs){console.warn("[Nichelle] Remova o script jsDelivr antigo do HTML da LI para evitar dois motores.");}
+if(![].some.call(document.querySelectorAll('script[src]'),function(el){return sameAsset(el.src,jsURL);})){
+var js=document.createElement("script");
+js.src=jsURL;js.async=false;
+js.onerror=function(){console.error("[Nichelle] JS oficial indisponivel:",jsURL);};
+(document.body||document.head).appendChild(js);
+}
+}
+if(published){
+(function nativeMiniInlineCompatibility(){
+var started=false,watch=null;
+function updated(){
+var v=String(window.NichelleMiniBanners?.version||"").split(".").map(Number);
+return v[0]>1||(v[0]===1&&v[1]>=3);
+}
+function secure(raw){
+if(typeof raw!=="string"||!raw.trim())return "";
+var part=raw.trim().split(",")[0].trim().split(/\s+/)[0];
+try{
+var u=new URL(part,location.href);
+return u.protocol==="https:"&&!u.username&&!u.password?u.href:"";
+}catch(_){return "";}
+}
+function getImage(img){
+for(var key of ["data-src","data-original","data-lazy-src","data-srcset",
+"data-image","src","srcset"]){
+var url=secure(img.getAttribute(key));
+if(url&&!/blank\.gif|placeholder|data:image/i.test(url))return url;
+}
+return secure(img.currentSrc);
+}
+function collect(){
+var query=[
+".mini-banner img",".minibanner img",
+".banner-mini img",".banner.mini img",".mini-banners img",
+".banners-mini img",'img[alt*="mini banner" i]',
+'img[alt*="minibanner" i]'
+].join(",");
+var items=[],seen=new Set();
+for(var img of document.querySelectorAll(query)){
+if(img.closest("#n27-approved-categories,.n27-shorts,.n27-full__slide,"+
+".banner-cheio,.banner-full,.fullbanner,.banner-tarja,"+
+".banner-vitrine,.banners-vitrine,.vitrine-banner,.banner-lateral,"+
+"[data-banner-posicao*='vitrine' i],[data-banner-position*='vitrine' i],.slick-cloned"))continue;
+var src=getImage(img);if(!src)continue;
+var link=img.closest("a[href]");
+var href=link?secure(link.getAttribute("href")):"";
+var key=src+"|"+href;
+if(seen.has(key))continue;seen.add(key);
+items.push({src:src,href:href,alt:img.getAttribute("alt")||
+"Mini banner Nichelle Imports",blank:link?.getAttribute("target")==="_blank",fonte:"nativo"});
+if(items.length>=4)break;
+}
+if(!items.length){
+var settings=window.Nichelle27Settings?.miniBanners||{};
+if(settings.ativo!==false&&Array.isArray(settings.itens)){
+for(var banner of settings.itens){
+if(!banner||banner.ativo===false)continue;
+var src=secure(banner.imagem||banner.src||banner.url);
+if(!src||seen.has(src))continue;
+seen.add(src);
+items.push({src:src,mobile:secure(banner.imagemMobile||banner.mobile||""),
+href:secure(banner.link||banner.href||""),
+alt:banner.alt||banner.titulo||"Mini Banner Nichelle Imports",
+blank:banner.novaAba===true||banner.blank===true,fonte:"configuracao"});
+if(items.length>=Math.min(4,Math.max(1,Number(settings.limite)||4)))break;
+}
+}
+}
+return items;
+}
+function apply(){
+if(updated()){watch?.disconnect();return;}
+var host=document.getElementById("n27-approved-categories");
+var stage=document.getElementById("n27-preview-stage");
+if(!host||!stage||host.parentElement!==stage)return;
+var banners=collect();
+var rendered=Array.from(host.querySelectorAll(".n27-approved-category"));
+var same=rendered.length===banners.length&&rendered.every(function(item,i){
+var img=item.querySelector("img");
+var a=item.matches("a[href]")?item:null;
+return img?.src===banners[i].src&&(a?.href||"")===(banners[i].href||"");
+});
+if(same&&host.hidden===(banners.length===0))return;
+var grid=document.createElement("div");
+grid.className="n27-approved-container n27-approved-categories__grid";
+grid.setAttribute("role","list");
+grid.dataset.n27Count=String(banners.length);
+banners.forEach(function(b){
+var item=document.createElement(b.href?"a":"div");
+item.className="n27-approved-category";
+item.setAttribute("role","listitem");
+if(b.href){item.href=b.href;if(b.blank){
+item.target="_blank";item.rel="noopener noreferrer";
+}}
+var picture=document.createElement("picture");
+if(b.mobile){
+var source=document.createElement("source");
+source.media="(max-width: 767px)";source.srcset=b.mobile;
+picture.appendChild(source);
+}
+var image=document.createElement("img");
+image.src=b.src;image.alt=b.alt;
+image.width=405;image.height=710;
+image.loading="lazy";image.decoding="async";
+picture.appendChild(image);item.appendChild(picture);grid.appendChild(item);
+});
+host.replaceChildren(grid);
+host.hidden=banners.length===0;
+host.dataset.n27MiniReady="1";
+host.dataset.n27MiniCount=String(banners.length);
+host.dataset.n27MiniSource=banners[0]?.fonte||"nenhum";
+document.documentElement.dataset.n27NativeMiniBanner=banners[0]?.fonte==="nativo"?"1":"0";
+}
+function start(){
+if(started||updated())return;
+var host=document.getElementById("n27-approved-categories");
+if(!host)return;
+started=true;
+if(window.MutationObserver){
+watch=new MutationObserver(function(){
+if(!updated())requestAnimationFrame(apply);
+});
+watch.observe(host,{childList:true,subtree:true,attributes:true,
+attributeFilter:["hidden","src","href"]});
+}
+apply();
+}
+document.addEventListener("DOMContentLoaded",start,{once:true});
+window.addEventListener("load",start,{once:true});
+[800,1900,3600,5900,7200].forEach(function(ms){
+setTimeout(function(){start();apply();},ms);
+});
+})();
+}
+if(published){
+(function n27OfficialHeaderIconsFallback(){
+var rootId="n27-independent-header";
+var base="https://cdn.awsli.com.br/2550/2550587/arquivos/";
+var files={account:"userrr.svg",support:"chattt.svg",cart:"carttt.svg"};
+var observer=null,finished=false;
+function apply(){
+var header=document.getElementById(rootId);
+if(!header)return;
+var located=0;
+Object.keys(files).forEach(function(key){
+var nodes=header.querySelectorAll("img.n27-owned-icon--"+key);
+if(!nodes.length)return;
+located++;
+var url=base+files[key];
+nodes.forEach(function(image){
+if(image.getAttribute("src")!==url)image.setAttribute("src",url);
+});
+});
+if(located===3){
+finished=true;
+if(observer)observer.disconnect();
+}
+}
+function start(){
+apply();
+if(!finished&&window.MutationObserver&&!observer){
+observer=new MutationObserver(apply);
+observer.observe(document.documentElement,{subtree:true,childList:true});
+setTimeout(function(){if(observer)observer.disconnect();},12000);
+}
+}
+if(document.readyState==="loading")
+document.addEventListener("DOMContentLoaded",start,{once:true});
+else start();
+window.addEventListener("load",apply,{once:true});
+})();
+}
+function refresh(){
+["nichelle27:full-banners:update","nichelle27:vantagens:update",
+"nichelle27:mini-banners:update","nichelle27:shorts:update",
+"nichelle27:noticias:update"].forEach(function(name){
+document.dispatchEvent(new Event(name));
+});
+}
+if(document.readyState==="loading")
+document.addEventListener("DOMContentLoaded",refresh,{once:true});
+else refresh();
+window.addEventListener("load",refresh,{once:true});
+})();
+</script>

@@ -1,0 +1,111 @@
+/* Nichelle Imports | Login/cadastro apenas VISUAL: o form nativo permanece intacto. */
+html[data-n27-auth] body #corpo {
+  width:100%!important;
+  min-height:calc(100vh - 300px)!important;
+  padding:clamp(28px,4vw,60px) 18px clamp(48px,6vw,88px)!important;
+  background:linear-gradient(180deg,#f8f3fa 0%,#fff 63%)!important;
+}
+html[data-n27-auth] body #corpo > .conteiner,
+html[data-n27-auth] body #corpo > .container {
+  width:min(100%,1120px)!important;
+  max-width:1120px!important;
+  margin:0 auto!important;
+  padding:clamp(22px,3.8vw,55px)!important;
+  background:#fff!important;
+  border:1px solid #eee5f1!important;
+  border-radius:22px!important;
+  box-shadow:0 18px 56px rgba(93,43,113,.07)!important;
+}
+html[data-n27-auth] body #corpo :is(h1,h2,.titulo,.titulo-principal,.titulo-categoria) {
+  color:#781399!important;
+  font-family:"Montserrat",Arial,Helvetica,sans-serif!important;
+  font-weight:800!important;
+  letter-spacing:-.025em!important;
+}
+html[data-n27-auth] body #corpo :is(.identificacao,.cadastro,.cadastro-campos,.formulario-login,.formulario-cadastro,.box-login,.box-cadastro) {
+  background:#fff!important;
+  border-color:#ede5f0!important;
+  box-shadow:none!important;
+}
+html[data-n27-auth] body #corpo :is(label,.control-label) {
+  color:#4a4250!important;
+  font:600 13px/1.4 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-auth] body #corpo :is(input[type="text"],input[type="email"],input[type="password"],input[type="tel"],input[type="number"],select,textarea) {
+  box-sizing:border-box!important;
+  min-height:47px!important;
+  max-width:100%!important;
+  padding:10px 14px!important;
+  border:1px solid #e4d9e7!important;
+  border-radius:10px!important;
+  background:#fff!important;
+  color:#27212c!important;
+  font:400 14px/1.4 "Montserrat",Arial,Helvetica,sans-serif!important;
+  outline-offset:2px!important;
+  transition:border-color .18s,box-shadow .18s!important;
+}
+html[data-n27-auth] body #corpo :is(input,select,textarea):focus-visible {
+  border-color:#870fa4!important;
+  outline:2px solid rgba(135,15,164,.18)!important;
+}
+html[data-n27-auth] body #corpo :is(button[type="submit"],input[type="submit"],.botao.principal,.botao.botao-principal) {
+  box-sizing:border-box!important;
+  min-height:47px!important;
+  padding:11px 25px!important;
+  background:linear-gradient(110deg,#a414b9,#760a9a)!important;
+  color:#fff!important;
+  border:0!important;
+  border-radius:10px!important;
+  font:700 14px/1.3 "Montserrat",Arial,Helvetica,sans-serif!important;
+  text-shadow:none!important;
+  box-shadow:0 6px 15px rgba(116,10,154,.12)!important;
+  cursor:pointer!important;
+}
+html[data-n27-auth] body #corpo :is(a,.botao.secundario) {
+  text-underline-offset:3px;
+}
+html[data-n27-auth] body #corpo :is(.alert,.alerta,.mensagem-erro,.error,.erro,.help-inline) {
+  max-width:100%!important;
+  white-space:normal!important;
+}
+@media(max-width:767px) {
+  html[data-n27-auth] body #corpo {
+    min-height:0!important;
+    padding:22px 12px 48px!important;
+  }
+  html[data-n27-auth] body #corpo > :is(.conteiner,.container) {
+    padding:22px 16px!important;
+    border-radius:15px!important;
+  }
+  html[data-n27-auth] body #corpo :is(.row-fluid,.row,.campos-cadastro) {
+    max-width:100%!important;
+  }
+  html[data-n27-auth] body #corpo :is(button[type="submit"],input[type="submit"],.botao.principal) {
+    max-width:100%!important;
+  }
+}
+
+/* Seletores do tema 4433 encontrados no CSS original: login e cadastro. */
+html[data-n27-auth] body:is(.pagina-login,.pagina-cadastro) #corpo .caixa-sombreada {
+  background:#fff!important;
+  padding:clamp(20px,3vw,35px)!important;
+  border:1px solid #ece0ef!important;
+  border-radius:15px!important;
+  box-shadow:0 8px 26px rgba(78,29,101,.05)!important;
+}
+html[data-n27-auth] body.pagina-cadastro #corpo .cadastro legend {
+  color:#85159b!important;
+  font:700 clamp(15px,1.3vw,19px)/1.3 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-auth] body:is(.pagina-login,.pagina-cadastro) #corpo .botao.principal {
+  line-height:1.35!important;
+}
+html[data-n27-auth] body:is(.pagina-login,.pagina-cadastro) #corpo :is(.tipo-cadastro input[type="radio"],.tipo-cadastro input[type="checkbox"]) {
+  width:auto!important;min-height:0!important;height:auto!important;
+}
+@media(max-width:767px){
+  html[data-n27-auth] body:is(.pagina-login,.pagina-cadastro) #corpo .caixa-sombreada {
+    padding:20px 15px!important;
+    border-radius:12px!important;
+  }
+}
