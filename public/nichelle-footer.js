@@ -160,7 +160,9 @@
       [/termos de uso/i,"Termos de Uso"],
       [/blog/i,"Blog"]
     ].forEach(([pattern,label])=>addLink(list,pickLink(root,pattern),label));
-    n.append(list);return n;
+    n.append(list);
+    const socials=socialLinks();if(socials)n.append(socials);
+    return n;
   }
   function account(cfg,data){
     const n=labeledColumn(cfg.tituloConta,"n27-foot__account");
@@ -215,19 +217,97 @@
       li.append(wrapper);info.append(li);
     }
     n.append(info);
-    const socialLinks=[...(document.querySelectorAll("#rodape-social .lista-redes a[href]")||[])];
-    if(socialLinks.length){
-      const social=node("div","n27-foot__social");
-      social.append(node("span","n27-foot__social-title","Redes sociais"));
-      for(const a of socialLinks){
-        const label=/instagram/i.test(a.href)?"Instagram":/facebook/i.test(a.href)?"Facebook":"Rede social";
-        const link=copyLink(sourceLink(a),"n27-foot__social-link",label);
-        if(link)social.append(link);
-      }
-      n.append(social);
-    }
     return n;
   }
+
+  // Redes sociais ficam na coluna Institucional, com SVG FWR acessivel.
+  function socialIcon(kind){
+    const paths={
+      instagram:["M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Z","M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z","M17.5 6.5h.01"],
+      facebook:["M15 21v-8h3l.5-4H15V7c0-1.1.5-1.5 1.7-1.5H19V2.3A20 20 0 0 0 16 2c-3.2 0-5 1.9-5 5.2V9H8v4h3v8"],
+      youtube:["M22 8a3 3 0 0 0-3-3H5a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3Z","m10 9 6 3-6 3Z"],
+      tiktok:["M14 3v12a5 5 0 1 1-5-5","M14 3c.8 2.8 3 4.7 6 5v4c-2.5-.1-4.4-1-6-2.4"],
+      social:["M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Z","M2 12h20","M12 2c3 3 4 6 4 10s-1 7-4 10","M12 2c-3 3-4 6-4 10s1 7 4 10"]
+    }[kind]||[];
+    const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
+    svg.setAttribute("viewBox","0 0 24 24");
+    svg.setAttribute("aria-hidden","true");
+    svg.setAttribute("focusable","false");
+    svg.setAttribute("fill","none");
+    svg.setAttribute("stroke","currentColor");
+    svg.setAttribute("stroke-width","1.8");
+    svg.setAttribute("stroke-linecap","round");
+    svg.setAttribute("stroke-linejoin","round");
+    for(const d of paths){
+      const p=document.createElementNS("http://www.w3.org/2000/svg","path");
+      p.setAttribute("d",d);svg.appendChild(p);
+    }
+    return svg;
+  }
+  function socialLinks(){
+    const originals=[...document.querySelectorAll("#rodape-social .lista-redes a[href]")];
+    const social=node("div","n27-foot__social");
+    social.append(node("span","n27-foot__social-title","Redes sociais"));
+    const seen=new Set();
+    for(const original of originals){
+      const source=sourceLink(original);if(!source||seen.has(source.href))continue;
+      seen.add(source.href);
+      const v=(original.href+" "+original.textContent).toLowerCase();
+      const kind=/instagram/.test(v)?"instagram":/facebook/.test(v)?"facebook":
+        /youtube/.test(v)?"youtube":/tiktok/.test(v)?"tiktok":"social";
+      const label=kind==="social"?text(original.getAttribute("title")||original.textContent,50)||"Rede social":
+        kind.charAt(0).toUpperCase()+kind.slice(1);
+      const link=copyLink(source,"n27-foot__social-link",label);
+      if(!link)continue;
+      link.textContent="";
+      link.setAttribute("aria-label",label);
+      link.title=label;
+      link.append(socialIcon(kind));
+      social.append(link);
+    }
+    return social.children.length>1?social:null;
+  }
+
+  // Accordion apenas mobile. Conteudo de autenticação/checkout permanece nativo.
+  const mobileFooter=window.matchMedia("(max-width:767px)");
+  function syncFooterAccordionMode(){
+    document.querySelectorAll("#n27-fwr-footer .n27-foot__toggle").forEach(toggle=>{
+      const section=toggle.closest(".n27-foot__column");
+      if(!section)return;
+      if(mobileFooter.matches)section.classList.remove("n27-foot__column--open");
+      toggle.tabIndex=mobileFooter.matches?0:-1;
+      toggle.setAttribute("aria-expanded",String(!mobileFooter.matches));
+    });
+  }
+  if(mobileFooter.addEventListener)mobileFooter.addEventListener("change",syncFooterAccordionMode);
+  function prepareFooterAccordions(columns){
+    [...columns.querySelectorAll(":scope > .n27-foot__column")].forEach((column,index)=>{
+      const heading=column.querySelector(":scope > .n27-foot__title");
+      if(!heading)return;
+      const contents=node("div","n27-foot__column-body");
+      contents.id="n27-foot-accordion-"+index;
+      [...column.children].filter(child=>child!==heading).forEach(child=>contents.append(child));
+      const toggle=node("button","n27-foot__toggle");
+      toggle.type="button";
+      toggle.setAttribute("aria-controls",contents.id);
+      toggle.setAttribute("aria-expanded",String(!mobileFooter.matches));
+      toggle.tabIndex=mobileFooter.matches?0:-1;
+      toggle.append(node("span","",heading.textContent||""));
+      const arrow=document.createElementNS("http://www.w3.org/2000/svg","svg");
+      arrow.setAttribute("viewBox","0 0 24 24");
+      arrow.setAttribute("aria-hidden","true");
+      const p=document.createElementNS("http://www.w3.org/2000/svg","path");
+      p.setAttribute("d","m6 9 6 6 6-6");arrow.append(p);toggle.append(arrow);
+      heading.replaceChildren(toggle);
+      column.append(contents);
+      toggle.addEventListener("click",()=>{
+        if(!mobileFooter.matches)return;
+        const open=column.classList.toggle("n27-foot__column--open");
+        toggle.setAttribute("aria-expanded",String(open));
+      });
+    });
+  }
+
   function security(cfg,data){
     const n=labeledColumn(cfg.tituloSeguranca,"n27-foot__security");
     const list=node("div","n27-foot__seals");
@@ -385,7 +465,7 @@
     }
 
     const section=node("div","n27-foot");
-    section.id=id;section.dataset.n27Version="1.1.0";
+    section.id=id;section.dataset.n27Version="1.3.0";
     section.setAttribute("role","contentinfo");
     // The original #rodape stays mounted and its source DOM is not deleted.
     const top=node("div","n27-foot__top");
@@ -435,6 +515,7 @@
     securityColumn.append(paymentWrap);
     columns.append(institutional(data,cfg),account(cfg,data),
       contact(cfg,data),securityColumn);
+    prepareFooterAccordions(columns);
     const bottom=node("div","n27-foot__bottom");
     bottom.append(node("small","n27-foot__legal",legal));
     if(cfg.mostrarFWR){
@@ -492,5 +573,5 @@
   ["nichelle27:refresh","nichelle27:rodape:update"].forEach(evt=>document.addEventListener(evt,()=>{
     lastKey="";schedule();
   }));
-  window.NichelleFooter={version:"1.2.0",refresh:schedule,source:"loja-integrada-native"};
+  window.NichelleFooter={version:"1.3.0",refresh:schedule,source:"loja-integrada-native"};
 })();
