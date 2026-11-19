@@ -11,10 +11,13 @@
   "use strict";
   // Dominios autorizados: oficial + manutencao desta mesma loja (nao aceitar outras lojas LI).
   const STORE = /^(?:(?:www\.)?nichelleimports\.com\.br|nichelle-imports-manutencao\.lojaintegrada\.com\.br)$/i;
-  // Nao aplica o layout em checkout, autenticacao ou endpoints transacionais.
+  // Login/cadastro recebem SOMENTE a camada visual FWR: a LI continua
+  // dona dos formularios, validacoes, autenticacao e redirecionamentos.
+  const ACCOUNT_VISUAL = /^\/conta\/(?:login|criar)\/?$/i;
   const BLOCKED = /^\/(?:checkout|finalizar-pedido|login|conta|pedido|meus-pedidos|carrinho\/(?:produto|cupom|frete|checkout))(?:\/|$)/i;
   function onStore() {
-    return STORE.test(location.hostname) && !BLOCKED.test(location.pathname);
+    return STORE.test(location.hostname) &&
+      (ACCOUNT_VISUAL.test(location.pathname)||!BLOCKED.test(location.pathname));
   }
   function settings() { return window.Nichelle27Settings?.geral || {}; }
   function published() {
