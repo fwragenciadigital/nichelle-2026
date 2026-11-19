@@ -113,3 +113,10 @@ html body img[src*="groomb-logo.png" i] {
 html body a:has(> img[src*="groomb-logo.png" i]) {
   display: none !important;
 }
+
+/* NICHELLE 2026 | Hero aprovado - SOMENTE DESKTOP >=1025px. */
+@media (min-width:1025px) {
+  html[data-n27-approved="1"] #n27-preview-stage > #n27-approved-hero {
+    height:clamp(260px,32vw,713px)!important;
+  }
+}
