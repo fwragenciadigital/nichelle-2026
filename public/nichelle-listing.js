@@ -158,19 +158,27 @@ function findSource(){
       document.body.classList.contains("pagina-busca")||
       document.body.classList.contains("pagina-marca")||
       path==="/mais-vendidos"||path==="/buscar"))return null;
- const options=[...document.querySelectorAll("#corpo .listagem")].filter(el=>
-  !el.closest("#n27-preview-stage,.n27-best-shelf,.n27-approved,#"+ID)&&
-  el.querySelectorAll(".listagem-item").length>0);
- // .vitrine-produtos também é uma classe usada nos cards nativos de
- // categoria de alguns temas LI. Excluí-la aqui ocultava toda a fonte.
- // Prefira o bloco principal de produtos, nunca vitrines relacionadas.
+ // Em /buscar o tema pode usar uma listagem HTML diferente da categoria.
+ const candidates=[...document.querySelectorAll(
+   "#corpo .listagem,#corpo #listagemProdutos,#corpo .resultado-busca,"+
+   "#corpo .busca-resultado,#corpo .listagem-produtos"
+ )];
+ if(path==="/buscar"||document.body.classList.contains("pagina-busca")){
+   const corpo=document.getElementById("corpo");
+   if(corpo)candidates.push(corpo);
+ }
+ const options=[...new Set(candidates)].filter(el=>
+   !el.closest("#n27-preview-stage,.n27-best-shelf,.n27-approved,#"+ID) &&
+   el.querySelectorAll(".listagem-item").length>0);
+ // Prefere a listagem principal e preserva filtros/ordenacao/paginacao.
  return options.sort((a,b)=>{
-  const score=el=>(
-   (el.closest(".pagina-categoria,.pagina-busca,.pagina-marca")?10000:0)+
-   (el.closest(".secao-principal,.conteudo")?1000:0)+
-   el.querySelectorAll(".listagem-item").length
-  );
-  return score(b)-score(a);
+   const score=el=>(
+     (el.matches(".listagem,#listagemProdutos")?20000:0)+
+     (el.closest(".pagina-categoria,.pagina-busca,.pagina-marca")?10000:0)+
+     (el.closest(".secao-principal,.conteudo")?1000:0)+
+     el.querySelectorAll(".listagem-item").length
+   );
+   return score(b)-score(a);
  })[0]||null;
 }
 function nativeLists(root){
@@ -215,7 +223,13 @@ function mount(){
  const key=signatureOf(products);
  if(found===source&&root?.isConnected&&key===signature)return;
  const lists=nativeLists(found);
- const firstRow=lists[0]?.closest(".listagem-linha")||lists[0]||native[0]?.parentElement;
+ // Quando os produtos nao usam ul.produtos-linha, preservar a barra de
+ // ordenacao e ocultar SOMENTE os cards/grupo de cards nativos.
+ const nativeParent=native[0]?.parentElement;
+ const groupIsSafe=!!nativeParent && native.every(item=>item.parentElement===nativeParent) &&
+   [...nativeParent.children].every(child=>child.matches(".listagem-item"));
+ const firstRow=lists[0]?.closest(".listagem-linha")||lists[0]||
+   (groupIsSafe?nativeParent:native[0]);
  if(!firstRow?.parentNode)return;
  if(found!==source){observer?.disconnect();observer=null;}
  const section=node("section","n27-listing");section.id=ID;
@@ -225,7 +239,9 @@ function mount(){
  section.append(grid);
  firstRow.before(section);
  root?.remove();root=section;source=found;signature=key;
- const rows=lists.map(list=>list.closest(".listagem-linha")||list);
+ const rows=lists.length ?
+   lists.map(list=>list.closest(".listagem-linha")||list) :
+   (groupIsSafe?[nativeParent]:native);
  rows.forEach(row=>row.dataset.n27ListingNative="1");
  document.documentElement.dataset.n27Listing="1";
  lastDiagnosticReason="cards-fwr-montados:"+products.length;
@@ -251,7 +267,7 @@ window.addEventListener("load",mount,{once:true});
 [250,850,1800,3200].forEach(n=>setTimeout(mount,n));
 document.addEventListener("nichelle27:refresh",schedule);
 window.NichelleListingFWR={
- version:"1.1.0",
+ version:"1.2.0",
  refresh:schedule,
  diagnostico:()=>({
   estado:lastDiagnosticReason,
