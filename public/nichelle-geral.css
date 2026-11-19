@@ -257,3 +257,36 @@ html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__bottom {
     max-width:86%!important;
   }
 }
+
+/* NICHELLE | AJUSTES CSS 19-11-2026 | CARRINHO / PDP / MOBILE | FWR */
+html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary-total-number {
+  color:#9c26b3!important;
+  font:800 clamp(25px,2vw,25px)/1.2 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+
+@media (min-width:1025px) {
+  html[data-n27-pdp="1"] body #corpo .n27-pdp__pix-value {
+    color:#25182e!important;
+    font:800 clamp(24px,2vw,36px)/1.2 "Montserrat",Arial,Helvetica,sans-serif!important;
+  }
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto .preco-promocional {
+    color:var(--n27-pdp-purple)!important;
+    font:800 clamp(24px,2vw,29px)/1.2 "Montserrat",Arial,Helvetica,sans-serif!important;
+  }
+}
+
+@media (min-width:0px) and (max-width:767px) {
+  body .n27-welcome-coupon#n27-welcome-coupon {
+    left:6px!important;
+    top:auto!important;
+    width:55px!important;
+    bottom:12%!important;
+  }
+  .li-whatsapp a {
+    width:62px;
+    height:62px;
+  }
+  .li-whatsapp i {
+    font-size:38px;
+  }
+}
