@@ -895,3 +895,111 @@ html[data-n27-fwr-footer="1"] a.n27-foot__agency--native-credit img {
     padding:35px clamp(30px,6vw,105px) 24px clamp(38px,4.1vw,80px)!important;
   }
 }
+
+/* ============================================================
+   NICHELLE 2026 — refinamento final rodape e redes sociais
+   ============================================================ */
+html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__column-body {
+  display:contents!important; /* Mantem a grade e o alinhamento desktop/tablet. */
+}
+html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__toggle {
+  display:flex!important;align-items:center!important;justify-content:space-between!important;
+  width:100%!important;height:auto!important;
+  padding:0!important;margin:0!important;
+  color:inherit!important;background:transparent!important;border:0!important;
+  box-shadow:none!important;text-align:left!important;
+  font:inherit!important;cursor:default!important;
+  pointer-events:none!important;
+}
+html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__toggle svg {
+  display:none!important;
+}
+html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__social {
+  display:flex!important;flex-flow:row wrap!important;align-items:center!important;
+  gap:10px!important;margin:26px 0 0!important;
+}
+html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__social-title {
+  flex:0 0 100%!important;color:#85159b!important;
+  font:700 13px/1.3 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer a.n27-foot__social-link {
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  width:35px!important;height:35px!important;padding:0!important;
+  border:1px solid #ae6abe!important;border-radius:50%!important;
+  background:#fff!important;color:#85159b!important;text-decoration:none!important;
+}
+html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__social-link svg {
+  display:block!important;width:19px!important;height:19px!important;
+}
+@media(min-width:1025px) {
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__bottom {
+    display:flex!important;align-items:center!important;justify-content:center!important;
+    flex-direction:column!important;gap:0!important;margin:30px 0 0!important;
+    width:100%!important;max-width:730px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__content {
+    min-height:445px!important;
+    padding:40px 0 40px 40px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__columns {
+    display:flex!important;align-items:flex-start!important;
+    justify-content:space-between!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__columns > .n27-foot__column {
+    flex:1 1 0!important;width:auto!important;max-width:none!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__columns .n27-foot__title,
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__columns .n27-foot__shipping .n27-foot__title,
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__columns .n27-foot__security > .n27-foot__details .n27-foot__title {
+    font:700 clamp(14px,1vw,18px)/1.26 "Montserrat",Arial,Helvetica,sans-serif!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__column.n27-foot__account {
+    margin-right:-6%!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__legal {
+    text-align:center!important;
+  }
+}
+@media(max-width:767px) {
+  html[data-n27-fwr-footer="1"] #rodape[data-n27-fwr-ready="1"] > #n27-fwr-footer.n27-foot {
+    margin-bottom:-100px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__columns {
+    display:flex!important;flex-direction:column!important;
+    align-items:stretch!important;justify-content:flex-start!important;
+    gap:0!important;width:100%!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__columns > .n27-foot__column {
+    flex:0 0 auto!important;width:100%!important;min-width:0!important;
+    border-bottom:1px solid rgba(133,21,155,.2)!important;
+    margin:0!important;padding:0!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__column > .n27-foot__title {
+    margin:0!important;padding:0!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__toggle {
+    display:flex!important;align-items:center!important;
+    justify-content:space-between!important;
+    min-height:58px!important;padding:15px 3px!important;
+    cursor:pointer!important;pointer-events:auto!important;
+    color:#85159b!important;font:700 16px/1.25 "Montserrat",Arial,Helvetica,sans-serif!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__toggle svg {
+    display:block!important;width:21px!important;height:21px!important;
+    flex:0 0 21px!important;stroke:currentColor!important;fill:none!important;
+    stroke-width:2!important;transition:transform .2s ease!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__column--open .n27-foot__toggle svg {
+    transform:rotate(180deg)!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__column-body {
+    display:none!important;width:100%!important;min-width:0!important;
+    padding:2px 3px 24px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__column--open > .n27-foot__column-body {
+    display:flex!important;flex-direction:column!important;align-items:flex-start!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__social {
+    margin-top:20px!important;
+  }
+}
