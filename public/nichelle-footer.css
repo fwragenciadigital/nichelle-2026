@@ -1003,3 +1003,25 @@ html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__social-link svg
     margin-top:20px!important;
   }
 }
+
+
+/* Accordeon altera o DOM: recuperar o espacemento do bloco de seguranca. */
+@media(min-width:1025px){
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer
+  .n27-foot__security > .n27-foot__column-body > .n27-foot__details {
+    display:flex!important;flex-direction:column!important;
+    align-items:flex-start!important;justify-content:flex-start!important;
+    gap:22px!important;width:100%!important;max-width:100%!important;
+    margin:27px 0 0!important;padding:0!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer
+  .n27-foot__security > .n27-foot__column-body > .n27-foot__details
+  :is(.n27-foot__payments,.n27-foot__shipping) {
+    width:100%!important;max-width:100%!important;min-width:0!important;margin:0!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer
+  .n27-foot__security > .n27-foot__column-body > .n27-foot__details .n27-foot__title {
+    margin:0 0 12px!important;
+    font:700 clamp(14px,1vw,18px)/1.26 "Montserrat",Arial,Helvetica,sans-serif!important;
+  }
+}
