@@ -529,3 +529,60 @@ html body.pagina-produto #corpo :is(.aproveite-tambem .listagem,.listagem.aprove
 @media(prefers-reduced-motion:reduce) {
   body.pagina-produto .resumo-flutuante {transition:none!important}
 }
+
+/* NICHELLE 2026 | FIX PIX GLOBAL + RODAPE MOBILE + CARRINHO | 24-11-2026 */
+html[data-n27-cart-page="1"] body.pagina-carrinho #corpo {
+  padding:17px 0 105px!important;
+  margin-bottom:-140px!important;
+  position:relative;
+  z-index:1;
+}
+
+/* Os cards FWR compartilham a mesma identidade Pix em TODA a loja. */
+html[data-n27-best-shelf="1"] .n27-best-shelf .n27-best-card .n27-best-card__pix,
+html[data-n27-listing="1"] #corpo .n27-listing__card .n27-listing__pix {
+  padding:6px 5px 6px!important;
+  background:linear-gradient(125deg,rgb(250,242,252) 0%,rgb(255,255,255) 90%)!important;
+  border-top:none!important;
+}
+html[data-n27-best-shelf="1"] .n27-best-shelf .n27-best-card .n27-best-card__price,
+html[data-n27-listing="1"] #corpo .n27-listing__info .n27-listing__prices {
+  min-height:55px!important;
+}
+html[data-n27-listing="1"] #corpo .n27-listing__info .n27-listing__name {
+  -webkit-line-clamp:3!important;
+  display:-webkit-box!important;
+  -webkit-box-orient:vertical!important;
+  overflow:hidden!important;
+}
+
+/* Cards nativos ainda presentes: conserva textos e precos da LI, uniformiza
+   somente o fundo/espacamento do Pix, inclusive vitrines e aproveite-tambem. */
+html body:not(.pagina-carrinho) #corpo .listagem .listagem-item
+:is(.listagem-avista-2,.desconto-a-vista,.preco-a-vista) {
+  box-sizing:border-box!important;
+  width:100%!important;
+  padding:6px 5px!important;
+  background:linear-gradient(125deg,rgb(250,242,252) 0%,rgb(255,255,255) 90%)!important;
+  border-top:0!important;
+  border-radius:4px!important;
+}
+body .li-whatsapp a {
+  width:62px!important;
+  height:62px!important;
+  background-image:linear-gradient(to right,#a61cb9,#79039a)!important;
+}
+@media (min-width:0px) and (max-width:767px) {
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__panel .n27-foot__art {
+    display:none!important;
+  }
+  /* Sem a imagem nao pode sobrar a coluna vazia de 32%. */
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__panel {
+    display:block!important;
+    grid-template-columns:none!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__panel .n27-foot__content {
+    width:100%!important;
+    max-width:100%!important;
+  }
+}
