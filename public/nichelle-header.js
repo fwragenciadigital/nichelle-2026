@@ -112,50 +112,111 @@
   }
   function searchURL(text) { return "/buscar?" + new URLSearchParams({q:text}); }
   const normalize = s => String(s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
+  // Os rótulos, links e subcategorias vêm do MENU NATIVO que a Loja Integrada
+  // publicou nesta página, seguindo exatamente a ordem configurada pelo cliente.
+  // A snapshot JSON só é um fallback quando o menu não veio no HTML nativo.
+  function iconForCategory(name) {
+    const n=normalize(name);
+    if(/mais vendidos|ofertas|promocoes/.test(n))return "star";
+    if(/skincare|pele|facial/.test(n))return "skincare";
+    if(/makes|maquiagem|makeup/.test(n))return "type";
+    if(/cabelo|hair/.test(n))return "needs";
+    if(/corpo|banho|cuidados/.test(n))return "heart";
+    if(/kit|presente/.test(n))return "kits";
+    return "brands";
+  }
+  function nativeCategories() {
+    const menu=document.querySelector(
+      "#cabecalho .menu.superior > ul.nivel-um, " +
+      "#cabecalho .menu.superior ul.nivel-um, " +
+      "#cabecalho .menu-desktop ul.nivel-um"
+    );
+    if(!menu)return [];
+    const top=[...menu.children].filter(n=>n.matches("li"));
+    const seen=new Set();
+    return top.map((li,index)=>{
+      if(li.hidden||li.getAttribute("aria-hidden")==="true"||
+         li.classList.contains("hide")||li.classList.contains("hidden")||
+         window.getComputedStyle(li).display==="none")return null;
+      const a=li.querySelector(":scope > a[href]");
+      const url=safeInternal(a?.getAttribute("href"));
+      // Entradas técnicas como categoria-marcas podem usar javascript:;.
+      if(!url)return null;
+      const label=(a.querySelector("strong.titulo")?.textContent||
+        a.getAttribute("title")||a.textContent||"").replace(/\\s+/g," ").trim().slice(0,85);
+      if(!label||seen.has(url))return null;
+      seen.add(url);
+      const sublist=li.querySelector(":scope > ul.nivel-dois, :scope > ul.nivel-dois > li");
+      const children=sublist?[...sublist.querySelectorAll(":scope > li")].map(sub=>{
+        const link=sub.querySelector(":scope > a[href]");
+        const href=safeInternal(link?.getAttribute("href"));
+        const name=(link?.getAttribute("title")||link?.textContent||"").replace(/\\s+/g," ").trim().slice(0,85);
+        return href&&name?{name,url:href}:null;
+      }).filter(Boolean):[];
+      const categoryId=(li.className.match(/categoria-id-(\\d+)/)||[])[1];
+      return {key:categoryId||"li-"+index,label,icon:iconForCategory(label),
+        url,children};
+    }).filter(Boolean);
+  }
+  function catalogFallback() {
+    const published=Array.isArray(window.N27CategoryCatalog?.categories)?
+      window.N27CategoryCatalog.categories:[];
+    return published.map((c,index)=>{
+      const url=safeInternal(c.url);
+      if(!url)return null;
+      return {
+        key:String(c.id||index),label:String(c.name||"").slice(0,85),
+        icon:iconForCategory(c.name),url,
+        children:(Array.isArray(c.children)?c.children:[]).map(sub=>({
+          name:String(sub.name||"").slice(0,85),url:safeInternal(sub.url)
+        })).filter(sub=>sub.name&&sub.url)
+      };
+    }).filter(Boolean);
+  }
   function menuData() {
-    const registered = Array.isArray(window.N27CategoryCatalog?.categories) ?
-      window.N27CategoryCatalog.categories : [];
-    const top = label => registered.find(c => normalize(c.name) === normalize(label));
-    const child = label => registered.flatMap(c=>Array.isArray(c.children)?c.children:[])
-      .find(c => normalize(c.name) === normalize(label));
-    const items = [
-      {label:"Mais Vendidos",icon:"star",source:top("Mais vendidos"),fallback:"/mais-vendidos"},
-      {label:"Skincare",icon:"skincare",source:top("Skincare"),fallback:"/skincare"},
-      {label:"Tipos de Pele",icon:"type",source:top("Tipos de Pele"),fallback:searchURL("Tipos de Pele")},
-      {label:"Necessidades da Pele",icon:"needs",source:top("Necessidades da Pele"),fallback:searchURL("Necessidades da Pele")},
-      {label:"Cuidados Pessoais",icon:"heart",source:top("Corpo & Banho"),fallback:"/corpo-banho"},
-      {label:"Kits",icon:"kits",source:top("Kits") || child("Kits"),fallback:"/kits-de-skincare"},
-      {label:"Marcas",icon:"brands",source:top("Marcas"),fallback:"/marcas"}
+    const native=nativeCategories();
+    return native.length?native:catalogFallback();
+  }
+  // Esta faixa é diferente de s.vantagens (blocos da home).
+  // Editável em Bloco 01 do HTML: window.Nichelle27Settings.topoBeneficios.
+  function headerBenefitsData(){
+    const cfg=window.Nichelle27Settings?.topoBeneficios||{};
+    const defaults=[
+      {icone:"safe",titulo:"LOJA 100% SEGURA",descricao:"COM PROTEÇÃO DE CERTIFICADO SSL"},
+      {icone:"truck",titulo:"ENTREGA GARANTIDA",descricao:"PARA TODO O BRASIL"},
+      {icone:"card",titulo:"PARCELE SUAS COMPRAS",descricao:"EM ATÉ 10X NO CARTÃO"},
+      {icone:"exchange",titulo:"TROCA FÁCIL",descricao:"EM ATÉ 7 DIAS APÓS O RECEBIMENTO"}
     ];
-    return items.map((item,index)=>{
-      const link=safeInternal(item.source?.url) || item.fallback;
-      const children=(Array.isArray(item.source?.children)?item.source.children:[])
-        .map(sub=>({name:sub.name,url:safeInternal(sub.url)}))
-        .filter(sub=>sub.name&&sub.url);
-      return {...item,key:String(index),url:link,children};
-    });
+    if(cfg.ativo===false)return [];
+    const allowed=new Set(["safe","truck","card","exchange"]);
+    const list=Array.isArray(cfg.itens)?cfg.itens:defaults;
+    const text=(value,max)=>typeof value==="string"?value.trim().slice(0,max):"";
+    return list.slice(0,8).map((entry,index)=>{
+      const original=defaults[index%defaults.length];
+      return {
+        icon:allowed.has(entry?.icone)?entry.icone:original.icone,
+        title:text(entry?.titulo,90),
+        subtitle:text(entry?.descricao,120)
+      };
+    }).filter(entry=>entry.title||entry.subtitle);
   }
   function buildMarquee() {
+    const data=headerBenefitsData();
+    if(!data.length)return null;
     const bar=el("div","n27-owned-benefits");
     bar.id="n27-head-benefits";
     bar.setAttribute("aria-label","Benefícios da loja");
     const track=el("div","n27-owned-benefits__track n27-head-benefits__track");
-    const data=[
-      ["safe","LOJA 100% SEGURA","COM PROTEÇÃO DE CERTIFICADO SSL"],
-      ["truck","ENTREGA GARANTIDA","PARA TODO O BRASIL"],
-      ["card","PARCELE SUAS COMPRAS","EM ATÉ 10X NO CARTÃO"],
-      ["exchange","TROCA FÁCIL","EM ATÉ 7 DIAS APÓS O RECEBIMENTO"]
-    ];
     for(let g=0;g<2;g++){
       const group=el("div","n27-owned-benefits__group");
       if(g)group.setAttribute("aria-hidden","true");
-      // Uma volta é mais larga que a viewport, evitando vazios no loop.
+      // Duas voltas por grupo evitam vazios e mantêm o loop existente.
       for(let repeat=0;repeat<4;repeat++){
         for(const info of data){
           const item=el("span","n27-owned-benefits__item");
-          item.appendChild(svg(info[0]));
+          item.appendChild(svg(info.icon));
           const copy=el("span","n27-owned-benefits__copy");
-          copy.append(el("strong","",info[1]),el("span",""," "+info[2]));
+          copy.append(el("strong","",info.title),el("span",""," "+info.subtitle));
           item.appendChild(copy);group.appendChild(item);
         }
       }
@@ -494,7 +555,9 @@
     // bar becomes fixed. Without it, scrolling would shift page content.
     const mobileStickySpacer=el("div","n27-owned-sticky-placeholder");
     mobileStickySpacer.setAttribute("aria-hidden","true");
-    root.append(buildMarquee(),mobileStickySpacer,main.box,buildNav(items,key=>setDrawer(true,key)));
+    const benefits=buildMarquee();
+    if(benefits)root.appendChild(benefits);
+    root.append(mobileStickySpacer,main.box,buildNav(items,key=>setDrawer(true,key)));
     // Overlay is portaled outside the navigation scroll container.
     root.appendChild(drawer.overlay);
     host.insertBefore(root,host.firstChild);
@@ -524,7 +587,7 @@
       main.cartCount.setAttribute("aria-label",n+" itens no carrinho");
     }
     updateCart();
-    window.NichelleHeader={version:"1.4.0",categories:items,refreshCart:updateCart,icons:ICON_ASSETS};
+    window.NichelleHeader={version:"1.5.0",categories:items,refreshCart:updateCart,icons:ICON_ASSETS,source:items.length?"native-or-fallback":"missing",refreshBenefits:function(){const old=root.querySelector("#n27-head-benefits");const newer=buildMarquee();if(old)old.remove();if(newer)root.prepend(newer);}};
     window.addEventListener("nichelle:cart-updated",e=>updateCart(e.detail?.quantity));
     window.addEventListener("cart:updated",e=>updateCart(e.detail?.quantity));
     // Optional bridge for LI themes that expose a rendered cart quantity.
