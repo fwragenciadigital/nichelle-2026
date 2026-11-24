@@ -554,6 +554,16 @@ html[data-n27-listing="1"] #corpo .n27-listing__info .n27-listing__name {
   display:-webkit-box!important;
   -webkit-box-orient:vertical!important;
   overflow:hidden!important;
+  height:63px!important;
+  min-height:63px!important;
+  max-height:63px!important;
+}
+@media(max-width:767px) {
+  html[data-n27-listing="1"] #corpo .n27-listing__info .n27-listing__name {
+    height:51px!important;
+    min-height:51px!important;
+    max-height:51px!important;
+  }
 }
 
 /* Cards nativos ainda presentes: conserva textos e precos da LI, uniformiza
