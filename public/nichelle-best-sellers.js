@@ -1,5 +1,5 @@
 /*
- * FWR • Nichelle Imports 2026 • Mais Vendidos v1.3
+ * FWR • Nichelle Imports 2026 • Mais Vendidos v1.4
  *
  * Component visuals and events are FWR-owned. Product facts are sourced
  * read-only from Loja Integrada's existing product-list HTML, not from
@@ -15,7 +15,7 @@
       !window.Nichelle27Activation?.active()) return;
 
   const SHELVES = [
-    {key:"maisVendidos", selector:".vitrine-mas-vendido", id:"n27-approved-best-sellers",
+    {key:"maisVendidos", selector:":is(.vitrine-24488857,.vitrine-mas-vendido,.vitrine-mais-vendidos)", id:"n27-approved-best-sellers",
       settings:"vitrineMaisVendidos", defaultPrefixo:"Produtos", defaultTitulo:"Mais Vendidos"},
     {key:"lancamentos", selector:".vitrine-lancamento", id:"n27-approved-launches",
       settings:"vitrineLancamentos", defaultPrefixo:"Novos", defaultTitulo:"Lançamentos"},
@@ -450,7 +450,7 @@
   document.addEventListener("nichelle27:vitrine:update",()=>{signatures.clear();schedule();});
   document.addEventListener("nichelle27:vitrines:update",()=>{signatures.clear();schedule();});
   window.NichelleBestSellers={
-    version:"1.3.0",refresh:schedule,
+    version:"1.4.0",refresh:schedule,
     sections:SHELVES.map(def=>({key:def.key,selector:def.selector,id:def.id}))
   };
 })();
