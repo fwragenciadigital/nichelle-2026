@@ -49,6 +49,28 @@ function preserveNativeActionPreview(table){
    .forEach(form=>form.addEventListener("submit",rememberNativeCartPreview,true));
 }
 let ready=false,root=null,totalView,installmentsView,pixBlock,pixAmount,pixNote,observer;
+let freeShippingObserver=null;
+const FREE_SHIPPING_SELECTOR="#li-alerta-frete-gratis,.li-alerta-frete-gratis";
+// Move sempre o aviso ORIGINAL da Loja Integrada, mantendo seu conteúdo e estado.
+function placeFreeShippingNotice(){
+ if(!pixBlock?.isConnected)return;
+ const notices=[...document.querySelectorAll(FREE_SHIPPING_SELECTOR)];
+ const notice=notices.find(item=>!pixBlock.parentElement?.contains(item))||notices[0];
+ if(!notice)return;
+ if(pixBlock.nextElementSibling!==notice)pixBlock.insertAdjacentElement("afterend",notice);
+ notice.classList.add("n27-cart-page__frete-gratis");
+}
+function watchFreeShippingNotice(){
+ placeFreeShippingNotice();
+ if(freeShippingObserver||!document.body)return;
+ freeShippingObserver=new MutationObserver(records=>{
+  const inserted=records.some(record=>[...record.addedNodes].some(node=>
+   node.nodeType===1&&(node.matches?.(FREE_SHIPPING_SELECTOR)||
+    node.querySelector?.(FREE_SHIPPING_SELECTOR))));
+  if(inserted)window.requestAnimationFrame(placeFreeShippingNotice);
+ });
+ freeShippingObserver.observe(document.body,{subtree:true,childList:true});
+}
 const $$=(s,n=document)=>n.querySelector(s);
 const el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
 const safe=(x,l=150)=>String(x||"").replace(/\s+/g," ").trim().slice(0,l);
@@ -136,6 +158,7 @@ function mount(){
  checkout.classList.add("n27-cart-page__checkout-form");
  summary.append(checkout);
  native.append(summary);
+ watchFreeShippingNotice();
  setAttrControls(table);
  if(isPreview)preserveNativeActionPreview(table);
  sync();
@@ -146,10 +169,11 @@ function mount(){
   requestAnimationFrame(()=>{pending=false;sync();});
  });
  observer.observe(table,{subtree:true,characterData:true,childList:true,attributes:true,attributeFilter:["data-total-valor","data-subtotal-valor"]});
- window.NichelleCartPageFWR={version:"1.1.0",refresh:sync};
+ window.NichelleCartPageFWR={version:"1.2.0",refresh:sync};
 }
 function sync(){
  if(!ready)return;
+ placeFreeShippingNotice();
  const table=root.querySelector(".tabela-carrinho");
  if(!table)return;
  const subtotal=table.querySelector(".valor-subtotal");
