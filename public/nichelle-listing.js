@@ -122,7 +122,7 @@ function makeCard(p){
  }
  img.alt=p.alt;img.width=300;img.height=300;img.loading="lazy";img.decoding="async";
  media.append(img);
- if(p.percent){
+ if(p.percent&&!p.unavailable){
   media.append(node("span","n27-listing__badge",p.percent+"% OFF"));
  }
  card.append(media);
