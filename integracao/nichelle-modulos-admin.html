@@ -24,6 +24,20 @@ var s=window.Nichelle27Settings=window.Nichelle27Settings||{};
       {icone:"medal",titulo:"LOJA COM SELO DE VERIFICAÇÃO",descricao:"RECLAME AQUI",link:""}
     ]
   };
+  // 2B. FAIXA SUPERIOR (n27-owned-benefits) — EDITE AQUI.
+  // Separada de s.vantagens, que controla os quatro cards da HOME.
+  // Ativo:false desativa apenas a faixa superior.
+  // Icones permitidos: safe, truck, card, exchange.
+  // Editar TITULO e DESCRICAO abaixo; salve este HTML na Loja Integrada.
+  s.topoBeneficios={
+    ativo:true,
+    itens:[
+      {icone:"safe",titulo:"LOJA 100% SEGURA",descricao:"COM PROTEÇÃO DE CERTIFICADO SSL"},
+      {icone:"truck",titulo:"ENTREGA GARANTIDA",descricao:"PARA TODO O BRASIL"},
+      {icone:"card",titulo:"PARCELE SUAS COMPRAS",descricao:"EM ATÉ 10X NO CARTÃO"},
+      {icone:"exchange",titulo:"TROCA FÁCIL",descricao:"EM ATÉ 7 DIAS APÓS O RECEBIMENTO"}
+    ]
+  };
   // 3. MINI BANNER — vinculado a Banners > Mini Banner no painel LI.
   // O tema atual nao publica Mini Banner no HTML da home.
   // Fallback opcional: cole a URL real da imagem da CDN da Loja Integrada.
