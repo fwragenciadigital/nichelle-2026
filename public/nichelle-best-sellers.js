@@ -1,5 +1,5 @@
 /*
- * FWR • Nichelle Imports 2026 • Mais Vendidos v1.4
+ * FWR • Nichelle Imports 2026 • Mais Vendidos v1.5
  *
  * Component visuals and events are FWR-owned. Product facts are sourced
  * read-only from Loja Integrada's existing product-list HTML, not from
@@ -414,6 +414,20 @@
     signatures.set(def.key,dataKey);
     setupNavigation(fresh,rail,cfg);
   }
+  // A LI pode publicar a vitrine dentro de um wrapper ou fora do stage.
+  // Para Mais Vendidos, trazemos o próprio nó nativo (com eventos e dados)
+  // para o mesmo stage das demais vitrines FWR, sem cloná-lo.
+  function findShelfSource(stage,def){
+    const selector=".vitrine-produtos"+def.selector;
+    const direct=[...stage.children].find(child=>child.matches(selector));
+    if(direct)return direct;
+    const source=stage.querySelector(selector)||
+      document.querySelector("#corpo "+selector);
+    if(!source)return null;
+    if(def.key!=="maisVendidos")return null;
+    if(source.parentNode!==stage)stage.appendChild(source);
+    return source;
+  }
   function schedule(){
     if(pending)return;
     pending=true;
@@ -424,7 +438,7 @@
     const stage=document.getElementById("n27-preview-stage");
     if(!stage)return;
     SHELVES.forEach(def=>{
-      const source=stage.querySelector(":scope > .vitrine-produtos"+def.selector);
+      const source=findShelfSource(stage,def);
       if(!source)return;
       const cfg=config(def);
       if(!cfg.ativo) {
@@ -445,12 +459,49 @@
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",mount,{once:true});
   else mount();
   window.addEventListener("load",mount,{once:true});
-  [250,750,1900,4000].forEach(t=>setTimeout(mount,t));
+  [250,750,1900,4000,7000].forEach(t=>setTimeout(mount,t));
+  // Se a plataforma inserir a vitrine depois, converter ao mesmo padrão.
+  // Observa apenas inclusões de nós de vitrine para não reagir à própria FWR.
+  function watchLateNativeShelves(){
+    const corpo=document.getElementById("corpo");
+    if(!corpo||!window.MutationObserver)return;
+    const observer=new MutationObserver(records=>{
+      if(records.some(record=>[...record.addedNodes].some(node=>
+        node.nodeType===1&&(
+          node.matches?.(".vitrine-produtos")||
+          !!node.querySelector?.(".vitrine-produtos")
+        ))))schedule();
+    });
+    observer.observe(corpo,{childList:true,subtree:true});
+  }
+  if(document.readyState==="loading"){
+    document.addEventListener("DOMContentLoaded",watchLateNativeShelves,{once:true});
+  }else watchLateNativeShelves();
   document.addEventListener("nichelle27:refresh",schedule);
   document.addEventListener("nichelle27:vitrine:update",()=>{signatures.clear();schedule();});
   document.addEventListener("nichelle27:vitrines:update",()=>{signatures.clear();schedule();});
   window.NichelleBestSellers={
-    version:"1.4.0",refresh:schedule,
+    version:"1.5.0",refresh:schedule,
+    diagnostico:function(){
+      const stage=document.getElementById("n27-preview-stage");
+      const def=SHELVES[0];
+      const selector=".vitrine-produtos"+def.selector;
+      const source=stage?.querySelector(selector)||document.querySelector("#corpo "+selector);
+      const shelf=document.getElementById(def.id);
+      const cfg=config(def);
+      return {
+        versao:"1.5.0",
+        ativo:enabled(),configAtiva:cfg.ativo,
+        fonteEncontrada:!!source,
+        fonteNoStage:!!source&&source.parentNode===stage,
+        produtosNativos:source?.querySelectorAll(".listagem-item[data-id]:not(.slick-cloned)").length||0,
+        produtosLidos:source?getProductData(source,cfg.maxProdutos).length:0,
+        componenteFWR:!!shelf,
+        cardsFWR:shelf?.querySelectorAll(".n27-best-shelf__rail > .n27-best-card:not([data-n27-clone])").length||0,
+        fonteOculta:source?.dataset.n27ShelfSource==="1",
+        estiloFWR:document.documentElement.dataset.n27BestShelf==="1"
+      };
+    },
     sections:SHELVES.map(def=>({key:def.key,selector:def.selector,id:def.id}))
   };
 })();
