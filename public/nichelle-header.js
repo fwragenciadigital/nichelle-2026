@@ -360,6 +360,7 @@
     box.appendChild(wrap);
     return{box,mobileBtn,cartCount:count};
   }
+  let navDismissListenersInstalled=false;
   function buildNav(items,openMobile) {
     const nav=el("nav","n27-owned-nav");
     nav.id="n27-head-nav";
@@ -433,18 +434,22 @@
     shortcut("Ofertas","sparkle",items[0]?.url||"/mais-vendidos");
     shortcut("Conta","account","/conta/index");
     nav.appendChild(quick);
-    document.addEventListener("click",ev=>{
-      if(nav.contains(ev.target))return;
-      track.querySelectorAll('.n27-owned-nav__item[data-open="true"]').forEach(n=>{
-        n.dataset.open="false";
-        n.querySelector(".n27-owned-nav__toggle")?.setAttribute("aria-expanded","false");
+    if(!navDismissListenersInstalled){
+      navDismissListenersInstalled=true;
+      const closeOpenMenus=()=>{
+        document.querySelectorAll('#n27-head-nav .n27-owned-nav__item[data-open="true"]').forEach(n=>{
+          n.dataset.open="false";
+          n.querySelector(".n27-owned-nav__toggle")?.setAttribute("aria-expanded","false");
+        });
+      };
+      document.addEventListener("click",ev=>{
+        const liveNav=document.getElementById("n27-head-nav");
+        if(!liveNav?.contains(ev.target))closeOpenMenus();
       });
-    });
-    document.addEventListener("keydown",ev=>{
-      if(ev.key==="Escape")track.querySelectorAll('.n27-owned-nav__item[data-open="true"]').forEach(n=>{
-        n.dataset.open="false";n.querySelector(".n27-owned-nav__toggle")?.setAttribute("aria-expanded","false");
+      document.addEventListener("keydown",ev=>{
+        if(ev.key==="Escape")closeOpenMenus();
       });
-    });
+    }
     return nav;
   }
   // Menu lateral: accordion de uma categoria por vez, com transicao
