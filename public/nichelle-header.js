@@ -179,6 +179,40 @@
     const native=nativeCategories();
     return native.length?native:catalogFallback();
   }
+  // Icones de categorias alteraveis diretamente no HTML da Loja Integrada.
+  // Chaves aceitas: nome cadastrado na LI, ID da categoria, ou URL da categoria.
+  // URL de imagem HTTPS ou caminho relativo da loja; arquivo inválido usa ícone FWR.
+  function menuIconURL(item) {
+    const settings=window.Nichelle27Settings?.iconesMenu;
+    if(!settings || typeof settings!=="object" || Array.isArray(settings))return "";
+    const itemKeys=[item.label,item.key,item.url].filter(Boolean).map(normalize);
+    const match=Object.entries(settings).find(([key])=>itemKeys.includes(normalize(key)));
+    if(!match)return "";
+    const raw=typeof match[1]==="string"?match[1]:
+      (match[1] && typeof match[1].url==="string"?match[1].url:"");
+    if(!raw.trim())return "";
+    try {
+      const imageURL=new URL(raw.trim(),location.origin);
+      if(imageURL.protocol!=="https:")return "";
+      return imageURL.href;
+    }catch(_){return "";}
+  }
+  function categoryIcon(item,cls) {
+    const url=menuIconURL(item);
+    if(!url)return svg(item.icon,cls);
+    const img=el("img",((cls||"")+" n27-owned-icon n27-owned-icon--custom").trim());
+    img.src=url;
+    img.alt="";
+    img.setAttribute("aria-hidden","true");
+    img.width=33;
+    img.height=33;
+    img.loading="eager";
+    img.decoding="async";
+    img.addEventListener("error",function(){
+      if(img.isConnected)img.replaceWith(svg(item.icon,cls));
+    },{once:true});
+    return img;
+  }
   // Esta faixa é diferente de s.vantagens (blocos da home).
   // Editável em Bloco 01 do HTML: window.Nichelle27Settings.topoBeneficios.
   function headerBenefitsData(){
@@ -315,7 +349,7 @@
       li.dataset.key=item.key;
       const main=el("a","n27-owned-nav__main");
       main.href=item.url;
-      main.append(svg(item.icon),el("span","",item.label));
+      main.append(categoryIcon(item),el("span","",item.label));
       li.appendChild(main);
       if(item.children.length){
         li.classList.add("n27-owned-nav__item--children");
@@ -442,7 +476,7 @@
       const details=el("details","n27-owned-drawer__item");
       details.dataset.key=item.key;
       const summary=el("summary","n27-owned-drawer__summary");
-      summary.append(svg(item.icon),el("span","",item.label));
+      summary.append(categoryIcon(item),el("span","",item.label));
       if(item.children.length){summary.appendChild(svg("chevron","n27-owned-drawer__chevron"));}
       details.appendChild(summary);
       const inside=el("div","n27-owned-drawer__links");
@@ -589,7 +623,7 @@
       main.cartCount.setAttribute("aria-label",n+" itens no carrinho");
     }
     updateCart();
-    window.NichelleHeader={version:"1.5.1",categories:items,refreshCart:updateCart,icons:ICON_ASSETS,source:nativeCategories().length?"loja-integrada":"catalogo-fallback",refreshBenefits:function(){const old=root.querySelector("#n27-head-benefits");const newer=buildMarquee();if(old)old.remove();if(newer)root.prepend(newer);}};
+    window.NichelleHeader={version:"1.6.0",categories:items,refreshCart:updateCart,icons:ICON_ASSETS,source:nativeCategories().length?"loja-integrada":"catalogo-fallback",refreshBenefits:function(){const old=root.querySelector("#n27-head-benefits");const newer=buildMarquee();if(old)old.remove();if(newer)root.prepend(newer);}};
     window.addEventListener("nichelle:cart-updated",e=>updateCart(e.detail?.quantity));
     window.addEventListener("cart:updated",e=>updateCart(e.detail?.quantity));
     // Optional bridge for LI themes that expose a rendered cart quantity.
