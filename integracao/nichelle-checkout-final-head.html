@@ -1,0 +1,21 @@
+<!--
+ Nichelle 2026 | Estilo da finalizacao de pedidos, INDEPENDENTE do motor FWR.
+ Copiar no cabecalho HTML da Loja Integrada apenas se ainda estiver usando
+ o loader antigo. Nao muda scripts, dados ou rotinas Pix / boleto / cartao.
+ A rota /checkout/{id}/finalizacao e a unica elegivel.
+-->
+<script id="n27-order-finish-style-loader">
+(function () {
+ "use strict";
+ if(!/^\/checkout\/\d+\/finalizacao\/?$/i.test(location.pathname))return;
+ if(!/^(?:(?:www\.)?nichelleimports\.com\.br|nichelle-imports-manutencao\.lojaintegrada\.com\.br)$/i.test(location.hostname))return;
+ if(window.__N27_ORDER_FINISH_STYLE__)return;
+ window.__N27_ORDER_FINISH_STYLE__=true;
+ document.documentElement.dataset.n27OrderFinish="1";
+ var css=document.createElement("link");
+ css.rel="stylesheet";
+ css.href="https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app/nichelle-checkout-final.css";
+ css.onerror=function(){delete document.documentElement.dataset.n27OrderFinish;};
+ (document.head||document.documentElement).appendChild(css);
+})();
+</script>
