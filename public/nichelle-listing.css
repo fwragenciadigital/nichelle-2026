@@ -450,3 +450,62 @@ html[data-n27-listing-fallback="1"] #corpo [data-n27-listing-fallback-source="1"
     min-height:51px!important;max-height:51px!important;
   }
 }
+
+/* NICHELLE | Estado indisponivel nos cards FWR v1.4 */
+html[data-n27-listing="1"] #corpo .n27-listing__card--unavailable .n27-listing__media {
+  background:#fff!important;
+}
+html[data-n27-listing="1"] #corpo .n27-listing__badge--unavailable {
+  left:0!important;
+  min-width:0!important;
+  width:auto!important;
+  background:#eee7f0!important;
+  border-radius:40px!important;
+  color:#795a83!important;
+  font:700 10px/1.1 "Montserrat",Arial,Helvetica,sans-serif!important;
+  padding:8px 10px!important;
+  height:auto!important;
+}
+html[data-n27-listing="1"] #corpo .n27-listing__card--unavailable .n27-listing__info {
+  justify-content:flex-start!important;
+}
+html[data-n27-listing="1"] #corpo .n27-listing__stock {
+  display:block!important;
+  min-height:55px!important;
+  padding:12px 0!important;
+  color:#756b7a!important;
+  font:500 13px/1.4 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-listing="1"] #corpo .n27-listing__notify {
+  display:flex!important;
+  justify-content:center!important;
+  align-items:center!important;
+  width:100%!important;
+  min-height:40px!important;
+  margin:8px 0 0!important;
+  padding:9px 12px!important;
+  border:1px solid #b889c3!important;
+  border-radius:8px!important;
+  background:#fff!important;
+  color:#8a289c!important;
+  box-shadow:none!important;
+  text-align:center!important;
+  text-decoration:none!important;
+  font:700 12px/1.3 "Montserrat",Arial,Helvetica,sans-serif!important;
+  cursor:pointer!important;
+}
+html[data-n27-listing="1"] #corpo .n27-listing__notify:is(:hover,:focus-visible) {
+  background:#faf2fc!important;
+  border-color:#9b2bab!important;
+}
+@media(max-width:767px) {
+  html[data-n27-listing="1"] #corpo .n27-listing__stock {
+    min-height:46px!important;
+    font-size:11px!important;
+  }
+  html[data-n27-listing="1"] #corpo .n27-listing__notify {
+    min-height:38px!important;
+    padding:8px!important;
+    font-size:11px!important;
+  }
+}
