@@ -143,17 +143,17 @@
       // Entradas técnicas como categoria-marcas podem usar javascript:;.
       if(!url)return null;
       const label=(a.querySelector("strong.titulo")?.textContent||
-        a.getAttribute("title")||a.textContent||"").replace(/\\s+/g," ").trim().slice(0,85);
+        a.getAttribute("title")||a.textContent||"").replace(/\s+/g," ").trim().slice(0,85);
       if(!label||seen.has(url))return null;
       seen.add(url);
       const sublist=li.querySelector(":scope > ul.nivel-dois, :scope > ul.nivel-dois > li");
       const children=sublist?[...sublist.querySelectorAll(":scope > li")].map(sub=>{
         const link=sub.querySelector(":scope > a[href]");
         const href=safeInternal(link?.getAttribute("href"));
-        const name=(link?.getAttribute("title")||link?.textContent||"").replace(/\\s+/g," ").trim().slice(0,85);
+        const name=(link?.getAttribute("title")||link?.textContent||"").replace(/\s+/g," ").trim().slice(0,85);
         return href&&name?{name,url:href}:null;
       }).filter(Boolean):[];
-      const categoryId=(li.className.match(/categoria-id-(\\d+)/)||[])[1];
+      const categoryId=(li.className.match(/categoria-id-(\d+)/)||[])[1];
       return {key:categoryId||"li-"+index,label,icon:iconForCategory(label),
         url,children};
     }).filter(Boolean);
@@ -587,7 +587,7 @@
       main.cartCount.setAttribute("aria-label",n+" itens no carrinho");
     }
     updateCart();
-    window.NichelleHeader={version:"1.5.0",categories:items,refreshCart:updateCart,icons:ICON_ASSETS,source:items.length?"native-or-fallback":"missing",refreshBenefits:function(){const old=root.querySelector("#n27-head-benefits");const newer=buildMarquee();if(old)old.remove();if(newer)root.prepend(newer);}};
+    window.NichelleHeader={version:"1.5.1",categories:items,refreshCart:updateCart,icons:ICON_ASSETS,source:nativeCategories().length?"loja-integrada":"catalogo-fallback",refreshBenefits:function(){const old=root.querySelector("#n27-head-benefits");const newer=buildMarquee();if(old)old.remove();if(newer)root.prepend(newer);}};
     window.addEventListener("nichelle:cart-updated",e=>updateCart(e.detail?.quantity));
     window.addEventListener("cart:updated",e=>updateCart(e.detail?.quantity));
     // Optional bridge for LI themes that expose a rendered cart quantity.
