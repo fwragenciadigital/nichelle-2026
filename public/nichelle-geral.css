@@ -596,3 +596,59 @@ body .li-whatsapp a {
     max-width:100%!important;
   }
 }
+
+/* NICHELLE | PDP PARCELAMENTO + FRETE ABAIXO DO PIX | 24-11-2026 */
+html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto
+.parcelamento-full .mais-formas {
+  display:inline-flex!important;
+}
+html[data-n27-pdp="1"] #corpo .produto .produto-detalhes.n27-pdp
+.produto-detalhes-detalhes .info-principal-produto {
+  border-bottom:none!important;
+}
+html[data-n27-pdp="1"] .produto-detalhes .mais-formas span {
+  font-size:13px!important;
+  font-weight:300!important;
+}
+
+/* O aviso nativo da LI permanece com texto e lógica originais.
+   Somente sua posição/estilo é adaptada dentro do resumo FWR. */
+html[data-n27-cart-page="1"] body.pagina-carrinho #corpo
+.n27-cart-page__summary > :is(#li-alerta-frete-gratis,.li-alerta-frete-gratis) {
+  box-sizing:border-box!important;
+  position:static!important;
+  inset:auto!important;
+  top:auto!important;
+  right:auto!important;
+  bottom:auto!important;
+  left:auto!important;
+  float:none!important;
+  transform:none!important;
+  translate:none!important;
+  z-index:auto!important;
+  clear:both!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  margin:13px 0 18px!important;
+  padding:12px 16px!important;
+  border:1px solid #ead4ef!important;
+  border-radius:10px!important;
+  background:linear-gradient(125deg,#faf2fc 0%,#fff 90%)!important;
+  box-shadow:none!important;
+  color:#80239a!important;
+  font:600 13px/1.5 "Montserrat",Arial,Helvetica,sans-serif!important;
+  text-align:center!important;
+}
+html[data-n27-cart-page="1"] body.pagina-carrinho #corpo
+.n27-cart-page__summary > :is(#li-alerta-frete-gratis,.li-alerta-frete-gratis)[hidden] {
+  display:none!important;
+}
+@media(max-width:767px) {
+  html[data-n27-cart-page="1"] body.pagina-carrinho #corpo
+  .n27-cart-page__summary > :is(#li-alerta-frete-gratis,.li-alerta-frete-gratis) {
+    margin:12px 0 15px!important;
+    padding:11px 12px!important;
+    font-size:12px!important;
+  }
+}
