@@ -144,7 +144,9 @@
       if(!url)return null;
       const label=(a.querySelector("strong.titulo")?.textContent||
         a.getAttribute("title")||a.textContent||"").replace(/\s+/g," ").trim().slice(0,85);
-      if(!label||seen.has(url))return null;
+      // Categoria técnica de ocultação (do próprio painel da Nichelle):
+      // jamais promovê-la ao menu público por acidente.
+      if(!label||seen.has(url)||normalize(label)==="ocultar")return null;
       seen.add(url);
       const sublist=li.querySelector(":scope > ul.nivel-dois, :scope > ul.nivel-dois > li");
       const children=sublist?[...sublist.querySelectorAll(":scope > li")].map(sub=>{
@@ -163,7 +165,7 @@
       window.N27CategoryCatalog.categories:[];
     return published.map((c,index)=>{
       const url=safeInternal(c.url);
-      if(!url)return null;
+      if(!url||normalize(c.name)==="ocultar")return null;
       return {
         key:String(c.id||index),label:String(c.name||"").slice(0,85),
         icon:iconForCategory(c.name),url,
