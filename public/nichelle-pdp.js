@@ -108,6 +108,21 @@ function setupPix(principal){
  else if(variant)variant.after(hero);
  else principal.append(hero);
 }
+// Mantem a oferta PIX imediatamente DEPOIS do parcelamento da variacao ativa.
+function placePixAfterInstallments(principal,action){
+ if(!hero)return;
+ const parcel=action?.querySelector(".parcelamento-full")||
+   principal.querySelector(":scope > .parcelamento-full")||
+   principal.querySelector(".parcelamento-full");
+ if(parcel){
+  if(parcel.nextElementSibling!==hero)parcel.after(hero);
+  return;
+ }
+ // Fallback para produtos sem parcelamento: conserva o bloco e os controls da LI.
+ const first=principal.querySelector(":scope > .acoes-produto");
+ if(first&&(hero.parentElement!==principal||hero.nextElementSibling!==first))
+  principal.insertBefore(hero,first);
+}
 function visibleAction(principal){
  const list=[...principal.querySelectorAll(":scope > .acoes-produto")];
  // LI keeps the CSS class "hide" on selected variants and toggles
@@ -122,6 +137,7 @@ function syncPix(){
  const principal=container.querySelector(".produto-detalhes-detalhes > .principal");
  if(!principal)return;
  const action=visibleAction(principal);
+ placePixAfterInstallments(principal,action);
  const real=action?.querySelector(".desconto-a-vista .avista-valor strong");
  const value=safe(real?.textContent,60);
  const discount=safe(action?.querySelector(".desconto-a-vista .avista-desconto")?.textContent,100);
@@ -171,7 +187,7 @@ function mount(){
   if(evt.target.closest?.(".atributo-item,.wrapper-dropdown,.atributo-comum,.lista-atributos"))schedule();
  },true);
  document.addEventListener("change",schedule,true);
- window.NichelleProductFWR={version:"1.0.1",refresh:syncPix};
+ window.NichelleProductFWR={version:"1.1.0",refresh:syncPix};
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",mount,{once:true});else mount();
 window.addEventListener("load",mount,{once:true});
