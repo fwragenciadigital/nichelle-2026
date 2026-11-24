@@ -71,8 +71,8 @@ html[data-n27-order-finish="1"] #cabecalho .menu.superior > .nivel-um {
   gap:clamp(10px,1.6vw,22px)!important;
   width:100%!important;max-width:100%!important;
   margin:0!important;padding:0 0 3px!important;
-  overflow-x:auto!important;list-style:none!important;
-  scrollbar-width:thin;
+  flex-wrap:wrap!important;
+  overflow:visible!important;list-style:none!important;
 }
 html[data-n27-order-finish="1"] #cabecalho .menu.superior > .nivel-um > li {
   flex:0 0 auto!important;float:none!important;
@@ -186,7 +186,7 @@ html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .pix-code-info {
   margin:0 auto!important;text-align:center!important;
 }
 html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .pix-qrcode {
-  display:flex!important;align-items:center!important;justify-content:center!important;
+  /* O Pagali pode ocultar este QR durante atualização: não forçar display. */
   margin:12px auto!important;padding:14px!important;
   width:fit-content!important;max-width:100%!important;
   background:#fff!important;border:1px solid #f1e8f3!important;
@@ -350,7 +350,8 @@ html[data-n27-order-finish="1"] #rodape {
     padding:0 12px 8px!important;
   }
   html[data-n27-order-finish="1"] #cabecalho .menu.superior > .nivel-um {
-    justify-content:flex-start!important;gap:16px!important;
+    justify-content:center!important;gap:8px 14px!important;
+    flex-wrap:wrap!important;overflow:visible!important;
   }
   html[data-n27-order-finish="1"] #corpo {padding:22px 12px 42px!important}
   html[data-n27-order-finish="1"] #corpo .pedido-finalizado > .cabecalho-interno {
