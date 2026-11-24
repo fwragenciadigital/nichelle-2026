@@ -1025,3 +1025,51 @@ html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__social-link svg
     font:700 clamp(14px,1vw,18px)/1.26 "Montserrat",Arial,Helvetica,sans-serif!important;
   }
 }
+
+/* NICHELLE 2026 | RECUPERACAO DE BANDEIRAS DO PAGAMENTO FWR */
+html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__payment-list {
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:7px!important;
+  flex-wrap:wrap!important;
+  min-height:33px!important;
+}
+html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__payment {
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-height:26px!important;
+  height:auto!important;
+  min-width:33px!important;
+  overflow:visible!important;
+}
+html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__payment .icone-pagamento {
+  display:inline-block!important;
+  flex:0 0 auto!important;
+  margin:0!important;
+  opacity:1!important;
+  visibility:visible!important;
+}
+html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__payment-name {
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-height:26px!important;
+  padding:4px 7px!important;
+  background:#fff!important;
+  border:1px solid #d7cbdc!important;
+  border-radius:5px!important;
+  font:700 10px/1.2 "Montserrat",Arial,Helvetica,sans-serif!important;
+  color:#59505f!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+}
+html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__payment img {
+  display:block!important;
+  width:auto!important;
+  max-width:90px!important;
+  max-height:34px!important;
+  height:auto!important;
+  object-fit:contain!important;
+}
