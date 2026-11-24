@@ -213,7 +213,7 @@ html[data-n27-approved="1"] #rodape :is(.institucional,.pagamento-selos,.rodape-
 @media(max-width:767px) {
  html[data-n27-approved="1"] .n27-approved-container{width:100%;}
  html[data-n27-approved="1"] #n27-preview-stage > #n27-approved-hero {
-   height:355px!important;
+   height:455px!important;
  }
  html[data-n27-approved="1"] #n27-approved-hero > img {
    object-position:70% top;filter:brightness(.94);
