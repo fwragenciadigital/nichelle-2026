@@ -269,7 +269,7 @@ html[data-n27-independent-header="1"] .conteiner-principal > #n27-independent-he
   z-index:610!important;
 }
 #n27-independent-header .n27-owned-nav__track {
-  display:grid!important;grid-template-columns:repeat(7,minmax(0,1fr))!important;
+  display:grid!important;grid-template-columns:repeat(var(--n27-menu-count,7),minmax(0,1fr))!important;
   align-items:stretch!important;gap:0!important;
   width:100%!important;height:67px!important;
   list-style:none!important;position:relative!important;
