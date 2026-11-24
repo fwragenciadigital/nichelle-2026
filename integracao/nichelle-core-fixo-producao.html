@@ -69,6 +69,18 @@ ativo:true,
 configUrl:"https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app/galeria-publicada.json"
 };
 }
+// Finalizacao PIX/Boleto: CSS FWR isolado, SEM executar o motor no checkout.
+if(/^\/checkout\/\d+\/finalizacao\/?$/i.test(location.pathname) &&
+   /^(?:(?:www\.)?nichelleimports\.com\.br|nichelle-imports-manutencao\.lojaintegrada\.com\.br)$/i.test(location.hostname) &&
+   !window.__N27_ORDER_FINISH_STYLE__){
+  window.__N27_ORDER_FINISH_STYLE__=true;
+  document.documentElement.dataset.n27OrderFinish="1";
+  var orderCss=document.createElement("link");
+  orderCss.rel="stylesheet";
+  orderCss.href="https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app/nichelle-checkout-final.css";
+  orderCss.onerror=function(){delete document.documentElement.dataset.n27OrderFinish;};
+  (document.head||document.documentElement).appendChild(orderCss);
+}
 // Login/cadastro recebem o visual FWR mantendo formulários e ações nativas LI.
 var accountVisual=/^\/conta\/(?:login|criar)\/?$/i.test(location.pathname);
 var blocked=!accountVisual&&/^\/(?:checkout|finalizar-pedido|login|conta|pedido|meus-pedidos|carrinho\/(?:produto|cupom|frete|checkout))(?:\/|$)/i.test(location.pathname);
