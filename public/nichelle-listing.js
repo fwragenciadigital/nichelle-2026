@@ -68,8 +68,13 @@ function collectItem(li){
  const promotional=money(li.querySelector(".preco-promocional")?.textContent);
  const regular=money(li.querySelector(".preco-produto .titulo")?.textContent);
  const current=promotional??regular??original;
- if(!name||!href||!image||current===null)return null;
- const old=original!==null&&original>current?original:null;
+ // A categoria Makes inclui produtos que a LI não precifica por estarem
+ // esgotados. A ausência de preço nesses itens é um estado comercial real.
+ const unavailable=li.matches(".indisponivel,.produto-indisponivel,.esgotado,.sem-estoque")||
+   !!li.querySelector(".indisponivel,.produto-indisponivel,.produto-esgotado,.sem-estoque,.avise-me,.avise-me-quando-chegar")||
+   /(?:deseja ser avisado quando este produto estiver dispon[ií]vel|avise.me|produto indispon[ií]vel|esgotado|fora de estoque)/i.test(li.textContent||"");
+ if(!name||!href||!image||(current===null&&!unavailable))return null;
+ const old=!unavailable&&original!==null&&original>current?original:null;
  const percent=old?Math.round((1-current/old)*100):null;
  const nativePercent=clean(li.querySelector(".desconto,[class*='selo-desconto'],[class*='percentual-desconto']")?.textContent,25)
    .match(/(\d{1,2})\s*%/)?.[1];
@@ -81,6 +86,7 @@ function collectItem(li){
  return{
   key:li.dataset.id||li.className.match(/prod-id-(\d+)/)?.[1]||href,
   name,href,image,alt:clean(imageEl?.alt,170)||name,old,current,
+  unavailable,source:li,
   percent:percent&&percent>0?percent:nativePercent?Number(nativePercent):null,
   pix:pix!==null&&pix>0?pix:null,pixPercent,
   installment:installmentMatch?{
@@ -123,6 +129,30 @@ function makeCard(p){
  const info=node("div","n27-listing__info");
  const title=node("a","n27-listing__name",p.name);title.href=p.href;
  info.append(title);
+ if(p.unavailable){
+  card.classList.add("n27-listing__card--unavailable");
+  media.append(node("span","n27-listing__badge n27-listing__badge--unavailable","Indisponível"));
+  info.append(node("span","n27-listing__stock","Produto indisponível"));
+  // Preferir o próprio botão "Avise-me" da Loja Integrada para conservar
+  // modal/formulário e a validação nativa, sem recriar dados de contato.
+  const notify=[...p.source.querySelectorAll("a,button,[role='button']")]
+    .find(el=>/avis(?:e|ar)[\s-]*me/i.test(el.textContent||""));
+  if(notify){
+   const button=node("button","n27-listing__notify","Avise-me");
+   button.type="button";
+   button.addEventListener("click",()=>{
+    if(notify.isConnected)notify.click();
+    else window.location.assign(p.href);
+   });
+   info.append(button);
+  }else{
+   const link=node("a","n27-listing__notify", "Ver produto");
+   link.href=p.href;
+   info.append(link);
+  }
+  card.append(info);
+  return card;
+ }
  const prices=node("div","n27-listing__prices");
  const row=node("div","n27-listing__price-row");
  if(p.old!==null)row.append(node("del","n27-listing__old",brl(p.old)));
@@ -201,7 +231,7 @@ function originalCards(root){
 }
 function signatureOf(items){
  return JSON.stringify(items.map(i=>[
-  i.key,i.href,i.name,i.image,i.old,i.current,i.pix,
+  i.key,i.href,i.name,i.image,i.old,i.current,i.unavailable,i.pix,
   i.pixPercent,i.percent,i.installment?.amount,i.installment?.count
  ]));
 }
@@ -240,7 +270,10 @@ function missingParts(li){
  if(!url(h?.getAttribute("href")))miss.push("link");
  if(!pickImage(li.querySelector(".imagem-produto img")||li.querySelector("img")))miss.push("imagem");
  const prices=[".preco-promocional",".preco-produto .titulo",".preco-venda"];
- if(!prices.some(sel=>money(li.querySelector(sel)?.textContent)!==null))miss.push("preco");
+ const outOfStock=/(?:deseja ser avisado quando este produto estiver dispon[ií]vel|avise.me|produto indispon[ií]vel|esgotado|fora de estoque)/i.test(li.textContent||"")||
+  li.matches(".indisponivel,.produto-indisponivel,.esgotado,.sem-estoque")||
+  !!li.querySelector(".indisponivel,.produto-indisponivel,.produto-esgotado,.sem-estoque");
+ if(!outOfStock&&!prices.some(sel=>money(li.querySelector(sel)?.textContent)!==null))miss.push("preco");
  return miss;
 }
 function mount(){
@@ -313,7 +346,7 @@ window.addEventListener("load",mount,{once:true});
 [250,850,1800,3200].forEach(n=>setTimeout(mount,n));
 document.addEventListener("nichelle27:refresh",schedule);
 window.NichelleListingFWR={
- version:"1.3.0",
+ version:"1.4.0",
  refresh:schedule,
  diagnostico:()=>({
   estado:lastDiagnosticReason,
@@ -324,6 +357,7 @@ window.NichelleListingFWR={
   exibidos:document.querySelectorAll("#"+ID+" .n27-listing__card").length,
   cssAtivo:document.documentElement.dataset.n27Listing==="1",
   fallbackNativo:document.documentElement.dataset.n27ListingFallback==="1",
+  indisponiveis:findSource()?originalCards(findSource()).filter(li=>/(?:deseja ser avisado quando este produto estiver dispon[ií]vel|avise.me|produto indispon[ií]vel|esgotado|fora de estoque)/i.test(li.textContent||"")).length:0,
   camposAusentes:lastMissing
  })
 };
