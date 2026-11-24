@@ -86,6 +86,8 @@ const combinedJS = activationJS +
   (await readFile(resolve("public/nichelle-pdp.js"), "utf8")) +
   "\n\n/* Cart page FWR: resumo com checkout oficial */\n" +
   (await readFile(resolve("public/nichelle-cart-page.js"), "utf8")) +
+  "\n\n/* Carrinho vazio FWR: apenas apresentacao do estado nativo */\n" +
+  (await readFile(resolve("public/nichelle-empty-cart.js"), "utf8")) +
   "\n\n/* Cupom flutuante de primeira compra, validado no carrinho LI */\n" +
   (await readFile(resolve("public/nichelle-first-order-coupon.js"), "utf8")) +
   "\n\n/* Grid de categoria e busca com produtos nativos Loja Integrada */\n" +
@@ -140,6 +142,15 @@ const combinedCSS = (await readFile(resolve("public/nichelle27.css"), "utf8")) +
   "\n\n/* CSS GERAL FWR — ajustes manuais carregados por ultimo */\n" +
   (await readFile(resolve("public/nichelle-geral.css"), "utf8"));
 await writeFile(join(target, "nichelle27.css"), combinedCSS);
+
+// Finalizacao: stylesheet independente, SOMENTE para a rota /checkout/{id}/finalizacao.
+// A Loja Integrada continua dona das transacoes, timers, QR Code, copia e cola PIX.
+const checkoutFinalCSS = await readFile(resolve("public/nichelle-checkout-final.css"), "utf8");
+if (!checkoutFinalCSS.includes('html[data-n27-order-finish="1"]')) {
+  throw new Error("CSS de finalizacao sem escopo seguro");
+}
+await writeFile(join(target, "nichelle-checkout-final.css"), checkoutFinalCSS);
+console.log("Asset publicado: /nichelle-checkout-final.css (" + Buffer.byteLength(checkoutFinalCSS) + " bytes)");
 
 // Compatibilidade 4433 (SOMENTE PARA HOMOLOGACAO):
 // copia exata dos arquivos fornecidos pelo cliente, ANTES das sobrescritas FWR.
