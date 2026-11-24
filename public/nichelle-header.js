@@ -365,6 +365,7 @@
     nav.id="n27-head-nav";
     nav.setAttribute("aria-label","Categorias principais");
     const track=el("ul","n27-owned-nav__track n27-owned-container");
+    track.style.setProperty("--n27-menu-count",String(Math.max(1,items.length)));
     items.forEach(item=>{
       const li=el("li","n27-owned-nav__item");
       li.dataset.key=item.key;
@@ -551,8 +552,11 @@
     const host=document.querySelector(".conteiner-principal")||document.body;
     if(!host)return;
     const main=buildMain();
-    const items=menuData();
-    const drawer=buildDrawer(items);
+    let items=menuData();
+    let drawer=buildDrawer(items);
+    let navSource=nativeCategories().length?"loja-integrada":"catalogo-fallback";
+    let navSignature=JSON.stringify(items.map(item=>
+      [item.key,item.label,item.url,item.children.map(c=>[c.name,c.url])]));
     let drawerCloseTimer=0,drawerTransitionToken=0;
     function setDrawer(open,key) {
       const token=++drawerTransitionToken;
@@ -591,8 +595,11 @@
       }
     }
     main.mobileBtn.addEventListener("click",()=>setDrawer(true));
-    drawer.close.addEventListener("click",()=>setDrawer(false));
-    drawer.scrim.addEventListener("click",()=>setDrawer(false));
+    function bindDrawerControls(current){
+      current.close.addEventListener("click",()=>setDrawer(false));
+      current.scrim.addEventListener("click",()=>setDrawer(false));
+    }
+    bindDrawerControls(drawer);
     document.addEventListener("keydown",e=>{
       if(drawer.overlay.hidden)return;
       if(e.key==="Escape"){e.preventDefault();setDrawer(false);return;}
@@ -644,7 +651,74 @@
       main.cartCount.setAttribute("aria-label",n+" itens no carrinho");
     }
     updateCart();
-    window.NichelleHeader={version:"1.6.0",categories:items,refreshCart:updateCart,icons:ICON_ASSETS,source:nativeCategories().length?"loja-integrada":"catalogo-fallback",refreshBenefits:function(){const old=root.querySelector("#n27-head-benefits");const newer=buildMarquee();if(old)old.remove();if(newer)root.prepend(newer);}};
+    // Sincroniza o menu quando o tema antigo publica categorias depois
+    // do DOMContentLoaded. O catalogo salvo nao tem autoridade sobre a ordem.
+    function syncNavigation(){
+      const native=nativeCategories();
+      if(!native.length||!root.isConnected)return false;
+      const nextSignature=JSON.stringify(native.map(item=>
+        [item.key,item.label,item.url,item.children.map(c=>[c.name,c.url])]));
+      if(nextSignature===navSignature){
+        navSource="loja-integrada";
+        if(window.NichelleHeader)window.NichelleHeader.source=navSource;
+        return false;
+      }
+      // Não fechar a navegação sobre um cliente que esteja usando o drawer.
+      if(!drawer.overlay.hidden)return false;
+      const oldNav=root.querySelector("#n27-head-nav");
+      if(!oldNav)return false;
+      const freshDrawer=buildDrawer(native);
+      const freshNav=buildNav(native,key=>setDrawer(true,key));
+      oldNav.replaceWith(freshNav);
+      drawer.overlay.replaceWith(freshDrawer.overlay);
+      drawer=freshDrawer;
+      bindDrawerControls(drawer);
+      items=native;
+      navSignature=nextSignature;
+      navSource="loja-integrada";
+      if(window.NichelleHeader){
+        window.NichelleHeader.categories=items;
+        window.NichelleHeader.source=navSource;
+      }
+      return true;
+    }
+    const menuDiagnostics=()=>({
+      fonte:navSource,
+      ordemFWR:items.map(item=>item.label),
+      ordemNativa:nativeCategories().map(item=>item.label),
+      ordemSincronizada:JSON.stringify(items.map(item=>item.url))===
+        JSON.stringify(nativeCategories().map(item=>item.url))
+    });
+    window.NichelleHeader={version:"1.7.0",categories:items,
+      refreshCart:updateCart,icons:ICON_ASSETS,source:navSource,
+      refreshMenu:syncNavigation,diagnosticoMenu:menuDiagnostics,
+      refreshBenefits:function(){
+        const old=root.querySelector("#n27-head-benefits");
+        const newer=buildMarquee();
+        if(old)old.remove();
+        if(newer)root.prepend(newer);
+      }
+    };
+    // A FWR pode montar primeiro que o tema 4433: verifique as categorias
+    // quando o HTML nativo estiver pronto, sem aguardar um novo deploy.
+    if(document.readyState==="loading"){
+      document.addEventListener("DOMContentLoaded",syncNavigation,{once:true});
+    }
+    window.addEventListener("load",syncNavigation,{once:true});
+    [250,800,1700].forEach(t=>window.setTimeout(syncNavigation,t));
+    const nativeHeader=document.getElementById("cabecalho");
+    if(nativeHeader&&window.MutationObserver){
+      let pending=false;
+      const categoryObserver=new MutationObserver(records=>{
+        if(!records.some(record=>[...record.addedNodes].some(n=>
+          n.nodeType===1&&(n.matches?.("li,.nivel-um")||
+            n.querySelector?.("li,.nivel-um")))))return;
+        if(pending)return;
+        pending=true;
+        window.setTimeout(()=>{pending=false;syncNavigation();},120);
+      });
+      categoryObserver.observe(nativeHeader,{subtree:true,childList:true});
+    }
     window.addEventListener("nichelle:cart-updated",e=>updateCart(e.detail?.quantity));
     window.addEventListener("cart:updated",e=>updateCart(e.detail?.quantity));
     // Optional bridge for LI themes that expose a rendered cart quantity.
