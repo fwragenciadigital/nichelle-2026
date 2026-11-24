@@ -141,7 +141,11 @@
     const logo=about?.querySelector(".logo img");
     const aboutText=about?.querySelector(":scope > span p")||about?.querySelector("p");
     const address=about?.querySelector(".rodape-endereco button");
-    const cards=[...root.querySelectorAll("#rodape-pagamento .bandeiras-pagamento li")];
+    const cards=[...new Set(root.querySelectorAll(
+      "#rodape-pagamento .bandeiras-pagamento li,"+
+      "#rodape-pagamento .bandeiras li,"+
+      "#rodape-pagamento li[class*='bandeira']"
+    ))];
     const gateways=[...root.querySelectorAll("#rodape-pagamento .gateways-rodape li")];
     const shields=[...root.querySelectorAll("#rodape-selos img")];
     const sLinks=[...root.querySelectorAll("#rodape-selos a[href]")];
@@ -335,18 +339,61 @@
     }
     n.append(list);return n;
   }
+  // Recuperar as bandeiras nativas sem depender da hierarquia CSS do tema.
+  // Nao infere metodos de pagamento que nao aparecem nos dados da LI.
+  function paymentLabel(li,child){
+    const a=text([li.getAttribute("title"),li.getAttribute("aria-label"),
+      child?.getAttribute("title"),child?.getAttribute("aria-label"),
+      child?.getAttribute("alt"),li.textContent].filter(Boolean).join(" "),90);
+    if(a)return a;
+    const classes=(li.className+" "+(child?.className?.baseVal||child?.className||"")).toLowerCase();
+    const brands=[
+      ["mastercard","Mastercard"],["master","Mastercard"],["visa","Visa"],
+      ["hipercard","Hipercard"],["elo","Elo"],["amex","American Express"],
+      ["american-express","American Express"],["diners","Diners Club"],
+      ["discover","Discover"],["aura","Aura"],["jcb","JCB"],
+      ["pix","Pix"],["boleto","Boleto"]
+    ];
+    for(const [token,label] of brands){
+      if(new RegExp("(?:^|[^a-z])"+token+"(?:$|[^a-z])").test(classes))return label;
+    }
+    return "Cartão";
+  }
   function payments(cfg,data){
     const n=labeledColumn(cfg.tituloPagamento,"n27-foot__payments");
     const list=node("ul","n27-foot__payment-list");
-    // Copy only logos/icons. Native payment and checkout scripts remain
-    // untouched and are NEVER replaced by FWR elements.
     for(const li of data.cards){
-      const child=li.querySelector(".icone-pagamento");
-      if(!child)continue;
+      const child=li.querySelector(".icone-pagamento,img,svg,[class*='icone']");
       const copy=node("li","n27-foot__payment");
-      const iconNode=child.cloneNode(false);
-      iconNode.removeAttribute("id");
-      copy.append(iconNode);list.append(copy);
+      const label=paymentLabel(li,child);
+      copy.title=label;
+      if(child){
+        const iconNode=child.cloneNode(true);
+        iconNode.removeAttribute("id");
+        iconNode.setAttribute("aria-hidden","true");
+        if(child.matches(".icone-pagamento")){
+          // A LI pode definir sprite, largura e altura apenas dentro de
+          // #rodape-pagamento. Copiamos estas propriedades para a copia FWR.
+          const styles=getComputedStyle(child);
+          for(const prop of ["width","height","min-width","min-height",
+            "background-image","background-position","background-size",
+            "background-repeat","display"]){
+            const val=styles.getPropertyValue(prop);
+            if(val&&val!=="auto"&&val!=="none")iconNode.style.setProperty(prop,val,"important");
+          }
+          const sprite=styles.backgroundImage&&styles.backgroundImage!=="none";
+          const img=child.querySelector("img");
+          if(!sprite&&!img){
+            // Sem sprite, o iconfont pode nao existir fora do tema.
+            // Mostra apenas o identificador obtido da LI.
+            iconNode.remove();
+            copy.append(node("span","n27-foot__payment-name",label));
+          }else copy.append(iconNode);
+        }else copy.append(iconNode);
+      }else{
+        copy.append(node("span","n27-foot__payment-name",label));
+      }
+      list.append(copy);
     }
     for(const li of data.gateways){
       const img=li.querySelector("img");
@@ -354,7 +401,8 @@
       if(!src)continue;
       const wrapper=node("li","n27-foot__payment n27-foot__payment--pix");
       const image=node("img");image.src=src;image.alt=text(img.alt,80)||"Forma de pagamento";
-      image.loading="lazy";wrapper.append(image);list.append(wrapper);
+      image.loading="lazy";image.addEventListener("error",()=>wrapper.remove(),{once:true});
+      wrapper.append(image);list.append(wrapper);
     }
     n.append(list);return n;
   }
@@ -469,7 +517,7 @@
     }
 
     const section=node("div","n27-foot");
-    section.id=id;section.dataset.n27Version="1.3.0";
+    section.id=id;section.dataset.n27Version="1.4.0";
     section.setAttribute("role","contentinfo");
     // The original #rodape stays mounted and its source DOM is not deleted.
     const top=node("div","n27-foot__top");
@@ -577,5 +625,5 @@
   ["nichelle27:refresh","nichelle27:rodape:update"].forEach(evt=>document.addEventListener(evt,()=>{
     lastKey="";schedule();
   }));
-  window.NichelleFooter={version:"1.3.0",refresh:schedule,source:"loja-integrada-native"};
+  window.NichelleFooter={version:"1.4.0",refresh:schedule,source:"loja-integrada-native"};
 })();
