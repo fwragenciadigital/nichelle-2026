@@ -152,11 +152,19 @@ function makeCard(p){
  info.append(pix);card.append(info);
  return card;
 }
+function catalogCategoryPath(){
+ const categories=window.N27CategoryCatalog?.categories;
+ if(!Array.isArray(categories))return false;
+ return categories.some(c=>c.url===path ||
+   (Array.isArray(c.children)&&c.children.some(child=>child.url===path)));
+}
 function findSource(){
  if(!document.body||
     !(document.body.classList.contains("pagina-categoria")||
       document.body.classList.contains("pagina-busca")||
       document.body.classList.contains("pagina-marca")||
+      document.body.classList.contains("pagina-departamento")||
+      catalogCategoryPath()||
       path==="/mais-vendidos"||path==="/buscar"))return null;
  // Em /buscar o tema pode usar uma listagem HTML diferente da categoria.
  const candidates=[...document.querySelectorAll(
@@ -201,7 +209,40 @@ function clearNativeFlag(){
  document.documentElement.removeAttribute("data-n27-listing");
  document.querySelectorAll("[data-n27-listing-native]").forEach(e=>delete e.dataset.n27ListingNative);
 }
-let lastDiagnosticReason="nao-inicializado";
+function clearFallback(){
+ document.documentElement.removeAttribute("data-n27-listing-fallback");
+ document.querySelectorAll("[data-n27-listing-fallback-source]").forEach(el=>
+   delete el.dataset.n27ListingFallbackSource);
+}
+let lastDiagnosticReason="nao-inicializado",lastMissing=[];
+function fallbackToNative(found,native,reason){
+ // Se um produto tiver dados incompletos, conservamos todos os elementos
+ // nativos, seus links e handlers da plataforma, sem perder o layout FWR.
+ root?.remove();root=null;signature="";clearNativeFlag();clearFallback();
+ let container=found;
+ if(!container.matches(".listagem")){
+  const options=[...container.querySelectorAll(".listagem")].filter(el=>
+    el.querySelector(".listagem-item"));
+  options.sort((a,b)=>b.querySelectorAll(".listagem-item").length-
+    a.querySelectorAll(".listagem-item").length);
+  container=options[0]||container;
+ }
+ container.dataset.n27ListingFallbackSource="1";
+ document.documentElement.dataset.n27ListingFallback="1";
+ lastDiagnosticReason=reason;
+}
+function missingParts(li){
+ const miss=[];
+ const n=li.querySelector(".nome-produto")?.textContent?.trim()||
+   li.querySelector("a.produto-sobrepor")?.getAttribute("title");
+ if(!n)miss.push("nome");
+ const h=li.querySelector(".nome-produto[href],a.produto-sobrepor[href],.produto-info > a[href],a[href]");
+ if(!url(h?.getAttribute("href")))miss.push("link");
+ if(!pickImage(li.querySelector(".imagem-produto img")||li.querySelector("img")))miss.push("imagem");
+ const prices=[".preco-promocional",".preco-produto .titulo",".preco-venda"];
+ if(!prices.some(sel=>money(li.querySelector(sel)?.textContent)!==null))miss.push("preco");
+ return miss;
+}
 function mount(){
  if(!allowed()){lastDiagnosticReason="configuracoes-desativadas";return;}
  const found=findSource();
@@ -214,12 +255,17 @@ function mount(){
   if(seen.has(item.key))continue;
   products.push(item);seen.add(item.key);
  }
- // All genuine list items must have intact links, pricing and imagery,
- // otherwise leave the original LI cards visible rather than drop products.
+ // Uma única variação de markup da LI não pode derrubar todo o layout.
+ // Falha segura: mantém os produtos e ações originais com estilo FWR.
  if(!products.length||products.length!==native.length){
-  lastDiagnosticReason="produtos-incompletos:"+products.length+"/"+native.length;
-  root?.remove();root=null;signature="";clearNativeFlag();return;
+  lastMissing=native.map((li,i)=>({posicao:i+1,campos:missingParts(li)}))
+    .filter(item=>item.campos.length).slice(0,12);
+  fallbackToNative(found,native,
+    "fallback-nativo:"+products.length+"/"+native.length);
+  return;
  }
+ lastMissing=[];
+ clearFallback();
  const key=signatureOf(products);
  if(found===source&&root?.isConnected&&key===signature)return;
  const lists=nativeLists(found);
@@ -267,7 +313,7 @@ window.addEventListener("load",mount,{once:true});
 [250,850,1800,3200].forEach(n=>setTimeout(mount,n));
 document.addEventListener("nichelle27:refresh",schedule);
 window.NichelleListingFWR={
- version:"1.2.0",
+ version:"1.3.0",
  refresh:schedule,
  diagnostico:()=>({
   estado:lastDiagnosticReason,
@@ -276,7 +322,9 @@ window.NichelleListingFWR={
   fonte:!!findSource(),
   nativos:findSource()?originalCards(findSource()).length:0,
   exibidos:document.querySelectorAll("#"+ID+" .n27-listing__card").length,
-  cssAtivo:document.documentElement.dataset.n27Listing==="1"
+  cssAtivo:document.documentElement.dataset.n27Listing==="1",
+  fallbackNativo:document.documentElement.dataset.n27ListingFallback==="1",
+  camposAusentes:lastMissing
  })
 };
 })();
