@@ -125,40 +125,53 @@
     if(/kit|presente/.test(n))return "kits";
     return "brands";
   }
-  function nativeCategories() {
-    const menu=document.querySelector(
-      "#cabecalho .menu.superior > ul.nivel-um, " +
-      "#cabecalho .menu.superior ul.nivel-um, " +
-      "#cabecalho .menu-desktop ul.nivel-um"
-    );
-    if(!menu)return [];
-    const top=[...menu.children].filter(n=>n.matches("li"));
-    const seen=new Set();
-    return top.map((li,index)=>{
-      if(li.hidden||li.getAttribute("aria-hidden")==="true"||
-         li.classList.contains("hide")||li.classList.contains("hidden")||
-         window.getComputedStyle(li).display==="none")return null;
-      const a=li.querySelector(":scope > a[href]");
-      const url=safeInternal(a?.getAttribute("href"));
-      // Entradas técnicas como categoria-marcas podem usar javascript:;.
-      if(!url)return null;
-      const label=(a.querySelector("strong.titulo")?.textContent||
-        a.getAttribute("title")||a.textContent||"").replace(/\s+/g," ").trim().slice(0,85);
-      // Categoria técnica de ocultação (do próprio painel da Nichelle):
-      // jamais promovê-la ao menu público por acidente.
-      if(!label||seen.has(url)||normalize(label)==="ocultar")return null;
-      seen.add(url);
-      const sublist=li.querySelector(":scope > ul.nivel-dois, :scope > ul.nivel-dois > li");
-      const children=sublist?[...sublist.querySelectorAll(":scope > li")].map(sub=>{
-        const link=sub.querySelector(":scope > a[href]");
-        const href=safeInternal(link?.getAttribute("href"));
-        const name=(link?.getAttribute("title")||link?.textContent||"").replace(/\s+/g," ").trim().slice(0,85);
-        return href&&name?{name,url:href}:null;
-      }).filter(Boolean):[];
-      const categoryId=(li.className.match(/categoria-id-(\d+)/)||[])[1];
-      return {key:categoryId||"li-"+index,label,icon:iconForCategory(label),
-        url,children};
-    }).filter(Boolean);
+  // Fonte autoritativa: HTML do menu publicado pela Loja Integrada.
+  // Nunca avaliar display via getComputedStyle: a propria FWR oculta
+  // visualmente o menu nativo e isso falsamente acionava o catalogo antigo.
+  function nativeCategories(root=document) {
+    const candidates=[
+      "#cabecalho .menu.superior ul.nivel-um",
+      "#cabecalho .menu.superior > .nivel-um",
+      "#cabecalho .menu-desktop ul.nivel-um",
+      ".menu.superior ul.nivel-um"
+    ];
+    function parse(menu) {
+      if(!menu || menu.closest?.("#n27-independent-header"))return [];
+      const seen=new Set();
+      return [...menu.children].filter(li=>li.matches("li")).map((li,index)=>{
+        // Respeita apenas ocultacoes explicitas de uma categoria. Um menu
+        // nativo escondido pelo CSS do novo tema ainda fornece dados reais.
+        if(li.hidden||li.getAttribute("aria-hidden")==="true"||
+           li.classList.contains("hide")||li.classList.contains("hidden")||
+           li.style.display==="none")return null;
+        const a=li.querySelector(":scope > a[href]");
+        const url=safeInternal(a?.getAttribute("href"));
+        if(!url)return null;
+        const label=(a.querySelector("strong.titulo")?.textContent||
+          a.getAttribute("title")||a.textContent||"").replace(/\s+/g," ").trim().slice(0,85);
+        if(!label||normalize(label)==="ocultar"||seen.has(url))return null;
+        seen.add(url);
+        const sublist=li.querySelector(":scope > ul.nivel-dois");
+        const children=sublist?[...sublist.children].filter(n=>n.matches("li")).map(sub=>{
+          const link=sub.querySelector(":scope > a[href]");
+          const href=safeInternal(link?.getAttribute("href"));
+          const name=(link?.getAttribute("title")||link?.textContent||"")
+            .replace(/\s+/g," ").trim().slice(0,85);
+          return href&&name?{name,url:href}:null;
+        }).filter(Boolean):[];
+        const id=(li.className.match(/categoria-id-(\d+)/)||[])[1];
+        return {key:id||"li-"+index,label,icon:iconForCategory(label),url,children};
+      }).filter(Boolean);
+    }
+    // Prioridade absoluta para o menu principal da LI, mesmo escondido.
+    // Outras estruturas do tema só entram se ele realmente estiver ausente.
+    for(const selector of candidates){
+      for(const menu of root.querySelectorAll(selector)){
+        const items=parse(menu);
+        if(items.length)return items; // ordem exata dos <li> da plataforma
+      }
+    }
+    return [];
   }
   function catalogFallback() {
     const published=Array.isArray(window.N27CategoryCatalog?.categories)?
