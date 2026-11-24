@@ -214,7 +214,7 @@ html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .pix-code {
   font:400 13px/1.55 "Montserrat",Arial,Helvetica,sans-serif!important;
 }
 html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .pix-code-description {
-  display:block;
+  /* Não sobrescrever hidden-phone/visible-phone nativos. */
   box-sizing:border-box!important;
   margin:0 auto 14px!important;
   padding:12px 16px!important;
@@ -225,7 +225,8 @@ html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .pix-code-description 
   font:400 11px/1.5 "Montserrat",Arial,Helvetica,sans-serif!important;
 }
 html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .pix-code-copy {
-  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  /* Preserva a visibilidade desktop/mobile determinada pela LI. */
+  align-items:center!important;justify-content:center!important;
   gap:8px!important;min-height:44px!important;
   margin:10px auto 12px!important;padding:12px 19px!important;
   border:0!important;border-radius:9px!important;
