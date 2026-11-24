@@ -396,7 +396,7 @@
         el("a","n27-owned-nav__quick-link");
       if(!action)control.href=url;
       control.setAttribute("aria-label",label);
-      control.append(inlineSvg(icon,"n27-owned-nav__quick-icon"),
+      control.append(categoryIcon({label,icon},"n27-owned-nav__quick-icon"),
         el("span","",label));
       li.appendChild(control);quick.appendChild(li);
     };
