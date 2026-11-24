@@ -1,0 +1,408 @@
+/*
+ * Nichelle 2026 — Finalização de pedido /checkout/{id}/finalizacao
+ * CSS estritamente visual. Não altera QR Pix, preço, timer, status, links,
+ * formulário, atributos de privacidade nem interações de pagamento.
+ * A rota é habilitada exclusivamente pelo loader HTML da loja.
+ */
+html[data-n27-order-finish="1"] {
+  --n27-order-primary:#8000a5;
+  --n27-order-secondary:#a61cb9;
+  --n27-order-ink:#2e2532;
+  --n27-order-muted:#756c7a;
+  --n27-order-line:#eae1ed;
+}
+html[data-n27-order-finish="1"] body {
+  font-family:"Montserrat",Arial,Helvetica,sans-serif!important;
+  color:var(--n27-order-ink)!important;
+  background:#faf8fb!important;
+}
+html[data-n27-order-finish="1"] body,
+html[data-n27-order-finish="1"] body * {
+  box-sizing:border-box;
+}
+/* Cabeçalho nativo real do checkout: legível, sem alterar seus links. */
+html[data-n27-order-finish="1"] #cabecalho {
+  position:relative!important;
+  background:#fff!important;
+  border:0!important;
+  border-bottom:1px solid #eee7f1!important;
+  box-shadow:0 5px 20px rgba(48,21,58,.025)!important;
+}
+html[data-n27-order-finish="1"] #cabecalho > .conteiner {
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  max-width:1180px!important;
+  min-height:88px!important;
+  margin:auto!important;
+  padding:12px 22px!important;
+}
+html[data-n27-order-finish="1"] #cabecalho > .conteiner > .row-fluid {
+  display:flex!important;align-items:center!important;
+  justify-content:center!important;width:100%!important;
+}
+html[data-n27-order-finish="1"] #cabecalho > .conteiner .logo,
+html[data-n27-order-finish="1"] #cabecalho > .conteiner .span6 {
+  float:none!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  width:auto!important;margin:0!important;
+}
+html[data-n27-order-finish="1"] #cabecalho .logo a {
+  display:inline-flex!important;justify-content:center!important;align-items:center!important;
+}
+html[data-n27-order-finish="1"] #cabecalho .logo img {
+  display:block!important;width:auto!important;max-width:220px!important;
+  max-height:66px!important;height:auto!important;object-fit:contain!important;
+}
+html[data-n27-order-finish="1"] #cabecalho > .conteiner .conteudo-topo.hidden-phone {
+  display:none!important;
+}
+/* Menu permanece clicável. Organiza a navegação nativa que aparece como texto. */
+html[data-n27-order-finish="1"] #cabecalho .menu.superior {
+  display:block!important;
+  width:100%!important;max-width:1180px!important;
+  margin:0 auto!important;padding:0 16px 10px!important;
+  background:#fff!important;
+}
+html[data-n27-order-finish="1"] #cabecalho .menu.superior > .nivel-um {
+  display:flex!important;flex-wrap:nowrap!important;
+  justify-content:center!important;align-items:center!important;
+  gap:clamp(10px,1.6vw,22px)!important;
+  width:100%!important;max-width:100%!important;
+  margin:0!important;padding:0 0 3px!important;
+  overflow-x:auto!important;list-style:none!important;
+  scrollbar-width:thin;
+}
+html[data-n27-order-finish="1"] #cabecalho .menu.superior > .nivel-um > li {
+  flex:0 0 auto!important;float:none!important;
+  position:relative!important;list-style:none!important;
+  margin:0!important;padding:0!important;
+}
+html[data-n27-order-finish="1"] #cabecalho .menu.superior > .nivel-um > li > a {
+  display:inline-flex!important;align-items:center!important;gap:5px!important;
+  padding:9px 2px!important;
+  background:transparent!important;color:#635269!important;
+  font:600 11px/1.3 "Montserrat",Arial,Helvetica,sans-serif!important;
+  text-decoration:none!important;white-space:nowrap!important;
+}
+html[data-n27-order-finish="1"] #cabecalho .menu.superior .nivel-dois {
+  z-index:40!important;
+}
+/* Área de pagamento; os nós nativos e scripts permanecem no mesmo lugar. */
+html[data-n27-order-finish="1"] #corpo {
+  width:100%!important;min-height:0!important;
+  margin:0!important;padding:36px 18px 64px!important;
+  background:linear-gradient(180deg,#faf6fb 0%,#fff 70%)!important;
+}
+html[data-n27-order-finish="1"] #corpo > .conteiner,
+html[data-n27-order-finish="1"] #corpo .secao-principal {
+  width:100%!important;max-width:1180px!important;
+  margin:0 auto!important;padding:0!important;
+  float:none!important;
+}
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado {
+  width:100%!important;max-width:100%!important;
+  margin:0!important;padding:0!important;
+  color:var(--n27-order-ink)!important;
+}
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado > .cabecalho-interno {
+  display:grid!important;
+  grid-template-columns:minmax(260px,31%) minmax(0,1fr)!important;
+  align-items:start!important;gap:24px!important;
+  width:100%!important;
+  margin:0 0 25px!important;padding:0!important;
+  border:0!important;background:transparent!important;
+}
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado > .cabecalho-interno > .span4,
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado > .cabecalho-interno > .span8 {
+  display:block!important;float:none!important;
+  width:100%!important;min-width:0!important;max-width:100%!important;
+  margin:0!important;padding:0!important;
+}
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado .cabecalho-interno .caixa-info {
+  box-sizing:border-box!important;
+  padding:20px 22px!important;margin:0 0 13px!important;
+  list-style:none!important;
+  background:#fff!important;
+  border:1px solid var(--n27-order-line)!important;
+  border-radius:14px!important;
+  box-shadow:0 8px 24px rgba(54,20,67,.045)!important;
+  text-align:left!important;
+}
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado .cabecalho-interno .caixa-info li {
+  margin:0 0 7px!important;padding:0!important;
+  color:var(--n27-order-muted)!important;
+  font:400 13px/1.5 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado .cabecalho-interno .caixa-info h4 {
+  margin:0 0 9px!important;color:#76248a!important;
+  font:700 12px/1.4 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado .numero-pedido {
+  display:flex!important;align-items:center!important;gap:12px!important;
+  margin:0!important;color:#271b2e!important;
+  font:800 clamp(27px,3vw,42px)/1.15 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado .numero-pedido i {
+  color:var(--n27-order-primary)!important;
+}
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado .botao-pagamento,
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado .status-pagamento {
+  width:100%!important;max-width:100%!important;min-width:0!important;
+}
+html[data-n27-order-finish="1"] #corpo #box-pagamento-pix,
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado .status-pagamento > .alert,
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado > .caixa-sombreada {
+  box-sizing:border-box!important;
+  width:100%!important;max-width:100%!important;
+  padding:28px!important;margin:0!important;
+  background:#fff!important;
+  border:1px solid var(--n27-order-line)!important;
+  border-radius:16px!important;
+  box-shadow:0 12px 35px rgba(42,14,57,.055)!important;
+}
+/* Não alterar display/visibility/opacity dos estados de pagamento. */
+html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .mensagem {
+  width:100%!important;max-width:100%!important;
+  margin:0!important;padding:0!important;
+}
+html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .title {
+  margin:0 0 12px!important;color:#281d2e!important;
+  font:800 clamp(18px,1.8vw,25px)/1.3 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-order-finish="1"] #corpo #box-pagamento-pix :is(.order-value,.order-value-mobile) {
+  margin:0 auto 18px!important;
+  font:400 13px/1.4 "Montserrat",Arial,Helvetica,sans-serif!important;
+  color:var(--n27-order-muted)!important;
+}
+html[data-n27-order-finish="1"] #corpo #box-pagamento-pix :is(.order-value,.order-value-mobile) strong {
+  display:block!important;margin:6px auto 0!important;
+  color:var(--n27-order-primary)!important;
+  font:800 clamp(22px,2.5vw,30px)/1.2 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .pix-code-info {
+  width:100%!important;max-width:100%!important;
+  margin:0 auto!important;text-align:center!important;
+}
+html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .pix-qrcode {
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  margin:12px auto!important;padding:14px!important;
+  width:fit-content!important;max-width:100%!important;
+  background:#fff!important;border:1px solid #f1e8f3!important;
+  border-radius:12px!important;
+}
+html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .pix-qrcode img {
+  display:block!important;
+  width:auto!important;height:auto!important;
+  max-width:min(240px,100%)!important;
+  max-height:240px!important;
+  image-rendering:auto!important;
+  object-fit:contain!important;
+}
+html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .pix-expiresat {
+  margin:8px auto 20px!important;
+  color:#685d70!important;
+  font:500 12px/1.5 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .pix-expiresat .expiresat-until {
+  color:var(--n27-order-primary)!important;font-weight:800!important;
+}
+html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .pix-code {
+  max-width:470px!important;margin:0 auto!important;
+  color:#4a414f!important;
+  font:400 13px/1.55 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .pix-code-description {
+  display:block;
+  box-sizing:border-box!important;
+  margin:0 auto 14px!important;
+  padding:12px 16px!important;
+  border:1px solid #eee7ef!important;
+  border-radius:9px!important;
+  background:#faf8fb!important;
+  color:#504859!important;
+  font:400 11px/1.5 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .pix-code-copy {
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  gap:8px!important;min-height:44px!important;
+  margin:10px auto 12px!important;padding:12px 19px!important;
+  border:0!important;border-radius:9px!important;
+  background:linear-gradient(100deg,#a61cb9,#79039a)!important;
+  color:#fff!important;box-shadow:none!important;
+  font:700 13px/1.3 "Montserrat",Arial,Helvetica,sans-serif!important;
+  text-align:center!important;cursor:pointer!important;
+  text-decoration:none!important;
+}
+html[data-n27-order-finish="1"] #corpo #box-pagamento-pix #pix_code {
+  display:block!important;box-sizing:border-box!important;
+  width:100%!important;max-width:440px!important;
+  min-height:36px!important;
+  margin:0 auto!important;padding:8px 10px!important;
+  border:1px solid #e8dcea!important;border-radius:8px!important;
+  background:#faf8fb!important;color:#4b4050!important;
+  font:400 11px/1.4 "Montserrat",Arial,Helvetica,sans-serif!important;
+  text-align:center!important;overflow:hidden!important;
+}
+html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .pix-steps {
+  margin:24px auto 12px!important;
+}
+html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .stepper-wrapper {
+  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:12px!important;align-items:start!important;
+}
+html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .stepper-item {
+  min-width:0!important;margin:0!important;padding:0 8px!important;
+  text-align:center!important;
+}
+html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .step-counter {
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  width:32px!important;height:32px!important;
+  margin:0 auto 9px!important;
+  border:1px solid #af78bf!important;border-radius:50%!important;
+  background:#fff!important;color:#85259d!important;
+  font:800 12px/1 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .step-name {
+  color:#625668!important;
+  font:400 11px/1.45 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .payment-by {
+  display:flex!important;flex-direction:column!important;align-items:center!important;
+  gap:9px!important;margin:22px auto 0!important;
+  font:400 11px/1.3 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .payment-by img {
+  width:auto!important;max-width:105px!important;max-height:26px!important;height:auto!important;
+  object-fit:contain!important;
+}
+/* Dados do pedido e produto, abaixo do QR Code — sem ler/alterar conteúdo. */
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado > .caixa-sombreada {
+  margin-top:25px!important;padding:23px 25px!important;
+}
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado > .caixa-sombreada > .caixa-dados {
+  padding:0!important;border:0!important;
+}
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado > .caixa-sombreada .row-fluid {
+  display:flex!important;gap:22px!important;align-items:stretch!important;
+}
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado > .caixa-sombreada .row-fluid > .span6 {
+  box-sizing:border-box!important;width:50%!important;max-width:50%!important;
+  margin:0!important;float:none!important;min-width:0!important;
+}
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado > .caixa-sombreada .row-fluid .row-fluid {
+  gap:12px!important;margin:0 0 17px!important;
+}
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado fieldset {
+  min-width:0!important;margin:0 0 14px!important;
+  border:0!important;padding:0!important;
+}
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado fieldset legend {
+  width:auto!important;max-width:100%!important;
+  color:#7f1e9b!important;
+  font:700 13px/1.4 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado fieldset .caixa-info,
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado .resumo-compra {
+  box-sizing:border-box!important;
+  max-width:100%!important;
+  padding:14px!important;margin:0!important;
+  border:1px solid #eee6f0!important;
+  border-radius:10px!important;background:#fbf9fc!important;
+  box-shadow:none!important;
+}
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado .tabela-carrinho {
+  display:table!important;width:100%!important;
+  max-width:100%!important;
+  border-collapse:collapse!important;
+}
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado .tabela-carrinho th,
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado .tabela-carrinho td {
+  padding:10px 6px!important;
+  color:#4c4352!important;
+  font:400 12px/1.4 "Montserrat",Arial,Helvetica,sans-serif!important;
+  vertical-align:middle!important;
+}
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado .tabela-carrinho .imagem img {
+  width:48px!important;max-width:48px!important;height:55px!important;object-fit:contain!important;
+}
+html[data-n27-order-finish="1"] #corpo .pedido-finalizado .tabela-carrinho .total strong {
+  color:#80219d!important;font:800 17px/1.3 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+/* Não ocultar a assinatura oficial da Loja Integrada nem os comprovantes. */
+html[data-n27-order-finish="1"] #rodape {
+  background:#fff!important;border-top:1px solid #eee7f1!important;
+  margin-top:18px!important;
+}
+@media(max-width:1024px) {
+  html[data-n27-order-finish="1"] #corpo .pedido-finalizado > .cabecalho-interno {
+    grid-template-columns:minmax(235px,32%) minmax(0,1fr)!important;gap:15px!important;
+  }
+}
+@media(max-width:767px) {
+  html[data-n27-order-finish="1"] #cabecalho > .conteiner {
+    min-height:72px!important;padding:10px 14px!important;
+  }
+  html[data-n27-order-finish="1"] #cabecalho .logo img {max-width:165px!important;max-height:52px!important}
+  html[data-n27-order-finish="1"] #cabecalho .menu.superior {
+    padding:0 12px 8px!important;
+  }
+  html[data-n27-order-finish="1"] #cabecalho .menu.superior > .nivel-um {
+    justify-content:flex-start!important;gap:16px!important;
+  }
+  html[data-n27-order-finish="1"] #corpo {padding:22px 12px 42px!important}
+  html[data-n27-order-finish="1"] #corpo .pedido-finalizado > .cabecalho-interno {
+    display:flex!important;flex-direction:column!important;gap:16px!important;
+  }
+  html[data-n27-order-finish="1"] #corpo .pedido-finalizado .cabecalho-interno .caixa-info {
+    padding:17px 18px!important;margin-bottom:10px!important;
+  }
+  html[data-n27-order-finish="1"] #corpo #box-pagamento-pix,
+  html[data-n27-order-finish="1"] #corpo .pedido-finalizado .status-pagamento > .alert {
+    padding:20px 15px!important;border-radius:13px!important;
+  }
+  html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .title {font-size:18px!important}
+  html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .pix-qrcode img {
+    max-width:min(220px,75vw)!important;max-height:220px!important;
+  }
+  html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .pix-steps {
+    margin-top:22px!important;
+  }
+  html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .stepper-wrapper {
+    gap:8px!important;
+  }
+  html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .stepper-item {
+    padding:0 2px!important;
+  }
+  html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .step-name {
+    font-size:10px!important;
+  }
+  html[data-n27-order-finish="1"] #corpo .pedido-finalizado > .caixa-sombreada {
+    padding:16px!important;
+  }
+  html[data-n27-order-finish="1"] #corpo .pedido-finalizado > .caixa-sombreada .row-fluid {
+    display:flex!important;flex-direction:column!important;gap:15px!important;
+  }
+  html[data-n27-order-finish="1"] #corpo .pedido-finalizado > .caixa-sombreada .row-fluid > .span6 {
+    width:100%!important;max-width:100%!important;
+  }
+  html[data-n27-order-finish="1"] #corpo .pedido-finalizado > .caixa-sombreada .row-fluid .row-fluid {
+    display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  html[data-n27-order-finish="1"] #corpo .pedido-finalizado .tabela-carrinho th,
+  html[data-n27-order-finish="1"] #corpo .pedido-finalizado .tabela-carrinho td {
+    padding:8px 3px!important;font-size:10px!important;
+  }
+}
+@media(max-width:359px) {
+  html[data-n27-order-finish="1"] #corpo #box-pagamento-pix .stepper-wrapper {
+    grid-template-columns:1fr!important;
+  }
+  html[data-n27-order-finish="1"] #corpo .pedido-finalizado > .caixa-sombreada .row-fluid .row-fluid {
+    grid-template-columns:1fr!important;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  html[data-n27-order-finish="1"] #corpo * {scroll-behavior:auto!important}
+}
