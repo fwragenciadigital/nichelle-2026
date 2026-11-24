@@ -36,7 +36,7 @@
     return n;
   }
   function enter(stage) {
-    if (!allowed() || !stage || !one(".vitrine-mas-vendido", stage)) return;
+    if (!allowed() || !stage || !one(".vitrine-produtos:is(.vitrine-24488857,.vitrine-mas-vendido,.vitrine-mais-vendidos)", stage)) return;
     let hero = document.getElementById("n27-approved-hero");
     if (!hero) {
       hero = make("n27-approved-hero", "n27-approved-hero");
@@ -96,7 +96,7 @@
       social.appendChild(container);
     }
     const featured = one("#n27-approved-best-sellers", stage);
-    const best = one(".vitrine-mas-vendido", stage);
+    const best = one(".vitrine-produtos:is(.vitrine-24488857,.vitrine-mas-vendido,.vitrine-mais-vendidos)", stage);
     const featuredLaunches = one("#n27-approved-launches", stage);
     const launches = one(".vitrine-lancamento", stage);
     const featuredBrands = one("#n27-approved-brands", stage);
