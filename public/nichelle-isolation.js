@@ -33,8 +33,8 @@
 
     // O tema deixa a vitrine Mais vendidos sem seus produtos e move um UL
     // com 20 cards para #corpo, gerando uma lacuna de milhares de pixels.
-    const best = direct(corpo, ".vitrine-produtos.vitrine-mas-vendido") ||
-      direct(stage, ".vitrine-produtos.vitrine-mas-vendido");
+    const best = direct(corpo, ".vitrine-produtos:is(.vitrine-24488857,.vitrine-mas-vendido,.vitrine-mais-vendidos)") ||
+      direct(stage, ".vitrine-produtos:is(.vitrine-24488857,.vitrine-mas-vendido,.vitrine-mais-vendidos)");
     const orphan = direct(corpo, "ul[data-produtos-linha]");
     if (best && orphan && !best.contains(orphan)) {
       const row = best.querySelector(".conteiner .row-fluid") || best;
@@ -52,7 +52,7 @@
     // são preservados. A loja normal sem o parâmetro permanece intocada.
     [
       ".secao-banners",
-      ".vitrine-produtos.vitrine-mas-vendido",
+      ".vitrine-produtos:is(.vitrine-24488857,.vitrine-mas-vendido,.vitrine-mais-vendidos)",
       "#n27-layout-root",
       ".vitrine-produtos.vitrine-lancamento",
       ".vitrine-marcas",
