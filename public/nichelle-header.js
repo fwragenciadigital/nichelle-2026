@@ -185,8 +185,16 @@
   function menuIconURL(item) {
     const settings=window.Nichelle27Settings?.iconesMenu;
     if(!settings || typeof settings!=="object" || Array.isArray(settings))return "";
-    const itemKeys=[item.label,item.key,item.url].filter(Boolean).map(normalize);
-    const match=Object.entries(settings).find(([key])=>itemKeys.includes(normalize(key)));
+    // ID da LI tem prioridade: continua válido quando o título é alterado.
+    const itemKeys=[item.key,
+      /^\d+$/.test(String(item.key||""))?"categoria-id-"+item.key:"",
+      item.url,item.label].filter(Boolean).map(normalize);
+    const configured=Object.entries(settings);
+    let match=null;
+    for(const key of itemKeys){
+      match=configured.find(([configuredKey])=>normalize(configuredKey)===key);
+      if(match)break;
+    }
     if(!match)return "";
     const raw=typeof match[1]==="string"?match[1]:
       (match[1] && typeof match[1].url==="string"?match[1].url:"");
