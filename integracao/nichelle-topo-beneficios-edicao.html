@@ -1,0 +1,23 @@
+<!-- Nichelle 2026 | Faixa de beneficios do cabecalho (n27-owned-benefits).
+     Colar APOS o Bloco 01 e ANTES do loader (Bloco 02) no cabecalho da LI.
+     Editar somente os textos abaixo. Nao altera os beneficios da HOME.
+     Pode ser usado no lugar de substituir o Bloco 01 inteiro.
+-->
+<script id="n27-topo-beneficios-config">
+(function () {
+  "use strict";
+  var s=window.Nichelle27Settings=window.Nichelle27Settings||{};
+  s.topoBeneficios={
+    ativo:true,
+    itens:[
+      {icone:"safe",titulo:"LOJA 100% SEGURA",descricao:"COM PROTEÇÃO DE CERTIFICADO SSL"},
+      {icone:"truck",titulo:"ENTREGA GARANTIDA",descricao:"PARA TODO O BRASIL"},
+      {icone:"card",titulo:"PARCELE SUAS COMPRAS",descricao:"EM ATÉ 10X NO CARTÃO"},
+      {icone:"exchange",titulo:"TROCA FÁCIL",descricao:"EM ATÉ 7 DIAS APÓS O RECEBIMENTO"}
+    ]
+  };
+  // Em previews no mesmo navegador, permite atualizar o texto sem rebuild.
+  if(window.NichelleHeader&&typeof window.NichelleHeader.refreshBenefits==="function")
+    window.NichelleHeader.refreshBenefits();
+})();
+</script>
