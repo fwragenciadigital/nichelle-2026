@@ -437,6 +437,9 @@
     document.documentElement.dataset.n27BestShelf="1";
     signatures.set(def.key,dataKey);
     setupNavigation(fresh,rail,cfg);
+    if(isHome&&def.key==="maisVendidos"){
+      document.dispatchEvent(new Event("nichelle27:shelf:mounted"));
+    }
   }
   // A LI pode publicar a vitrine dentro de um wrapper ou fora do stage.
   // Para Mais Vendidos, trazemos o próprio nó nativo (com eventos e dados)
