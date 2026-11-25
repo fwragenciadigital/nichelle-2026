@@ -35,8 +35,33 @@
     n.className = "n27-approved " + cls;
     return n;
   }
+  const BEST_SELECTOR=".vitrine-produtos:is(.vitrine-24488857,.vitrine-mas-vendido,.vitrine-mais-vendidos)";
+  function bestSections(stage) {
+    const corpo=document.getElementById("corpo");
+    if(!corpo)return [];
+    const sources=[...corpo.querySelectorAll(BEST_SELECTOR)].filter(n=>
+      !n.parentElement?.closest(BEST_SELECTOR));
+    const rendered=document.getElementById("n27-approved-best-sellers");
+    return [...new Set([rendered,...sources].filter(Boolean))];
+  }
+  // Retira a vitrine do topo mesmo que o tema a tenha inserido fora do stage.
+  // Mantém a fonte nativa e o card FWR juntos, imediatamente antes do Instagram.
+  function placeBestAtEnd(stage,social){
+    if(social.parentElement!==stage)return false;
+    const best=bestSections(stage);
+    let anchor=social,changed=false;
+    for(let i=best.length-1;i>=0;i--){
+      const section=best[i];
+      if(section.parentElement!==stage||section.nextElementSibling!==anchor){
+        stage.insertBefore(section,anchor);
+        changed=true;
+      }
+      anchor=section;
+    }
+    return changed;
+  }
   function enter(stage) {
-    if (!allowed() || !stage || !one(".vitrine-produtos:is(.vitrine-24488857,.vitrine-mas-vendido,.vitrine-mais-vendidos)", stage)) return;
+    if (!allowed() || !stage) return;
     let hero = document.getElementById("n27-approved-hero");
     if (!hero) {
       hero = make("n27-approved-hero", "n27-approved-hero");
@@ -95,8 +120,6 @@
       container.appendChild(grid);
       social.appendChild(container);
     }
-    const featured = one("#n27-approved-best-sellers", stage);
-    const best = one(".vitrine-produtos:is(.vitrine-24488857,.vitrine-mas-vendido,.vitrine-mais-vendidos)", stage);
     const featuredLaunches = one("#n27-approved-launches", stage);
     const launches = one(".vitrine-lancamento", stage);
     const featuredBrands = one("#n27-approved-brands", stage);
@@ -110,9 +133,9 @@
     const extra = one(".vitrine-18709305", stage);
     // A imagem do projeto é a especificação visual, não uma página com
     // componentes HTML. Cada seção real é montada com os nós LI existentes.
-    const order = [hero, benefits, featured, best, category, featuredLaunches, launches,
+    const order = [hero, benefits, category, featuredLaunches, launches,
       featuredBrands, brands, featuredShorts, videos, featuredPromo, promo, featuredNews, editorial,
-      featuredExtra, extra, newsletter, social].filter(Boolean);
+      featuredExtra, extra, newsletter, ...bestSections(stage), social].filter(Boolean);
     // A home executa retries em load e depois do DOMContentLoaded.
     // Reanexar a vitrine FWR a cada retry zera o scrollLeft do carrossel
     // circular no Chrome. Não mover nós quando já estão na ordem correta.
@@ -121,8 +144,12 @@
       return idx===0 || !!(order[idx-1].compareDocumentPosition(section) &
         Node.DOCUMENT_POSITION_FOLLOWING);
     });
+    // Só movimenta se necessário. Assim o carrossel não perde sua posição.
     if(!orderStable) {
       order.forEach(function (section) {stage.appendChild(section);});
+    }
+    const bestMoved=placeBestAtEnd(stage,social);
+    if(!orderStable||bestMoved){
       document.dispatchEvent(new Event("nichelle27:home:reordered"));
     }
     // O rodapé é renderizado pelo módulo FWR separado. Os elementos
@@ -139,4 +166,21 @@
   window.addEventListener("load", mount, { once:true });
   [350, 1100, 2300, 4250].forEach(function (delay) { window.setTimeout(mount, delay); });
   document.addEventListener("nichelle27:refresh", mount);
+  document.addEventListener("nichelle27:shelf:mounted", mount);
+  // Reage também a uma vitrine reintroduzida tardiamente pelo tema antigo.
+  // A verificação idempotente acima evita ciclos de MutationObserver.
+  function observeBest(){
+    const corpo=document.getElementById("corpo");
+    if(!corpo||!window.MutationObserver)return;
+    let queued=false;
+    const selector=BEST_SELECTOR+",#n27-approved-best-sellers";
+    new MutationObserver(records=>{
+      if(queued||!records.some(record=>[...record.addedNodes].some(node=>
+        node.nodeType===1&&(node.matches?.(selector)||node.querySelector?.(selector)))))return;
+      queued=true;
+      setTimeout(()=>{queued=false;mount();},50);
+    }).observe(corpo,{childList:true,subtree:true});
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",observeBest,{once:true});
+  else observeBest();
 })();
