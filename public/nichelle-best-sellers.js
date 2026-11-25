@@ -1,5 +1,5 @@
 /*
- * FWR • Nichelle Imports 2026 • Mais Vendidos v1.5
+ * FWR • Nichelle Imports 2026 • Vitrines compartilhadas v1.6
  *
  * Component visuals and events are FWR-owned. Product facts are sourced
  * read-only from Loja Integrada's existing product-list HTML, not from
@@ -11,8 +11,8 @@
 (function () {
   "use strict";
   if (!window.Nichelle27Activation?.onStore() ||
-      (location.pathname.replace(/\/+$/, "") || "/") !== "/" ||
       !window.Nichelle27Activation?.active()) return;
+  const isHome=(location.pathname.replace(/\/+$/, "")||"/")==="/";
 
   const SHELVES = [
     {key:"maisVendidos", selector:":is(.vitrine-24488857,.vitrine-mas-vendido,.vitrine-mais-vendidos)", id:"n27-approved-best-sellers",
@@ -24,7 +24,10 @@
     {key:"marcasProdutos", selector:".vitrine-18709305", id:"n27-approved-brand-products",
       settings:"vitrineMarcasProdutos", defaultPrefixo:"Produtos", defaultTitulo:"Por Marca"}
   ];
+  const related={key:"aproveiteTambem",selector:".produto-aproveite,.n27-pdp__recommendations,.listagem.aproveite-tambem",
+    id:"n27-approved-related-products",settings:"vitrineAproveiteTambem",defaultPrefixo:"",defaultTitulo:"Aproveite Também"};
   const signatures = new Map();
+  const diagnostics = new Map();
   const observedSources = new WeakSet();
   let pending = false;
 
@@ -101,18 +104,24 @@
   }
   function extractItem(source) {
     const id=source.dataset.id || source.className.match(/prod-id-(\d+)/)?.[1] || "";
-    const href=sameOriginUrl(source.querySelector(".nome-produto[href], .produto-sobrepor[href], a[href]")?.getAttribute("href"));
+    const href=[".nome-produto[href]","a.produto-sobrepor[href]",".produto-info > a[href]",".imagem-produto a[href]","a[href]"]
+      .map(sel=>sameOriginUrl(source.querySelector(sel)?.getAttribute("href"))).find(Boolean)||"";
     const name=safeText(source.querySelector(".nome-produto")?.textContent ||
       source.querySelector(".produto-sobrepor")?.title,170);
     const imageEl=source.querySelector(".imagem-produto img") || source.querySelector("img");
-    const img=safeImg(imageEl?.getAttribute("src") || imageEl?.getAttribute("data-imagem-caminho"));
+    const img=["data-src","data-original","data-lazy-src","data-lazy","data-imagem-caminho","src"]
+      .map(attr=>safeImg(imageEl?.getAttribute(attr)))
+      .find(url=>url&&!/blank\.gif|placeholder|loading\.gif/i.test(url))||safeImg(imageEl?.currentSrc);
     if (!href || !name || !img) return null;
     const original=parseMoney(source.querySelector(".preco-venda")?.textContent);
     const promo=parseMoney(source.querySelector(".preco-promocional")?.textContent);
     const standard=parseMoney(source.querySelector(".preco-produto .titulo")?.textContent);
     const current=promo ?? standard ?? original;
-    if (current === null) return null;
-    const oldPrice=original !== null && original > current ? original : null;
+    const unavailable=source.matches(".indisponivel,.produto-indisponivel,.esgotado,.sem-estoque")||
+      !!source.querySelector(".indisponivel,.produto-indisponivel,.produto-esgotado,.sem-estoque,.avise-me")||
+      /(?:avise.me|produto indispon[ií]vel|esgotado|fora de estoque)/i.test(source.textContent||"");
+    if(current===null&&!unavailable)return null;
+    const oldPrice=!unavailable&&original!==null&&original>current?original:null;
     const percent=oldPrice ? Math.round((1 - current/oldPrice)*100) : null;
     const pixBlock=source.querySelector(".desconto-a-vista, [data-avista], .listagem-avista-2");
     const pixAmount=parseMoney(pixBlock?.textContent);
@@ -123,7 +132,7 @@
     const installmentMatch=installmentText.match(/(\d+)\s*x\s+de\s+(R\$\s*[\d.,]+)/i);
     const noInterest=/sem juros/i.test(installmentText);
     return {
-      id,href,name,img,alt:safeText(imageEl?.alt,170)||name,
+      id,href,name,img,alt:safeText(imageEl?.alt,170)||name,unavailable,
       oldPrice,current,percent:percent && percent>0?percent:null,
       pix:pixAmount !== null && pixAmount > 0 ? pixAmount : null,
       pixPercent,
@@ -134,20 +143,24 @@
       } : null
     };
   }
-  function getProductData(source,max) {
-    // Exclude Slick duplicates and all UI-only nodes from the legacy theme.
-    const candidates=[...source.querySelectorAll(".listagem-item[data-id], .listagem-item[class*='prod-id-']")];
-    const result=[],seen=new Set();
-    for (const item of candidates) {
-      if (item.closest(".slick-cloned")) continue;
-      const product=extractItem(item);
-      if (!product || seen.has(product.id || product.href)) continue;
-      seen.add(product.id || product.href);
-      result.push(product);
-      if (result.length>=max) break;
-    }
-    return result;
+  function nativeItems(source) {
+    return [...source.querySelectorAll(".listagem-item")].filter(item=>
+      !item.closest(".slick-cloned,.owl-item.cloned,.swiper-slide-duplicate")&&
+      !item.parentElement?.closest(".listagem-item"));
   }
+  function readProducts(source,max) {
+    const result=[],seen=new Set(),missing=[];
+    const candidates=nativeItems(source);
+    for(const item of candidates){
+      const product=extractItem(item);
+      if(!product){missing.push(item.dataset.id||"sem-id");continue;}
+      const key=product.id||product.href;
+      if(seen.has(key))continue;
+      seen.add(key);result.push(product);
+    }
+    return {products:result.slice(0,max),total:result.length,missing,nativeCount:candidates.length};
+  }
+  function getProductData(source,max){return readProducts(source,max).products;}
   function pixIcon() {
     const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
     svg.setAttribute("viewBox","0 0 24 24");
@@ -180,7 +193,7 @@
     pic.alt=product.alt;
     pic.width=300;pic.height=300;pic.loading="lazy";pic.decoding="async";
     media.appendChild(pic);
-    if(cfg.exibirSelo && product.percent){
+    if(cfg.exibirSelo && product.percent&&!product.unavailable){
       const badge=el("span","n27-best-card__badge",product.percent+"% OFF");
       media.appendChild(badge);
     }
@@ -189,6 +202,14 @@
     const title=el("a","n27-best-card__title",product.name);
     title.href=product.href;
     info.appendChild(title);
+    if(product.unavailable){
+      const stock=el("div","n27-best-card__price n27-best-card__stock","Produto indisponível");
+      const more=el("a","n27-best-card__pix n27-best-card__stock-link","Ver produto");
+      more.href=product.href;
+      info.append(stock,more);
+      article.appendChild(info);
+      return article;
+    }
     const price=el("div","n27-best-card__price");
     const priceRow=el("div","n27-best-card__price-row");
     if (product.oldPrice !== null) priceRow.appendChild(el("del","n27-best-card__old-price",brl(product.oldPrice)));
@@ -370,8 +391,8 @@
   }
 
   function render(source,products,cfg,def) {
-    const stage=document.getElementById("n27-preview-stage");
-    if(!stage||source.parentNode!==stage)return;
+    const parent=source.parentElement;
+    if(!parent)return;
     let shelf=document.getElementById(def.id);
     if (!cfg.ativo) {
       shelf?.remove();
@@ -380,10 +401,12 @@
       return;
     }
     const dataKey=JSON.stringify([cfg,products.map(p=>[
-      p.id,p.name,p.img,p.oldPrice,p.current,p.pix,p.pixPercent,p.percent,
+      p.id,p.href,p.name,p.img,p.oldPrice,p.current,p.unavailable,p.pix,p.pixPercent,p.percent,
       p.installment?.amount,p.installment?.count
     ])]);
-    if(dataKey===signatures.get(def.key) && shelf && shelf.parentNode===stage) return;
+    if(dataKey===signatures.get(def.key)&&shelf&&shelf.parentNode===parent){
+      source.dataset.n27ShelfSource="1";return;
+    }
 
     const fresh=el("section","n27-best-shelf");
     fresh.id=def.id;
@@ -410,6 +433,7 @@
     source.before(fresh);
     shelf?.remove();
     source.dataset.n27ShelfSource="1";
+    delete source.dataset.n27ShelfFallback;
     document.documentElement.dataset.n27BestShelf="1";
     signatures.set(def.key,dataKey);
     setupNavigation(fresh,rail,cfg);
@@ -418,15 +442,18 @@
   // Para Mais Vendidos, trazemos o próprio nó nativo (com eventos e dados)
   // para o mesmo stage das demais vitrines FWR, sem cloná-lo.
   function findShelfSource(stage,def){
-    const selector=".vitrine-produtos"+def.selector;
-    const direct=[...stage.children].find(child=>child.matches(selector));
-    if(direct)return direct;
-    const source=stage.querySelector(selector)||
-      document.querySelector("#corpo "+selector);
-    if(!source)return null;
-    if(def.key!=="maisVendidos")return null;
-    if(source.parentNode!==stage)stage.appendChild(source);
-    return source;
+    const selector=def.key==="aproveiteTambem"?def.selector:".vitrine-produtos"+def.selector;
+    const root=document.getElementById("corpo");
+    if(!root)return null;
+    const sources=[...root.querySelectorAll(selector)].filter(n=>!n.closest(".n27-best-shelf"));
+    if(def.key==="aproveiteTambem"){
+      return sources.find(n=>n.matches(".produto-aproveite")&&nativeItems(n).length)||
+        sources.find(n=>nativeItems(n).length)||sources[0]||null;
+    }
+    // Prefere a vitrine realmente preenchida; não uma segunda versão vazia.
+    sources.sort((a,b)=>nativeItems(b).length-nativeItems(a).length||
+      Number(b.matches(".vitrine-24488857"))-Number(a.matches(".vitrine-24488857")));
+    return sources[0]||null;
   }
   function schedule(){
     if(pending)return;
@@ -434,26 +461,31 @@
     setTimeout(()=>{pending=false;mount();},120);
   }
   function mount(){
-    if(!enabled())return;
+    if(!enabled()||!document.body)return;
     const stage=document.getElementById("n27-preview-stage");
-    if(!stage)return;
-    SHELVES.forEach(def=>{
+    if(!isHome&&!document.body.classList.contains("pagina-produto"))return;
+    const defs=isHome?SHELVES:[related];
+    defs.forEach(def=>{
       const source=findShelfSource(stage,def);
       if(!source)return;
-      const cfg=config(def);
-      if(!cfg.ativo) {
-        render(source,[],cfg,def);
-        return;
-      }
-      const products=getProductData(source,cfg.maxProdutos);
-      if(!products.length)return; // keep the native vitrine as a safe fallback
-      render(source,products,cfg,def);
-      if(!observedSources.has(source)) {
+      if(!observedSources.has(source)){
         const mo=new MutationObserver(schedule);
         mo.observe(source,{childList:true,characterData:true,subtree:true,
-          attributes:true,attributeFilter:["src","data-sell-price"]});
+          attributes:true,attributeFilter:["src","data-src","data-lazy","data-imagem-caminho","data-sell-price"]});
         observedSources.add(source);
       }
+      const cfg=config(def);
+      const read=readProducts(source,cfg.maxProdutos);
+      diagnostics.set(def.key,{nativos:read.nativeCount,lidos:read.total,ausentes:read.missing});
+      if(!cfg.ativo||!read.products.length||read.missing.length){
+        // Nunca ocultar produtos que não foi possível converter.
+        document.getElementById(def.id)?.remove();
+        delete source.dataset.n27ShelfSource;
+        source.dataset.n27ShelfFallback="1";
+        signatures.delete(def.key);
+        return;
+      }
+      render(source,read.products,cfg,def);
     });
   }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",mount,{once:true});
@@ -468,8 +500,8 @@
     const observer=new MutationObserver(records=>{
       if(records.some(record=>[...record.addedNodes].some(node=>
         node.nodeType===1&&(
-          node.matches?.(".vitrine-produtos")||
-          !!node.querySelector?.(".vitrine-produtos")
+          node.matches?.(".vitrine-produtos,.produto-aproveite,.listagem.aproveite-tambem")||
+          !!node.querySelector?.(".vitrine-produtos,.produto-aproveite,.listagem.aproveite-tambem")
         ))))schedule();
     });
     observer.observe(corpo,{childList:true,subtree:true});
@@ -481,16 +513,15 @@
   document.addEventListener("nichelle27:vitrine:update",()=>{signatures.clear();schedule();});
   document.addEventListener("nichelle27:vitrines:update",()=>{signatures.clear();schedule();});
   window.NichelleBestSellers={
-    version:"1.5.0",refresh:schedule,
+    version:"1.6.0",refresh:schedule,
     diagnostico:function(){
       const stage=document.getElementById("n27-preview-stage");
-      const def=SHELVES[0];
-      const selector=".vitrine-produtos"+def.selector;
-      const source=stage?.querySelector(selector)||document.querySelector("#corpo "+selector);
+      const def=isHome?SHELVES[0]:related;
+      const source=findShelfSource(stage,def);
       const shelf=document.getElementById(def.id);
       const cfg=config(def);
       return {
-        versao:"1.5.0",
+        versao:"1.6.0",dados:diagnostics.get(def.key)||null,
         ativo:enabled(),configAtiva:cfg.ativo,
         fonteEncontrada:!!source,
         fonteNoStage:!!source&&source.parentNode===stage,
