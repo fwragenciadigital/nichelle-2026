@@ -1,5 +1,5 @@
 /*
- * FWR • Nichelle Imports 2026 • Vitrines compartilhadas v1.6
+ * FWR • Nichelle Imports 2026 • Vitrines compartilhadas v1.7
  *
  * Component visuals and events are FWR-owned. Product facts are sourced
  * read-only from Loja Integrada's existing product-list HTML, not from
@@ -444,19 +444,43 @@
   // A LI pode publicar a vitrine dentro de um wrapper ou fora do stage.
   // Para Mais Vendidos, trazemos o próprio nó nativo (com eventos e dados)
   // para o mesmo stage das demais vitrines FWR, sem cloná-lo.
-  function findShelfSource(stage,def){
+  function shelfSources(def){
     const selector=def.key==="aproveiteTambem"?def.selector:".vitrine-produtos"+def.selector;
     const root=document.getElementById("corpo");
-    if(!root)return null;
-    const sources=[...root.querySelectorAll(selector)].filter(n=>!n.closest(".n27-best-shelf"));
+    if(!root)return [];
+    return [...root.querySelectorAll(selector)].filter(n=>!n.closest(".n27-best-shelf"));
+  }
+  function findShelfSource(stage,def){
+    const sources=shelfSources(def);
     if(def.key==="aproveiteTambem"){
       return sources.find(n=>n.matches(".produto-aproveite")&&nativeItems(n).length)||
         sources.find(n=>nativeItems(n).length)||sources[0]||null;
     }
-    // Prefere a vitrine realmente preenchida; não uma segunda versão vazia.
-    sources.sort((a,b)=>nativeItems(b).length-nativeItems(a).length||
-      Number(b.matches(".vitrine-24488857"))-Number(a.matches(".vitrine-24488857")));
+    // A LI pode publicar a categoria dedicada e a vitrine automática ao mesmo
+    // tempo. Priorize a categoria dedicada quando completa; não deixe que
+    // um alias com mais itens ou markup incompleto derrube o componente.
+    if(def.key==="maisVendidos"){
+      const ranked=sources.map(source=>({source,read:readProducts(source,30)}));
+      ranked.sort((a,b)=>
+        Number(b.read.total>0&&!b.read.missing.length)-Number(a.read.total>0&&!a.read.missing.length)||
+        Number(b.source.matches(".vitrine-24488857"))-Number(a.source.matches(".vitrine-24488857"))||
+        b.read.total-a.read.total);
+      return ranked[0]?.source||null;
+    }
+    sources.sort((a,b)=>nativeItems(b).length-nativeItems(a).length);
     return sources[0]||null;
+  }
+  function syncBestSources(source,shelf,ready){
+    // Uma única vitrine Mais Vendidos aprovada. As demais variantes
+    // permanecem no DOM para a plataforma, mas não aparecem em duplicidade.
+    for(const candidate of shelfSources(SHELVES[0])){
+      if(ready&&shelf?.isConnected&&candidate!==source){
+        candidate.dataset.n27ShelfDuplicate="1";
+      }else{
+        delete candidate.dataset.n27ShelfDuplicate;
+        if(candidate!==source)delete candidate.dataset.n27ShelfSource;
+      }
+    }
   }
   function schedule(){
     if(pending)return;
@@ -471,11 +495,12 @@
     defs.forEach(def=>{
       const source=findShelfSource(stage,def);
       if(!source)return;
-      if(!observedSources.has(source)){
+      for(const candidate of shelfSources(def)){
+        if(observedSources.has(candidate))continue;
         const mo=new MutationObserver(schedule);
-        mo.observe(source,{childList:true,characterData:true,subtree:true,
+        mo.observe(candidate,{childList:true,characterData:true,subtree:true,
           attributes:true,attributeFilter:["src","data-src","data-lazy","data-imagem-caminho","data-sell-price"]});
-        observedSources.add(source);
+        observedSources.add(candidate);
       }
       const cfg=config(def);
       const read=readProducts(source,cfg.maxProdutos);
@@ -486,9 +511,25 @@
         delete source.dataset.n27ShelfSource;
         source.dataset.n27ShelfFallback="1";
         signatures.delete(def.key);
+        if(isHome&&def.key==="maisVendidos")syncBestSources(source,null,false);
         return;
       }
-      render(source,read.products,cfg,def);
+      try{
+        render(source,read.products,cfg,def);
+        if(isHome&&def.key==="maisVendidos"){
+          const shelf=document.getElementById(def.id);
+          syncBestSources(source,shelf,!!shelf?.querySelector(".n27-best-card"));
+        }
+      }catch(error){
+        // Se uma seção falhar, não interromper a montagem das demais.
+        diagnostics.set(def.key,{nativos:read.nativeCount,lidos:read.total,ausentes:read.missing,erro:String(error.message||error)});
+        document.getElementById(def.id)?.remove();
+        delete source.dataset.n27ShelfSource;
+        source.dataset.n27ShelfFallback="1";
+        signatures.delete(def.key);
+        if(isHome&&def.key==="maisVendidos")syncBestSources(source,null,false);
+        console.warn("[Nichelle Vitrine]",def.key,error);
+      }
     });
   }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",mount,{once:true});
@@ -516,7 +557,7 @@
   document.addEventListener("nichelle27:vitrine:update",()=>{signatures.clear();schedule();});
   document.addEventListener("nichelle27:vitrines:update",()=>{signatures.clear();schedule();});
   window.NichelleBestSellers={
-    version:"1.6.0",refresh:schedule,
+    version:"1.7.0",refresh:schedule,
     diagnostico:function(){
       const stage=document.getElementById("n27-preview-stage");
       const def=isHome?SHELVES[0]:related;
@@ -524,7 +565,10 @@
       const shelf=document.getElementById(def.id);
       const cfg=config(def);
       return {
-        versao:"1.6.0",dados:diagnostics.get(def.key)||null,
+        versao:"1.7.0",dados:diagnostics.get(def.key)||null,
+        fontes:shelfSources(def).map(n=>({classes:n.className,nativos:nativeItems(n).length,
+          convertida:n.dataset.n27ShelfSource==="1",duplicada:n.dataset.n27ShelfDuplicate==="1",
+          fallback:n.dataset.n27ShelfFallback==="1"})),
         ativo:enabled(),configAtiva:cfg.ativo,
         fonteEncontrada:!!source,
         fonteNoStage:!!source&&source.parentNode===stage,
