@@ -3,10 +3,10 @@
  * Own cards/navigation. No Groom cards or Slick dependencies.
  * Ref: mockup "Produtos Mais Vendidos", 5 desktop cards.
  */
-html[data-n27-best-shelf="1"] #n27-preview-stage > .vitrine-produtos[data-n27-shelf-source="1"] {
+html[data-n27-best-shelf="1"] #corpo [data-n27-shelf-source="1"] {
   display:none!important;
 }
-html[data-n27-best-shelf="1"] #n27-preview-stage > .n27-best-shelf {
+html[data-n27-best-shelf="1"] #corpo .n27-best-shelf {
   display:block!important;
   position:relative!important;
   width:100%!important;
@@ -348,7 +348,7 @@ html[data-n27-best-shelf="1"] .n27-best-shelf :is(a,button,[tabindex]):focus-vis
   }
 }
 @media (max-width:767px) {
-  html[data-n27-best-shelf="1"] #n27-preview-stage > .n27-best-shelf.n27-best-shelf {
+  html[data-n27-best-shelf="1"] #corpo .n27-best-shelf.n27-best-shelf {
     padding:30px 0 28px!important;
   }
   html[data-n27-best-shelf="1"] .n27-best-shelf .n27-best-shelf__inner {
@@ -434,5 +434,139 @@ html[data-n27-best-shelf="1"] .n27-best-shelf .n27-best-card__current-price {
  }
  html[data-n27-best-shelf="1"] .n27-best-shelf .n27-best-card__current-price {
     font-size:21px!important;
+ }
+}
+
+/* FWR: mesmo componente na home e na PDP, sem o fundo lilás do tema. */
+html[data-n27-best-shelf="1"] #corpo #n27-approved-related-products {
+  max-width:none!important;width:100%!important;background:#fff!important;
+}
+html[data-n27-best-shelf="1"] #corpo .n27-best-card__stock {
+  font:500 13px/1.5 "Montserrat",Arial,sans-serif!important;
+  color:#756a79!important;
+}
+html[data-n27-best-shelf="1"] #corpo .n27-best-card__stock-link {
+  text-decoration:none!important;font:700 13px/1.5 "Montserrat",Arial,sans-serif!important;
+}
+/* Fallback de aparência — mesmo quando a LI entrega os cards depois do JS.
+   Só atinge vitrines de produtos, nunca a PDP principal ou os banners.
+   Não altera ações nativas, estado de estoque ou dados de pagamento. */
+html[data-n27-independent-header="1"] #corpo :is(
+ .vitrine-produtos.vitrine-24488857,.vitrine-produtos.vitrine-mas-vendido,
+ .vitrine-produtos.vitrine-mais-vendidos,.produto-aproveite,.n27-pdp__recommendations,
+ .listagem.aproveite-tambem,[data-n27-shelf-fallback="1"]
+):not([data-n27-shelf-source="1"]) {
+  background:#fff!important;border:0!important;box-shadow:none!important;
+}
+html[data-n27-independent-header="1"] #corpo :is(
+ .vitrine-produtos.vitrine-24488857,.vitrine-produtos.vitrine-mas-vendido,
+ .vitrine-produtos.vitrine-mais-vendidos,.produto-aproveite,.n27-pdp__recommendations,
+ .listagem.aproveite-tambem,[data-n27-shelf-fallback="1"]
+):not([data-n27-shelf-source="1"]) .listagem-item {
+  box-sizing:border-box!important;
+  padding:0!important;margin:0!important;
+  background:#fff!important;border:0!important;border-radius:0!important;
+  box-shadow:none!important;text-align:left!important;
+}
+html[data-n27-independent-header="1"] #corpo :is(
+ .vitrine-produtos.vitrine-24488857,.vitrine-produtos.vitrine-mas-vendido,
+ .vitrine-produtos.vitrine-mais-vendidos,.produto-aproveite,.n27-pdp__recommendations,
+ .listagem.aproveite-tambem,[data-n27-shelf-fallback="1"]
+):not([data-n27-shelf-source="1"]) .listagem-item .imagem-produto {
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  width:100%!important;max-width:100%!important;height:365px!important;
+  min-height:365px!important;aspect-ratio:auto!important;
+  padding:18px 8px 12px!important;margin:0!important;
+  overflow:hidden!important;background:#fff!important;
+}
+html[data-n27-independent-header="1"] #corpo :is(
+ .vitrine-produtos.vitrine-24488857,.vitrine-produtos.vitrine-mas-vendido,
+ .vitrine-produtos.vitrine-mais-vendidos,.produto-aproveite,.n27-pdp__recommendations,
+ .listagem.aproveite-tambem,[data-n27-shelf-fallback="1"]
+):not([data-n27-shelf-source="1"]) .listagem-item .imagem-produto img {
+  width:100%!important;height:100%!important;max-width:100%!important;
+  max-height:none!important;object-fit:contain!important;padding:0!important;
+  margin:0!important;
+}
+html[data-n27-independent-header="1"] #corpo :is(
+ .vitrine-produtos.vitrine-24488857,.vitrine-produtos.vitrine-mas-vendido,
+ .vitrine-produtos.vitrine-mais-vendidos,.produto-aproveite,.n27-pdp__recommendations,
+ .listagem.aproveite-tambem,[data-n27-shelf-fallback="1"]
+):not([data-n27-shelf-source="1"]) .listagem-item .info-produto {
+  text-align:left!important;padding:9px 0 0!important;margin:0!important;
+  width:100%!important;background:transparent!important;border:0!important;
+}
+html[data-n27-independent-header="1"] #corpo :is(
+ .vitrine-produtos.vitrine-24488857,.vitrine-produtos.vitrine-mas-vendido,
+ .vitrine-produtos.vitrine-mais-vendidos,.produto-aproveite,.n27-pdp__recommendations,
+ .listagem.aproveite-tambem,[data-n27-shelf-fallback="1"]
+):not([data-n27-shelf-source="1"]) .listagem-item .nome-produto {
+  display:-webkit-box!important;-webkit-box-orient:vertical!important;
+  -webkit-line-clamp:2!important;overflow:hidden!important;
+  height:43px!important;min-height:43px!important;
+  margin:0 0 16px!important;padding:0!important;
+  color:#515058!important;font:400 13px/1.55 "Montserrat",Arial,sans-serif!important;
+  text-align:left!important;
+}
+html[data-n27-independent-header="1"] #corpo :is(
+ .vitrine-produtos.vitrine-24488857,.vitrine-produtos.vitrine-mas-vendido,
+ .vitrine-produtos.vitrine-mais-vendidos,.produto-aproveite,.n27-pdp__recommendations,
+ .listagem.aproveite-tambem,[data-n27-shelf-fallback="1"]
+):not([data-n27-shelf-source="1"]) .listagem-item :is(.trustvox-stars,.product-reviews__rating) {
+  display:none!important;
+}
+html[data-n27-independent-header="1"] #corpo :is(
+ .vitrine-produtos.vitrine-24488857,.vitrine-produtos.vitrine-mas-vendido,
+ .vitrine-produtos.vitrine-mais-vendidos,.produto-aproveite,.n27-pdp__recommendations,
+ .listagem.aproveite-tambem,[data-n27-shelf-fallback="1"]
+):not([data-n27-shelf-source="1"]) .listagem-item .bandeira-promocao {
+  display:flex!important;flex-direction:row!important;align-items:center!important;
+  justify-content:center!important;gap:3px!important;
+  min-width:80px!important;width:auto!important;height:28px!important;
+  padding:4px 10px!important;border-radius:16px!important;
+  background:#823090!important;color:#fff!important;
+  font:800 12px/1 "Montserrat",Arial,sans-serif!important;white-space:nowrap!important;
+}
+html[data-n27-independent-header="1"] #corpo :is(
+ .vitrine-produtos.vitrine-24488857,.vitrine-produtos.vitrine-mas-vendido,
+ .vitrine-produtos.vitrine-mais-vendidos,.produto-aproveite,.n27-pdp__recommendations,
+ .listagem.aproveite-tambem,[data-n27-shelf-fallback="1"]
+):not([data-n27-shelf-source="1"]) .listagem-item .preco-produto {
+  display:flex!important;flex-direction:column!important;align-items:flex-start!important;
+  text-align:left!important;min-height:55px!important;padding:0 0 9px!important;
+  margin:0!important;background:transparent!important;
+}
+html[data-n27-independent-header="1"] #corpo :is(
+ .vitrine-produtos.vitrine-24488857,.vitrine-produtos.vitrine-mas-vendido,
+ .vitrine-produtos.vitrine-mais-vendidos,.produto-aproveite,.n27-pdp__recommendations,
+ .listagem.aproveite-tambem,[data-n27-shelf-fallback="1"]
+):not([data-n27-shelf-source="1"]) .listagem-item .preco-produto :is(.preco-promocional,.titulo) {
+  color:#a132af!important;font:800 clamp(18px,1.35vw,23px)/1.16 "Montserrat",Arial,sans-serif!important;
+}
+html[data-n27-independent-header="1"] #corpo :is(
+ .vitrine-produtos.vitrine-24488857,.vitrine-produtos.vitrine-mas-vendido,
+ .vitrine-produtos.vitrine-mais-vendidos,.produto-aproveite,.n27-pdp__recommendations,
+ .listagem.aproveite-tambem,[data-n27-shelf-fallback="1"]
+):not([data-n27-shelf-source="1"]) .listagem-item .pp-avista {
+  display:flex!important;justify-content:flex-start!important;align-items:center!important;
+  min-height:50px!important;margin:0!important;padding:6px 5px!important;
+  width:100%!important;border:0!important;border-radius:0!important;
+  background:linear-gradient(125deg,#faf2fc,#fff 90%)!important;
+}
+html[data-n27-independent-header="1"] #corpo :is(
+ .vitrine-produtos.vitrine-24488857,.vitrine-produtos.vitrine-mas-vendido,
+ .vitrine-produtos.vitrine-mais-vendidos,.produto-aproveite,.n27-pdp__recommendations,
+ .listagem.aproveite-tambem,[data-n27-shelf-fallback="1"]
+):not([data-n27-shelf-source="1"]) .listagem-item .pp-avista .listagem-avista-2 {
+  margin:0!important;padding:0!important;background:transparent!important;border:0!important;
+}
+@media(max-width:1199px){
+ html[data-n27-independent-header="1"] #corpo :is(.vitrine-24488857,.vitrine-mas-vendido,.vitrine-mais-vendidos,.produto-aproveite,.n27-pdp__recommendations,.listagem.aproveite-tambem,[data-n27-shelf-fallback="1"]):not([data-n27-shelf-source="1"]) .listagem-item .imagem-produto {
+  height:318px!important;min-height:318px!important;
+ }
+}
+@media(max-width:767px){
+ html[data-n27-independent-header="1"] #corpo :is(.vitrine-24488857,.vitrine-mas-vendido,.vitrine-mais-vendidos,.produto-aproveite,.n27-pdp__recommendations,.listagem.aproveite-tambem,[data-n27-shelf-fallback="1"]):not([data-n27-shelf-source="1"]) .listagem-item .imagem-produto {
+  height:283px!important;min-height:283px!important;
  }
 }
