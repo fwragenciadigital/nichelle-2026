@@ -128,50 +128,79 @@
   // Fonte autoritativa: HTML do menu publicado pela Loja Integrada.
   // Nunca avaliar display via getComputedStyle: a propria FWR oculta
   // visualmente o menu nativo e isso falsamente acionava o catalogo antigo.
+  // Menu original da LI, antes de qualquer transformação pelo tema ativo.
+  // Preserva a ordem dos LI e não inventa categorias ausentes.
   function nativeCategories(root=document) {
     const candidates=[
+      "#cabecalho .menu.superior > ul.nivel-um",
       "#cabecalho .menu.superior ul.nivel-um",
-      "#cabecalho .menu.superior > .nivel-um",
+      ".menu.superior > ul.nivel-um",
       "#cabecalho .menu-desktop ul.nivel-um",
-      ".menu.superior ul.nivel-um"
+      ".menu.superior ul.nivel-um",
+      "#cabecalho ul.nivel-um"
     ];
     function parse(menu) {
-      if(!menu || menu.closest?.("#n27-independent-header"))return [];
+      if(!menu||menu.closest?.("#n27-independent-header"))return [];
       const seen=new Set();
       return [...menu.children].filter(li=>li.matches("li")).map((li,index)=>{
-        // Respeita apenas ocultacoes explicitas de uma categoria. Um menu
-        // nativo escondido pelo CSS do novo tema ainda fornece dados reais.
         if(li.hidden||li.getAttribute("aria-hidden")==="true"||
-           li.classList.contains("hide")||li.classList.contains("hidden")||
+           li.matches(".hide,.hidden,.inativo,.categoria-inativa,[data-ativo='false']")||
            li.style.display==="none")return null;
         const a=li.querySelector(":scope > a[href]");
+        const id=(String(li.className).match(/categoria-id-(\d+)/)||[])[1];
         const url=safeInternal(a?.getAttribute("href"));
         if(!url)return null;
-        const label=(a.querySelector("strong.titulo")?.textContent||
+        const label=(a.querySelector("strong.titulo,.titulo")?.textContent||
           a.getAttribute("title")||a.textContent||"").replace(/\s+/g," ").trim().slice(0,85);
         if(!label||normalize(label)==="ocultar"||seen.has(url))return null;
         seen.add(url);
-        const sublist=li.querySelector(":scope > ul.nivel-dois");
-        const children=sublist?[...sublist.children].filter(n=>n.matches("li")).map(sub=>{
+        const sublist=li.querySelector(":scope > ul.nivel-dois,:scope > .nivel-dois > ul");
+        const children=sublist?[...sublist.children].filter(n=>n.matches("li")&&!n.hidden&&
+          !n.matches(".hide,.hidden,.inativo,.categoria-inativa,[data-ativo='false']")).map(sub=>{
           const link=sub.querySelector(":scope > a[href]");
           const href=safeInternal(link?.getAttribute("href"));
-          const name=(link?.getAttribute("title")||link?.textContent||"")
+          const name=(link?.querySelector(".titulo")?.textContent||link?.getAttribute("title")||link?.textContent||"")
             .replace(/\s+/g," ").trim().slice(0,85);
           return href&&name?{name,url:href}:null;
         }).filter(Boolean):[];
-        const id=(li.className.match(/categoria-id-(\d+)/)||[])[1];
         return {key:id||"li-"+index,label,icon:iconForCategory(label),url,children};
       }).filter(Boolean);
     }
-    // Prioridade absoluta para o menu principal da LI, mesmo escondido.
-    // Outras estruturas do tema só entram se ele realmente estiver ausente.
     for(const selector of candidates){
       for(const menu of root.querySelectorAll(selector)){
         const items=parse(menu);
-        if(items.length)return items; // ordem exata dos <li> da plataforma
+        if(items.length)return items;
       }
     }
     return [];
+  }
+  let serverCategories=null,serverMenuStatus="pendente";
+  function authoritativeCategories(){
+    return serverCategories===null?nativeCategories():serverCategories;
+  }
+  // GET da home na própria origem. DOMParser não executa scripts do Groom.
+  // Sem API privada, sem token, sem alteração de categorias do cliente.
+  async function readPublishedMenu(){
+    if(typeof fetch!=="function"||typeof DOMParser!=="function"){
+      serverMenuStatus="indisponivel";return false;
+    }
+    const controller=new AbortController();
+    const timer=setTimeout(()=>controller.abort(),6500);
+    try{
+      const response=await fetch("/",{method:"GET",credentials:"same-origin",
+        cache:"no-store",signal:controller.signal,headers:{Accept:"text/html"}});
+      if(!response.ok||new URL(response.url,location.origin).origin!==location.origin)
+        throw Error("HTTP "+response.status);
+      const raw=new DOMParser().parseFromString(await response.text(),"text/html");
+      const items=nativeCategories(raw);
+      if(!items.length)throw Error("menu-nativo-ausente");
+      serverCategories=items;
+      serverMenuStatus="ok";
+      return true;
+    }catch(error){
+      serverMenuStatus="falha:"+String(error.name||"erro");
+      return false;
+    }finally{clearTimeout(timer);}
   }
   function catalogFallback() {
     const published=Array.isArray(window.N27CategoryCatalog?.categories)?
@@ -189,7 +218,7 @@
     }).filter(Boolean);
   }
   function menuData() {
-    const native=nativeCategories();
+    const native=authoritativeCategories();
     return native.length?native:catalogFallback();
   }
   // Icones de categorias alteraveis diretamente no HTML da Loja Integrada.
@@ -559,7 +588,7 @@
     const main=buildMain();
     let items=menuData();
     let drawer=buildDrawer(items);
-    let navSource=nativeCategories().length?"loja-integrada":"catalogo-fallback";
+    let navSource=authoritativeCategories().length?"loja-integrada-dom":"catalogo-fallback";
     let navSignature=JSON.stringify(items.map(item=>
       [item.key,item.label,item.url,item.children.map(c=>[c.name,c.url])]));
     let drawerCloseTimer=0,drawerTransitionToken=0;
@@ -594,7 +623,7 @@
         drawerCloseTimer=window.setTimeout(()=>{
           if(token===drawerTransitionToken&&
              !drawer.overlay.classList.contains("n27-owned-drawer--visible"))
-            drawer.overlay.hidden=true;
+            {drawer.overlay.hidden=true;syncNavigation();}
         },reduced?0:290);
         main.mobileBtn.focus({preventScroll:true});
       }
@@ -659,12 +688,12 @@
     // Sincroniza o menu quando o tema antigo publica categorias depois
     // do DOMContentLoaded. O catalogo salvo nao tem autoridade sobre a ordem.
     function syncNavigation(){
-      const native=nativeCategories();
+      const native=authoritativeCategories();
       if(!native.length||!root.isConnected)return false;
       const nextSignature=JSON.stringify(native.map(item=>
         [item.key,item.label,item.url,item.children.map(c=>[c.name,c.url])]));
       if(nextSignature===navSignature){
-        navSource="loja-integrada";
+        navSource=serverCategories!==null?"loja-integrada-servidor":"loja-integrada-dom";
         if(window.NichelleHeader)window.NichelleHeader.source=navSource;
         return false;
       }
@@ -680,7 +709,7 @@
       bindDrawerControls(drawer);
       items=native;
       navSignature=nextSignature;
-      navSource="loja-integrada";
+      navSource=serverCategories!==null?"loja-integrada-servidor":"loja-integrada-dom";
       if(window.NichelleHeader){
         window.NichelleHeader.categories=items;
         window.NichelleHeader.source=navSource;
@@ -690,11 +719,14 @@
     const menuDiagnostics=()=>({
       fonte:navSource,
       ordemFWR:items.map(item=>item.label),
-      ordemNativa:nativeCategories().map(item=>item.label),
-      ordemSincronizada:JSON.stringify(items.map(item=>item.url))===
-        JSON.stringify(nativeCategories().map(item=>item.url))
+      ordemNativa:authoritativeCategories().map(item=>item.label),
+      ordemDOM:nativeCategories().map(item=>item.label),
+      ordemServidor:serverCategories?.map(item=>item.label)||null,
+      estadoServidor:serverMenuStatus,
+      ordemSincronizada:authoritativeCategories().length>0&&JSON.stringify(items.map(item=>item.url))===
+        JSON.stringify(authoritativeCategories().map(item=>item.url))
     });
-    window.NichelleHeader={version:"1.7.0",categories:items,
+    window.NichelleHeader={version:"1.8.0",categories:items,
       refreshCart:updateCart,icons:ICON_ASSETS,source:navSource,
       refreshMenu:syncNavigation,diagnosticoMenu:menuDiagnostics,
       refreshBenefits:function(){
@@ -711,6 +743,7 @@
     }
     window.addEventListener("load",syncNavigation,{once:true});
     [250,800,1700].forEach(t=>window.setTimeout(syncNavigation,t));
+    readPublishedMenu().then(()=>syncNavigation());
     const nativeHeader=document.getElementById("cabecalho");
     if(nativeHeader&&window.MutationObserver){
       let pending=false;
