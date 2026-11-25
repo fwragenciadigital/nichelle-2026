@@ -3,7 +3,9 @@
  * Own cards/navigation. No Groom cards or Slick dependencies.
  * Ref: mockup "Produtos Mais Vendidos", 5 desktop cards.
  */
-html[data-n27-best-shelf="1"] #corpo [data-n27-shelf-source="1"] {
+html[data-n27-best-shelf="1"] #corpo [data-n27-shelf-source="1"],
+html[data-n27-best-shelf="1"] body.pagina-inicial #corpo .vitrine-produtos[data-n27-shelf-duplicate="1"],
+html[data-n27-best-shelf="1"] body.pagina-inicial #corpo .vitrine-produtos[data-n27-shelf-source="1"] {
   display:none!important;
 }
 html[data-n27-best-shelf="1"] #corpo .n27-best-shelf {
@@ -540,7 +542,7 @@ html[data-n27-independent-header="1"] #corpo :is(
  .vitrine-produtos.vitrine-24488857,.vitrine-produtos.vitrine-mas-vendido,
  .vitrine-produtos.vitrine-mais-vendidos,.produto-aproveite,.n27-pdp__recommendations,
  .listagem.aproveite-tambem,[data-n27-shelf-fallback="1"]
-):not([data-n27-shelf-source="1"]) .listagem-item .preco-produto :is(.preco-promocional,.titulo) {
+):not([data-n27-shelf-source="1"]) .listagem-item .preco-produto :is(.preco-promocional,.titulo:not(s):not(del):not(.preco-venda)) {
   color:#a132af!important;font:800 clamp(18px,1.35vw,23px)/1.16 "Montserrat",Arial,sans-serif!important;
 }
 html[data-n27-independent-header="1"] #corpo :is(
@@ -602,4 +604,10 @@ html[data-n27-independent-header="1"] #corpo :is(.vitrine-24488857,.vitrine-mas-
  :is(ul[data-produtos-linha],ul.produtos-linha,ul.n27-native-products-rail):not(.slick-initialized):not(.swiper-wrapper):not(:has(.slick-list)) {
   --n27-fallback-cols:2;--n27-fallback-gap:12px;
  }
+}
+
+/* Preço anterior, somente no fallback nativo; o card FWR já possui classe própria. */
+html[data-n27-independent-header="1"] #corpo :is(.vitrine-24488857,.vitrine-mas-vendido,.vitrine-mais-vendidos,.produto-aproveite,.n27-pdp__recommendations,.listagem.aproveite-tambem) .listagem-item .preco-produto :is(s.preco-venda,del.preco-venda) {
+  color:#aaa!important;font:400 11px/1.3 "Montserrat",Arial,sans-serif!important;
+  text-decoration:line-through!important;
 }
