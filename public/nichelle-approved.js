@@ -44,21 +44,32 @@
     const rendered=document.getElementById("n27-approved-best-sellers");
     return [...new Set([rendered,...sources].filter(Boolean))];
   }
-  // Retira a vitrine do topo mesmo que o tema a tenha inserido fora do stage.
-  // Mantém a fonte nativa e o card FWR juntos, imediatamente antes do Instagram.
-  function placeBestAtEnd(stage,social){
-    if(social.parentElement!==stage)return false;
-    const best=bestSections(stage);
-    let anchor=social,changed=false;
-    for(let i=best.length-1;i>=0;i--){
-      const section=best[i];
-      if(section.parentElement!==stage||section.nextElementSibling!==anchor){
-        stage.insertBefore(section,anchor);
-        changed=true;
-      }
-      anchor=section;
-    }
-    return changed;
+  // Ordem oficial da home; fontes nativas acompanham seus componentes.
+  // O rodapé permanece fora do stage e é administrado pelo módulo próprio.
+  function homeOrder(stage,slots){
+    const {hero,benefits,category,editorial,newsletter,social}=slots;
+    const find=selector=>one(selector,stage);
+    return [...new Set([
+      hero,benefits,
+      ...bestSections(stage),
+      category,
+      find('[data-n27-shelf-type="lancamentos"],#n27-approved-launches'),find(".vitrine-lancamento"),
+      find("#n27-approved-brands"),find(".vitrine-marcas"),
+      // Vitrine opcional por marca, se publicada, acompanha a seção de marcas.
+      find("#n27-approved-brand-products"),find(".vitrine-18709305"),
+      find("#n27-approved-shorts"),find(".vitrine-video"),
+      find("#n27-approved-highlights"),find(".vitrine-destaque"),
+      find("#n27-approved-news"),editorial,
+      newsletter,social
+    ].filter(Boolean))];
+  }
+  function applyHomeOrder(stage,order){
+    const stable=order.every((section,index)=>
+      section.parentNode===stage&&(index===0||
+        !!(order[index-1].compareDocumentPosition(section)&Node.DOCUMENT_POSITION_FOLLOWING)));
+    if(stable)return false;
+    order.forEach(section=>stage.appendChild(section));
+    return true;
   }
   function enter(stage) {
     if (!allowed() || !stage) return;
@@ -120,36 +131,9 @@
       container.appendChild(grid);
       social.appendChild(container);
     }
-    const featuredLaunches = one("#n27-approved-launches", stage);
-    const launches = one(".vitrine-lancamento", stage);
-    const featuredBrands = one("#n27-approved-brands", stage);
-    const brands = one(".vitrine-marcas", stage);
-    const featuredShorts = one("#n27-approved-shorts", stage);
-    const videos = one(".vitrine-video", stage);
-    const featuredNews = one("#n27-approved-news", stage);
-    const featuredPromo = one("#n27-approved-highlights", stage);
-    const promo = one(".vitrine-destaque", stage);
-    const featuredExtra = one("#n27-approved-brand-products", stage);
-    const extra = one(".vitrine-18709305", stage);
-    // A imagem do projeto é a especificação visual, não uma página com
-    // componentes HTML. Cada seção real é montada com os nós LI existentes.
-    const order = [hero, benefits, category, featuredLaunches, launches,
-      featuredBrands, brands, featuredShorts, videos, featuredPromo, promo, featuredNews, editorial,
-      featuredExtra, extra, newsletter, ...bestSections(stage), social].filter(Boolean);
-    // A home executa retries em load e depois do DOMContentLoaded.
-    // Reanexar a vitrine FWR a cada retry zera o scrollLeft do carrossel
-    // circular no Chrome. Não mover nós quando já estão na ordem correta.
-    const allAttached=order.every(function (section) {return section.parentNode===stage;});
-    const orderStable=allAttached && order.every(function (section,idx) {
-      return idx===0 || !!(order[idx-1].compareDocumentPosition(section) &
-        Node.DOCUMENT_POSITION_FOLLOWING);
-    });
-    // Só movimenta se necessário. Assim o carrossel não perde sua posição.
-    if(!orderStable) {
-      order.forEach(function (section) {stage.appendChild(section);});
-    }
-    const bestMoved=placeBestAtEnd(stage,social);
-    if(!orderStable||bestMoved){
+    const order=homeOrder(stage,{hero,benefits,category,editorial,newsletter,social});
+    // Não mover nós quando já ordenados; preserva scroll e estado do carrossel.
+    if(applyHomeOrder(stage,order)){
       document.dispatchEvent(new Event("nichelle27:home:reordered"));
     }
     // O rodapé é renderizado pelo módulo FWR separado. Os elementos
@@ -167,13 +151,18 @@
   [350, 1100, 2300, 4250].forEach(function (delay) { window.setTimeout(mount, delay); });
   document.addEventListener("nichelle27:refresh", mount);
   document.addEventListener("nichelle27:shelf:mounted", mount);
-  // Reage também a uma vitrine reintroduzida tardiamente pelo tema antigo.
+  // Reage a todos os módulos da home, inclusive os montados depois.
   // A verificação idempotente acima evita ciclos de MutationObserver.
-  function observeBest(){
+  function observeSections(){
     const corpo=document.getElementById("corpo");
     if(!corpo||!window.MutationObserver)return;
     let queued=false;
-    const selector=BEST_SELECTOR+",#n27-approved-best-sellers";
+    const selector=BEST_SELECTOR+[
+      ",#n27-approved-hero,#n27-approved-benefits,#n27-approved-categories",
+      "#n27-approved-brands,#n27-approved-shorts,#n27-approved-news",
+      "#n27-approved-editorial,#n27-approved-newsletter,#n27-approved-instagram",
+      ".n27-best-shelf,.vitrine-lancamento,.vitrine-marcas,.vitrine-video,.vitrine-destaque,.vitrine-18709305"
+    ].join(",");
     new MutationObserver(records=>{
       if(queued||!records.some(record=>[...record.addedNodes].some(node=>
         node.nodeType===1&&(node.matches?.(selector)||node.querySelector?.(selector)))))return;
@@ -181,6 +170,6 @@
       setTimeout(()=>{queued=false;mount();},50);
     }).observe(corpo,{childList:true,subtree:true});
   }
-  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",observeBest,{once:true});
-  else observeBest();
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",observeSections,{once:true});
+  else observeSections();
 })();
