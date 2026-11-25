@@ -570,3 +570,36 @@ html[data-n27-independent-header="1"] #corpo :is(
   height:283px!important;min-height:283px!important;
  }
 }
+
+/* Trilho nativo de segurança: mesmo número de cards e proporções do FWR.
+   Slick ativo continua dono do seu próprio dimensionamento. */
+html[data-n27-independent-header="1"] #corpo :is(.vitrine-24488857,.vitrine-mas-vendido,.vitrine-mais-vendidos,.produto-aproveite,.n27-pdp__recommendations,.listagem.aproveite-tambem,[data-n27-shelf-fallback="1"])
+ :is(ul[data-produtos-linha],ul.produtos-linha,ul.n27-native-products-rail):not(.slick-initialized):not(.swiper-wrapper):not(:has(.slick-list)) {
+  --n27-fallback-gap:24px;
+  --n27-fallback-cols:5;
+  display:flex!important;flex-flow:row nowrap!important;align-items:stretch!important;
+  gap:var(--n27-fallback-gap)!important;
+  width:100%!important;max-width:100%!important;min-width:0!important;
+  padding:3px 0 14px!important;margin:0!important;
+  overflow-x:auto!important;overflow-y:hidden!important;scroll-snap-type:x mandatory!important;
+  background:#fff!important;list-style:none!important;
+}
+html[data-n27-independent-header="1"] #corpo :is(.vitrine-24488857,.vitrine-mas-vendido,.vitrine-mais-vendidos,.produto-aproveite,.n27-pdp__recommendations,.listagem.aproveite-tambem,[data-n27-shelf-fallback="1"])
+ :is(ul[data-produtos-linha],ul.produtos-linha,ul.n27-native-products-rail):not(.slick-initialized):not(.swiper-wrapper):not(:has(.slick-list)) > :is(li,.listagem-item) {
+  box-sizing:border-box!important;
+  flex:0 0 calc((100% - (var(--n27-fallback-cols) - 1)*var(--n27-fallback-gap))/var(--n27-fallback-cols))!important;
+  width:auto!important;min-width:0!important;max-width:none!important;
+  padding:0!important;margin:0!important;float:none!important;
+  background:#fff!important;border:0!important;border-radius:0!important;
+  scroll-snap-align:start!important;
+}
+@media(min-width:768px) and (max-width:1199px){
+ html[data-n27-independent-header="1"] #corpo :is(.vitrine-24488857,.vitrine-mas-vendido,.vitrine-mais-vendidos,.produto-aproveite,.n27-pdp__recommendations,.listagem.aproveite-tambem,[data-n27-shelf-fallback="1"])
+ :is(ul[data-produtos-linha],ul.produtos-linha,ul.n27-native-products-rail):not(.slick-initialized):not(.swiper-wrapper):not(:has(.slick-list)){--n27-fallback-cols:3;--n27-fallback-gap:24px}
+}
+@media(max-width:767px){
+ html[data-n27-independent-header="1"] #corpo :is(.vitrine-24488857,.vitrine-mas-vendido,.vitrine-mais-vendidos,.produto-aproveite,.n27-pdp__recommendations,.listagem.aproveite-tambem,[data-n27-shelf-fallback="1"])
+ :is(ul[data-produtos-linha],ul.produtos-linha,ul.n27-native-products-rail):not(.slick-initialized):not(.swiper-wrapper):not(:has(.slick-list)) {
+  --n27-fallback-cols:2;--n27-fallback-gap:12px;
+ }
+}
