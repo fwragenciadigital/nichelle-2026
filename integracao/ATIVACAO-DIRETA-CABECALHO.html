@@ -1,0 +1,38 @@
+<!-- NICHELLE 2026 / FWR — HTML > CABEÇALHO (TODAS AS PÁGINAS) -->
+<!-- Substitui a configuração histórica. Não duplique Nichelle27Settings. -->
+<link rel="stylesheet" href="https://nichelle-2026.vercel.app/nichelle27.css">
+<script>
+window.Nichelle27Settings = {
+  geral: {
+    ativo: true,
+    publicarNaLoja: true, // LIBERA somente nichelleimports.com.br (com ou sem www)
+    debug: false,
+    paginas: [] // permite topo/rodapé globais, inclusive nas páginas internas
+  },
+  layout: {
+    ativo: true,
+    paginas: ["/"], // conteúdo especial SOMENTE na HOME
+    seletor: "#n27-layout-root"
+  },
+  topo: {
+    ativo: true,
+    seletor: "#cabecalho, .cabecalho",
+    faixaAtiva: false, // não inventar avisos/condições da loja
+    qualificadores: []
+  },
+  rodape: { ativo: true, seletor: "#rodape, .rodape" },
+
+  // Ativar cada bloco quando seu conteúdo ou seletor REAL estiver homologado.
+  // O framework nunca cria dados de compra, links ou mídia fictícia.
+  qualificadores: { ativo: false, rotulo: "VANTAGENS", itens: [] },
+  maisVendidos: { ativo: false, titulo: "Produtos", destaque: "Mais Vendidos", seletorFonte: "", seletorItem: ".listagem-item" },
+  lancamentos: { ativo: false, titulo: "Produtos", destaque: "Lançamentos", seletorFonte: "", seletorItem: ".listagem-item" },
+  marcas: { ativo: false, titulo: "Compre as", destaque: "Melhores Marcas", itens: [] },
+  promocoes: { ativo: false, titulo: "Produtos", destaque: "Promocionais", seletorFonte: "", seletorItem: ".listagem-item" },
+  newsletter: { ativo: false, titulo: "Fique por dentro das novidades", texto: "Receba novidades da Nichelle.", seletorFormulario: "" },
+  instagram: { ativo: false, perfil: "", usuario: "", itens: [] },
+  empresa: { ativo: false, nome: "Nichelle Imports", logo: "", texto: "", imagem: "" },
+  // Não remover integrações já existentes, mas não reposicionar sem homologar.
+  integracoes: { banners: false, videos: false, noticias: false }
+};
+</script>

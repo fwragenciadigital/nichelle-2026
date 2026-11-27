@@ -1,0 +1,24 @@
+/*
+ * Nichelle Imports 2026 — tipografia global em Montserrat.
+ * Mantem cada font-weight, font-size e line-height definido nos modulos.
+ * O gate data-n27-fonts e aplicado somente em preview/publicacao explicita.
+ * Nunca substitui familias de icon fonts nem altera paginas nao autorizadas.
+ */
+html[data-n27-fonts="1"] { --n27-font-family: "Montserrat", Arial, Helvetica, sans-serif; }
+
+html[data-n27-fonts="1"] body,
+html[data-n27-fonts="1"] body :is(
+  h1,h2,h3,h4,h5,h6,p,a,button,input,textarea,select,option,label,
+  summary,small,strong,b,em,blockquote,figcaption,th,td,li
+) {
+  font-family:var(--n27-font-family)!important;
+}
+
+/* Textos do tema nativo ainda visiveis nas paginas internas (PDP, busca, categorias).
+   Nao alcancar <i>, pseudo-elementos de icones ou fontes de iconografia. */
+html[data-n27-fonts="1"] body :is(span,div):not(
+  [class^="icon"],[class*=" icon"],[class^="fa-"],[class*=" fa-"],
+  [class*="icone"],[class*="glyphicon"],[class*="sprite"]
+) {
+  font-family:var(--n27-font-family)!important;
+}

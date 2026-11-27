@@ -1,0 +1,1640 @@
+[
+  {
+    "url": "http://127.0.0.1:8765/preview/",
+    "width": 1920,
+    "height": 1080,
+    "documentWidth": 1905,
+    "pageHeight": 5905,
+    "readyState": "complete",
+    "imageCount": 43,
+    "imageFailures": 0,
+    "cls": 0,
+    "layoutShifts": [],
+    "lcpMs": 452,
+    "eventCount": 0,
+    "maxEventMs": 0,
+    "domContentLoadedMs": 378.69999999925494,
+    "loadMs": 434.3999999985099,
+    "resourceCount": 22,
+    "transferBytes": 114736,
+    "dom": {
+      "sectionOrder": [
+        "qualificadores",
+        "maisVendidos",
+        "banners",
+        "lancamentos",
+        "marcas",
+        "videos",
+        "promocoes",
+        "noticias",
+        "newsletter",
+        "instagram",
+        "empresa"
+      ],
+      "videoCards": 4,
+      "iframeCount": 0,
+      "bannerCards": 4,
+      "bannerDiagnostics": {
+        "pagina": "/preview/",
+        "ativo": true,
+        "origem": "lateral",
+        "nomesUnicos": 4,
+        "fonteAlternativa": "",
+        "imagensDiretasConfiguradas": 0,
+        "minimo": 1,
+        "slotEncontrado": true,
+        "galeriaMontada": true,
+        "possiveisBanners": [
+          {
+            "alt": "mini-pages1",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-1.svg"
+          },
+          {
+            "alt": "mini-pages2",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-2.svg"
+          },
+          {
+            "alt": "mini-pages3",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-3.svg"
+          },
+          {
+            "alt": "mini-pages4",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-4.svg"
+          },
+          {
+            "alt": "mini-pages1",
+            "src": "/preview/assets/banner-1.svg"
+          },
+          {
+            "alt": "mini-pages2",
+            "src": "/preview/assets/banner-2.svg"
+          },
+          {
+            "alt": "mini-pages3",
+            "src": "/preview/assets/banner-3.svg"
+          },
+          {
+            "alt": "mini-pages4",
+            "src": "/preview/assets/banner-4.svg"
+          }
+        ],
+        "banners": [
+          {
+            "nome": "mini-pages1",
+            "imagemNoDOM": true
+          },
+          {
+            "nome": "mini-pages2",
+            "imagemNoDOM": true
+          },
+          {
+            "nome": "mini-pages3",
+            "imagemNoDOM": true
+          },
+          {
+            "nome": "mini-pages4",
+            "imagemNoDOM": true
+          }
+        ]
+      },
+      "headers": [
+        {
+          "tag": "HEADER",
+          "id": "cabecalho",
+          "classes": "preview-header",
+          "height": 153
+        }
+      ],
+      "productCount": 15,
+      "productAncestors": [
+        "article.listagem-item",
+        "div#demo-best.preview-product-list.n27-shelf__track",
+        "div.n27-shelf__viewport",
+        "div.n27-shelf",
+        "div.n27-container",
+        "section.n27-section.n27-section--maisVendidos"
+      ],
+      "forms": [
+        {
+          "id": "",
+          "classes": "preview-search",
+          "action": null,
+          "method": "get",
+          "inputs": 1
+        },
+        {
+          "id": "",
+          "classes": "",
+          "action": "#",
+          "method": "get",
+          "inputs": 1
+        }
+      ],
+      "miniBannerImages": [
+        {
+          "alt": "mini-pages1",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages2",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages3",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages4",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages1",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        },
+        {
+          "alt": "mini-pages2",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        },
+        {
+          "alt": "mini-pages3",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        },
+        {
+          "alt": "mini-pages4",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        }
+      ],
+      "customScriptHosts": [
+        "127.0.0.1"
+      ],
+      "nichelleRuntimeLoaded": true
+    },
+    "screenshot": "capture-1920x1080.png",
+    "consoleErrors": [],
+    "networkFailures": []
+  },
+  {
+    "url": "http://127.0.0.1:8765/preview/",
+    "width": 1440,
+    "height": 900,
+    "documentWidth": 1425,
+    "pageHeight": 5703,
+    "readyState": "complete",
+    "imageCount": 43,
+    "imageFailures": 0,
+    "cls": 0,
+    "layoutShifts": [],
+    "lcpMs": 268,
+    "eventCount": 0,
+    "maxEventMs": 0,
+    "domContentLoadedMs": 232.30000000074506,
+    "loadMs": 255.70000000298023,
+    "resourceCount": 22,
+    "transferBytes": 114736,
+    "dom": {
+      "sectionOrder": [
+        "qualificadores",
+        "maisVendidos",
+        "banners",
+        "lancamentos",
+        "marcas",
+        "videos",
+        "promocoes",
+        "noticias",
+        "newsletter",
+        "instagram",
+        "empresa"
+      ],
+      "videoCards": 4,
+      "iframeCount": 0,
+      "bannerCards": 4,
+      "bannerDiagnostics": {
+        "pagina": "/preview/",
+        "ativo": true,
+        "origem": "lateral",
+        "nomesUnicos": 4,
+        "fonteAlternativa": "",
+        "imagensDiretasConfiguradas": 0,
+        "minimo": 1,
+        "slotEncontrado": true,
+        "galeriaMontada": true,
+        "possiveisBanners": [
+          {
+            "alt": "mini-pages1",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-1.svg"
+          },
+          {
+            "alt": "mini-pages2",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-2.svg"
+          },
+          {
+            "alt": "mini-pages3",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-3.svg"
+          },
+          {
+            "alt": "mini-pages4",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-4.svg"
+          },
+          {
+            "alt": "mini-pages1",
+            "src": "/preview/assets/banner-1.svg"
+          },
+          {
+            "alt": "mini-pages2",
+            "src": "/preview/assets/banner-2.svg"
+          },
+          {
+            "alt": "mini-pages3",
+            "src": "/preview/assets/banner-3.svg"
+          },
+          {
+            "alt": "mini-pages4",
+            "src": "/preview/assets/banner-4.svg"
+          }
+        ],
+        "banners": [
+          {
+            "nome": "mini-pages1",
+            "imagemNoDOM": true
+          },
+          {
+            "nome": "mini-pages2",
+            "imagemNoDOM": true
+          },
+          {
+            "nome": "mini-pages3",
+            "imagemNoDOM": true
+          },
+          {
+            "nome": "mini-pages4",
+            "imagemNoDOM": true
+          }
+        ]
+      },
+      "headers": [
+        {
+          "tag": "HEADER",
+          "id": "cabecalho",
+          "classes": "preview-header",
+          "height": 153
+        }
+      ],
+      "productCount": 15,
+      "productAncestors": [
+        "article.listagem-item",
+        "div#demo-best.preview-product-list.n27-shelf__track",
+        "div.n27-shelf__viewport",
+        "div.n27-shelf",
+        "div.n27-container",
+        "section.n27-section.n27-section--maisVendidos"
+      ],
+      "forms": [
+        {
+          "id": "",
+          "classes": "preview-search",
+          "action": null,
+          "method": "get",
+          "inputs": 1
+        },
+        {
+          "id": "",
+          "classes": "",
+          "action": "#",
+          "method": "get",
+          "inputs": 1
+        }
+      ],
+      "miniBannerImages": [
+        {
+          "alt": "mini-pages1",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages2",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages3",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages4",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages1",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        },
+        {
+          "alt": "mini-pages2",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        },
+        {
+          "alt": "mini-pages3",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        },
+        {
+          "alt": "mini-pages4",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        }
+      ],
+      "customScriptHosts": [
+        "127.0.0.1"
+      ],
+      "nichelleRuntimeLoaded": true
+    },
+    "screenshot": "capture-1440x900.png",
+    "consoleErrors": [],
+    "networkFailures": []
+  },
+  {
+    "url": "http://127.0.0.1:8765/preview/",
+    "width": 1280,
+    "height": 800,
+    "documentWidth": 1265,
+    "pageHeight": 5364,
+    "readyState": "complete",
+    "imageCount": 43,
+    "imageFailures": 0,
+    "cls": 0,
+    "layoutShifts": [],
+    "lcpMs": 92,
+    "eventCount": 0,
+    "maxEventMs": 0,
+    "domContentLoadedMs": 62.30000000074506,
+    "loadMs": 83,
+    "resourceCount": 22,
+    "transferBytes": 114736,
+    "dom": {
+      "sectionOrder": [
+        "qualificadores",
+        "maisVendidos",
+        "banners",
+        "lancamentos",
+        "marcas",
+        "videos",
+        "promocoes",
+        "noticias",
+        "newsletter",
+        "instagram",
+        "empresa"
+      ],
+      "videoCards": 4,
+      "iframeCount": 0,
+      "bannerCards": 4,
+      "bannerDiagnostics": {
+        "pagina": "/preview/",
+        "ativo": true,
+        "origem": "lateral",
+        "nomesUnicos": 4,
+        "fonteAlternativa": "",
+        "imagensDiretasConfiguradas": 0,
+        "minimo": 1,
+        "slotEncontrado": true,
+        "galeriaMontada": true,
+        "possiveisBanners": [
+          {
+            "alt": "mini-pages1",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-1.svg"
+          },
+          {
+            "alt": "mini-pages2",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-2.svg"
+          },
+          {
+            "alt": "mini-pages3",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-3.svg"
+          },
+          {
+            "alt": "mini-pages4",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-4.svg"
+          },
+          {
+            "alt": "mini-pages1",
+            "src": "/preview/assets/banner-1.svg"
+          },
+          {
+            "alt": "mini-pages2",
+            "src": "/preview/assets/banner-2.svg"
+          },
+          {
+            "alt": "mini-pages3",
+            "src": "/preview/assets/banner-3.svg"
+          },
+          {
+            "alt": "mini-pages4",
+            "src": "/preview/assets/banner-4.svg"
+          }
+        ],
+        "banners": [
+          {
+            "nome": "mini-pages1",
+            "imagemNoDOM": true
+          },
+          {
+            "nome": "mini-pages2",
+            "imagemNoDOM": true
+          },
+          {
+            "nome": "mini-pages3",
+            "imagemNoDOM": true
+          },
+          {
+            "nome": "mini-pages4",
+            "imagemNoDOM": true
+          }
+        ]
+      },
+      "headers": [
+        {
+          "tag": "HEADER",
+          "id": "cabecalho",
+          "classes": "preview-header",
+          "height": 153
+        }
+      ],
+      "productCount": 15,
+      "productAncestors": [
+        "article.listagem-item",
+        "div#demo-best.preview-product-list.n27-shelf__track",
+        "div.n27-shelf__viewport",
+        "div.n27-shelf",
+        "div.n27-container",
+        "section.n27-section.n27-section--maisVendidos"
+      ],
+      "forms": [
+        {
+          "id": "",
+          "classes": "preview-search",
+          "action": null,
+          "method": "get",
+          "inputs": 1
+        },
+        {
+          "id": "",
+          "classes": "",
+          "action": "#",
+          "method": "get",
+          "inputs": 1
+        }
+      ],
+      "miniBannerImages": [
+        {
+          "alt": "mini-pages1",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages2",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages3",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages4",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages1",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        },
+        {
+          "alt": "mini-pages2",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        },
+        {
+          "alt": "mini-pages3",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        },
+        {
+          "alt": "mini-pages4",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        }
+      ],
+      "customScriptHosts": [
+        "127.0.0.1"
+      ],
+      "nichelleRuntimeLoaded": true
+    },
+    "screenshot": "capture-1280x800.png",
+    "consoleErrors": [],
+    "networkFailures": []
+  },
+  {
+    "url": "http://127.0.0.1:8765/preview/",
+    "width": 768,
+    "height": 1024,
+    "documentWidth": 753,
+    "pageHeight": 5021,
+    "readyState": "complete",
+    "imageCount": 43,
+    "imageFailures": 0,
+    "cls": 0,
+    "layoutShifts": [],
+    "lcpMs": 116,
+    "eventCount": 0,
+    "maxEventMs": 0,
+    "domContentLoadedMs": 77.19999999925494,
+    "loadMs": 104.39999999850988,
+    "resourceCount": 30,
+    "transferBytes": 119191,
+    "dom": {
+      "sectionOrder": [
+        "qualificadores",
+        "maisVendidos",
+        "banners",
+        "lancamentos",
+        "marcas",
+        "videos",
+        "promocoes",
+        "noticias",
+        "newsletter",
+        "instagram",
+        "empresa"
+      ],
+      "videoCards": 4,
+      "iframeCount": 0,
+      "bannerCards": 4,
+      "bannerDiagnostics": {
+        "pagina": "/preview/",
+        "ativo": true,
+        "origem": "lateral",
+        "nomesUnicos": 4,
+        "fonteAlternativa": "",
+        "imagensDiretasConfiguradas": 0,
+        "minimo": 1,
+        "slotEncontrado": true,
+        "galeriaMontada": true,
+        "possiveisBanners": [
+          {
+            "alt": "mini-pages1",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-1.svg"
+          },
+          {
+            "alt": "mini-pages2",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-2.svg"
+          },
+          {
+            "alt": "mini-pages3",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-3.svg"
+          },
+          {
+            "alt": "mini-pages4",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-4.svg"
+          },
+          {
+            "alt": "mini-pages1",
+            "src": "/preview/assets/banner-1.svg"
+          },
+          {
+            "alt": "mini-pages2",
+            "src": "/preview/assets/banner-2.svg"
+          },
+          {
+            "alt": "mini-pages3",
+            "src": "/preview/assets/banner-3.svg"
+          },
+          {
+            "alt": "mini-pages4",
+            "src": "/preview/assets/banner-4.svg"
+          }
+        ],
+        "banners": [
+          {
+            "nome": "mini-pages1",
+            "imagemNoDOM": true
+          },
+          {
+            "nome": "mini-pages2",
+            "imagemNoDOM": true
+          },
+          {
+            "nome": "mini-pages3",
+            "imagemNoDOM": true
+          },
+          {
+            "nome": "mini-pages4",
+            "imagemNoDOM": true
+          }
+        ]
+      },
+      "headers": [
+        {
+          "tag": "HEADER",
+          "id": "cabecalho",
+          "classes": "preview-header",
+          "height": 205
+        }
+      ],
+      "productCount": 15,
+      "productAncestors": [
+        "article.listagem-item",
+        "div#demo-best.preview-product-list.n27-shelf__track",
+        "div.n27-shelf__viewport",
+        "div.n27-shelf",
+        "div.n27-container",
+        "section.n27-section.n27-section--maisVendidos"
+      ],
+      "forms": [
+        {
+          "id": "",
+          "classes": "preview-search",
+          "action": null,
+          "method": "get",
+          "inputs": 1
+        },
+        {
+          "id": "",
+          "classes": "",
+          "action": "#",
+          "method": "get",
+          "inputs": 1
+        }
+      ],
+      "miniBannerImages": [
+        {
+          "alt": "mini-pages1",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages2",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages3",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages4",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages1",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        },
+        {
+          "alt": "mini-pages2",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        },
+        {
+          "alt": "mini-pages3",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        },
+        {
+          "alt": "mini-pages4",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        }
+      ],
+      "customScriptHosts": [
+        "127.0.0.1"
+      ],
+      "nichelleRuntimeLoaded": true
+    },
+    "screenshot": "capture-768x1024.png",
+    "consoleErrors": [],
+    "networkFailures": []
+  },
+  {
+    "url": "http://127.0.0.1:8765/preview/",
+    "width": 390,
+    "height": 844,
+    "documentWidth": 390,
+    "pageHeight": 5375,
+    "readyState": "complete",
+    "imageCount": 43,
+    "imageFailures": 0,
+    "cls": 0,
+    "layoutShifts": [],
+    "lcpMs": 124,
+    "eventCount": 0,
+    "maxEventMs": 0,
+    "domContentLoadedMs": 70.59999999776483,
+    "loadMs": 101.5,
+    "resourceCount": 29,
+    "transferBytes": 118636,
+    "dom": {
+      "sectionOrder": [
+        "qualificadores",
+        "maisVendidos",
+        "banners",
+        "lancamentos",
+        "marcas",
+        "videos",
+        "promocoes",
+        "noticias",
+        "newsletter",
+        "instagram",
+        "empresa"
+      ],
+      "videoCards": 4,
+      "iframeCount": 0,
+      "bannerCards": 4,
+      "bannerDiagnostics": {
+        "pagina": "/preview/",
+        "ativo": true,
+        "origem": "lateral",
+        "nomesUnicos": 4,
+        "fonteAlternativa": "",
+        "imagensDiretasConfiguradas": 0,
+        "minimo": 1,
+        "slotEncontrado": true,
+        "galeriaMontada": true,
+        "possiveisBanners": [
+          {
+            "alt": "mini-pages1",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-1.svg"
+          },
+          {
+            "alt": "mini-pages2",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-2.svg"
+          },
+          {
+            "alt": "mini-pages3",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-3.svg"
+          },
+          {
+            "alt": "mini-pages4",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-4.svg"
+          },
+          {
+            "alt": "mini-pages1",
+            "src": "/preview/assets/banner-1.svg"
+          },
+          {
+            "alt": "mini-pages2",
+            "src": "/preview/assets/banner-2.svg"
+          },
+          {
+            "alt": "mini-pages3",
+            "src": "/preview/assets/banner-3.svg"
+          },
+          {
+            "alt": "mini-pages4",
+            "src": "/preview/assets/banner-4.svg"
+          }
+        ],
+        "banners": [
+          {
+            "nome": "mini-pages1",
+            "imagemNoDOM": true
+          },
+          {
+            "nome": "mini-pages2",
+            "imagemNoDOM": true
+          },
+          {
+            "nome": "mini-pages3",
+            "imagemNoDOM": true
+          },
+          {
+            "nome": "mini-pages4",
+            "imagemNoDOM": true
+          }
+        ]
+      },
+      "headers": [
+        {
+          "tag": "HEADER",
+          "id": "cabecalho",
+          "classes": "preview-header",
+          "height": 177
+        }
+      ],
+      "productCount": 15,
+      "productAncestors": [
+        "article.listagem-item",
+        "div#demo-best.preview-product-list.n27-shelf__track",
+        "div.n27-shelf__viewport",
+        "div.n27-shelf",
+        "div.n27-container",
+        "section.n27-section.n27-section--maisVendidos"
+      ],
+      "forms": [
+        {
+          "id": "",
+          "classes": "preview-search",
+          "action": null,
+          "method": "get",
+          "inputs": 1
+        },
+        {
+          "id": "",
+          "classes": "",
+          "action": "#",
+          "method": "get",
+          "inputs": 1
+        }
+      ],
+      "miniBannerImages": [
+        {
+          "alt": "mini-pages1",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages2",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages3",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages4",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages1",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        },
+        {
+          "alt": "mini-pages2",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        },
+        {
+          "alt": "mini-pages3",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        },
+        {
+          "alt": "mini-pages4",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        }
+      ],
+      "customScriptHosts": [
+        "127.0.0.1"
+      ],
+      "nichelleRuntimeLoaded": true
+    },
+    "screenshot": "capture-390x844.png",
+    "consoleErrors": [],
+    "networkFailures": []
+  },
+  {
+    "url": "http://127.0.0.1:8765/preview/",
+    "width": 375,
+    "height": 812,
+    "documentWidth": 375,
+    "pageHeight": 5329,
+    "readyState": "complete",
+    "imageCount": 43,
+    "imageFailures": 0,
+    "cls": 0,
+    "layoutShifts": [],
+    "lcpMs": 120,
+    "eventCount": 0,
+    "maxEventMs": 0,
+    "domContentLoadedMs": 70.89999999850988,
+    "loadMs": 106.69999999925494,
+    "resourceCount": 29,
+    "transferBytes": 118636,
+    "dom": {
+      "sectionOrder": [
+        "qualificadores",
+        "maisVendidos",
+        "banners",
+        "lancamentos",
+        "marcas",
+        "videos",
+        "promocoes",
+        "noticias",
+        "newsletter",
+        "instagram",
+        "empresa"
+      ],
+      "videoCards": 4,
+      "iframeCount": 0,
+      "bannerCards": 4,
+      "bannerDiagnostics": {
+        "pagina": "/preview/",
+        "ativo": true,
+        "origem": "lateral",
+        "nomesUnicos": 4,
+        "fonteAlternativa": "",
+        "imagensDiretasConfiguradas": 0,
+        "minimo": 1,
+        "slotEncontrado": true,
+        "galeriaMontada": true,
+        "possiveisBanners": [
+          {
+            "alt": "mini-pages1",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-1.svg"
+          },
+          {
+            "alt": "mini-pages2",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-2.svg"
+          },
+          {
+            "alt": "mini-pages3",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-3.svg"
+          },
+          {
+            "alt": "mini-pages4",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-4.svg"
+          },
+          {
+            "alt": "mini-pages1",
+            "src": "/preview/assets/banner-1.svg"
+          },
+          {
+            "alt": "mini-pages2",
+            "src": "/preview/assets/banner-2.svg"
+          },
+          {
+            "alt": "mini-pages3",
+            "src": "/preview/assets/banner-3.svg"
+          },
+          {
+            "alt": "mini-pages4",
+            "src": "/preview/assets/banner-4.svg"
+          }
+        ],
+        "banners": [
+          {
+            "nome": "mini-pages1",
+            "imagemNoDOM": true
+          },
+          {
+            "nome": "mini-pages2",
+            "imagemNoDOM": true
+          },
+          {
+            "nome": "mini-pages3",
+            "imagemNoDOM": true
+          },
+          {
+            "nome": "mini-pages4",
+            "imagemNoDOM": true
+          }
+        ]
+      },
+      "headers": [
+        {
+          "tag": "HEADER",
+          "id": "cabecalho",
+          "classes": "preview-header",
+          "height": 177
+        }
+      ],
+      "productCount": 15,
+      "productAncestors": [
+        "article.listagem-item",
+        "div#demo-best.preview-product-list.n27-shelf__track",
+        "div.n27-shelf__viewport",
+        "div.n27-shelf",
+        "div.n27-container",
+        "section.n27-section.n27-section--maisVendidos"
+      ],
+      "forms": [
+        {
+          "id": "",
+          "classes": "preview-search",
+          "action": null,
+          "method": "get",
+          "inputs": 1
+        },
+        {
+          "id": "",
+          "classes": "",
+          "action": "#",
+          "method": "get",
+          "inputs": 1
+        }
+      ],
+      "miniBannerImages": [
+        {
+          "alt": "mini-pages1",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages2",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages3",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages4",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages1",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        },
+        {
+          "alt": "mini-pages2",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        },
+        {
+          "alt": "mini-pages3",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        },
+        {
+          "alt": "mini-pages4",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        }
+      ],
+      "customScriptHosts": [
+        "127.0.0.1"
+      ],
+      "nichelleRuntimeLoaded": true
+    },
+    "screenshot": "capture-375x812.png",
+    "consoleErrors": [],
+    "networkFailures": []
+  },
+  {
+    "url": "http://127.0.0.1:8765/preview/",
+    "width": 320,
+    "height": 740,
+    "documentWidth": 320,
+    "pageHeight": 5280,
+    "readyState": "complete",
+    "imageCount": 43,
+    "imageFailures": 0,
+    "cls": 0,
+    "layoutShifts": [],
+    "lcpMs": 104,
+    "eventCount": 0,
+    "maxEventMs": 0,
+    "domContentLoadedMs": 68.40000000223517,
+    "loadMs": 98.60000000149012,
+    "resourceCount": 30,
+    "transferBytes": 119191,
+    "dom": {
+      "sectionOrder": [
+        "qualificadores",
+        "maisVendidos",
+        "banners",
+        "lancamentos",
+        "marcas",
+        "videos",
+        "promocoes",
+        "noticias",
+        "newsletter",
+        "instagram",
+        "empresa"
+      ],
+      "videoCards": 4,
+      "iframeCount": 0,
+      "bannerCards": 4,
+      "bannerDiagnostics": {
+        "pagina": "/preview/",
+        "ativo": true,
+        "origem": "lateral",
+        "nomesUnicos": 4,
+        "fonteAlternativa": "",
+        "imagensDiretasConfiguradas": 0,
+        "minimo": 1,
+        "slotEncontrado": true,
+        "galeriaMontada": true,
+        "possiveisBanners": [
+          {
+            "alt": "mini-pages1",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-1.svg"
+          },
+          {
+            "alt": "mini-pages2",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-2.svg"
+          },
+          {
+            "alt": "mini-pages3",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-3.svg"
+          },
+          {
+            "alt": "mini-pages4",
+            "src": "http://127.0.0.1:8765/preview/assets/banner-4.svg"
+          },
+          {
+            "alt": "mini-pages1",
+            "src": "/preview/assets/banner-1.svg"
+          },
+          {
+            "alt": "mini-pages2",
+            "src": "/preview/assets/banner-2.svg"
+          },
+          {
+            "alt": "mini-pages3",
+            "src": "/preview/assets/banner-3.svg"
+          },
+          {
+            "alt": "mini-pages4",
+            "src": "/preview/assets/banner-4.svg"
+          }
+        ],
+        "banners": [
+          {
+            "nome": "mini-pages1",
+            "imagemNoDOM": true
+          },
+          {
+            "nome": "mini-pages2",
+            "imagemNoDOM": true
+          },
+          {
+            "nome": "mini-pages3",
+            "imagemNoDOM": true
+          },
+          {
+            "nome": "mini-pages4",
+            "imagemNoDOM": true
+          }
+        ]
+      },
+      "headers": [
+        {
+          "tag": "HEADER",
+          "id": "cabecalho",
+          "classes": "preview-header",
+          "height": 177
+        }
+      ],
+      "productCount": 15,
+      "productAncestors": [
+        "article.listagem-item",
+        "div#demo-best.preview-product-list.n27-shelf__track",
+        "div.n27-shelf__viewport",
+        "div.n27-shelf",
+        "div.n27-container",
+        "section.n27-section.n27-section--maisVendidos"
+      ],
+      "forms": [
+        {
+          "id": "",
+          "classes": "preview-search",
+          "action": null,
+          "method": "get",
+          "inputs": 1
+        },
+        {
+          "id": "",
+          "classes": "",
+          "action": "#",
+          "method": "get",
+          "inputs": 1
+        }
+      ],
+      "miniBannerImages": [
+        {
+          "alt": "mini-pages1",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages2",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages3",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages4",
+          "title": "",
+          "parent": [
+            "div.fwr-nichelle-vitrine__card",
+            "div.fwr-nichelle-vitrine__grid",
+            "section.fwr-nichelle-vitrine",
+            "div#fwr-nichelle-vitrine-slot",
+            "div.n27-container",
+            "section.n27-section.n27-section--banners"
+          ]
+        },
+        {
+          "alt": "mini-pages1",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        },
+        {
+          "alt": "mini-pages2",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        },
+        {
+          "alt": "mini-pages3",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        },
+        {
+          "alt": "mini-pages4",
+          "title": "",
+          "parent": [
+            "div.preview-banner-source",
+            "div.preview-fixtures",
+            "main",
+            "body",
+            "html"
+          ]
+        }
+      ],
+      "customScriptHosts": [
+        "127.0.0.1"
+      ],
+      "nichelleRuntimeLoaded": true
+    },
+    "screenshot": "capture-320x740.png",
+    "consoleErrors": [],
+    "networkFailures": []
+  }
+]

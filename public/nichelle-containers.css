@@ -1,0 +1,82 @@
+/*
+ * NICHELLE IMPORTS 2026 — container layout token v1.0
+ * Padrao unico de largura para os containers principais FWR.
+ * A largura permanece 100% (max. 1540px) e o respiro e padding interno,
+ * nao um calculo de width menor. Mantem fundos/hero full-bleed.
+ * ATENCAO: nao alterar sliders, cards, drawers, imagens ou checkout.
+ */
+:root {
+  --n27-layout-max:1540px;
+  --n27-layout-gutter:clamp(14px, 2vw, 30px);
+}
+
+/* Remove apenas o teto do shell da loja durante a homologacao ativa. */
+html[data-n27-independent-header="1"] .conteiner-principal {
+  width:100%!important;
+  max-width:none!important;
+  box-sizing:border-box!important;
+}
+
+html[data-n27-independent-header="1"] #n27-independent-header .n27-owned-container:not(.n27-owned-nav__track),
+html[data-n27-approved="1"] .n27-approved-container,
+html[data-n27-approved="1"] #n27-preview-stage .listagem.vitrine-produtos .conteiner,
+html[data-n27-approved="1"] #n27-preview-stage .vitrine-marcas .conteiner,
+html[data-n27-isolated="1"] #n27-preview-stage .listagem.vitrine-produtos .conteiner,
+html[data-n27-approved="1"] #n27-preview-stage > #n27-approved-benefits.n27-home-benefits,
+html[data-n27-best-shelf="1"] .n27-best-shelf .n27-best-shelf__inner,
+html[data-n27-brands="1"] #n27-approved-brands .n27-brands__inner,
+html[data-n27-shorts="1"] #n27-approved-shorts .n27-shorts__heading,
+html[data-n27-shorts="1"] #n27-approved-shorts .n27-shorts__inner,
+html[data-n27-news="1"] #n27-approved-news .n27-news__inner,
+html[data-n27-endcap-newsletter="1"] #n27-approved-newsletter .n27-approved-container,
+html[data-n27-endcap-instagram="1"] #n27-approved-instagram .n27-approved-container,
+html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp > .conteiner,
+html[data-n27-pdp="1"] #corpo .n27-pdp__description > .conteiner,
+html[data-n27-pdp="1"] #corpo .n27-pdp__recommendations > .conteiner,
+html[data-n27-cart-page="1"] #corpo .secao-principal,
+html[data-n27-independent-header="1"] #corpo > .conteiner,
+html[data-n27-fonts="1"] .n27-container,
+html[data-n27-fonts="1"] #fwr-nichelle-video-slot {
+  box-sizing:border-box!important;
+  width:100%!important;
+  max-width:1540px!important;
+  min-width:0!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  padding-left:var(--n27-layout-gutter)!important;
+  padding-right:var(--n27-layout-gutter)!important;
+}
+
+/* O trilho horizontal do menu mobile deve continuar com largura de conteudo. */
+@media (min-width:768px) {
+  html[data-n27-independent-header="1"] #n27-independent-header .n27-owned-nav__track {
+    box-sizing:border-box!important;
+    width:100%!important;
+    max-width:1540px!important;
+    min-width:0!important;
+    padding-left:var(--n27-layout-gutter)!important;
+    padding-right:var(--n27-layout-gutter)!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+  }
+}
+
+/* Faixa roxa e imagem editorial do rodape continuam full bleed;
+   so o alinhamento do conteudo da faixa utiliza o teto comum. */
+html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__top-inner {
+  box-sizing:border-box!important;
+  width:100%!important;
+  max-width:1540px!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+
+/* Nenhum padding horizontal adicional no modo compacto do menu.
+   Seus itens precisam manter o scroll-snap original. */
+@media (max-width:767px) {
+  html[data-n27-independent-header="1"] #n27-independent-header .n27-owned-nav__track {
+    width:max-content!important;
+    max-width:none!important;
+    padding:0 6px!important;
+  }
+}

@@ -1,0 +1,68 @@
+<!--
+NICHELLE IMPORTS | RODAPÉ FWR — ADMINISTRAÇÃO
+
+Cole este bloco em Loja Integrada > Incluir código HTML > Rodapé.
+Os arquivos nichelle27.js e nichelle27.css já incluem o componente.
+NÃO é necessário inserir nenhum outro <script src="...">.
+
+IMPORTANTE:
+  - As colunas de páginas institucionais e links da área do cliente
+    leem as URLs cadastradas e publicadas na própria Loja Integrada.
+  - Telefone, WhatsApp, e-mail, horário de atendimento, CNPJ,
+    formas de pagamento (incluindo PIX), envio e selos vêm do rodapé
+    NATIVO da plataforma. Altere esses dados no painel da loja.
+  - O código não substitui checkout, modais de contato, recursos
+    do cliente ou autenticação: somente a apresentação visual.
+  - Modo homologação: ?nichelle_preview=1 na página inicial.
+-->
+
+<script>
+window.Nichelle27Settings = window.Nichelle27Settings || {};
+window.Nichelle27Settings.rodapeFWR = {
+  ativo: true,
+
+  // Arquivos publicados na CDN da Loja Integrada:
+  logo: "https://cdn.awsli.com.br/2550/2550587/arquivos/logo-footer.png",
+  imagem: "https://cdn.awsli.com.br/2550/2550587/arquivos/rodape.png",
+
+  // A descrição principal é lida automaticamente de "Sobre nós" no rodapé.
+  // Este texto é apenas o complemento opcional da faixa roxa.
+  textoComplementar: "Beleza, cuidados pessoais e as últimas tendências em produtos importados.",
+
+  // Títulos das colunas (o conteúdo permanece no cadastro da LI):
+  tituloInstitucional: "Institucional",
+  tituloConta: "Área do Cliente",
+  tituloAtendimento: "Atendimento",
+  tituloSeguranca: "Compra Segura",
+  tituloPagamento: "Formas de Pagamento",
+  tituloEnvios: "Formas de envio",
+
+  // Mostrar dados reais da plataforma:
+  mostrarEnvios: true,
+  mostrarFWR: true
+};
+document.dispatchEvent(new Event("nichelle27:rodape:update"));
+</script>
+
+<!--
+Alternativa JSON para editar só o visual sem reescrever o script acima:
+
+<script type="application/json" id="n27-rodape-json">
+{
+  "ativo": true,
+  "logo": "https://cdn.awsli.com.br/2550/2550587/arquivos/logo-footer.png",
+  "imagem": "https://cdn.awsli.com.br/2550/2550587/arquivos/rodape.png",
+  "textoComplementar": "Beleza, cuidados pessoais e as últimas tendências em produtos importados.",
+  "tituloInstitucional": "Institucional",
+  "tituloConta": "Área do Cliente",
+  "tituloAtendimento": "Atendimento",
+  "tituloSeguranca": "Compra Segura",
+  "tituloPagamento": "Formas de Pagamento",
+  "tituloEnvios": "Formas de envio",
+  "mostrarEnvios": true,
+  "mostrarFWR": true
+}
+</script>
+
+Use uma das formas acima, nunca ambas.
+-->

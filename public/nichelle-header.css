@@ -1,0 +1,1064 @@
+/*
+ * FWR Nichelle 2026 | Own storefront header (v1.0)
+ * No .painel, #cabecalho, .menu-desktop, Slick, or Groom behavior required.
+ * Native theme header hidden only for explicitly-enabled preview.
+ */
+html[data-n27-independent-header="1"] .conteiner-principal > header:not(#n27-independent-header),
+html[data-n27-independent-header="1"] .conteiner-principal > #cabecalho {
+  display:none!important;
+}
+html[data-n27-independent-header="1"] .conteiner-principal > #n27-independent-header {
+  display:block!important;
+  width:100%!important;max-width:none!important;
+  margin:0!important;padding:0!important;
+  height:auto!important;min-height:0!important;
+  position:relative!important;z-index:250!important;
+  overflow:visible!important;isolation:isolate;
+  background:#fff!important;
+  font:400 13px/1.4 "Montserrat", Arial, Helvetica, sans-serif!important;
+  color:#630085!important;
+  border:0!important;box-shadow:none!important;
+}
+#n27-independent-header,
+#n27-independent-header *,
+#n27-independent-header *::before,
+#n27-independent-header *::after {
+  box-sizing:border-box;
+}
+#n27-independent-header [hidden] {display:none!important;}
+#n27-independent-header button,
+#n27-independent-header input,
+#n27-independent-header summary {
+  font:inherit;
+}
+#n27-independent-header button,
+#n27-independent-header summary {
+  cursor:pointer;
+}
+#n27-independent-header a {text-decoration:none;color:inherit;}
+#n27-independent-header a:focus-visible,
+#n27-independent-header button:focus-visible,
+#n27-independent-header input:focus-visible,
+#n27-independent-header summary:focus-visible {
+  outline:2px solid #b900e3!important;outline-offset:3px!important;
+}
+#n27-independent-header svg {display:block;flex-shrink:0;}
+#n27-independent-header .n27-owned-container {
+  width:100%!important;
+  max-width:1540px!important;
+  margin-inline:auto!important;
+  padding:0!important;
+  float:none!important;
+}
+/* Seamless marquee: track is two *identical* groups, moving one group width. */
+#n27-independent-header .n27-owned-benefits {
+  position:relative!important;
+  display:block!important;
+  width:100%!important;height:32px!important;
+  margin:0!important;padding:0!important;overflow:hidden!important;
+  border-top:4px solid #8300ad!important;
+  background:#fff!important;color:#8000a5!important;
+}
+#n27-independent-header .n27-owned-benefits__track {
+  display:flex!important;
+  flex-flow:row nowrap!important;
+  align-items:center!important;
+  width:max-content!important;height:28px!important;
+  min-width:0!important;max-width:none!important;
+  gap:0!important;margin:0!important;padding:0!important;
+  will-change:transform;
+  animation:n27-owned-marquee 76s linear infinite;
+}
+#n27-independent-header .n27-owned-benefits__group {
+  display:flex!important;
+  flex:0 0 auto!important;align-items:center!important;
+  height:28px!important;
+  gap:clamp(30px,2.7vw,56px)!important;
+  width:max-content!important;
+  margin:0!important;
+  padding:0 clamp(30px,2.7vw,56px) 0 0!important;
+  white-space:nowrap!important;
+}
+#n27-independent-header .n27-owned-benefits__item {
+  display:inline-flex!important;align-items:center!important;
+  gap:5px!important;min-height:18px!important;
+  white-space:nowrap!important;
+  font:400 9px/1.1 "Montserrat", Arial, Helvetica, sans-serif!important;
+  color:#a26ab8!important;
+}
+#n27-independent-header .n27-owned-benefits__item > svg {
+  width:15px!important;height:15px!important;
+  color:#8100a6!important;
+}
+#n27-independent-header .n27-owned-benefits__copy {
+  font:400 9px/1.1 "Montserrat", Arial, Helvetica, sans-serif!important;
+  white-space:nowrap!important;
+  color:#b38ac4!important;
+}
+#n27-independent-header .n27-owned-benefits__copy strong {
+  font-weight:800!important;color:#8000a5!important;
+}
+@keyframes n27-owned-marquee {
+  0%{transform:translate3d(0,0,0)}
+  100%{transform:translate3d(-50%,0,0)}
+}
+#n27-independent-header .n27-owned-benefits:hover .n27-owned-benefits__track,
+#n27-independent-header .n27-owned-benefits:focus-within .n27-owned-benefits__track {
+  animation-play-state:paused;
+}
+/* Three-zone desktop header. */
+#n27-independent-header .n27-owned-main {
+  display:flex!important;align-items:center!important;
+  width:100%!important;height:91px!important;min-height:91px!important;
+  background:#fff!important;border:0!important;
+  margin:0!important;padding:0!important;
+}
+#n27-independent-header .n27-owned-main__inner {
+  display:grid!important;
+  grid-template-columns:176px minmax(210px,1fr) auto!important;
+  grid-template-areas:"brand search actions"!important;
+  align-items:center!important;gap:clamp(16px,2.4vw,35px)!important;
+  width:100%!important;
+  height:91px!important;min-height:0!important;
+  position:relative!important;
+}
+#n27-independent-header .n27-owned-mobile-toggle {display:none!important;}
+#n27-independent-header .n27-owned-logo {
+  grid-area:brand!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  width:176px!important;height:62px!important;
+  margin:0!important;padding:0!important;
+  background:none!important;position:static!important;
+}
+#n27-independent-header .n27-owned-logo > img {
+  width:176px!important;max-width:100%!important;
+  height:auto!important;max-height:60px!important;
+  object-fit:contain!important;
+}
+#n27-independent-header .n27-owned-search {
+  grid-area:search!important;position:relative!important;
+  display:flex!important;align-items:center!important;
+  width:100%!important;min-width:0!important;max-width:none!important;
+  height:42px!important;min-height:42px!important;
+  border:1px solid #cbc7cd!important;border-radius:25px!important;
+  background:#fff!important;
+  margin:0!important;padding:0!important;
+  box-shadow:none!important;
+}
+#n27-independent-header .n27-owned-search__field {
+  display:block!important;flex:1 1 auto!important;min-width:0!important;
+  width:100%!important;max-width:none!important;
+  height:40px!important;min-height:0!important;
+  color:#43344b!important;background:#fff!important;
+  border:0!important;border-radius:25px!important;
+  font:400 12px/40px "Montserrat", Arial, Helvetica, sans-serif!important;
+  box-shadow:none!important;
+  padding:0 16px!important;margin:0!important;
+}
+#n27-independent-header .n27-owned-search__field::placeholder {
+  color:#958b98!important;opacity:1!important;
+}
+#n27-independent-header .n27-owned-search__field::-webkit-search-cancel-button {
+  -webkit-appearance:none;
+}
+#n27-independent-header .n27-owned-search__button {
+  display:grid!important;place-items:center!important;
+  flex:0 0 45px!important;
+  width:45px!important;height:40px!important;min-height:0!important;
+  border:0!important;border-radius:0 25px 25px 0!important;
+  padding:0!important;margin:0!important;
+  background:none!important;color:#8200a7!important;
+  box-shadow:none!important;
+}
+#n27-independent-header .n27-owned-search__button svg {
+  width:24px!important;height:24px!important;
+}
+#n27-independent-header .n27-owned-actions {
+  grid-area:actions!important;
+  display:flex!important;align-items:center!important;
+  justify-content:flex-end!important;
+  gap:clamp(12px,1.5vw,25px)!important;
+  width:auto!important;min-width:0!important;
+  height:60px!important;margin:0!important;padding:0!important;
+  position:relative!important;
+}
+#n27-independent-header .n27-owned-actions__detail {
+  position:relative!important;
+  display:block!important;
+  flex:0 0 auto!important;
+  width:auto!important;
+  height:52px!important;margin:0!important;padding:0!important;
+}
+#n27-independent-header .n27-owned-actions__summary {
+  display:flex!important;align-items:center!important;
+  justify-content:flex-start!important;gap:8px!important;
+  width:auto!important;height:52px!important;
+  min-height:52px!important;margin:0!important;padding:0!important;
+  background:transparent!important;border:0!important;
+  list-style:none!important;white-space:nowrap!important;
+  color:#8000a5!important;
+}
+#n27-independent-header .n27-owned-actions__summary::-webkit-details-marker {
+  display:none!important;
+}
+#n27-independent-header .n27-owned-actions__summary > svg {
+  width:25px!important;height:25px!important;
+}
+#n27-independent-header .n27-owned-actions__labels {
+  display:flex!important;flex-direction:column!important;
+  align-items:flex-start!important;justify-content:center!important;
+  gap:3px!important;white-space:nowrap!important;
+}
+#n27-independent-header .n27-owned-actions__labels > strong {
+  display:block!important;
+  font:800 14px/1.05 "Montserrat", Arial, Helvetica, sans-serif!important;
+  color:#7900a0!important;
+}
+#n27-independent-header .n27-owned-actions__labels > small {
+  display:block!important;
+  font:400 10px/1.1 "Montserrat", Arial, Helvetica, sans-serif!important;
+  color:#8700a8!important;
+}
+#n27-independent-header .n27-owned-actions__dropdown {
+  display:none!important;
+  position:absolute!important;top:calc(100% + 5px)!important;
+  left:0!important;z-index:700!important;
+  width:230px!important;min-width:210px!important;
+  padding:12px!important;margin:0!important;
+  background:#fff!important;
+  border:1px solid #eee4f1!important;border-radius:10px!important;
+  box-shadow:0 10px 30px #34004425!important;
+}
+#n27-independent-header .n27-owned-actions__detail[open] > .n27-owned-actions__dropdown {
+  display:flex!important;flex-direction:column!important;gap:3px!important;
+}
+#n27-independent-header .n27-owned-actions__dropdown-link {
+  display:block!important;width:100%!important;
+  padding:10px!important;border-radius:6px!important;
+  font:500 12px/1.3 "Montserrat", Arial, Helvetica, sans-serif!important;
+  color:#65416f!important;
+}
+#n27-independent-header .n27-owned-actions__dropdown-link:hover{
+  background:#f7edfa!important;color:#720090!important;
+}
+#n27-independent-header .n27-owned-cart {
+  display:grid!important;place-items:center!important;
+  position:relative!important;
+  width:47px!important;height:50px!important;
+  margin:0!important;padding:5px!important;
+  color:#7900a0!important;
+}
+#n27-independent-header .n27-owned-cart > svg {
+  width:28px!important;height:28px!important;
+}
+#n27-independent-header .n27-owned-cart__badge {
+  display:grid!important;place-items:center!important;
+  position:absolute!important;top:3px!important;right:0!important;
+  width:auto!important;min-width:16px!important;height:16px!important;
+  margin:0!important;padding:0 4px!important;
+  background:#a400bb!important;color:#fff!important;border-radius:999px!important;
+  font:700 10px/1 "Montserrat", Arial, Helvetica, sans-serif!important;
+}
+/* Icon categories bar. */
+#n27-independent-header .n27-owned-nav {
+  display:block!important;position:relative!important;
+  width:100%!important;height:67px!important;min-height:67px!important;
+  margin:0!important;padding:0!important;
+  background:#8000a5!important;color:#fff!important;
+  overflow:visible!important;
+  z-index:610!important;
+}
+#n27-independent-header .n27-owned-nav__track {
+  display:grid!important;grid-template-columns:repeat(var(--n27-menu-count,7),minmax(0,1fr))!important;
+  align-items:stretch!important;gap:0!important;
+  width:100%!important;height:67px!important;
+  list-style:none!important;position:relative!important;
+  margin:0 auto!important;padding:0!important;
+  overflow:visible!important;
+}
+#n27-independent-header .n27-owned-nav__item {
+  display:flex!important;position:relative!important;
+  flex-flow:column nowrap!important;
+  justify-content:center!important;align-items:center!important;
+  width:100%!important;min-width:0!important;height:67px!important;
+  margin:0!important;padding:0!important;
+  background:none!important;border:0!important;color:#fff!important;
+}
+#n27-independent-header .n27-owned-nav__item:hover,
+#n27-independent-header .n27-owned-nav__item:focus-within,
+#n27-independent-header .n27-owned-nav__item[data-open="true"] {
+  background:#6e008f!important;
+}
+#n27-independent-header .n27-owned-nav__main {
+  display:flex!important;flex-direction:column!important;
+  align-items:center!important;justify-content:center!important;
+  gap:6px!important;
+  width:100%!important;height:67px!important;min-width:0!important;
+  padding:8px 10px!important;margin:0!important;
+  font:500 12px/1.1 "Montserrat", Arial, Helvetica, sans-serif!important;
+  color:#fff!important;white-space:nowrap!important;
+  text-align:center!important;
+}
+#n27-independent-header .n27-owned-nav__main > svg {
+  width:23px!important;height:23px!important;
+  color:#fff!important;
+}
+#n27-independent-header .n27-owned-nav__toggle {
+  position:absolute!important;right:clamp(3px,.7vw,10px)!important;
+  bottom:6px!important;
+  display:grid!important;place-items:center!important;
+  width:21px!important;height:21px!important;
+  padding:3px!important;margin:0!important;
+  border:0!important;background:none!important;color:#fff!important;
+}
+#n27-independent-header .n27-owned-nav__toggle > svg {
+  width:13px!important;height:13px!important;
+}
+#n27-independent-header .n27-owned-nav__item[data-open="true"] .n27-owned-nav__toggle > svg {
+  transform:rotate(180deg);
+}
+#n27-independent-header .n27-owned-submenu {
+  position:absolute!important;top:100%!important;
+  left:50%!important;transform:translateX(-50%)!important;
+  z-index:820!important;
+  display:none!important;
+  width:clamp(320px,38vw,590px)!important;
+  max-width:calc(100vw - 28px)!important;
+  max-height:min(68vh,580px)!important;
+  overflow-y:auto!important;
+  background:#fff!important;color:#4a3854!important;
+  border:1px solid #e7d8e9!important;border-top:3px solid #a323bb!important;
+  border-radius:0 0 12px 12px!important;
+  padding:19px!important;margin:0!important;
+  box-shadow:0 16px 44px #2200292d!important;
+}
+#n27-independent-header .n27-owned-nav__item:hover > .n27-owned-submenu,
+#n27-independent-header .n27-owned-nav__item:focus-within > .n27-owned-submenu,
+#n27-independent-header .n27-owned-nav__item[data-open="true"] > .n27-owned-submenu {
+  display:block!important;
+}
+#n27-independent-header .n27-owned-nav__item:first-child .n27-owned-submenu {
+  left:0!important;transform:none!important;
+}
+#n27-independent-header .n27-owned-nav__item:last-child .n27-owned-submenu {
+  left:auto!important;right:0!important;transform:none!important;
+  width:min(730px,calc(100vw - 28px))!important;
+}
+#n27-independent-header .n27-owned-submenu__viewall {
+  display:block!important;width:100%!important;
+  font:800 14px/1.3 "Montserrat", Arial, Helvetica, sans-serif!important;
+  color:#8000a5!important;border-bottom:1px solid #eaddeb!important;
+  padding:0 0 13px!important;margin:0 0 12px!important;
+}
+#n27-independent-header .n27-owned-submenu__grid {
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:2px 12px!important;
+}
+#n27-independent-header .n27-owned-submenu__grid--large {
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+}
+#n27-independent-header .n27-owned-submenu__link {
+  display:block!important;min-width:0!important;
+  padding:9px 6px!important;border-radius:5px!important;
+  font:400 12px/1.2 "Montserrat", Arial, Helvetica, sans-serif!important;
+  color:#4e4052!important;
+  overflow-wrap:anywhere!important;
+}
+#n27-independent-header .n27-owned-submenu__link:hover,
+#n27-independent-header .n27-owned-submenu__link:focus-visible {
+  color:#8000a5!important;background:#f6eef7!important;
+}
+/* Mobile drawer, fully FWR-owned rather than theme menu JS. */
+#n27-independent-header .n27-owned-drawer {
+  position:fixed!important;inset:0!important;
+  z-index:2000!important;max-height:100dvh!important;
+  width:100%!important;margin:0!important;padding:0!important;
+}
+#n27-independent-header .n27-owned-drawer__scrim {
+  display:block!important;position:absolute!important;inset:0!important;
+  width:100%!important;height:100%!important;
+  background:#13001988!important;border:0!important;
+  margin:0!important;padding:0!important;
+}
+#n27-independent-header .n27-owned-drawer__panel {
+  display:flex!important;flex-direction:column!important;
+  position:absolute!important;top:0!important;left:0!important;bottom:0!important;
+  height:100dvh!important;max-height:100dvh!important;
+  width:min(88vw,380px)!important;
+  margin:0!important;padding:0!important;
+  overflow:hidden!important;
+  background:#fff!important;box-shadow:8px 0 30px #13001925!important;
+}
+#n27-independent-header .n27-owned-drawer__top {
+  display:flex!important;justify-content:space-between!important;align-items:center!important;
+  flex:0 0 62px!important;min-height:62px!important;
+  padding:12px 20px!important;border-bottom:1px solid #eee3f0!important;
+  color:#750091!important;
+}
+#n27-independent-header .n27-owned-drawer__top > strong {
+  font:800 19px/1.2 "Montserrat", Arial, Helvetica, sans-serif!important;
+}
+#n27-independent-header .n27-owned-drawer__close {
+  display:grid!important;place-items:center!important;
+  width:34px!important;height:34px!important;
+  padding:5px!important;border:0!important;background:none!important;
+  color:#750091!important;
+}
+#n27-independent-header .n27-owned-drawer__close svg {
+  width:23px!important;height:23px!important;
+}
+#n27-independent-header .n27-owned-drawer__list {
+  display:block!important;flex:1 1 auto!important;
+  width:100%!important;min-height:0!important;
+  overflow-y:auto!important;overscroll-behavior:contain!important;
+  padding:5px 14px 24px!important;
+}
+#n27-independent-header .n27-owned-drawer__item {
+  display:block!important;border-bottom:1px solid #eee4f0!important;
+}
+#n27-independent-header .n27-owned-drawer__summary {
+  display:flex!important;align-items:center!important;gap:12px!important;
+  min-height:54px!important;width:100%!important;
+  padding:10px!important;
+  list-style:none!important;color:#5c2671!important;
+  font:700 14px/1.2 "Montserrat", Arial, Helvetica, sans-serif!important;
+}
+#n27-independent-header .n27-owned-drawer__summary::-webkit-details-marker{display:none!important;}
+#n27-independent-header .n27-owned-drawer__summary > svg {
+  width:19px!important;height:19px!important;color:#8000a5!important;
+}
+#n27-independent-header .n27-owned-drawer__summary > .n27-owned-drawer__chevron {
+  width:16px!important;height:16px!important;margin-left:auto!important;
+}
+#n27-independent-header .n27-owned-drawer__item[open] .n27-owned-drawer__chevron {
+  transform:rotate(180deg);
+}
+#n27-independent-header .n27-owned-drawer__links {
+  display:flex!important;flex-direction:column!important;gap:0!important;
+  background:#fbf7fc!important;padding:3px 8px 10px 38px!important;
+}
+#n27-independent-header .n27-owned-drawer__links > a {
+  display:block!important;padding:11px 7px!important;
+  font:400 13px/1.25 "Montserrat", Arial, Helvetica, sans-serif!important;
+  color:#62456b!important;
+}
+#n27-independent-header .n27-owned-drawer__links > .n27-owned-drawer__all {
+  font-weight:800!important;color:#8000a5!important;
+}
+#n27-independent-header .n27-owned-drawer__foot {
+  display:flex!important;flex-direction:column!important;gap:2px!important;
+  border-top:1px solid #ebdfeb!important;
+  padding:10px 20px 22px!important;
+}
+#n27-independent-header .n27-owned-drawer__foot > a {
+  padding:8px 0!important;color:#62007e!important;font-weight:700!important;
+}
+#n27-independent-header .n27-owned-sr-only {
+  position:absolute!important;width:1px!important;height:1px!important;
+  padding:0!important;margin:-1px!important;
+  overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;
+}
+html.n27-owned-menu-open {overflow:hidden!important;}
+@media(max-width:1100px) and (min-width:768px){
+  #n27-independent-header .n27-owned-main__inner {
+    grid-template-columns:147px minmax(190px,1fr) auto!important;
+    gap:15px!important;
+  }
+  #n27-independent-header .n27-owned-logo,
+  #n27-independent-header .n27-owned-logo > img {width:147px!important;}
+  #n27-independent-header .n27-owned-actions{gap:12px!important;}
+  #n27-independent-header .n27-owned-actions__labels > strong{font-size:12px!important;}
+  #n27-independent-header .n27-owned-actions__labels > small{font-size:9px!important;}
+  #n27-independent-header .n27-owned-nav__main{font-size:11px!important;padding:8px 5px!important;}
+  #n27-independent-header .n27-owned-nav__toggle{right:0!important;}
+}
+@media(max-width:767px){
+  #n27-independent-header .n27-owned-benefits {
+    height:26px!important;border-top-width:3px!important;
+  }
+  #n27-independent-header .n27-owned-benefits__track,
+  #n27-independent-header .n27-owned-benefits__group {height:23px!important;}
+  #n27-independent-header .n27-owned-benefits__item,
+  #n27-independent-header .n27-owned-benefits__copy {font-size:8px!important;}
+  #n27-independent-header .n27-owned-main {
+    height:111px!important;min-height:111px!important;
+  }
+  #n27-independent-header .n27-owned-main__inner {
+    grid-template-columns:45px 1fr 50px!important;
+    grid-template-rows:58px 46px!important;
+    grid-template-areas:"mobile brand actions" "search search search"!important;
+    gap:0 6px!important;
+    width:calc(100% - 26px)!important;height:111px!important;
+  }
+  #n27-independent-header .n27-owned-mobile-toggle {
+    display:grid!important;place-items:center!important;
+    grid-area:mobile!important;
+    width:38px!important;height:42px!important;
+    border:0!important;background:none!important;padding:5px!important;
+    color:#8000a5!important;box-shadow:none!important;
+  }
+  #n27-independent-header .n27-owned-mobile-toggle svg {
+    width:25px!important;height:25px!important;
+  }
+  #n27-independent-header .n27-owned-logo {
+    grid-area:brand!important;
+    width:170px!important;height:60px!important;
+    max-width:100%!important;
+    justify-self:center!important;
+  }
+  #n27-independent-header .n27-owned-logo > img {
+    width:100%!important;max-height:70px!important;
+    height:auto!important;object-fit:contain!important;
+  }
+  #n27-independent-header .n27-owned-search {
+    grid-area:search!important;width:100%!important;
+    height:42px!important;min-height:42px!important;
+  }
+  #n27-independent-header .n27-owned-actions {
+    grid-area:actions!important;
+    width:50px!important;height:50px!important;justify-self:end!important;
+  }
+  #n27-independent-header .n27-owned-actions__support,
+  #n27-independent-header .n27-owned-actions__account {display:none!important;}
+  #n27-independent-header .n27-owned-cart {width:46px!important;height:46px!important;}
+  #n27-independent-header .n27-owned-nav {
+    height:72px!important;min-height:72px!important;
+    overflow-x:auto!important;overflow-y:hidden!important;
+    overscroll-behavior-x:contain;scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  #n27-independent-header .n27-owned-nav::-webkit-scrollbar{display:none;}
+  #n27-independent-header .n27-owned-nav__track {
+    display:flex!important;flex-flow:row nowrap!important;
+    width:max-content!important;min-width:100%!important;
+    height:72px!important;gap:0!important;max-width:none!important;
+    margin:0!important;padding:0 6px!important;
+  }
+  #n27-independent-header .n27-owned-nav__item {
+    flex:0 0 120px!important;width:120px!important;
+    height:72px!important;
+  }
+  #n27-independent-header .n27-owned-nav__main {
+    height:72px!important;padding:6px 4px!important;
+    gap:5px!important;font-size:11px!important;
+  }
+  #n27-independent-header .n27-owned-nav__main > svg {
+    width:21px!important;height:21px!important;
+  }
+  #n27-independent-header .n27-owned-nav__toggle {
+    right:0!important;bottom:2px!important;width:20px!important;height:20px!important;
+  }
+  #n27-independent-header .n27-owned-submenu {display:none!important;}
+  #n27-independent-header .n27-owned-nav__item:hover > .n27-owned-submenu,
+  #n27-independent-header .n27-owned-nav__item:focus-within > .n27-owned-submenu,
+  #n27-independent-header .n27-owned-nav__item[data-open="true"] > .n27-owned-submenu {
+    display:none!important;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  #n27-independent-header .n27-owned-benefits__track {
+    animation:none!important;transform:translate3d(0,0,0)!important;will-change:auto!important;
+  }
+}
+
+
+/* v1.2 — Sticky approved header with no dependency on Groom.
+   Desktop retains the complete benefits/logo/nav region in viewport.
+   On mobile the full header initially renders normally, but the main bar
+   alone is fixed after scrolling down, so it occupies only 111px instead
+   of 209px of the smaller viewport. The placeholder avoids CLS. */
+html[data-n27-independent-header="1"] .conteiner-principal > #n27-independent-header {
+  position:sticky!important;
+  top:0!important;
+  z-index:2600!important;
+  overflow:visible!important;
+  isolation:isolate!important;
+  box-shadow:0 3px 18px rgba(32,4,44,.11)!important;
+}
+#n27-independent-header .n27-owned-sticky-placeholder {
+  display:none!important;
+  width:100%!important;
+  height:0!important;
+  min-height:0!important;
+  max-height:0!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  pointer-events:none!important;
+}
+@media(max-width:767px) {
+  /* Native header stays in normal document flow on mobile. */
+  html[data-n27-independent-header="1"] .conteiner-principal > #n27-independent-header {
+    position:relative!important;
+    top:auto!important;
+    box-shadow:none!important;
+  }
+  html[data-n27-independent-header="1"] #n27-independent-header[data-n27-mobile-sticky="1"]
+    > .n27-owned-sticky-placeholder {
+    display:block!important;
+    height:111px!important;
+    min-height:111px!important;
+    max-height:111px!important;
+  }
+  html[data-n27-independent-header="1"] #n27-independent-header[data-n27-mobile-sticky="1"]
+    > .n27-owned-main {
+    position:fixed!important;
+    top:0!important;
+    left:0!important;
+    right:0!important;
+    z-index:2601!important;
+    width:100%!important;
+    max-width:100%!important;
+    height:111px!important;
+    min-height:111px!important;
+    box-shadow:0 5px 22px rgba(45,3,59,.16)!important;
+    background:#fff!important;
+    border-bottom:1px solid #eadfec!important;
+  }
+  html[data-n27-independent-header="1"] #n27-independent-header[data-n27-mobile-sticky="1"]
+    .n27-owned-main__inner {
+    height:111px!important;
+  }
+}
+
+
+/* v1.2.1 — Mobile sidebar must appear above the compact sticky bar.
+   Both elements share the same FWR header stacking context; ensure
+   menu panel and scrim receive taps instead of the pinned search bar. */
+@media(max-width:767px){
+  html[data-n27-independent-header="1"] #n27-independent-header > #n27-owned-drawer {
+    z-index:5200!important;
+    isolation:isolate!important;
+  }
+  html[data-n27-independent-header="1"] #n27-independent-header > #n27-owned-drawer .n27-owned-drawer__panel {
+    z-index:2!important;
+  }
+  html[data-n27-independent-header="1"] #n27-independent-header > #n27-owned-drawer .n27-owned-drawer__scrim {
+    z-index:1!important;
+  }
+}
+
+/* Ajustes finos aprovados pelo cliente — SOMENTE DESKTOP (>=1025px).
+   Seletores sem prefixo body de teste; o mobile permanece inalterado. */
+@media (min-width:1025px) {
+  #n27-independent-header .n27-owned-benefits__track {
+    animation:n27-owned-marquee 150s linear infinite;
+  }
+  #n27-independent-header .n27-owned-main__inner {
+    height:91px!important;
+    grid-template-columns:216px minmax(210px,1fr) auto!important;
+  }
+  #n27-independent-header .n27-owned-container {
+    max-width:1540px!important;
+    width:100%!important;
+  }
+  #n27-independent-header .n27-owned-logo {
+    width:100%!important;
+    height:80px!important;
+  }
+  #n27-independent-header .n27-owned-logo > img {
+    max-height:80px!important;
+    width:100%!important;
+  }
+  #n27-independent-header .n27-owned-search {
+    height:36px!important;
+    min-height:36px!important;
+  }
+  #n27-independent-header .n27-owned-search__field {
+    height:34px!important;
+    min-height:34px!important;
+  }
+  #n27-independent-header .n27-owned-actions__dropdown {
+    top:calc(100% + 0px)!important;
+  }
+  #n27-independent-header .n27-owned-nav__main {
+    font:400 14px/1.1 "Montserrat",Arial,Helvetica,sans-serif!important;
+  }
+  #n27-independent-header .n27-owned-main {
+    height:75px!important;
+    min-height:75px!important;
+  }
+  html[data-n27-independent-header="1"] body.fixed #n27-independent-header .n27-owned-benefits {
+    transition:.5s all;
+    opacity:0;
+    height:0!important;
+  }
+  #n27-independent-header .n27-owned-benefits {
+    transition:.5s all;
+  }
+}
+
+/* Icones oficiais da Nichelle — CDN Loja Integrada.
+   Mantem medidas originais da navegacao desktop e mobile; nao altera
+   layout, dropdowns ou os SVGs utilitarios (busca, chevron, menu). */
+#n27-independent-header img.n27-owned-icon {
+  display:block!important;
+  flex-shrink:0!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  border:0!important;
+  padding:0!important;
+  margin:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+#n27-independent-header .n27-owned-nav__main > img.n27-owned-icon {
+  width:23px!important;
+  height:23px!important;
+  min-width:23px!important;
+  min-height:23px!important;
+}
+#n27-independent-header .n27-owned-actions__summary > img.n27-owned-icon {
+  width:25px!important;
+  height:25px!important;
+  min-width:25px!important;
+  min-height:25px!important;
+}
+#n27-independent-header .n27-owned-cart > img.n27-owned-icon {
+  width:28px!important;
+  height:28px!important;
+  min-width:28px!important;
+  min-height:28px!important;
+}
+#n27-independent-header .n27-owned-drawer__summary > img.n27-owned-icon {
+  width:19px!important;
+  height:19px!important;
+  min-width:19px!important;
+  min-height:19px!important;
+}
+@media(max-width:767px){
+  #n27-independent-header .n27-owned-nav__main > img.n27-owned-icon {
+    width:21px!important;
+    height:21px!important;
+    min-width:21px!important;
+    min-height:21px!important;
+  }
+}
+
+/* Nichelle — ajustes refinados de menu desktop, icones 33px */
+@media (min-width:1025px) {
+  #n27-independent-header .n27-owned-nav__main > img.n27-owned-icon {
+    width:33px!important;
+    height:33px!important;
+    min-width:33px!important;
+    min-height:33px!important;
+  }
+  #n27-independent-header .n27-owned-nav__main {
+    font:400 12px/1.1 "Montserrat",Arial,Helvetica,sans-serif!important;
+    gap:0!important;
+  }
+}
+
+/* NICHELLE v1.3 — MOBILE: categorias como barra inferior fixa,
+   substituindo integralmente a barra-mobile nativa do tema. */
+@media (max-width:767px) {
+  html[data-n27-independent-header="1"] body nav.barra-mobile,
+  html[data-n27-independent-header="1"] nav.barra-mobile {
+    display:none!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+  }
+  html[data-n27-independent-header="1"] body {
+    padding-bottom:calc(65px + env(safe-area-inset-bottom, 0px))!important;
+  }
+  html[data-n27-independent-header="1"] #n27-independent-header #n27-head-nav {
+    position:fixed!important;
+    top:auto!important;
+    left:0!important;
+    right:0!important;
+    bottom:0!important;
+    z-index:2602!important;
+    width:100%!important;
+    max-width:100%!important;
+    height:calc(75px + env(safe-area-inset-bottom, 0px))!important;
+    min-height:calc(75px + env(safe-area-inset-bottom, 0px))!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    padding:0 0 env(safe-area-inset-bottom, 0px)!important;
+    background:#8000a5!important;
+    border-top:1px solid rgba(255,255,255,.18)!important;
+    box-shadow:0 -5px 20px rgba(35,9,46,.14)!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    overscroll-behavior-x:contain!important;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    scroll-snap-type:x proximity;
+  }
+  #n27-independent-header #n27-head-nav .n27-owned-nav__track {
+    min-width:100%!important;
+    width:max-content!important;
+    max-width:none!important;
+    height:65px!important;
+    min-height:65px!important;
+    padding:0 6px!important;
+    gap:0!important;
+    align-items:stretch!important;
+  }
+  #n27-independent-header #n27-head-nav .n27-owned-nav__item {
+    flex:0 0 116px!important;
+    width:116px!important;
+    height:65px!important;
+    scroll-snap-align:start;
+  }
+  #n27-independent-header #n27-head-nav .n27-owned-nav__main {
+    height:65px!important;
+    min-height:65px!important;
+    padding:6px 4px!important;
+    font-size:12px!important;
+    gap:3px!important;
+  }
+  #n27-independent-header #n27-head-nav .n27-owned-nav__main > img.n27-owned-icon {
+    width:26px!important;
+    height:26px!important;
+    min-width:26px!important;
+    min-height:26px!important;
+  }
+  #n27-independent-header #n27-head-nav .n27-owned-nav__main > svg {
+    width:26px!important;
+    height:26px!important;
+  }
+  #n27-independent-header #n27-head-nav .n27-owned-nav__toggle {
+    width:22px!important;
+    height:20px!important;
+    right:1px!important;
+    bottom:0!important;
+  }
+  #n27-independent-header #n27-head-nav .n27-owned-nav__item:focus-within {
+    background:rgba(255,255,255,.10)!important;
+  }
+  /* Drawer animado acima do cabeçalho fixo e da barra inferior. */
+  html[data-n27-independent-header="1"] #n27-independent-header > #n27-owned-drawer {
+    z-index:5200!important;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .24s ease,visibility 0s linear .29s;
+  }
+  html[data-n27-independent-header="1"] #n27-independent-header > #n27-owned-drawer.n27-owned-drawer--visible {
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    transition:opacity .24s ease,visibility 0s;
+  }
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__scrim {
+    background:rgba(21,8,27,.52)!important;
+    backdrop-filter:blur(3px);
+    -webkit-backdrop-filter:blur(3px);
+  }
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__panel {
+    width:min(88vw,390px)!important;
+    border-radius:0 18px 18px 0!important;
+    box-shadow:12px 0 40px rgba(24,5,32,.18)!important;
+    transform:translate3d(-105%,0,0);
+    transition:transform .29s cubic-bezier(.22,1,.36,1)!important;
+    will-change:transform;
+  }
+  #n27-independent-header #n27-owned-drawer.n27-owned-drawer--visible .n27-owned-drawer__panel {
+    transform:translate3d(0,0,0);
+  }
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__summary {
+    min-height:57px!important;
+    padding:12px!important;
+    border-radius:10px!important;
+    cursor:pointer;
+    transition:background .18s ease,color .18s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__summary:focus-visible,
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__item[open] > .n27-owned-drawer__summary {
+    color:#8000a5!important;
+    background:#f5edf8!important;
+  }
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__chevron {
+    transition:transform .23s ease!important;
+  }
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__links {
+    will-change:height;
+  }
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__links > a {
+    border-radius:7px!important;
+    transition:background .16s ease,color .16s ease!important;
+  }
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__links > a:focus-visible,
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__links > a:active {
+    background:#edddf2!important;
+    color:#750091!important;
+  }
+}
+@media (max-width:767px) and (prefers-reduced-motion:reduce) {
+  html[data-n27-independent-header="1"] #n27-independent-header > #n27-owned-drawer,
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__panel,
+  #n27-independent-header #n27-owned-drawer .n27-owned-drawer__summary {
+    transition:none!important;
+  }
+}
+
+/* NICHELLE v1.4 — ícones exclusivos em cada item dos dois dropdowns. */
+#n27-independent-header .n27-owned-actions__dropdown-link {
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:11px!important;
+  min-height:44px!important;
+  padding:11px 10px!important;
+  transition:color .18s ease,background .18s ease,transform .18s ease;
+}
+#n27-independent-header .n27-owned-actions__dropdown-link > .n27-owned-actions__link-icon {
+  display:block!important;
+  width:19px!important;
+  height:19px!important;
+  min-width:19px!important;
+  min-height:19px!important;
+  flex-shrink:0!important;
+  color:#900aa8!important;
+}
+#n27-independent-header .n27-owned-actions__dropdown-link > span {
+  flex:1 1 auto!important;
+  min-width:0!important;
+  white-space:normal!important;
+}
+#n27-independent-header .n27-owned-actions__dropdown-link:hover,
+#n27-independent-header .n27-owned-actions__dropdown-link:focus-visible {
+  transform:translateX(2px);
+  background:#f8effb!important;
+  outline-offset:2px;
+}
+#n27-independent-header .n27-owned-actions__summary > .n27-owned-actions__chevron {
+  width:13px!important;
+  height:13px!important;
+  margin-left:1px!important;
+  color:#900aa8!important;
+  transition:transform .2s ease;
+}
+#n27-independent-header .n27-owned-actions__detail[open]
+  > .n27-owned-actions__summary > .n27-owned-actions__chevron {
+  transform:rotate(180deg);
+}
+#n27-independent-header .n27-owned-nav__quick {
+  display:none!important;
+}
+@media(max-width:767px) {
+  /* Mesmo nav do desktop, conteúdo mobile reduzido a cinco atalhos.
+     Os sete links de categorias continuam disponíveis no menu lateral. */
+  #n27-independent-header #n27-head-nav {
+    background:linear-gradient(110deg,#66008b 0%,#8e0db3 47%,#b73ac7 100%)!important;
+    border-top:1px solid rgba(255,255,255,.22)!important;
+    overflow:visible!important;
+    box-shadow:0 -7px 28px rgba(60,0,80,.17)!important;
+  }
+  #n27-independent-header #n27-head-nav > .n27-owned-nav__track {
+    display:none!important;
+  }
+  #n27-independent-header #n27-head-nav .n27-owned-nav__quick {
+    display:grid!important;
+    grid-template-columns:repeat(5,minmax(0,1fr))!important;
+    align-items:stretch!important;
+    width:100%!important;
+    height:65px!important;
+    min-height:65px!important;
+    max-width:540px!important;
+    margin:0 auto!important;
+    padding:0 6px!important;
+    gap:0!important;
+    list-style:none!important;
+  }
+  #n27-independent-header #n27-head-nav .n27-owned-nav__quick-item {
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    position:relative!important;
+    min-width:0!important;
+    height:65px!important;
+    margin:0!important;
+    padding:0!important;
+  }
+  #n27-independent-header #n27-head-nav .n27-owned-nav__quick-link {
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:3px!important;
+    width:100%!important;
+    min-width:0!important;
+    height:65px!important;
+    margin:0!important;
+    padding:5px 2px!important;
+    border:0!important;
+    border-radius:12px!important;
+    background:transparent!important;
+    box-shadow:none!important;
+    color:#fff!important;
+    font:500 10px/1.16 "Montserrat",Arial,Helvetica,sans-serif!important;
+    text-decoration:none!important;
+    text-transform:none!important;
+    cursor:pointer!important;
+    -webkit-tap-highlight-color:transparent;
+    transition:transform .2s ease,background .2s ease;
+  }
+  #n27-independent-header #n27-head-nav .n27-owned-nav__quick-icon {
+    display:block!important;
+    width:22px!important;
+    height:22px!important;
+    min-height:22px!important;
+    min-width:22px!important;
+    stroke-width:1.75;
+    color:inherit!important;
+  }
+  #n27-independent-header #n27-head-nav .n27-owned-nav__quick-link > span {
+    display:block!important;
+    white-space:nowrap!important;
+    font:inherit!important;
+    color:inherit!important;
+  }
+  #n27-independent-header #n27-head-nav .n27-owned-nav__quick-link:is(:active,:focus-visible) {
+    background:rgba(255,255,255,.13)!important;
+    transform:translateY(-1px);
+    outline:2px solid rgba(255,255,255,.7);
+    outline-offset:-3px;
+  }
+  /* Botão central elevado, inspirado no tab-bar de referência. */
+  #n27-independent-header #n27-head-nav .n27-owned-nav__quick-item--featured
+    .n27-owned-nav__quick-link {
+    width:calc(100% - 6px)!important;
+    height:66px!important;
+    margin:0 auto!important;
+    padding:8px 3px 5px!important;
+    border:2px solid #bc1bea!important;
+    border-radius:20px!important;
+    background:linear-gradient(145deg,#a00fc4,#70109b)!important;
+    box-shadow:0 5px 16px rgba(52,0,78,.2)!important;
+    font-weight:400!important;
+    text-transform:uppercase!important;
+  }
+  #n27-independent-header #n27-head-nav .n27-owned-nav__quick-item--featured
+    .n27-owned-nav__quick-icon {
+    width:25px!important;
+    height:25px!important;
+  }
+  /* O menu de categorias é a única navegação inferior na prévia. */
+  html[data-n27-independent-header="1"] body {
+    padding-bottom:calc(82px + env(safe-area-inset-bottom,0px))!important;
+  }
+}
+@media(max-width:767px) and (prefers-reduced-motion:reduce) {
+  #n27-independent-header .n27-owned-nav__quick-link,
+  #n27-independent-header .n27-owned-actions__dropdown-link {
+    transition:none!important;
+    transform:none!important;
+  }
+}
+
+
+/* Atalho Conta: SVG local branco como os demais ícones da barra roxa. */
+@media(max-width:767px) {
+  #n27-independent-header #n27-head-nav .n27-owned-nav__quick-icon.n27-owned-icon--account {
+    display:block!important;
+    color:#fff!important;
+    stroke:currentColor!important;
+    fill:none!important;
+    visibility:visible!important;
+    opacity:1!important;
+  }
+}

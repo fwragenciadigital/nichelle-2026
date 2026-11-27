@@ -1,0 +1,182 @@
+/* NICHELLE IMPORTS 2026 | Full Banner nativo LI | v1.0
+   Exclusivo da home em prévia. Não altera a loja pública sem a flag. */
+html[data-n27-approved="1"] #n27-preview-stage > #n27-approved-hero[hidden] {
+  display:none!important;
+}
+html[data-n27-native-fullbanner="1"] #n27-preview-stage .secao-banners [data-n27-native-full-source="1"] {
+  display:none!important;
+}
+/* Quando a seção nativa contém somente o Full Banner, ela inteira é omitida
+   após confirmação do FWR. Se houver Mini Banner, preservar seu DOM para leitura. */
+html[data-n27-native-fullbanner="1"] #n27-preview-stage > .secao-banners:not(:has(.mini-banner,.minibanner,[data-banner-position="mini"])) {
+  display:none!important;
+}
+html[data-n27-approved="1"] #n27-preview-stage > #n27-approved-hero {
+  position:relative!important;
+  width:100%!important;
+  max-width:100%!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+  background:#fff!important;
+}
+html[data-n27-approved="1"] #n27-approved-hero *,
+html[data-n27-approved="1"] #n27-approved-hero *::before,
+html[data-n27-approved="1"] #n27-approved-hero *::after {
+  box-sizing:border-box!important;
+}
+html[data-n27-approved="1"] #n27-approved-hero .n27-full__track,
+html[data-n27-approved="1"] #n27-approved-hero .n27-full__slide,
+html[data-n27-approved="1"] #n27-approved-hero .n27-full__slide picture {
+  position:absolute!important;
+  inset:0!important;
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  padding:0!important;
+}
+html[data-n27-approved="1"] #n27-approved-hero .n27-full__slide[hidden] {
+  display:none!important;
+}
+html[data-n27-approved="1"] #n27-approved-hero .n27-full__slide {
+  text-decoration:none!important;
+  background:#f6edf4!important;
+  cursor:default;
+}
+html[data-n27-approved="1"] #n27-approved-hero a.n27-full__slide {
+  cursor:pointer!important;
+}
+html[data-n27-approved="1"] #n27-approved-hero .n27-full__image {
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  max-width:none!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:0!important;
+  object-fit:cover!important;
+  object-position:center center!important;
+  border:0!important;
+}
+html[data-n27-approved="1"] #n27-approved-hero .n27-full__controls {
+  position:absolute!important;
+  z-index:5!important;
+  inset:auto 0 14px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  width:100%!important;
+  min-height:40px!important;
+  padding:0 clamp(14px,2vw,30px)!important;
+  gap:12px!important;
+  pointer-events:none!important;
+}
+html[data-n27-approved="1"] #n27-approved-hero .n27-full__arrow {
+  display:grid!important;
+  place-items:center!important;
+  width:40px!important;
+  height:40px!important;
+  padding:0!important;
+  border:1px solid rgba(255,255,255,.55)!important;
+  border-radius:50%!important;
+  background:rgba(26,15,33,.25)!important;
+  color:#fff!important;
+  font:400 31px/1 "Montserrat",Arial,Helvetica,sans-serif!important;
+  box-shadow:none!important;
+  backdrop-filter:blur(5px);
+  cursor:pointer!important;
+  pointer-events:auto!important;
+}
+html[data-n27-approved="1"] #n27-approved-hero .n27-full__dots {
+  display:flex!important;
+  flex:0 1 auto!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:9px!important;
+  min-height:40px!important;
+  pointer-events:auto!important;
+}
+html[data-n27-approved="1"] #n27-approved-hero .n27-full__dot {
+  display:block!important;
+  width:9px!important;
+  height:9px!important;
+  min-width:9px!important;
+  min-height:9px!important;
+  padding:0!important;
+  border:1px solid #fff!important;
+  border-radius:50%!important;
+  background:rgba(255,255,255,.45)!important;
+  cursor:pointer!important;
+}
+html[data-n27-approved="1"] #n27-approved-hero .n27-full__dot[aria-current="true"] {
+  width:24px!important;
+  border-radius:99px!important;
+  background:#fff!important;
+}
+html[data-n27-approved="1"] #n27-approved-hero :is(.n27-full__arrow,.n27-full__dot):focus-visible {
+  outline:2px solid #fff!important;
+  outline-offset:3px!important;
+}
+@media(max-width:767px) {
+ html[data-n27-approved="1"] #n27-preview-stage > #n27-approved-hero {
+   height:355px!important;
+ }
+ html[data-n27-approved="1"] #n27-approved-hero .n27-full__image {
+   object-position:center center!important;
+   filter:none!important;
+ }
+ html[data-n27-approved="1"] #n27-approved-hero .n27-full__controls {
+   inset:auto 0 8px!important;
+   padding-inline:12px!important;
+ }
+ html[data-n27-approved="1"] #n27-approved-hero .n27-full__arrow {
+   width:34px!important;height:34px!important;font-size:27px!important;
+ }
+}
+@media(prefers-reduced-motion:reduce) {
+ html[data-n27-approved="1"] #n27-approved-hero *,
+ html[data-n27-approved="1"] #n27-approved-hero *::before,
+ html[data-n27-approved="1"] #n27-approved-hero *::after {
+  animation:none!important;transition:none!important;
+ }
+}
+
+/* NICHELLE banner hover v1.1 — hover sem deslocar a área do banner.
+   Nunca roda em touch ou reduced motion. */
+@media (min-width:768px) and (hover:hover) and (pointer:fine) {
+  html[data-n27-approved="1"] #n27-approved-hero .n27-full__image {
+    transition:transform .8s cubic-bezier(.2,.8,.2,1),filter .65s ease!important;
+    transform-origin:center!important;
+    will-change:transform;
+  }
+  html[data-n27-approved="1"] #n27-approved-hero .n27-full__slide:hover .n27-full__image {
+    transform:scale(1.045)!important;
+    filter:saturate(1.07) contrast(1.015)!important;
+  }
+  html[data-n27-approved="1"] #n27-approved-hero a.n27-full__slide::after {
+    content:""!important;
+    position:absolute!important;
+    z-index:2!important;
+    inset:0!important;
+    pointer-events:none!important;
+    opacity:0;
+    background:linear-gradient(120deg,transparent 20%,rgba(255,255,255,.12) 49%,transparent 75%);
+    transform:translateX(-90%);
+    transition:transform 1s ease,opacity .5s ease;
+  }
+  html[data-n27-approved="1"] #n27-approved-hero a.n27-full__slide:hover::after {
+    opacity:1;
+    transform:translateX(90%);
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  html[data-n27-approved="1"] #n27-approved-hero .n27-full__image {
+    will-change:auto!important;
+    transform:none!important;
+  }
+}

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" role="img"><rect width="600" height="900" fill="#fff"/><ellipse cx="310" cy="810" rx="190" ry="27" fill="#00000017"/>
+ <g transform="translate(0 35)"><rect x="150" y="130" width="280" height="605" rx="35" fill="#fee6f0" stroke="#ccc" stroke-width="4"/>
+ <rect x="190" y="115" width="200" height="74" rx="18" fill="#d89eba"/><rect x="170" y="350" width="240" height="250" rx="9" fill="#fff"/>
+ <text x="290" y="416" font-family="Arial" font-size="32" font-weight="700" text-anchor="middle" fill="#d89eba">Centella</text>
+ <text x="290" y="458" font-family="Arial" font-size="18" text-anchor="middle" fill="#555">SKINCARE</text><path d="M220 483h140" stroke="#ccc" stroke-width="2"/></g></svg>

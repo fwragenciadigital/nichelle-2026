@@ -1,0 +1,737 @@
+body .n27-welcome-coupon#n27-welcome-coupon {
+  left: 6px !important;
+  top: auto !important;
+  width: 55px !important;
+  bottom: 10% !important;
+}
+                                    
+/* ============================================================
+   02. DESKTOP (1025px ou mais)
+   ============================================================ */
+@media (min-width: 1025px) {
+  body #n27-welcome-coupon .n27-welcome-coupon__trigger {
+    width: 85px !important;
+}
+  #n27-independent-header .n27-owned-actions__dropdown-link > .n27-owned-actions__link-icon {
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 22px !important;
+    min-height: 24px !important;
+}
+}
+
+/* ============================================================
+   03. TABLET (768px a 1024px)
+   ============================================================ */
+@media (min-width: 768px) and (max-width: 1024px) {
+  /* Seus ajustes tablet aqui. */
+}
+
+/* ============================================================
+   04. MOBILE (ate 767px)
+   ============================================================ */
+@media (min-width:0px) and (max-width:767px) {
+  html[data-n27-independent-header="1"] #n27-independent-header #n27-head-nav .n27-owned-nav__quick {
+    height: 65px !important;
+}
+
+  html[data-n27-independent-header="1"] #n27-independent-header .n27-owned-logo {
+      width: 170px !important;
+      height: 60px !important;
+  }
+
+html[data-n27-independent-header="1"] #n27-independent-header .n27-owned-logo > img {
+    width: 100% !important;
+    max-height: 70px !important;
+}
+
+body #n27-welcome-coupon .n27-welcome-coupon__trigger {
+    width: 70px !important;
+    min-height: 68px !important;
+    border-radius: 13px !important;
+}
+
+html[data-n27-independent-header="1"] #n27-welcome-coupon {
+    top: auto !important;
+}
+
+html[data-n27-independent-header="1"] #n27-welcome-coupon .n27-welcome-coupon__panel {
+    left: 50% !important;
+    width: min(320px, calc(100vw)) !important;
+    padding: 23px 16px 16px !important;
+    top: -230% !important;
+}
+
+html[data-n27-independent-header="1"] #n27-independent-header #n27-head-nav {
+    height: calc(75px + env(safe-area-inset-bottom, 0px)) !important;
+    min-height: calc(75px + env(safe-area-inset-bottom, 0px)) !important;
+    align-items: center;
+    justify-content: center;
+    display: flex !important;
+}
+
+    html[data-n27-independent-header="1"] #n27-independent-header #n27-head-nav .n27-owned-nav__quick-item--featured .n27-owned-nav__quick-link {
+        width: calc(100% - 6px) !important;
+        height: 66px !important;
+        margin: 0 auto 0 !important;
+        padding: 8px 10px 5px !important;
+        border: 2px solid #bc1bea !important;
+        border-radius: 20px !important;
+        background: linear-gradient(145deg, #a00fc4, #70109b) !important;
+        box-shadow: 0 5px 16px rgba(52, 0, 78, .2) !important;
+        font-weight: 700 !important;
+    }
+
+html[data-n27-independent-header="1"] #n27-independent-header #n27-head-nav .n27-owned-nav__quick-item--featured .n27-owned-nav__quick-link {
+    font-weight: 400 !important;
+    text-transform: uppercase !important;
+}
+
+html[data-n27-cart-page="1"] #corpo .n27-cart-page__header {
+        margin: 0 auto !important;
+        width: 100% !important;
+        text-align: center !important;
+        justify-content: center !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary-total-number {
+   font: 500 clamp(25px, 2vw, 35px) / 1.15 "Montserrat", Arial, Helvetica, sans-serif !important;
+}
+
+html[data-n27-cart-page="1"] #corpo .n27-cart-page__pix-amount {
+    font: 800 28px / 1.12 "Montserrat", Arial, Helvetica, sans-serif !important;
+}
+}
+
+/* Nichelle 2026 | Oculta assinatura Groomb inclusive apos injecao no DOM. */
+html body a[href*="groomb.com.br" i],
+html body img[src*="groomb-logo.png" i] {
+  display: none !important;
+  visibility: hidden !important;
+}
+html body a:has(> img[src*="groomb-logo.png" i]) {
+  display: none !important;
+}
+
+/* NICHELLE 2026 | Hero aprovado - SOMENTE DESKTOP >=1025px. */
+@media (min-width:1025px) {
+  html[data-n27-approved="1"] #n27-preview-stage > #n27-approved-hero {
+    height:clamp(260px,32vw,713px)!important;
+  }
+}
+
+/* NICHELLE | AJUSTES CSS 19-11-2026 | FWR */
+html[data-n27-best-shelf="1"] .n27-best-shelf .n27-best-card__title {
+  font:500 14px/1.55 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-best-shelf="1"] .n27-best-shelf .n27-best-card__installments {
+  font:500 12px/1.25 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-fwr-footer="1"] #rodape[data-n27-fwr-ready="1"] {
+  margin-bottom:-70px!important;
+}
+html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__shipping-logos {
+  flex-direction:row!important;
+  flex-wrap:nowrap!important;
+}
+html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__contact-copy {
+  font:400 clamp(12px,.72vw,12px)/1.3 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__bottom {
+  margin:20px 0 0!important;
+}
+
+/* Desktop 1100-1280px */
+@media (min-width:1100px) and (max-width:1280px) {
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__panel {
+    grid-template-columns:minmax(0,38%) minmax(0,62%)!important;
+    max-width:99%!important;
+    min-height:385px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__art {
+    min-height:441px!important;
+    margin-top:-103px!important;
+    margin-left:-30px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__logo {
+    margin:0 0 0 6vw!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__top-inner {
+    max-width:1390px!important;
+    padding-left:12%!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__contact-copy small {
+    color:#8b818c!important;
+    font:400 12px/1.3 "Montserrat",Arial,Helvetica,sans-serif!important;
+    white-space:normal!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__column.n27-foot__account {
+    margin-right:-7%!important;
+    margin-left:-70px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__content {
+    min-height:335px!important;
+    padding:20px 0 0 0!important;
+    gap:0!important;
+    justify-content:flex-start!important;
+  }
+}
+
+/* Desktop 1281-1366px */
+@media (min-width:1281px) and (max-width:1366px) {
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__panel {
+    grid-template-columns:minmax(0,42%) minmax(0,58%)!important;
+    max-width:99%!important;
+    min-height:385px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__art {
+    min-height:464px!important;
+    margin-top:-103px!important;
+    margin-left:-40px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__logo {
+    margin:0 0 0 8vw!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__top-inner {
+    max-width:1390px!important;
+    padding-left:12%!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__contact-copy small {
+    color:#8b818c!important;
+    font:400 12px/1.3 "Montserrat",Arial,Helvetica,sans-serif!important;
+    white-space:normal!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__column.n27-foot__account {
+    margin-right:-7%!important;
+    margin-left:-70px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__content {
+    min-height:335px!important;
+    padding:20px 0 0 0!important;
+    gap:0!important;
+    justify-content:flex-start!important;
+  }
+}
+
+/* Desktop 1367-1600px */
+@media (min-width:1367px) and (max-width:1600px) {
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__panel {
+    grid-template-columns:minmax(0,40%) minmax(0,60%)!important;
+    max-width:96%!important;
+    min-height:375px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__art {
+    min-height:494px!important;
+    margin-top:-121px!important;
+    margin-left:-50px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__logo {
+    margin:0 0 0 8vw!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__top-inner {
+    max-width:1440px!important;
+    padding-left:10%!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__contact-copy small {
+    color:#8b818c!important;
+    font:400 12px/1.3 "Montserrat",Arial,Helvetica,sans-serif!important;
+    white-space:normal!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__column.n27-foot__account {
+    margin-right:-7%!important;
+    margin-left:-70px!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__content {
+    min-height:335px!important;
+    padding:20px 0 20px 0!important;
+    gap:0!important;
+    justify-content:flex-start!important;
+  }
+}
+
+/* Telas grandes >=1600px: declarado por ultimo para prioridade em 1600px. */
+@media (min-width:1600px) and (max-width:9999px) {
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__panel {
+    grid-template-columns:minmax(0,32.5%) minmax(0,65%)!important;
+    max-width:86%!important;
+  }
+}
+
+/* NICHELLE | AJUSTES CSS 19-11-2026 | CARRINHO / PDP / MOBILE | FWR */
+html[data-n27-cart-page="1"] #corpo .n27-cart-page__summary-total-number {
+  color:#9c26b3!important;
+  font:800 clamp(25px,2vw,25px)/1.2 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+
+@media (min-width:1025px) {
+  html[data-n27-pdp="1"] body #corpo .n27-pdp__pix-value {
+    color:#25182e!important;
+    font:800 clamp(24px,2vw,36px)/1.2 "Montserrat",Arial,Helvetica,sans-serif!important;
+  }
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto .preco-promocional {
+    color:var(--n27-pdp-purple)!important;
+    font:800 clamp(24px,2vw,29px)/1.2 "Montserrat",Arial,Helvetica,sans-serif!important;
+  }
+}
+
+@media (min-width:0px) and (max-width:767px) {
+  body .n27-welcome-coupon#n27-welcome-coupon {
+    left:6px!important;
+    top:auto!important;
+    width:55px!important;
+    bottom:12%!important;
+  }
+  .li-whatsapp a {
+    width:62px;
+    height:62px;
+  }
+  .li-whatsapp i {
+    font-size:38px;
+  }
+}
+
+/* NICHELLE 2026 | POLIMENTO PDP, CARRINHO E CARDS RELACIONADOS | 24-11-2026 */
+/* Flutuante: aproveita a estrutura e as ações originais do tema 4433. */
+body.pagina-produto .resumo-flutuante {
+  box-sizing:border-box!important;
+  width:258px!important;
+  right:-280px!important;
+  bottom:100px!important;
+  padding:14px 14px 16px!important;
+  background:#fff!important;
+  border:1px solid #ece4f0!important;
+  border-radius:14px 0 0 14px!important;
+  box-shadow:0 14px 38px rgba(37,24,46,.13)!important;
+  color:#2b2232!important;
+  text-align:center!important;
+  transition:right .3s ease!important;
+  z-index:90!important;
+}
+body.pagina-produto .resumo-flutuante.flutuante-open {
+  right:0!important;
+}
+body.pagina-produto .resumo-flutuante .resumo-flutuante-close {
+  top:7px!important;left:7px!important;
+  width:28px!important;height:28px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  padding:6px!important;background:#fff!important;
+  border:1px solid #eee6f1!important;
+  border-radius:50%!important;cursor:pointer!important;
+  z-index:2!important;
+}
+body.pagina-produto .resumo-flutuante .resumo-flutuante-close svg {
+  width:12px!important;height:12px!important;
+}
+body.pagina-produto .resumo-flutuante .image {
+  display:flex!important;
+  align-items:center!important;justify-content:center!important;
+  height:200px!important;max-height:200px!important;
+  margin:2px 0 14px!important;overflow:hidden!important;
+}
+body.pagina-produto .resumo-flutuante .image img {
+  display:block!important;max-width:100%!important;max-height:100%!important;
+  width:auto!important;height:auto!important;
+  object-fit:contain!important;margin:auto!important;
+}
+body.pagina-produto .resumo-flutuante .nome-produto {
+  color:#35303a!important;
+  font:500 13px/1.45 "Montserrat",Arial,Helvetica,sans-serif!important;
+  text-align:center!important;
+  -webkit-line-clamp:2!important;
+  min-height:38px!important;max-height:40px!important;
+  margin:0 0 9px!important;
+}
+body.pagina-produto .resumo-flutuante .preco-produto {
+  float:none!important;margin:0!important;text-align:center!important;
+}
+body.pagina-produto .resumo-flutuante .preco-produto :is(.preco-venda,.preco-promocional,.titulo) {
+  color:#9f27b5!important;
+  font:800 23px/1.2 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+body.pagina-produto .resumo-flutuante .preco-produto :is(.preco-antigo,.preco-de,del) {
+  color:#b4abb6!important;
+  font:400 12px/1.2 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+body.pagina-produto .resumo-flutuante .comprar {
+  display:block!important;width:100%!important;margin:13px 0 0!important;
+}
+body.pagina-produto .resumo-flutuante .comprar :is(a,.botao,.botao-comprar) {
+  box-sizing:border-box!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  width:100%!important;min-height:44px!important;
+  margin:0!important;padding:10px 14px!important;
+  border:0!important;border-radius:8px!important;
+  background:#a12da9!important;color:#fff!important;
+  font:700 15px/1.3 "Montserrat",Arial,Helvetica,sans-serif!important;
+  text-decoration:none!important;
+}
+@media(max-width:767px) {
+  body.pagina-produto .resumo-flutuante {
+    width:min(244px,calc(100vw - 24px))!important;
+    right:-260px!important;
+    bottom:calc(85px + env(safe-area-inset-bottom,0px))!important;
+    padding:11px 12px 12px!important;
+  }
+  body.pagina-produto .resumo-flutuante.flutuante-open {
+    right:8px!important;
+  }
+  body.pagina-produto .resumo-flutuante .image {
+    height:170px!important;max-height:170px!important;margin-bottom:8px!important;
+  }
+}
+
+/* Alerta de frete: somente aparência; visibilidade continua a cargo da LI. */
+body.pagina-carrinho :is(#li-alerta-frete-gratis,.li-alerta-frete-gratis) {
+  box-sizing:border-box!important;
+  width:calc(100% - 24px)!important;
+  max-width:760px!important;
+  margin:15px auto 20px!important;
+  padding:14px 22px!important;
+  border:1px solid #e8d3ec!important;
+  border-radius:12px!important;
+  background:linear-gradient(110deg,#faf3fc,#f4e8f8)!important;
+  box-shadow:0 5px 18px rgba(119,32,144,.06)!important;
+  color:#7f198e!important;
+  text-align:center!important;
+  font:600 14px/1.5 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+body.pagina-carrinho :is(#li-alerta-frete-gratis,.li-alerta-frete-gratis) :is(strong,b) {
+  color:#782094!important;font-weight:800!important;
+}
+@media(max-width:767px) {
+  body.pagina-carrinho :is(#li-alerta-frete-gratis,.li-alerta-frete-gratis) {
+    width:calc(100% - 20px)!important;
+    padding:12px 14px!important;
+    margin:12px auto 16px!important;
+    font-size:12px!important;
+  }
+}
+
+/* Carrinho: recuperar a lixeira via SVG, sem depender do iconfont Groomb. */
+html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .excluir a {
+  display:grid!important;place-items:center!important;
+  color:#8f239f!important;
+}
+html[data-n27-cart-page="1"] #corpo .n27-cart-page .tabela-carrinho .excluir .icon-trash::before {
+  content:""!important;
+  display:block!important;
+  width:19px!important;height:19px!important;
+  background:currentColor!important;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 6h18M8 6V4h8v2m3 0-1 15H6L5 6m5 4v8m4-8v8' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat!important;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 6h18M8 6V4h8v2m3 0-1 15H6L5 6m5 4v8m4-8v8' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat!important;
+  font-family:inherit!important;
+}
+
+/* PDP Aproveite Também — identidade dos cards FWR, sem desmontar o Slick. */
+html body.pagina-produto #corpo :is(.aproveite-tambem .listagem,.listagem.aproveite-tambem) {
+  width:100%!important;
+  max-width:100%!important;
+  margin-top:16px!important;
+}
+html body.pagina-produto #corpo :is(.aproveite-tambem .listagem,.listagem.aproveite-tambem)
+  :is(ul.produtos-linha,ul[data-produtos-linha]):not(.slick-initialized):not(.vitrine-carrossel) {
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:22px 18px!important;
+  list-style:none!important;
+}
+html body.pagina-produto #corpo :is(.aproveite-tambem .listagem,.listagem.aproveite-tambem) .listagem-item {
+  box-sizing:border-box!important;
+  min-width:0!important;
+  padding:10px 8px 18px!important;
+  margin-bottom:0!important;
+  background:#fff!important;
+  border:0!important;border-radius:0!important;
+  box-shadow:none!important;
+  text-align:left!important;
+}
+html body.pagina-produto #corpo :is(.aproveite-tambem .listagem,.listagem.aproveite-tambem) .imagem-produto {
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  width:100%!important;
+  min-height:250px!important;
+  aspect-ratio:1 / 1.22;
+  padding:9px 5px 12px!important;
+  background:#fff!important;
+  margin:0 0 9px!important;
+}
+html body.pagina-produto #corpo :is(.aproveite-tambem .listagem,.listagem.aproveite-tambem) .imagem-produto img {
+  width:auto!important;height:auto!important;
+  max-width:100%!important;max-height:230px!important;
+  object-fit:contain!important;
+}
+html body.pagina-produto #corpo :is(.aproveite-tambem .listagem,.listagem.aproveite-tambem) .nome-produto {
+  color:#35303a!important;
+  font:500 13px/1.45 "Montserrat",Arial,Helvetica,sans-serif!important;
+  text-align:left!important;
+  min-height:39px!important;
+  margin:0 0 9px!important;
+}
+html body.pagina-produto #corpo :is(.aproveite-tambem .listagem,.listagem.aproveite-tambem) .preco-produto {
+  color:#34293b!important;text-align:left!important;
+  margin:0!important;
+}
+html body.pagina-produto #corpo :is(.aproveite-tambem .listagem,.listagem.aproveite-tambem)
+  .preco-produto :is(.preco-promocional,.preco-venda,.titulo) {
+  color:#a52cae!important;
+  font:800 23px/1.18 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html body.pagina-produto #corpo :is(.aproveite-tambem .listagem,.listagem.aproveite-tambem)
+  .preco-produto :is(.preco-antigo,.preco-de,del) {
+  color:#b3aab4!important;
+  font:400 11px/1.2 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html body.pagina-produto #corpo :is(.aproveite-tambem .listagem,.listagem.aproveite-tambem)
+  :is(.preco-parcela,.preco-produto .parcelas) {
+  color:#51465a!important;
+  font:500 12px/1.3 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html body.pagina-produto #corpo :is(.aproveite-tambem .listagem,.listagem.aproveite-tambem)
+  :is(.desconto-a-vista,.listagem-avista-2) {
+  box-sizing:border-box!important;
+  width:100%!important;
+  margin-top:10px!important;
+  padding:10px 12px!important;
+  background:#faf4fb!important;
+  border-radius:5px!important;
+  color:#a52cae!important;
+  font:600 12px/1.3 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+@media(min-width:768px) and (max-width:1100px) {
+  html body.pagina-produto #corpo :is(.aproveite-tambem .listagem,.listagem.aproveite-tambem)
+    :is(ul.produtos-linha,ul[data-produtos-linha]):not(.slick-initialized):not(.vitrine-carrossel) {
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  }
+}
+@media(max-width:767px) {
+  html body.pagina-produto #corpo :is(.aproveite-tambem .listagem,.listagem.aproveite-tambem)
+    :is(ul.produtos-linha,ul[data-produtos-linha]):not(.slick-initialized):not(.vitrine-carrossel) {
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:12px!important;
+  }
+  html body.pagina-produto #corpo :is(.aproveite-tambem .listagem,.listagem.aproveite-tambem) .listagem-item {
+    padding:8px 5px 15px!important;
+  }
+  html body.pagina-produto #corpo :is(.aproveite-tambem .listagem,.listagem.aproveite-tambem) .imagem-produto {
+    min-height:160px!important;padding:6px 2px 8px!important;
+  }
+  html body.pagina-produto #corpo :is(.aproveite-tambem .listagem,.listagem.aproveite-tambem) .imagem-produto img {
+    max-height:154px!important;
+  }
+  html body.pagina-produto #corpo :is(.aproveite-tambem .listagem,.listagem.aproveite-tambem) .nome-produto {
+    font-size:11px!important;min-height:44px!important;
+  }
+  html body.pagina-produto #corpo :is(.aproveite-tambem .listagem,.listagem.aproveite-tambem)
+    .preco-produto :is(.preco-promocional,.preco-venda,.titulo) {
+    font-size:17px!important;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  body.pagina-produto .resumo-flutuante {transition:none!important}
+}
+
+/* NICHELLE 2026 | FIX PIX GLOBAL + RODAPE MOBILE + CARRINHO | 24-11-2026 */
+html[data-n27-cart-page="1"] body.pagina-carrinho #corpo {
+  padding:17px 0 105px!important;
+  margin-bottom:-140px!important;
+  position:relative;
+  z-index:1;
+}
+
+/* Os cards FWR compartilham a mesma identidade Pix em TODA a loja. */
+html[data-n27-best-shelf="1"] .n27-best-shelf .n27-best-card .n27-best-card__pix,
+html[data-n27-listing="1"] #corpo .n27-listing__card .n27-listing__pix {
+  padding:6px 5px 6px!important;
+  background:linear-gradient(125deg,rgb(250,242,252) 0%,rgb(255,255,255) 90%)!important;
+  border-top:none!important;
+}
+html[data-n27-best-shelf="1"] .n27-best-shelf .n27-best-card .n27-best-card__price,
+html[data-n27-listing="1"] #corpo .n27-listing__info .n27-listing__prices {
+  min-height:55px!important;
+}
+html[data-n27-listing="1"] #corpo .n27-listing__info .n27-listing__name {
+  -webkit-line-clamp:3!important;
+  display:-webkit-box!important;
+  -webkit-box-orient:vertical!important;
+  overflow:hidden!important;
+  height:63px!important;
+  min-height:63px!important;
+  max-height:63px!important;
+}
+@media(max-width:767px) {
+  html[data-n27-listing="1"] #corpo .n27-listing__info .n27-listing__name {
+    height:51px!important;
+    min-height:51px!important;
+    max-height:51px!important;
+  }
+}
+
+/* Cards nativos ainda presentes: conserva textos e precos da LI, uniformiza
+   somente o fundo/espacamento do Pix, inclusive vitrines e aproveite-tambem. */
+html body:not(.pagina-carrinho) #corpo .listagem .listagem-item
+:is(.listagem-avista-2,.desconto-a-vista,.preco-a-vista) {
+  box-sizing:border-box!important;
+  width:100%!important;
+  padding:6px 5px!important;
+  background:linear-gradient(125deg,rgb(250,242,252) 0%,rgb(255,255,255) 90%)!important;
+  border-top:0!important;
+  border-radius:4px!important;
+}
+body .li-whatsapp a {
+  width:62px!important;
+  height:62px!important;
+  background-image:linear-gradient(to right,#a61cb9,#79039a)!important;
+}
+@media (min-width:0px) and (max-width:767px) {
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__panel .n27-foot__art {
+    display:none!important;
+  }
+  /* Sem a imagem nao pode sobrar a coluna vazia de 32%. */
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__panel {
+    display:block!important;
+    grid-template-columns:none!important;
+  }
+  html[data-n27-fwr-footer="1"] #rodape #n27-fwr-footer .n27-foot__panel .n27-foot__content {
+    width:100%!important;
+    max-width:100%!important;
+  }
+}
+
+/* NICHELLE | PDP PARCELAMENTO + FRETE ABAIXO DO PIX | 24-11-2026 */
+html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto
+.parcelamento-full .mais-formas {
+  display:inline-flex!important;
+}
+html[data-n27-pdp="1"] #corpo .produto .produto-detalhes.n27-pdp
+.produto-detalhes-detalhes .info-principal-produto {
+  border-bottom:none!important;
+}
+html[data-n27-pdp="1"] .produto-detalhes .mais-formas span {
+  font-size:13px!important;
+  font-weight:300!important;
+}
+
+/* O aviso nativo da LI permanece com texto e lógica originais.
+   Somente sua posição/estilo é adaptada dentro do resumo FWR. */
+html[data-n27-cart-page="1"] body.pagina-carrinho #corpo
+.n27-cart-page__summary > :is(#li-alerta-frete-gratis,.li-alerta-frete-gratis) {
+  box-sizing:border-box!important;
+  position:static!important;
+  inset:auto!important;
+  top:auto!important;
+  right:auto!important;
+  bottom:auto!important;
+  left:auto!important;
+  float:none!important;
+  transform:none!important;
+  translate:none!important;
+  z-index:auto!important;
+  clear:both!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  margin:13px 0 18px!important;
+  padding:12px 16px!important;
+  border:1px solid #ead4ef!important;
+  border-radius:10px!important;
+  background:linear-gradient(125deg,#faf2fc 0%,#fff 90%)!important;
+  box-shadow:none!important;
+  color:#80239a!important;
+  font:600 13px/1.5 "Montserrat",Arial,Helvetica,sans-serif!important;
+  text-align:center!important;
+}
+html[data-n27-cart-page="1"] body.pagina-carrinho #corpo
+.n27-cart-page__summary > :is(#li-alerta-frete-gratis,.li-alerta-frete-gratis)[hidden] {
+  display:none!important;
+}
+@media(max-width:767px) {
+  html[data-n27-cart-page="1"] body.pagina-carrinho #corpo
+  .n27-cart-page__summary > :is(#li-alerta-frete-gratis,.li-alerta-frete-gratis) {
+    margin:12px 0 15px!important;
+    padding:11px 12px!important;
+    font-size:12px!important;
+  }
+}
+
+/* NICHELLE 2026 | CARRINHO VAZIO | 24-11-2026 */
+html[data-n27-cart-empty="1"] body.pagina-carrinho #corpo {
+  box-sizing:border-box!important;
+  min-height:clamp(420px,55vh,640px)!important;
+  padding:28px 16px 65px!important;
+  margin-bottom:0!important;
+  background:linear-gradient(180deg,#faf7fb 0%,#fff 80%)!important;
+}
+html[data-n27-cart-empty="1"] body.pagina-carrinho #corpo .n27-cart-empty {
+  box-sizing:border-box!important;
+  display:flex!important;flex-direction:column!important;
+  justify-content:center!important;align-items:center!important;
+  gap:18px!important;
+  width:min(100%,810px)!important;
+  min-height:clamp(310px,42vh,455px)!important;
+  padding:44px 24px!important;
+  margin:24px auto!important;
+  border:1px solid #eee3f0!important;
+  border-radius:22px!important;
+  background:#fff!important;
+  box-shadow:0 14px 50px rgba(63,22,82,.045)!important;
+  text-align:center!important;
+}
+html[data-n27-cart-empty="1"] body.pagina-carrinho #corpo .n27-cart-empty__title {
+  position:relative!important;
+  display:block!important;
+  width:100%!important;max-width:620px!important;
+  margin:0 auto!important;
+  padding:99px 0 0!important;
+  color:#2b2232!important;
+  font:800 clamp(23px,2.2vw,32px)/1.25 "Montserrat",Arial,Helvetica,sans-serif!important;
+  text-align:center!important;
+  letter-spacing:-.035em!important;
+}
+html[data-n27-cart-empty="1"] body.pagina-carrinho #corpo .n27-cart-empty__title::before {
+  content:""!important;
+  position:absolute!important;
+  display:block!important;top:0!important;left:calc(50% - 39px)!important;
+  width:78px!important;height:78px!important;
+  border:1px solid #efdff4!important;
+  border-radius:50%!important;
+  background-color:#faf3fc!important;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M7 10h5l4 23h22l4-17H14M17 33h22' fill='none' stroke='%238c269f' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='20' cy='39' r='2.5' fill='%238c269f'/%3E%3Ccircle cx='35' cy='39' r='2.5' fill='%238c269f'/%3E%3C/svg%3E")!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
+  background-size:45px 45px!important;
+}
+html[data-n27-cart-empty="1"] body.pagina-carrinho #corpo .n27-cart-empty__cta {
+  box-sizing:border-box!important;
+  display:inline-flex!important;justify-content:center!important;align-items:center!important;
+  min-width:185px!important;min-height:46px!important;
+  margin:6px auto 0!important;padding:12px 24px!important;
+  border:0!important;border-radius:9px!important;
+  background:linear-gradient(110deg,#a61cb9,#79039a)!important;
+  color:#fff!important;
+  font:700 14px/1.3 "Montserrat",Arial,Helvetica,sans-serif!important;
+  text-align:center!important;text-decoration:none!important;
+  box-shadow:0 9px 24px rgba(130,28,158,.15)!important;
+  transition:transform .18s,box-shadow .18s!important;
+}
+html[data-n27-cart-empty="1"] body.pagina-carrinho #corpo .n27-cart-empty__cta:is(:hover,:focus-visible) {
+  transform:translateY(-2px)!important;
+  box-shadow:0 12px 27px rgba(130,28,158,.2)!important;
+}
+@media(max-width:767px) {
+  html[data-n27-cart-empty="1"] body.pagina-carrinho #corpo {
+    min-height:0!important;padding:22px 12px 48px!important;
+  }
+  html[data-n27-cart-empty="1"] body.pagina-carrinho #corpo .n27-cart-empty {
+    min-height:330px!important;
+    margin:8px auto!important;padding:38px 19px!important;
+    border-radius:16px!important;
+  }
+  html[data-n27-cart-empty="1"] body.pagina-carrinho #corpo .n27-cart-empty__title {
+    font-size:23px!important;padding-top:96px!important;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  html[data-n27-cart-empty="1"] body.pagina-carrinho #corpo .n27-cart-empty__cta {
+    transition:none!important;
+  }
+}

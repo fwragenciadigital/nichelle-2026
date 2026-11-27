@@ -1,0 +1,136 @@
+<!-- NICHELLE IMPORTS 2026 | HOMOLOGAÇÃO por ?nichelle_preview=1
+Cole uma única vez em Loja Integrada > Incluir código HTML > Cabeçalho (todas as páginas).
+Não substitui a loja atual; sem o parâmetro, o layout FWR fica desativado.
+Depois de aprovado: publicarNaLoja:true, modoPreview:false, sem trocar os links. -->
+<link rel="stylesheet" href="https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app/nichelle27.css">
+<script>
+window.Nichelle27Settings = {
+  assetsBase: "https://cdn.awsli.com.br/2550/2550587/arquivos/", // conferir upload de mini1.webp ... mini4.webp
+  geral: { ativo:true, modoPreview:true, publicarNaLoja:false, debug:false, paginas:[] },
+  layout: { ativo:true, homologado:true, autocriarSlot:true,
+    inserirDepois:".vitrine-mas-vendido", seletor:"#n27-layout-root", paginas:["/"] },
+  visual: { ativo:true, paginas:[] },
+  topo: { ativo:true, seletor:"#cabecalho", fixo:true, faixaAtiva:false, qualificadores:[] },
+  rodape: { ativo:true, seletor:"#rodape" },
+  // Rodapé institucional FWR: visual próprio com contatos, páginas,
+  // área do cliente, selos e pagamentos derivados do HTML nativo LI.
+  paginaProdutoFWR: { ativo:true },
+  paginaCarrinhoFWR: { ativo:true },
+  carrinhoFWR: {
+    ativo:true, orderBump:true, maxOfertas:3,
+    titulo:"Meu carrinho",
+    subtitulo:"Confira os produtos antes de finalizar.",
+    ofertasTitulo:"Aproveite e leve também",
+    finalizar:"VER CARRINHO E FINALIZAR",
+    continuar:"Continuar comprando"
+  },
+  rodapeFWR: {
+    ativo:true,
+    logo:"https://cdn.awsli.com.br/2550/2550587/arquivos/logo-footer.png",
+    imagem:"https://cdn.awsli.com.br/2550/2550587/arquivos/rodape.png",
+    textoComplementar:"Beleza, cuidados pessoais e as últimas tendências em produtos importados.",
+    tituloInstitucional:"Institucional",
+    tituloConta:"Área do Cliente",
+    tituloAtendimento:"Atendimento",
+    tituloSeguranca:"Compra Segura",
+    tituloPagamento:"Formas de Pagamento",
+    tituloEnvios:"Formas de envio",
+    mostrarEnvios:true,
+    mostrarFWR:true
+  },
+  qualificadores: { ativo:false, rotulo:"VANTAGENS", itens:[] },
+  // VANTAGENS FWR: dados editáveis no HTML. Podem ser sobrescritos por
+  // integracao/NICHELLE27-VANTAGENS-ADMIN.html no Rodapé da loja.
+  vantagens: {
+    ativo:true, etiqueta:"+VANTAGENS", configUrl:"",
+    itens:[
+      { icone:"package", titulo:"COSMÉTICOS IMPORTADOS", descricao:"À PRONTA ENTREGA", link:"" },
+      { icone:"seal", titulo:"PRODUTOS 100% ORIGINAIS", descricao:"COM NOTA FISCAL", link:"" },
+      { icone:"headset", titulo:"ATENDIMENTO PERSONALIZADO", descricao:"COM EQUIPE ESPECIALISTA", link:"" },
+      { icone:"medal", titulo:"LOJA COM SELO DE VERIFICAÇÃO", descricao:"RECLAME AQUI", link:"" }
+    ]
+  },
+  maisVendidos: { ativo:false, titulo:"Produtos", destaque:"Mais Vendidos",
+    seletorFonte:"", seletorItem:".listagem-item" },
+  // FWR: apenas apresentação. Produtos e valores vêm da vitrine nativa LI.
+  vitrineMaisVendidos: {
+    ativo:true, prefixo:"Produtos", titulo:"Mais Vendidos",
+    exibirSelo:true, exibirPix:true, exibirParcelamento:true,
+    maxProdutos:20,
+    // Carrossel circular: ao chegar no último produto, volta ao primeiro.
+    loopInfinito:true
+  },
+  // Todos os carrosseis FWR usam dados reais da Loja Integrada.
+  vitrineLancamentos: {
+    ativo:true, prefixo:"Novos", titulo:"Lançamentos", maxProdutos:20,
+    exibirSelo:true, exibirPix:true, exibirParcelamento:true, loopInfinito:true
+  },
+  vitrineDestaques: {
+    ativo:true, prefixo:"Produtos", titulo:"Em Destaque", maxProdutos:20,
+    exibirSelo:true, exibirPix:true, exibirParcelamento:true, loopInfinito:true
+  },
+  vitrineMarcasProdutos: {
+    ativo:true, prefixo:"Produtos", titulo:"Por Marca", maxProdutos:20,
+    exibirSelo:true, exibirPix:true, exibirParcelamento:true, loopInfinito:true
+  },
+  miniBanners: { ativo:true, paginas:["/"], itens:[
+    { imagem:"mini1.webp", link:"", alt:"Seleção de produtos Nichelle" },
+    { imagem:"mini2.webp", link:"", alt:"Cuidados para a pele" },
+    { imagem:"mini3.webp", link:"", alt:"Tratamentos e cuidados" },
+    { imagem:"mini4.webp", link:"", alt:"Seleção de skincare" }
+  ] },
+  lancamentos: { ativo:false, titulo:"Produtos", destaque:"Lançamentos",
+    seletorFonte:"", seletorItem:".listagem-item" },
+  marcas: { ativo:false, titulo:"Compre as", destaque:"Melhores Marcas", itens:[] },
+  // Logo, link e ordem DIRETAMENTE da vitrine de marcas da Loja Integrada.
+  vitrineMarcas: {
+    ativo:true, prefixo:"Compre as", titulo:"Melhores Marcas", maxMarcas:60
+  },
+  // Galeria Shorts FWR. Sem URLs publicadas, renderiza apenas quatro
+  // cards demonstrativos desativados NA PRÉVIA; nenhum vídeo inventado.
+  // O JSON galeria-publicada.json segue sendo a fonte oficial do dashboard.
+  galeriaShorts: {
+    ativo:true, titulo:"", exibirPrevia:true,
+    configUrl:"https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app/galeria-publicada.json",
+    itens:[]
+  },
+  // Notícias: o cadastro antigo window.FWRNichelle.noticias (HTML/Rodapé)
+  // permanece compatível. Sem artigos cadastrados, o preview usa
+  // textos/datas do mockup, SEM links fictícios.
+  noticiasHome: {
+    ativo:true, titulo:"Conteúdos", destaque:"para você",
+    ocultarLinksRodape:true, itens:[]
+  },
+  // Fade-in na HOME, CATEGORIAS e PRODUTOS (somente preview).
+  // Respeita redução de movimento e não anima botões de compra ou o checkout.
+  movimento: { ativo:true, duracao:690, deslocamento:22, stagger:70 },
+  promocoes: { ativo:false, titulo:"Produtos", destaque:"Promocionais",
+    seletorFonte:"", seletorItem:".listagem-item" },
+  // FWR: apresentação horizontal usando o FORMULÁRIO NATIVO da LI.
+  // Preserva o botão .newsletter-assinar e seu endpoint sem duplicar cadastro.
+  newsletterFWR: {
+    ativo:true, titulo:"Fique por dentro das novidades",
+    subtitulo:"Receba lançamentos, dicas e ofertas exclusivas.",
+    placeholder:"Insira seu e-mail", botao:"QUERO RECEBER"
+  },
+  // Instagram: usar publicações reais do LightWidget, não cards do catálogo.
+  instagramWidget: {
+    ativo:true, usuario:"@nichelle_imports", legenda:"ÚLTIMAS POSTAGENS",
+    urlPerfil:"https://www.instagram.com/nichelle_imports/",
+    capa:"https://cdn.awsli.com.br/2550/2550587/arquivos/coreana1.jpg",
+    widgetUrl:"https://cdn.lightwidget.com/widgets/ae2ac001588f5eba997f9106957c5d8e.html"
+  },
+  newsletter: { ativo:false, seletorFormulario:"", titulo:"Novidades Nichelle", texto:"" },
+  instagram: { ativo:false, perfil:"", usuario:"@nichelle_imports", itens:[] },
+  empresa: { ativo:false, nome:"Nichelle Imports", logo:"logo-footer.png",
+    imagem:"rodape.webp", texto:"" },
+  integracoes: { banners:false, videos:true, noticias:false }
+};
+window.FWRNichelle = window.FWRNichelle || {};
+// Configuração publicada no dashboard FWR; a galeria fica desligada até
+// o cliente aprovar os quatro vídeos. Não enviar rascunhos privados ao browser.
+window.FWRNichelle.galeriaVideos = {
+  ativo:true, configUrl:"https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app/galeria-publicada.json"
+};
+</script>
+<script defer src="https://nichelle-2026-git-develop-fwragenciadigitals-projects.vercel.app/nichelle27.js"></script>

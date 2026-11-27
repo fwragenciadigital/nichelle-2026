@@ -1,0 +1,54 @@
+<!-- NICHELLE 2026 | VANTAGENS FWR — EDITOR DO CLIENTE
+     Cole em Loja Integrada > Incluir código HTML > Rodapé
+     (ou adicione estes campos dentro de window.Nichelle27Settings do Cabeçalho).
+     Não é necessário editar JS/CSS, Git ou o tema Groom para mudar textos.
+     Alterações aparecem no modo ?nichelle_preview=1 até a aprovação da home.
+-->
+<script>
+window.Nichelle27Settings = window.Nichelle27Settings || {};
+window.Nichelle27Settings.vantagens = {
+  ativo: true,
+  etiqueta: "+VANTAGENS",
+  // Pode deixar configUrl vazio para editar os textos abaixo diretamente.
+  configUrl: "",
+  itens: [
+    {
+      icone: "package",
+      titulo: "COSMÉTICOS IMPORTADOS",
+      descricao: "À PRONTA ENTREGA",
+      link: ""
+    },
+    {
+      icone: "seal",
+      titulo: "PRODUTOS 100% ORIGINAIS",
+      descricao: "COM NOTA FISCAL",
+      link: ""
+    },
+    {
+      icone: "headset",
+      titulo: "ATENDIMENTO PERSONALIZADO",
+      descricao: "COM EQUIPE ESPECIALISTA",
+      link: ""
+    },
+    {
+      icone: "medal",
+      titulo: "LOJA COM SELO DE VERIFICAÇÃO",
+      descricao: "RECLAME AQUI",
+      link: ""
+    }
+  ]
+};
+// Atualiza também quando o painel injeta o código depois do carregamento.
+document.dispatchEvent(new Event("nichelle27:vantagens:update"));
+</script>
+<!--
+ALTERNATIVA: JSON puro direto no HTML da Loja Integrada.
+Pode trocar o script acima por um script type="application/json"
+com id="n27-vantagens-json" contendo exatamente os campos de
+public/nichelle-vantagens.json (sem tags adicionais dentro do JSON).
+
+Ícones permitidos: package, seal, headset, medal, truck, card, shield, pix.
+Links opcionais devem ser relativos à própria loja, como "/skincare".
+Se quiser carregar um arquivo JSON externo, informe configUrl com a URL
+HTTPS desse arquivo. O servidor deve permitir CORS para esta loja.
+-->
