@@ -504,3 +504,126 @@ html[data-n27-pdp="1"] #corpo .n27-pdp__recommendations img{object-fit:contain!i
     line-height:30px!important;
   }
 }
+
+
+/* Sem estoque: forma visual FWR do formulário nativo "Avise-me".
+   Não alterar display da ação/variação, action, campos ou eventos da LI. */
+html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto.indisponivel .preco-produto > .avise-me {
+  display:block!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  max-width:100%!important;
+  margin:18px 0 0!important;
+  padding:clamp(16px,2.2vw,26px)!important;
+  border:1px solid #e9dced!important;
+  border-radius:13px!important;
+  background:#f8f3fa!important;
+  text-align:left!important;
+}
+html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto.indisponivel .avise-me-form {
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:stretch!important;
+  gap:12px!important;
+  width:100%!important;
+  margin:0!important;
+  padding:0!important;
+  text-align:left!important;
+  color:var(--n27-pdp-ink)!important;
+}
+html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto.indisponivel .avise-tit {
+  align-self:flex-start!important;
+  margin:0!important;
+  padding:5px 10px!important;
+  background:#eee1f2!important;
+  border-radius:6px!important;
+  color:var(--n27-pdp-purple)!important;
+  font:700 14px/1.4 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto.indisponivel .avise-descr {
+  color:var(--n27-pdp-ink)!important;
+  font:500 13px/1.65 "Montserrat",Arial,Helvetica,sans-serif!important;
+  text-align:left!important;
+  margin:0!important;
+}
+html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto.indisponivel :is(.avise-input,.avise-btn,.controls-row) {
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  padding:0!important;
+}
+html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto.indisponivel .controls-row {
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1.25fr)!important;
+  align-items:start!important;
+  gap:10px!important;
+}
+html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto.indisponivel .controls-row::before,
+html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto.indisponivel .controls-row::after {
+  display:none!important;
+}
+html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto.indisponivel .controls-row > label {
+  display:block!important;
+  width:100%!important;
+  float:none!important;
+  margin:0!important;
+  padding:0!important;
+}
+html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto.indisponivel :is(.avise-nome,.avise-email) {
+  box-sizing:border-box!important;
+  width:100%!important;
+  min-width:0!important;
+  height:46px!important;
+  margin:0!important;
+  padding:10px 13px!important;
+  float:none!important;
+  background:#fff!important;
+  border:1px solid #e1d4e5!important;
+  border-radius:8px!important;
+  box-shadow:none!important;
+  color:var(--n27-pdp-ink)!important;
+  font:400 13px/1.4 "Montserrat",Arial,Helvetica,sans-serif!important;
+}
+html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto.indisponivel .avise-btn :is(input[type="submit"],button,.botao) {
+  box-sizing:border-box!important;
+  width:100%!important;
+  min-height:50px!important;
+  height:auto!important;
+  margin:0!important;
+  padding:12px 16px!important;
+  background:linear-gradient(94deg,#8500a7,#aa36c0)!important;
+  border:1px solid var(--n27-pdp-purple)!important;
+  border-radius:9px!important;
+  color:#fff!important;
+  font:700 14px/1.4 "Montserrat",Arial,Helvetica,sans-serif!important;
+  white-space:normal!important;
+  cursor:pointer!important;
+  box-shadow:none!important;
+  text-shadow:none!important;
+}
+html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto.indisponivel .avise-me :is(input,button):focus-visible {
+  outline:2px solid var(--n27-pdp-purple)!important;
+  outline-offset:2px!important;
+}
+html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto.indisponivel .avise-btn :is(input,button):disabled {
+  opacity:.55!important;
+  cursor:not-allowed!important;
+}
+html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto.indisponivel .avise-me .alert {
+  position:static!important;
+  inset:auto!important;
+  width:auto!important;
+  max-width:100%!important;
+  margin:8px 0 0!important;
+}
+html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp[data-n27-unavailable="1"] .n27-pdp__accordion:is([data-section="freight"],[data-section="payment"]) {
+  display:none!important;
+}
+@media(max-width:767px) {
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto.indisponivel .controls-row {
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+  html[data-n27-pdp="1"] #corpo .produto-detalhes.n27-pdp .acoes-produto.indisponivel :is(.avise-nome,.avise-email) {
+    font-size:16px!important;
+  }
+}

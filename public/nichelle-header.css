@@ -1049,3 +1049,16 @@ html[data-n27-independent-header="1"] .conteiner-principal > #n27-independent-he
     transform:none!important;
   }
 }
+
+
+/* Atalho Conta: SVG local branco como os demais ícones da barra roxa. */
+@media(max-width:767px) {
+  #n27-independent-header #n27-head-nav .n27-owned-nav__quick-icon.n27-owned-icon--account {
+    display:block!important;
+    color:#fff!important;
+    stroke:currentColor!important;
+    fill:none!important;
+    visibility:visible!important;
+    opacity:1!important;
+  }
+}

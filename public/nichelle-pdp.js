@@ -138,7 +138,11 @@ function syncPix(){
  if(!principal)return;
  const action=visibleAction(principal);
  placePixAfterInstallments(principal,action);
- const real=action?.querySelector(".desconto-a-vista .avista-valor strong");
+ const unavailable=!!action?.classList.contains("indisponivel");
+ const stockState=unavailable?"1":"0";
+ if(container.dataset.n27Unavailable!==stockState)container.dataset.n27Unavailable=stockState;
+ // Não anunciar PIX, frete ou pagamento de uma variação indisponível.
+ const real=unavailable?null:action?.querySelector(".desconto-a-vista .avista-valor strong");
  const value=safe(real?.textContent,60);
  const discount=safe(action?.querySelector(".desconto-a-vista .avista-desconto")?.textContent,100);
  const signature=value+"|"+discount;
@@ -149,10 +153,10 @@ function syncPix(){
    hero.dataset.signature=signature;
   }
   if(hero.hidden)hero.hidden=false;
-  container.dataset.n27PixReady="1";
+  if(container.dataset.n27PixReady!=="1")container.dataset.n27PixReady="1";
  }else{
-  hero.hidden=true;
-  container.dataset.n27PixReady="0";
+  if(!hero.hidden)hero.hidden=true;
+  if(container.dataset.n27PixReady!=="0")container.dataset.n27PixReady="0";
  }
 }
 function schedule(){
@@ -187,7 +191,7 @@ function mount(){
   if(evt.target.closest?.(".atributo-item,.wrapper-dropdown,.atributo-comum,.lista-atributos"))schedule();
  },true);
  document.addEventListener("change",schedule,true);
- window.NichelleProductFWR={version:"1.1.0",refresh:syncPix};
+ window.NichelleProductFWR={version:"1.2.0",refresh:syncPix};
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",mount,{once:true});else mount();
 window.addEventListener("load",mount,{once:true});

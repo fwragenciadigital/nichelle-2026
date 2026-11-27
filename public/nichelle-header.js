@@ -448,7 +448,12 @@
         el("a","n27-owned-nav__quick-link");
       if(!action)control.href=url;
       control.setAttribute("aria-label",label);
-      control.append(categoryIcon({label,icon},"n27-owned-nav__quick-icon"),
+      // O ícone da conta no fundo roxo precisa ser branco, sem depender do
+      // preenchimento/arquivo externo do ícone desktop.
+      const quickIcon=icon==="account"?
+        inlineSvg("account","n27-owned-nav__quick-icon n27-owned-icon n27-owned-icon--account"):
+        categoryIcon({label,icon},"n27-owned-nav__quick-icon");
+      control.append(quickIcon,
         el("span","",label));
       li.appendChild(control);quick.appendChild(li);
     };
@@ -726,7 +731,7 @@
       ordemSincronizada:authoritativeCategories().length>0&&JSON.stringify(items.map(item=>item.url))===
         JSON.stringify(authoritativeCategories().map(item=>item.url))
     });
-    window.NichelleHeader={version:"1.8.0",categories:items,
+    window.NichelleHeader={version:"1.8.1",categories:items,
       refreshCart:updateCart,icons:ICON_ASSETS,source:navSource,
       refreshMenu:syncNavigation,diagnosticoMenu:menuDiagnostics,
       refreshBenefits:function(){
@@ -795,3 +800,4 @@
   window.addEventListener("load",mount,{once:true});
   [180,600,1500,3000].forEach(t=>setTimeout(mount,t));
 })();
+

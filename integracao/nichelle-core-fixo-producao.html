@@ -81,8 +81,8 @@ if(/^\/checkout\/\d+\/finalizacao\/?$/i.test(location.pathname) &&
   orderCss.onerror=function(){delete document.documentElement.dataset.n27OrderFinish;};
   (document.head||document.documentElement).appendChild(orderCss);
 }
-// Login/cadastro recebem o visual FWR mantendo formulários e ações nativas LI.
-var accountVisual=/^\/conta\/(?:login|criar)\/?$/i.test(location.pathname);
+// Login/cadastro e páginas da conta recebem o visual FWR; ações nativas LI.
+var accountVisual=/^\/conta\/(?:login|criar|index|pedido\/listar|favorito\/listar)\/?$/i.test(location.pathname);
 var blocked=!accountVisual&&/^\/(?:checkout|finalizar-pedido|login|conta|pedido|meus-pedidos|carrinho\/(?:produto|cupom|frete|checkout))(?:\/|$)/i.test(location.pathname);
 var published=/^(?:(?:www\.)?nichelleimports\.com\.br|nichelle-imports-manutencao\.lojaintegrada\.com\.br)$/i.test(location.hostname)&&
 s.geral.ativo===true&&!blocked&&s.geral.publicarNaLoja===true;
@@ -348,3 +348,4 @@ else refresh();
 window.addEventListener("load",refresh,{once:true});
 })();
 </script>
+
