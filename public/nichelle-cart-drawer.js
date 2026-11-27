@@ -422,31 +422,44 @@ function onCartAnchor(e){
 }
 function closeNativeSuccess(){
  const j=window.jQuery||window.$;
- if(!j?.fancybox?.close)return;
- // Close only the add-to-cart success popup; never image/size-guide modals.
+ if(!j?.fancybox?.close)return false;
+ // Only the confirmed add-to-cart success popup, never other modals or
+ // the native error message (stock limits, unavailable variations, etc.).
  const wrapper=document.querySelector(".fancybox-wrap.modal-comprar-ajax-status.fancybox-opened");
- if(wrapper)try{j.fancybox.close();}catch(_){}
+ if(!wrapper)return false;
+ const error=wrapper.querySelector("#comprar-ajax-status .erro");
+ if(error&&error.getClientRects().length&&getComputedStyle(error).visibility!=="hidden")return false;
+ try{j.fancybox.close(true);return true;}catch(_){return false;}
 }
 function watchNativeSuccess(){
- // Groom/LI sometimes opens the success popup *after* the AJAX event.
- // A bounded series of checks avoids leaving that popup behind the drawer.
- [0,150,380,680,1100,1700].forEach(ms=>window.setTimeout(()=>{
-   if(opened)closeNativeSuccess();
+ // LI/Groom can open the success popup after a secondary cart request.
+ // Keep this bounded and scoped to the successful native purchase.
+ [0,150,380,680,1100,1700,2600,4000].forEach(ms=>window.setTimeout(()=>{
+  if(!opened||!closeNativeSuccess())return;
+  // Fancybox restores focus/overflow when dismissed; the FWR drawer owns
+  // those while open.
+  document.body.style.overflow="hidden";
+  if(!panel.contains(document.activeElement))closeBtn.focus({preventScroll:true});
  },ms));
 }
 function onNativeAjaxSuccess(event,xhr,opts){
  if(!allowed()||!opts||mutating)return;
  let u;
  try{u=new URL(opts.url,location.href);}catch(_){return;}
- if(u.origin!==location.origin || !/^\/carrinho\/produto\/\d+\/adicionar\/?$/.test(u.pathname))return;
+ // LI appends the selected quantity as a path segment (e.g. /adicionar/2).
+ // Observe only the native add endpoint; never repeat the mutation.
+ if(u.origin!==location.origin || !/^\/carrinho\/produto\/\d+\/adicionar(?:\/[1-9]\d*)?\/?$/.test(u.pathname))return;
  let data=xhr.responseJSON;
  if(!data&&typeof xhr.responseText==="string"){try{data=JSON.parse(xhr.responseText);}catch(_){}}
  if(data?.status!=="sucesso")return;
  // Native LI AJAX already added the product; FWR only reads the actual cart.
  window.setTimeout(()=>{
-  open(document.activeElement);
-  watchNativeSuccess();
- },220);
+  if(!allowed()||mutating)return;
+  const clicked=document.activeElement;
+  closeNativeSuccess();
+  open(clicked);
+  if(opened)watchNativeSuccess();
+ },0);
 }
 function register(){
  if(ready||!allowed())return;
@@ -457,7 +470,7 @@ function register(){
  window.addEventListener("nichelle:cart-updated",()=>{if(opened&&!mutating){const t=Date.now();if(t-lastRefresh>800){lastRefresh=t;loadCart();}}});
  document.addEventListener("nichelle27:cart:open",()=>open());
  document.addEventListener("nichelle27:cart:refresh",()=>{if(opened)loadCart();});
- window.NichelleCartDrawer={version:"1.1.0",open:()=>open(),close,refresh:loadCart,
+ window.NichelleCartDrawer={version:"1.2.0",open:()=>open(),close,refresh:loadCart,
   get state(){return{open:opened,quantity:cartState.quantity,subtotal:cartState.subtotal,
    items:cartState.items.map(x=>({id:x.id,quantity:x.quantity,price:x.price}))};}};
 }
@@ -466,3 +479,4 @@ else register();
 window.addEventListener("load",register,{once:true});
 [400,1400].forEach(ms=>setTimeout(register,ms));
 })();
+
